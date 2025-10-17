@@ -6,8 +6,11 @@ import {useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 
+type HeaderProps = {
+  menu: HeaderItem[];
+};
 
-function Header() {
+function Header({ menu }: HeaderProps) {
     const [show, setShow] = useState<number | null>(null);
     const handleclick = (index : number) => {
         setShow(index)
@@ -87,7 +90,7 @@ function Header() {
                                     <Link href="/"><Image src={IMAGES.logo} alt="" /></Link>
                                 </div>
                                 <ul className="nav navbar-nav">
-                                    {headerdata.map((data :HeaderItem, i: number) => {
+                                    {menu.map((data :HeaderItem, i: number) => {
                                         let menuClassName = data.classChange;
                                         if (menuClassName === 'has-mega-menu') {
                                             return (

@@ -13,8 +13,6 @@ export const headerinfo = [
     { image: IMAGES.svgicon6, title: 'My Cart', paragraph: '2 Items', },
 ]
 
-
-
 export type HeaderContentItem = {
   title: string;
   to: string;
@@ -27,7 +25,6 @@ export type HeaderItem = {
   classChange?: string;
   content?: HeaderContentItem[];
 };
-
 
 export const headerdata : HeaderItem[] = [
     {
