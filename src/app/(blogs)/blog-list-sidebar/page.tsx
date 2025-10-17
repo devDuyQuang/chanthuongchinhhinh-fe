@@ -23,7 +23,6 @@ function BlogListSidebar() {
     };
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Blog List Sidebar" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner">

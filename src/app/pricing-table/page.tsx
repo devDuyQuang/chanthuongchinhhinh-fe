@@ -9,7 +9,6 @@ import Header from "@/layout/Header";
 function PricingTable() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Pricing Table" bnrimage={IMAGES.bnr1.src} />
                 <section className="content-inner">

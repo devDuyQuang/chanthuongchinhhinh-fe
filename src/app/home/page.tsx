@@ -17,13 +17,10 @@ import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
 import StayInformed from "@/component/StayInformed";
 import MapWraper from "@/component/MapWraper";
-import { getMenu } from "@/services/menuService";
 
 async function HomePage() {
-    const menu = await getMenu("header");
     return (
         <>
-            <Header menu={menu} />
             <main className="page-content">
                 <div className="hero-banner style-1" style={{ backgroundImage: `url(${IMAGES.herobannerbg1.src})`, backgroundSize: 'cover' }}>
                     <div className="container">
@@ -173,7 +170,6 @@ async function HomePage() {
                 <MapWraper />                 
             </main >
             <Footer />
-            
         </>
     )
 }

@@ -10,7 +10,6 @@ import Alllocation from "@/component/Alllocation";
 const Appointment = () =>{
     return(
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Appointment" bnrimage={IMAGES.bnr2.src} />                
                 <AppointmentData />

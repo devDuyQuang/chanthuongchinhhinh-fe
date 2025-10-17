@@ -11,7 +11,6 @@ import SurgeryBlog from "./_components/SurgeryBlog";
 function ServiceDetail() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Service Detail" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner service-single">

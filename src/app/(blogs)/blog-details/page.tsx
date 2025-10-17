@@ -10,7 +10,6 @@ function BlogDetail() {
    
     return (
         <>
-            <Header />
             <main className="page-content">
                 <div className="section-full post-header blog-single style-1 mb-0">
                     <div className="dz-card text-center">

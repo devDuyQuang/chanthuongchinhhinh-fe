@@ -14,7 +14,6 @@ function Team() {
     const [active, setActive] = useState(1);
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Team" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner">

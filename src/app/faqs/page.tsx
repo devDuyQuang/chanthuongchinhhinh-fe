@@ -10,7 +10,7 @@ import Getintouch from "@/component/Getintouch";
 function Faqs() {
     return (
         <>
-            <Header />
+            
             <main className="page-content">
                 <PageBanner title="Faq's" bnrimage={IMAGES.bnr2.src} />
                 <Frequently />

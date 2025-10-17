@@ -11,7 +11,6 @@ import Image from "next/image";
 function Contactus() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Contact Us" bnrimage={IMAGES.bnr1.src} />
                 <section className="content-inner">

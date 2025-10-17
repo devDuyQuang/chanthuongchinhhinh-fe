@@ -22,7 +22,6 @@ function Testimonial() {
     const handleShow = () => setShow(true);
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Testimonial" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner">

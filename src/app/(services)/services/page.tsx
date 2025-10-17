@@ -11,7 +11,6 @@ import Frequently from "@/component/Frequently";
 function Services() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Services" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner bg-light" style={{ backgroundImage: `url(${IMAGES.bg5png.src})` }}>

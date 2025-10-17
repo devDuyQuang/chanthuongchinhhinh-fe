@@ -10,7 +10,6 @@ import Image from "next/image";
 function TeamDetail() {   
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Team Detail" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner">

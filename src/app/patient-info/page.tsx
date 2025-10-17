@@ -11,7 +11,6 @@ import Image from "next/image";
 function PatientInfo() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Patient Info" bnrimage={IMAGES.bnr3.src} />
                 <section className="content-inner-2">

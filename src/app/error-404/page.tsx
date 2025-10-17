@@ -7,7 +7,6 @@ import { IMAGES } from "@/constant/theme";
 function Error404() {
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Error 404" bnrimage={IMAGES.bnr2.src} />
                 <section className="error-page style-1">

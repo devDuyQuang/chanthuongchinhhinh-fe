@@ -6,7 +6,6 @@ import AboutUs from "./_components/AboutUs"
 const AboutUsPage = () =>{
     return(
         <Fragment>
-            <Header />
             <AboutUs />
             <Footer />
         </Fragment>

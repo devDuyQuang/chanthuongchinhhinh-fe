@@ -22,7 +22,6 @@ function BlogGrid() {
     };
     return (
         <>
-            <Header />
             <main className="page-content">
                 <PageBanner title="Blog Grid" bnrimage={IMAGES.bnr2.src} />
                 <section className="content-inner">
