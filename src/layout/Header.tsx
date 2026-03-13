@@ -1,23 +1,23 @@
 "use client"
 import Link from "next/link";
 import { IMAGES } from "../constant/theme";
-import { headerdata, headerinfo,  HeaderItem  } from "../constant/alldata";
-import {useEffect, useRef, useState } from "react";
+import { headerdata, headerinfo, HeaderItem } from "../constant/alldata";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 
 type HeaderProps = {
-  menu: HeaderItem[];
+    menu: HeaderItem[];
 };
 
 function Header({ menu }: HeaderProps) {
     const [show, setShow] = useState<number | null>(null);
-    const handleclick = (index : number) => {
+    const handleclick = (index: number) => {
         setShow(index)
     };
     const [isActive, setIsActive] = useState<number | null>(null);
-    function menuHandler(index : number) {
-        setIsActive((prev) => (prev === index ? null : index));       
+    function menuHandler(index: number) {
+        setIsActive((prev) => (prev === index ? null : index));
     }
     const [scroll, setScroll] = useState(false);
     useEffect(() => {
@@ -90,7 +90,7 @@ function Header({ menu }: HeaderProps) {
                                     <Link href="/"><Image src={IMAGES.logo} alt="" /></Link>
                                 </div>
                                 <ul className="nav navbar-nav">
-                                    {menu.map((data :HeaderItem, i: number) => {
+                                    {menu.map((data: HeaderItem, i: number) => {
                                         let menuClassName = data.classChange;
                                         if (menuClassName === 'has-mega-menu') {
                                             return (
@@ -100,8 +100,16 @@ function Header({ menu }: HeaderProps) {
                                                         <ul className="demo-menu">
                                                             {data.content?.map((item, index) => (
                                                                 <li key={index}>
-                                                                    <Link href={item.to}> <Image src={item.image as string} alt={item.title} /> 
-                                                                        <span className="menu-title">{item.title}</span> 
+                                                                    <Link href={item.to}>
+                                                                        {item.image ? (
+                                                                            <Image
+                                                                                src={item.image}
+                                                                                alt={item.title}
+                                                                                width={40}
+                                                                                height={40}
+                                                                            />
+                                                                        ) : null}
+                                                                        <span className="menu-title">{item.title}</span>
                                                                     </Link>
                                                                 </li>
                                                             ))}
