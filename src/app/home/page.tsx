@@ -176,6 +176,8 @@
 // export default HomePage;
 
 
+iexport const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/constant/theme";
