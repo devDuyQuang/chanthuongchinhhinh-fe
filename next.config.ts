@@ -1,11 +1,27 @@
+// import type { NextConfig } from "next";
+
+// const nextConfig: NextConfig = {
+//   /* config options here */
+
+//     images: {
+//       unoptimized: true,
+//     },    
+// };
+
+// export default nextConfig;
+
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-        
-    images: {
-      unoptimized: true,
-    },    
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.chanthuongchinhhinh.com.vn",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
