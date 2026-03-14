@@ -104,6 +104,24 @@ type SettingResponse = {
                 };
             }[];
         };
+        how_it_work_home?: {
+            title?: string;
+            description?: string;
+            image?: string;
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            features?: {
+                title?: string;
+                description?: string;
+                icon?: string;
+            }[];
+            stats?: {
+                number?: string;
+                label?: string;
+            }[];
+        };
         testimonials_home?: {
             main_title?: string;
             main_image?: string;
@@ -127,6 +145,81 @@ type SettingResponse = {
                 image?: string;
             }[];
         };
+
+        doctor_home?: {
+            title?: string;
+            doctor_name?: string;
+            description?: string;
+            skills_header?: string;
+            image?: string;
+            experience?: {
+                number?: string;
+                label?: string;
+            };
+            skills?: string[];
+            achievements?: {
+                image?: string;
+                title?: string;
+                subtitle?: string;
+                link_text?: string;
+            }[];
+        };
+        faq_home?: {
+            title?: string;
+            description?: string;
+            image?: string;
+            contact?: {
+                text?: string;
+                phone?: string;
+            };
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            items?: {
+                question?: string;
+                answer?: string;
+            }[];
+        };
+        awards_home?: {
+            title?: string;
+            description?: string;
+            years?: string[];
+            items?: {
+                image?: string;
+                title?: string;
+                subtitle?: string;
+                link_text?: string;
+                year?: string;
+            }[];
+        };
+
+        contact_home?: {
+            title?: string;
+            description?: string;
+            address?: {
+                label?: string;
+                value?: string;
+            };
+            phone?: {
+                label?: string;
+                value?: string;
+            };
+            email?: {
+                label?: string;
+                value?: string;
+            };
+            time?: {
+                label?: string;
+                value?: string;
+            };
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            map_iframe?: string;
+        };
+
     };
 };
 
@@ -158,6 +251,12 @@ async function HomePage() {
     const whyChoose = setting?.data?.why_choose_us_home;
     const specialists = setting?.data?.specialists_home;
     const testimonials = setting?.data?.testimonials_home;
+    const howItWork = setting?.data?.how_it_work_home;
+    const faq = setting?.data?.faq_home;
+    const doctor = setting?.data?.doctor_home;
+    const awards = setting?.data?.awards_home;
+    const contact = setting?.data?.contact_home;
+
 
     return (
         <>
@@ -462,12 +561,12 @@ async function HomePage() {
                     <RealPatient data={testimonials} />
                 </section>
 
-                <Howitwork />
-                <MeetDr />
-                <Frequently />
-                <Awards />
+                <Howitwork data={howItWork} />
+                <MeetDr data={doctor} />
+                <Frequently data={faq} />
+                <Awards data={awards} />
                 <StayInformed />
-                <MapWraper />
+                <MapWraper data={contact} />
             </main>
             <Footer />
         </>
