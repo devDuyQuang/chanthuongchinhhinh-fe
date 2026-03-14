@@ -29,6 +29,7 @@ function Frequently() {
                                 </Accordion>
                             </div>
                         </div>
+
                         <div className="col-xxl-5 col-xl-6 col-lg-7 m-b30">
                             <div className="content-media" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
                                 <div className="dz-media">
