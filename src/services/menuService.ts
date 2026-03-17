@@ -25,9 +25,10 @@ interface RawMenuItem {
 
 function normalizePath(p?: string): string {
   if (!p) return "/";
+
   try {
     const url = new URL(p, "http://example.com");
-    return url.pathname === "" ? "/" : url.pathname + (url.search || "");
+    return url.pathname === "" ? "/" : `${url.pathname}${url.search || ""}`;
   } catch {
     return p.startsWith("/") ? p : `/${p}`;
   }
@@ -37,16 +38,24 @@ function mapTemplateRoute(name?: string, path?: string): string {
   const normalized = normalizePath(path);
   const title = (name || "").trim().toLowerCase();
 
+  // Luôn ưu tiên path thật từ admin nếu đã có và khác "/"
+  if (normalized && normalized !== "/") {
+    return normalized;
+  }
+
+  // Fallback nếu admin chưa nhập path
   if (title === "trang chủ") return "/";
-  if (title === "giới thiệu") return "/danh-muc/gioi-thieu";
+
+  if (title === "giới thiệu") return "/gioi-thieu";
   if (title === "dịch vụ điều trị") return "/danh-muc/dich-vu-dieu-tri";
   if (title === "kiến thức xương khớp") return "/danh-muc/kien-thuc-xuong-khop";
-  if (title === "đặt lịch khám") return "/danh-muc/dat-lich-kham";
-  if (title === "liên hệ") return "/danh-muc/lien-he";
+  if (title === "đặt lịch khám") return "/dat-lich-kham";
+  if (title === "liên hệ") return "/lien-he";
 
+  // Menu cha không có trang riêng
   if (title === "bệnh lý") return "#";
 
-  return normalized;
+  return "/";
 }
 
 function mapRawToHeaderContent(items?: RawMenuItem[]): HeaderContentItem[] | undefined {
@@ -80,12 +89,11 @@ export async function getMenu(location: string = "header"): Promise<HeaderItem[]
   const mapped: HeaderItem[] = raw.map((it) => {
     const children = it.children ?? undefined;
     const content = children ? mapRawToHeaderContent(children) : undefined;
-    const classChange = content ? "has-mega-menu" : undefined;
 
     return {
       title: it.name ?? "No title",
       to: mapTemplateRoute(it.name, it.path),
-      classChange,
+      classChange: content && content.length > 0 ? "sub-menu-down" : undefined,
       content,
     };
   });
