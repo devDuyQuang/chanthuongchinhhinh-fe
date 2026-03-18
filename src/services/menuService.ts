@@ -38,24 +38,22 @@ function mapTemplateRoute(name?: string, path?: string): string {
   const normalized = normalizePath(path);
   const title = (name || "").trim().toLowerCase();
 
-  // Luôn ưu tiên path thật từ admin nếu đã có và khác "/"
   if (normalized && normalized !== "/") {
     return normalized;
   }
 
-  // Fallback nếu admin chưa nhập path
   if (title === "trang chủ") return "/";
-
   if (title === "giới thiệu") return "/gioi-thieu";
-  if (title === "dịch vụ điều trị") return "/danh-muc/dich-vu-dieu-tri";
-  if (title === "kiến thức xương khớp") return "/danh-muc/kien-thuc-xuong-khop";
-  if (title === "đặt lịch khám") return "/dat-lich-kham";
   if (title === "liên hệ") return "/lien-he";
-
-  // Menu cha không có trang riêng
+  if (title === "đặt lịch khám") return "/dat-lich-kham";
   if (title === "bệnh lý") return "#";
 
   return "/";
+}
+
+function shouldHideFromMainNav(name?: string): boolean {
+  const title = (name || "").trim().toLowerCase();
+  return title === "đặt lịch khám";
 }
 
 function mapRawToHeaderContent(items?: RawMenuItem[]): HeaderContentItem[] | undefined {
@@ -86,7 +84,9 @@ export async function getMenu(location: string = "header"): Promise<HeaderItem[]
   const json = await res.json();
   const raw: RawMenuItem[] = Array.isArray(json?.data) ? json.data : [];
 
-  const mapped: HeaderItem[] = raw.map((it) => {
+  const filtered = raw.filter((it) => !shouldHideFromMainNav(it.name));
+
+  return filtered.map((it) => {
     const children = it.children ?? undefined;
     const content = children ? mapRawToHeaderContent(children) : undefined;
 
@@ -97,6 +97,4 @@ export async function getMenu(location: string = "header"): Promise<HeaderItem[]
       content,
     };
   });
-
-  return mapped;
 }
