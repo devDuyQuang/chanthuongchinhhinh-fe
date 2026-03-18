@@ -92,10 +92,14 @@ function Header({ menu }: HeaderProps) {
                                 <ul className="nav navbar-nav">
                                     {menu.map((data: HeaderItem, i: number) => {
                                         let menuClassName = data.classChange;
+
                                         if (menuClassName === 'has-mega-menu') {
                                             return (
                                                 <li key={i} className={`has-mega-menu sub-menu-down auto-width menu-left ${i == isActive ? 'open' : ''}`} >
-                                                    <Link href={"#"} onClick={() => menuHandler(i)}> <span>{data.title}</span> <i className="fas fa-chevron-down tabIndex" /> </Link>
+                                                    <Link href={"#"} onClick={() => menuHandler(i)}>
+                                                        <span>{data.title}</span>
+                                                        <i className="fas fa-chevron-down tabIndex" />
+                                                    </Link>
                                                     <div className="mega-menu">
                                                         <ul className="demo-menu">
                                                             {data.content?.map((item, index) => (
@@ -119,12 +123,27 @@ function Header({ menu }: HeaderProps) {
                                             )
                                         }
                                         else if (menuClassName === 'sub-menu-down') {
+                                            const isBenhLyMenu = data.title?.trim().toLowerCase() === "bệnh lý";
+
                                             return (
-                                                <li key={i} className={`sub-menu-down ${i == isActive ? 'open' : ''}`} onClick={() => menuHandler(i)}>
-                                                    <Link href={"#"}> <span>{data.title}</span> <i className="fas fa-chevron-down tabIndex" /> </Link>
-                                                    <ul className="sub-menu">
+                                                <li
+                                                    key={i}
+                                                    className={`sub-menu-down ${i == isActive ? 'open' : ''}`}
+                                                    onClick={() => menuHandler(i)}
+                                                >
+                                                    <Link href={"#"}>
+                                                        <span>{data.title}</span>
+                                                        <i className="fas fa-chevron-down tabIndex" />
+                                                    </Link>
+
+                                                    <ul className={`sub-menu ${isBenhLyMenu ? "benh-ly-sub-menu" : ""}`}>
                                                         {data.content?.map((item, index) => (
-                                                            <li key={index}> <Link href={item.to}>{item.title}</Link> </li>
+                                                            <li
+                                                                key={index}
+                                                                className={isBenhLyMenu ? "benh-ly-sub-menu-item" : ""}
+                                                            >
+                                                                <Link href={item.to}>{item.title}</Link>
+                                                            </li>
                                                         ))}
                                                     </ul>
                                                 </li>
@@ -132,7 +151,11 @@ function Header({ menu }: HeaderProps) {
                                         }
                                         else {
                                             return (
-                                                <li key={i}><Link href={data.to as string}><span>{data.title}</span></Link></li>
+                                                <li key={i}>
+                                                    <Link href={data.to as string}>
+                                                        <span>{data.title}</span>
+                                                    </Link>
+                                                </li>
                                             )
                                         }
                                     })}
@@ -150,7 +173,10 @@ function Header({ menu }: HeaderProps) {
                                 <div className="extra-cell">
                                     <ul className="header-right">
                                         <li className="nav-item">
-                                            <Link href="/appointment" className="btn btn-primary btn-hover1"> Appointment </Link>
+                                            {/* <Link href="/appointment" className="btn btn-primary btn-hover1"> Appointment </Link> */}
+                                            <Link href="/dat-lich-kham" className="btn btn-primary btn-hover1">
+                                                Đặt lịch khám
+                                            </Link>
                                         </li>
                                         <li className="nav-item">
                                             <button onClick={() => handleclick(1)} type="button" className="toggle-nav-btn" data-bs-toggle="offcanvas" data-bs-target="#headerSidebar" aria-controls="offcanvasLeft">

@@ -77,6 +77,8 @@
   --white:var(--bs-heading-color);
 }
 
+
+
 html[data-theme-color=skin-1] {
   --bs-body-color: #566593;
   --bs-heading-color: #031B4E;
@@ -45692,5 +45694,57 @@ footer.site-footer.footer-dark .fb-inner {
   -ms-transition: none;
   transition: none;
 }
+
+.inner-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inner-bar .logo-header {
+  flex: 0 0 auto;
+}
+
+.inner-bar .header-nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.inner-bar .header-nav .nav.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  width: 100%;
+}
+
+.inner-bar .extra-nav {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.inner-bar .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.inner-bar .header-right .nav-item {
+  display: flex;
+  align-items: center;
+}
+.benh-ly-sub-menu-item > a::before {
+   content: "+"; 
+   position: absolute;
+    left: 15px; 
+    top: 50%; 
+    transform: translateY(-50%);
+     font-weight: 700; 
+     line-height: 1;
+    }
 
 /*# sourceMappingURL=style.css.map */
