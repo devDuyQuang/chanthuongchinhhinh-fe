@@ -27,6 +27,32 @@ type EmpolyBlogProps = {
     data?: SpecialistsData;
 };
 
+function normalizeImageUrl(url?: string) {
+    if (!url) return null;
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    if (url.startsWith("/storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+}
+
 function EmpolyBlog({ data }: EmpolyBlogProps) {
     const [active, setActive] = useState(1);
 
@@ -35,12 +61,18 @@ function EmpolyBlog({ data }: EmpolyBlogProps) {
             ? data.items.map((item, index) => ({
                 id: index + 1,
                 delay: empolydata[index]?.delay || `${0.2 * (index + 1)}s`,
-                image: empolydata[index]?.image || empolydata[0].image,
+                image:
+                    normalizeImageUrl(item.image) ||
+                    empolydata[index]?.image ||
+                    empolydata[0].image,
                 title: item.name || empolydata[index]?.title || "Tên bác sĩ",
                 position:
                     item.specialty || empolydata[index]?.position || "Chuyên khoa",
                 buttonText: item.button_text || "Xem chi tiết",
-                buttonLink: item.button_link || "/team-detail",
+                buttonLink:
+                    !item.button_link || item.button_link === "/team-detail"
+                        ? "/chi-tiet-bac-si"
+                        : item.button_link,
                 socials: {
                     linkedin: item.socials?.linkedin || "#",
                     facebook: item.socials?.facebook || "#",
@@ -54,8 +86,8 @@ function EmpolyBlog({ data }: EmpolyBlogProps) {
                 image: item.image,
                 title: item.title,
                 position: item.position,
-                buttonText: "Appointment Now",
-                buttonLink: "/appointment",
+                buttonText: "Xem chi tiết",
+                buttonLink: "/chi-tiet-bac-si",
                 socials: {
                     linkedin: "https://www.linkedin.com/showcase/dexignzone",
                     facebook: "https://www.facebook.com/dexignzone",
@@ -64,68 +96,79 @@ function EmpolyBlog({ data }: EmpolyBlogProps) {
                 },
             }));
 
+    console.log("specialists data:", data);
+    console.log("mapped doctors:", doctors);
+
     return (
-        <>
-            <div className="row">
-                {doctors.map((item, i) => (
+        <div className="row">
+            {doctors.map((item, i) => (
+                <div
+                    className="col-xl-3 col-sm-6 wow fadeInUp"
+                    data-wow-delay={item.delay}
+                    data-wow-duration="0.8s"
+                    key={i}
+                >
                     <div
-                        className="col-xl-3 col-sm-6 wow fadeInUp"
-                        data-wow-delay={item.delay}
-                        data-wow-duration="0.8s"
-                        key={i}
+                        className={`dz-team style-1 box-hover ${active === item.id ? "active" : ""}`}
+                        onMouseEnter={() => setActive(item.id)}
                     >
-                        <div
-                            className={`dz-team style-1 box-hover ${active === item.id ? "active" : ""
-                                }`}
-                            onMouseEnter={() => setActive(item.id)}
-                        >
-                            <div className="dz-media">
-                                <Image src={item.image} alt={item.title} />
-                                <Link href={item.buttonLink} className="btn btn-primary">
-                                    <i className="feather icon-calendar m-r5" /> {item.buttonText}
-                                </Link>
-                            </div>
-
-                            <div className="dz-content">
-                                <div className="clearfix">
-                                    <h3 className="dz-name">
-                                        <Link href={item.buttonLink}>{item.title}</Link>
-                                    </h3>
-                                    <span className="dz-position">{item.position}</span>
-                                </div>
-
-                                <Link href={item.buttonLink} className="btn btn-square btn-secondary">
-                                    <i className="feather icon-arrow-right" />
-                                </Link>
-                            </div>
-
-                            <ul className="dz-social">
-                                <li>
-                                    <Link href={item.socials.linkedin || "#"} target="_blank">
-                                        <i className="fa-brands fa-linkedin" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={item.socials.facebook || "#"} target="_blank">
-                                        <i className="fa-brands fa-facebook-f" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={item.socials.twitter || "#"} target="_blank">
-                                        <i className="fa-brands fa-x-twitter" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={item.socials.youtube || "#"} target="_blank">
-                                        <i className="fa-brands fa-youtube" />
-                                    </Link>
-                                </li>
-                            </ul>
+                        <div className="dz-media">
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                width={300}
+                                height={335}
+                                style={{
+                                    width: "100%",
+                                    height: "auto",
+                                    objectFit: "cover",
+                                }}
+                                unoptimized={typeof item.image === "string"}
+                            />
+                            <Link href={item.buttonLink} className="btn btn-primary">
+                                <i className="feather icon-calendar m-r5" /> {item.buttonText}
+                            </Link>
                         </div>
+
+                        <div className="dz-content">
+                            <div className="clearfix">
+                                <h3 className="dz-name">
+                                    <Link href={item.buttonLink}>{item.title}</Link>
+                                </h3>
+                                <span className="dz-position">{item.position}</span>
+                            </div>
+
+                            <Link href={item.buttonLink} className="btn btn-square btn-secondary">
+                                <i className="feather icon-arrow-right" />
+                            </Link>
+                        </div>
+
+                        <ul className="dz-social">
+                            <li>
+                                <Link href={item.socials.linkedin || "#"} target="_blank">
+                                    <i className="fa-brands fa-linkedin" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={item.socials.facebook || "#"} target="_blank">
+                                    <i className="fa-brands fa-facebook-f" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={item.socials.twitter || "#"} target="_blank">
+                                    <i className="fa-brands fa-x-twitter" />
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={item.socials.youtube || "#"} target="_blank">
+                                    <i className="fa-brands fa-youtube" />
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
-                ))}
-            </div>
-        </>
+                </div>
+            ))}
+        </div>
     );
 }
 

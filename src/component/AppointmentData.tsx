@@ -19,21 +19,49 @@ type AppointmentDataProps = {
     data?: AppointmentSectionData;
 };
 
+function normalizeImageUrl(url?: string) {
+    if (!url) return null;
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    if (url.startsWith("/storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+}
+
 function AppointmentData({ data }: AppointmentDataProps) {
-    const [selectCat, setSelectCat] = useState("Angioplasty");
+    const [selectCat, setSelectCat] = useState("Chọn dịch vụ");
     const form = useRef<HTMLFormElement | null>(null);
     const { sendEmail } = useEmailService();
 
+    const appointmentImage = normalizeImageUrl(data?.image);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!form.current) return;
-        const result = await sendEmail(form.current);
-        if (result.success) {
-            console.log("SUCCESS!", result.message);
-        } else {
-            console.error("FAILED...", result.message);
-        }
+        alert("Đã nhận thông tin. Chức năng gửi form sẽ hoàn thiện sau.");
+        form.current?.reset();
+        setSelectCat("Chọn dịch vụ");
     };
+
+    console.log("appointment section data:", data);
+    console.log("appointment raw image:", data?.image);
+    console.log("appointment full image:", appointmentImage);
 
     return (
         <section
@@ -47,7 +75,18 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         data-wow-delay="0.2s"
                         data-wow-duration="0.8s"
                     >
-                        <Image src={IMAGES.about3png} alt={data?.title || "Appointment"} />
+                        <Image
+                            src={appointmentImage || IMAGES.about3png}
+                            alt={data?.title || "Đăng ký lịch hẹn"}
+                            width={600}
+                            height={600}
+                            style={{
+                                width: "100%",
+                                height: "auto",
+                                objectFit: "contain",
+                            }}
+                            unoptimized={typeof appointmentImage === "string"}
+                        />
                     </div>
 
                     <div
@@ -57,7 +96,7 @@ function AppointmentData({ data }: AppointmentDataProps) {
                     >
                         <div className="form-wrapper style-1 text-vr-wrapper">
                             <div className="text-vertical">
-                                {data?.appointment_now_text || "Appointment Now"}
+                                {data?.appointment_now_text || "ĐẶT LỊCH KHÁM"}
                             </div>
 
                             <div
@@ -69,8 +108,8 @@ function AppointmentData({ data }: AppointmentDataProps) {
                             >
                                 <div className="title-head">
                                     <h2 className="form-title m-b0">
-                                        {data?.title || "Make An Appointment"} <br />
-                                        {data?.subtitle || "Apply For Treatments"}
+                                        {data?.title || "Đăng Ký Lịch Hẹn"} <br />
+                                        {data?.subtitle || "Nhận tư vấn và đặt lịch khám nhanh chóng"}
                                     </h2>
                                 </div>
 
@@ -79,13 +118,19 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                         type="hidden"
                                         className="form-control"
                                         name="dzToDo"
-                                        value={data?.button_text || "Appointment"}
+                                        value={data?.button_text || "Gửi đăng ký"}
                                     />
                                     <input
                                         type="hidden"
                                         className="form-control"
                                         name="reCaptchaEnable"
                                         value="0"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        className="form-control"
+                                        name="dzService"
+                                        value={selectCat === "Chọn dịch vụ" ? "" : selectCat}
                                     />
 
                                     <div className="dzFormMsg"></div>
@@ -98,9 +143,9 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                                     type="text"
                                                     className="form-control"
                                                     id="inputYourName"
-                                                    placeholder="Your Name"
+                                                    placeholder="Họ và tên"
                                                 />
-                                                <label htmlFor="inputYourName">Your Name</label>
+                                                <label htmlFor="inputYourName">Họ và tên</label>
                                             </div>
                                         </div>
 
@@ -111,9 +156,9 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                                     type="email"
                                                     className="form-control"
                                                     id="inputYourEmail"
-                                                    placeholder="Your Email"
+                                                    placeholder="Email"
                                                 />
-                                                <label htmlFor="inputYourEmail">Your Email</label>
+                                                <label htmlFor="inputYourEmail">Email</label>
                                             </div>
                                         </div>
 
@@ -121,31 +166,34 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                             <div className="form-floating floating-underline input-light">
                                                 <input
                                                     name="dzPhoneNumber"
-                                                    type="number"
-                                                    className="form-control dz-number"
+                                                    type="tel"
+                                                    className="form-control"
                                                     id="inputPhoneNumber"
-                                                    placeholder="Phone Number"
+                                                    placeholder="Số điện thoại"
                                                 />
-                                                <label htmlFor="inputPhoneNumber">Phone Number</label>
+                                                <label htmlFor="inputPhoneNumber">Số điện thoại</label>
                                             </div>
                                         </div>
 
                                         <div className="col-sm-6 m-b30">
                                             <div className="form-floating floating-underline input-light">
                                                 <Dropdown className="form-control bs-select">
-                                                    <Dropdown.Toggle as="div">{selectCat}</Dropdown.Toggle>
+                                                    <Dropdown.Toggle as="div">
+                                                        {selectCat}
+                                                    </Dropdown.Toggle>
+
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item onClick={() => setSelectCat("Angioplasty")}>
-                                                            Angioplasty
+                                                        <Dropdown.Item onClick={() => setSelectCat("Khám cơ xương khớp")}>
+                                                            Khám cơ xương khớp
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item onClick={() => setSelectCat("Cardiology")}>
-                                                            Cardiology
+                                                        <Dropdown.Item onClick={() => setSelectCat("Điều trị chấn thương chỉnh hình")}>
+                                                            Điều trị chấn thương chỉnh hình
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item onClick={() => setSelectCat("Dental")}>
-                                                            Dental
+                                                        <Dropdown.Item onClick={() => setSelectCat("Điều trị đau cột sống")}>
+                                                            Điều trị đau cột sống
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item onClick={() => setSelectCat("Eye Care")}>
-                                                            Eye Care
+                                                        <Dropdown.Item onClick={() => setSelectCat("Phục hồi chức năng")}>
+                                                            Phục hồi chức năng
                                                         </Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
@@ -159,9 +207,9 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                                     className="form-control"
                                                     id="inputMessage"
                                                     rows={6}
-                                                    placeholder="Select Service"
+                                                    placeholder="Nội dung"
                                                 ></textarea>
-                                                <label htmlFor="inputMessage">Message</label>
+                                                <label htmlFor="inputMessage">Nội dung</label>
                                             </div>
                                         </div>
 
@@ -172,7 +220,7 @@ function AppointmentData({ data }: AppointmentDataProps) {
                                                 value="submit"
                                                 className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow"
                                             >
-                                                {data?.button_text || "Appointment"}
+                                                {data?.button_text || "Đăng ký ngay"}
                                                 <span className="right-icon">
                                                     <i className="feather icon-arrow-right" />
                                                 </span>

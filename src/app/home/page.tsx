@@ -28,6 +28,8 @@ type SettingResponse = {
             description?: string;
             button_one_text?: string;
             button_one_link?: string;
+            button_two_text?: string;
+            button_two_link?: string;
             question_title?: string;
             question_email?: string;
             percent?: string;
@@ -43,6 +45,8 @@ type SettingResponse = {
             button_text?: string;
             button_link?: string;
             phone?: string;
+            image_one?: string;
+            image_two?: string;
             open_hours?: {
                 day?: string;
                 time?: string;
@@ -69,7 +73,7 @@ type SettingResponse = {
                 link?: string;
             }[];
         };
-        appointment_home?: {
+        appointment_home_clinic?: {
             title?: string;
             subtitle?: string;
             appointment_now_text?: string;
@@ -77,7 +81,7 @@ type SettingResponse = {
             button_link?: string;
             image?: string;
         };
-        why_choose_us_home?: {
+        why_choose_us_home_clinic?: {
             title?: string;
             experience_number?: string;
             experience_label?: string;
@@ -87,7 +91,7 @@ type SettingResponse = {
                 description?: string;
             }[];
         };
-        specialists_home?: {
+        specialists_home_clinic?: {
             title?: string;
             view_all_link?: string;
             items?: {
@@ -122,7 +126,7 @@ type SettingResponse = {
                 label?: string;
             }[];
         };
-        testimonials_home?: {
+        testimonials_home_clinic?: {
             main_title?: string;
             main_image?: string;
             floating_review?: {
@@ -247,15 +251,44 @@ async function HomePage() {
     const facility = setting?.data?.utilities_home;
     const stats = setting?.data?.stats_home;
     const services = setting?.data?.services_home;
-    const appointment = setting?.data?.appointment_home;
-    const whyChoose = setting?.data?.why_choose_us_home;
-    const specialists = setting?.data?.specialists_home;
-    const testimonials = setting?.data?.testimonials_home;
+    const appointment = setting?.data?.appointment_home_clinic;
+    const whyChoose = setting?.data?.why_choose_us_home_clinic;
+    const specialists = setting?.data?.specialists_home_clinic;
+    const testimonials = setting?.data?.testimonials_home_clinic;
     const howItWork = setting?.data?.how_it_work_home;
     const faq = setting?.data?.faq_home;
     const doctor = setting?.data?.doctor_home;
     const awards = setting?.data?.awards_home;
     const contact = setting?.data?.contact_home;
+
+    function normalizeImageUrl(url?: string) {
+        if (!url) return null;
+
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+
+        if (url.startsWith("/storage/")) {
+            return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+        }
+
+        if (url.startsWith("storage/")) {
+            return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+        }
+
+        if (url.startsWith("/uploads/")) {
+            return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+        }
+
+        if (url.startsWith("uploads/")) {
+            return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+        }
+
+        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+    }
+    const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
+
+
 
 
     return (
@@ -313,12 +346,12 @@ async function HomePage() {
                                         </Link>
 
                                         <Link
-                                            href="/contact-us"
+                                            href={hero?.button_two_link || "/lien-he"}
                                             className="btn btn-lg btn-icon btn-secondary wow fadeInUp"
                                             data-wow-delay="0.6s"
                                             data-wow-duration="0.8s"
                                         >
-                                            Contact Us
+                                            {hero?.button_two_text || "Liên hệ"}
                                             <span className="right-icon">
                                                 <i className="feather icon-arrow-right" />
                                             </span>
@@ -338,9 +371,12 @@ async function HomePage() {
                                     >
                                         <Image
                                             className="thumbnail"
-                                            src={IMAGES.herobanner1}
+                                            src={heroBannerUrl || IMAGES.herobanner1}
                                             alt={hero?.title || "Hero banner"}
+                                            width={900}
+                                            height={900}
                                         />
+
 
                                         <div className="circle-wrapper">
                                             <span className="circle1"></span>
@@ -357,13 +393,29 @@ async function HomePage() {
                                             data-top-bottom="transform: translateY(50px)"
                                         >
                                             <div className="info-widget style-1 move-3">
-                                                <div className="avatar-group">
+                                                {/* <div className="avatar-group">
                                                     <Image className="avatar rounded-circle avatar-sm border border-white border-2" src={IMAGES.smallavatar1} alt="" />
                                                     <Image className="avatar rounded-circle avatar-sm border border-white border-2" src={IMAGES.smallavatar2} alt="" />
                                                     <Image className="avatar rounded-circle avatar-sm border border-white border-2" src={IMAGES.smallavatar3} alt="" />
                                                     <Image className="avatar rounded-circle avatar-sm border border-white border-2" src={IMAGES.smallavatar4} alt="" />
+                                                </div> */}
+                                                <div className="avatar-group patient-avatar-group">
+                                                    {[
+                                                        "/assets/images/icons/boy.png",
+                                                        "/assets/images/icons/girl.png",
+                                                        "/assets/images/icons/man.png",
+                                                        "/assets/images/icons/man (1).png",
+                                                    ].map((item, index) => (
+                                                        <Image
+                                                            key={index}
+                                                            src={item}
+                                                            alt="patient avatar"
+                                                            width={32}
+                                                            height={32}
+                                                            className="patient-avatar-item"
+                                                        />
+                                                    ))}
                                                 </div>
-
                                                 <div className="clearfix ms-2">
                                                     <span className="number text-primary">
                                                         {hero?.patient_title || "150k"}
@@ -433,11 +485,35 @@ async function HomePage() {
                             >
                                 <div className="info-widget style-4 move-4">
                                     <div className="widget-media">
-                                        <Image src={IMAGES.smallavatar6} alt="" />
+                                        <div
+                                            style={{
+                                                width: 50,
+                                                height: 50,
+                                                borderRadius: 16,
+                                                background: "#D9D9D9",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                overflow: "hidden",
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <Image
+                                                src="/assets/images/icons/contact-info.png"
+                                                alt="contact support"
+                                                width={28}
+                                                height={28}
+                                                style={{
+                                                    display: "block",
+                                                    objectFit: "contain",
+                                                }}
+                                            />
+                                        </div>
                                     </div>
+
                                     <div className="widget-content">
                                         <h6 className="title">
-                                            {hero?.question_title || "Have a Question?"}
+                                            {hero?.question_title || "Bạn cần tư vấn ?"}
                                         </h6>
                                         <Link href={`mailto:${hero?.question_email || "info@example.com"}`}>
                                             {hero?.question_email || "info@example.com"}
@@ -484,10 +560,14 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <Link
-                                    href={services?.view_all_link || "/services"}
-                                    className="btn btn-icon btn-secondary"
+                                    href={
+                                        !services?.view_all_link || services.view_all_link === "/services"
+                                            ? "/dich-vu"
+                                            : services.view_all_link
+                                    }
+                                    className="btn btn-icon btn-primary btn-shadow"
                                 >
-                                    View All
+                                    Xem tất cả
                                     <span className="right-icon">
                                         <i className="feather icon-arrow-right" />
                                     </span>
@@ -534,10 +614,14 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <Link
-                                    href={specialists?.view_all_link || "/team"}
+                                    href={
+                                        !specialists?.view_all_link || specialists.view_all_link === "/team"
+                                            ? "/bac-si"
+                                            : specialists.view_all_link
+                                    }
                                     className="btn btn-icon btn-primary btn-shadow"
                                 >
-                                    View All
+                                    Xem tất cả
                                     <span className="right-icon">
                                         <i className="feather icon-arrow-right" />
                                     </span>
