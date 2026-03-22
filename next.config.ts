@@ -47,6 +47,8 @@
 
 // export default nextConfig;
 
+
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -56,16 +58,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.chanthuongchinhhinh.com.vn",
       },
-    ],
-  },
-
-  async rewrites() {
-    return [
       {
-        source: "/danh-muc/dich-vu-dieu-tri",
-        destination: "/services",
+        protocol: "https",
+        hostname: "admin.chanthuongchinhhinh.com.vn",
+        pathname: "/storage/uploads/**",
       },
-    ];
+    ],
   },
 };
 

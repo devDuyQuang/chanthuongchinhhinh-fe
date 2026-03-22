@@ -34,7 +34,7 @@ function AboutUs() {
         }
     };
     return (
-        <>            
+        <>
             <main className="page-content">
                 <PageBanner title="About Us" bnrimage={IMAGES.bnr1.src} />
                 <section className="content-inner" style={{ backgroundImage: `url(${IMAGES.bg1png.src})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right bottom' }}>
