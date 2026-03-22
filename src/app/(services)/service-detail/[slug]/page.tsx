@@ -29,7 +29,7 @@ async function getPost(slug: string): Promise<PostDetail | null> {
     try {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${slug}`,
-            { cache: "no-store" }
+            { cache: "no-store" },
         );
 
         if (!res.ok) return null;
@@ -42,8 +42,13 @@ async function getPost(slug: string): Promise<PostDetail | null> {
     }
 }
 
-async function ServiceDetail({ params }: { params: { slug: string } }) {
-    const post = await getPost(params.slug);
+async function ServiceDetail({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+    const post = await getPost(slug);
 
     if (!post) {
         return <div className="container py-5">Không tìm thấy dịch vụ</div>;
@@ -61,7 +66,6 @@ async function ServiceDetail({ params }: { params: { slug: string } }) {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 single-inner">
-
                                 {/* IMAGE */}
                                 {post.image && (
                                     <div className="single-media dz-media height-sm radius-lg m-b30">
@@ -81,7 +85,6 @@ async function ServiceDetail({ params }: { params: { slug: string } }) {
                                     <h2>{post.name}</h2>
                                     <p>{post.description}</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>

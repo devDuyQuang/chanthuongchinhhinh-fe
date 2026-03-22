@@ -37,7 +37,7 @@ async function getPost(slug: string): Promise<PostDetail | null> {
         const result: ApiResponse = await res.json();
         return result.data || null;
     } catch (err) {
-        console.error("Lỗi API:", err);
+        console.error("Lỗi lấy detail:", err);
         return null;
     }
 }
@@ -65,9 +65,9 @@ async function ServiceDetail({
                 <section className="content-inner service-single">
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-8">
+                            <div className="col-lg-8 single-inner">
                                 {post.image && (
-                                    <div className="m-b30">
+                                    <div className="single-media dz-media height-sm radius-lg m-b30">
                                         <Image
                                             src={normalizeImageUrl(post.image)!}
                                             alt={post.name || ""}
@@ -79,8 +79,10 @@ async function ServiceDetail({
                                     </div>
                                 )}
 
-                                <h2>{post.name}</h2>
-                                <p>{post.description}</p>
+                                <div className="content-item">
+                                    <h2>{post.name}</h2>
+                                    <p>{post.description}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
