@@ -7,6 +7,7 @@ import { howitworkdata } from "../constant/alldata";
 import Image from "next/image";
 
 type HowItWorkFeature = {
+    icon?: string;
     icon_class?: string;
     title?: string;
 };
@@ -32,6 +33,44 @@ type HowitworkProps = {
     data?: HowItWorkData;
 };
 
+function normalizeImageUrl(url?: string) {
+    if (!url) return null;
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    if (url.startsWith("/storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+}
+
+function getDefaultIconClass(index: number) {
+    if (index === 0) return "feather icon-clock";
+    if (index === 1) return "flaticon-list";
+    if (index === 2) return "flaticon-stethoscope";
+    return "flaticon-hand-holding-usd";
+}
+
+function normalizeAppointmentLink(link?: string) {
+    if (!link || link === "/appointment") return "/dat-lich-kham";
+    return link;
+}
+
 function Howitwork({ data }: HowitworkProps) {
     const features =
         data?.features && data.features.length > 0
@@ -39,25 +78,13 @@ function Howitwork({ data }: HowitworkProps) {
                 title: item.title || howitworkdata[index]?.title || "Bước thực hiện",
                 iconClass:
                     item.icon_class ||
-                    (index === 0
-                        ? "feather icon-clock"
-                        : index === 1
-                            ? "flaticon-list"
-                            : index === 2
-                                ? "flaticon-stethoscope"
-                                : "flaticon-hand-holding-usd"),
+                    item.icon ||
+                    getDefaultIconClass(index),
                 delay: `${0.2 * (index + 1)}s`,
             }))
             : howitworkdata.map((item, index) => ({
                 title: item.title,
-                iconClass:
-                    index === 0
-                        ? "feather icon-clock"
-                        : index === 1
-                            ? "flaticon-list"
-                            : index === 2
-                                ? "flaticon-stethoscope"
-                                : "flaticon-hand-holding-usd",
+                iconClass: getDefaultIconClass(index),
                 delay: item.delay,
             }));
 
@@ -83,6 +110,14 @@ function Howitwork({ data }: HowitworkProps) {
 
     const firstCount = parseCount(firstStat.number);
     const secondCount = parseCount(secondStat.number);
+
+    const howItWorkImage = normalizeImageUrl(data?.image);
+    const appointmentLink = normalizeAppointmentLink(data?.appointment_btn?.link);
+
+    console.log("how it work data:", data);
+    console.log("how it work image:", howItWorkImage);
+    console.log("how it work features:", features);
+    console.log("how it work stats:", stats);
 
     return (
         <section className="content-inner">
@@ -133,13 +168,25 @@ function Howitwork({ data }: HowitworkProps) {
                     <div className="col-xl-8">
                         <div className="content-media">
                             <div className="dz-media">
-                                <Image src={IMAGES.about4} alt={data?.title || "How it work"} />
+                                <Image
+                                    src={howItWorkImage || IMAGES.about4}
+                                    alt={data?.title || "How it work"}
+                                    width={1200}
+                                    height={715}
+                                    style={{
+                                        width: "100%",
+                                        height: "auto",
+                                        objectFit: "cover",
+                                    }}
+                                    unoptimized={typeof howItWorkImage === "string"}
+                                />
+
                                 <div className="dz-btn">
                                     <Link
-                                        href={data?.appointment_btn?.link || "/appointment"}
+                                        href={appointmentLink}
                                         className="btn btn-lg btn-icon btn-secondary btn-shadow"
                                     >
-                                        {data?.appointment_btn?.text || "Appointment"}
+                                        {data?.appointment_btn?.text || "Đặt lịch ngay"}
                                         <span className="right-icon">
                                             <i className="feather icon-arrow-right" />
                                         </span>

@@ -31,6 +31,32 @@ type MeetDrProps = {
     data?: DoctorHomeData;
 };
 
+function normalizeImageUrl(url?: string) {
+    if (!url) return null;
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    if (url.startsWith("/storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+}
+
 function MeetDr({ data }: MeetDrProps) {
     const rawExperience = data?.experience?.number || "20+";
     const matched = rawExperience.match(/^(\d+)(.*)$/);
@@ -42,10 +68,15 @@ function MeetDr({ data }: MeetDrProps) {
             ? data.skills
             : meetdrdata1.map((item) => item.title);
 
+    const doctorImage = normalizeImageUrl(data?.image);
+
     const achievements =
         data?.achievements && data.achievements.length > 0
             ? data.achievements.map((item, index) => ({
-                image: meetdrdata2[index]?.image || meetdrdata2[0]?.image,
+                image:
+                    normalizeImageUrl(item.image) ||
+                    meetdrdata2[index]?.image ||
+                    meetdrdata2[0]?.image,
                 title: item.title || "ClinicMaster 2024",
                 subtitle: item.subtitle || "Quality and Accreditation Institute",
                 linkText: item.link_text || "Best Dermatologists",
@@ -56,6 +87,10 @@ function MeetDr({ data }: MeetDrProps) {
                 subtitle: "Quality and Accreditation Institute",
                 linkText: "Best Dermatologists",
             }));
+
+    console.log("doctor data:", data);
+    console.log("doctor image:", doctorImage);
+    console.log("doctor achievements:", achievements);
 
     return (
         <section
@@ -72,8 +107,16 @@ function MeetDr({ data }: MeetDrProps) {
                         <div className="content-media">
                             <div className="dz-media">
                                 <Image
-                                    src={IMAGES.about1png}
+                                    src={doctorImage || IMAGES.about1png}
                                     alt={data?.doctor_name || data?.title || "Doctor"}
+                                    width={685}
+                                    height={720}
+                                    style={{
+                                        width: "100%",
+                                        height: "auto",
+                                        objectFit: "cover",
+                                    }}
+                                    unoptimized={typeof doctorImage === "string"}
                                 />
                             </div>
 
@@ -153,7 +196,18 @@ function MeetDr({ data }: MeetDrProps) {
                                 >
                                     <div className="dz-img-box style-1">
                                         <div className="dz-media">
-                                            <Image src={item.image} alt={item.title} />
+                                            <Image
+                                                src={item.image}
+                                                alt={item.title}
+                                                width={80}
+                                                height={80}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "auto",
+                                                    objectFit: "contain",
+                                                }}
+                                                unoptimized={typeof item.image === "string"}
+                                            />
                                         </div>
 
                                         <div className="dz-content">

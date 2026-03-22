@@ -108,7 +108,7 @@ type SettingResponse = {
                 };
             }[];
         };
-        how_it_work_home?: {
+        how_it_work_home_clinic?: {
             title?: string;
             description?: string;
             image?: string;
@@ -150,7 +150,7 @@ type SettingResponse = {
             }[];
         };
 
-        doctor_home?: {
+        doctor_home_clinic?: {
             title?: string;
             doctor_name?: string;
             description?: string;
@@ -168,7 +168,7 @@ type SettingResponse = {
                 link_text?: string;
             }[];
         };
-        faq_home?: {
+        faq_home_clinic?: {
             title?: string;
             description?: string;
             image?: string;
@@ -183,6 +183,14 @@ type SettingResponse = {
             items?: {
                 question?: string;
                 answer?: string;
+                title?: string;
+                content?: string;
+            }[];
+            questions?: {
+                question?: string;
+                answer?: string;
+                title?: string;
+                content?: string;
             }[];
         };
         awards_home?: {
@@ -255,9 +263,9 @@ async function HomePage() {
     const whyChoose = setting?.data?.why_choose_us_home_clinic;
     const specialists = setting?.data?.specialists_home_clinic;
     const testimonials = setting?.data?.testimonials_home_clinic;
-    const howItWork = setting?.data?.how_it_work_home;
-    const faq = setting?.data?.faq_home;
-    const doctor = setting?.data?.doctor_home;
+    const howItWork = setting?.data?.how_it_work_home_clinic;
+    const doctor = setting?.data?.doctor_home_clinic;
+    const faq = setting?.data?.faq_home_clinic;
     const awards = setting?.data?.awards_home;
     const contact = setting?.data?.contact_home;
 
