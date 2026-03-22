@@ -26,16 +26,50 @@ type FAQData = {
         link?: string;
     };
     items?: FAQItem[];
+    questions?: FAQItem[];
 };
 
 type FrequentlyProps = {
     data?: FAQData;
 };
 
+function normalizeImageUrl(url?: string) {
+    if (!url) return null;
+
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+
+    if (url.startsWith("/storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("storage/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+}
+
+function normalizeAppointmentLink(link?: string) {
+    if (!link || link === "/appointment") return "/dat-lich-kham";
+    return link;
+}
+
 function Frequently({ data }: FrequentlyProps) {
+    const rawFaqItems = data?.items || data?.questions || [];
+
     const faqItems =
-        data?.items && data.items.length > 0
-            ? data.items.map((item, index) => ({
+        rawFaqItems.length > 0
+            ? rawFaqItems.map((item, index) => ({
                 key: String(index),
                 delay: `${0.2 + index * 0.2}s`,
                 title:
@@ -48,13 +82,50 @@ function Frequently({ data }: FrequentlyProps) {
                     item.content ||
                     "Nội dung đang được cập nhật.",
             }))
-            : accordiondata.map((item) => ({
-                key: item.key,
-                delay: item.delay,
-                title: item.title,
-                answer:
-                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its. The point of using Lorem Ipsum is that it has a more-or-less normal distribution",
-            }));
+            : [
+                {
+                    key: "0",
+                    delay: "0.2s",
+                    title: "Quy trình đặt lịch khám như thế nào?",
+                    answer:
+                        "Bạn có thể đặt lịch trực tiếp trên website hoặc gọi hotline để được tư vấn và đặt lịch nhanh chóng.",
+                },
+                {
+                    key: "1",
+                    delay: "0.4s",
+                    title: "Thời gian làm việc của phòng khám?",
+                    answer:
+                        "Phòng khám làm việc từ 8:00 đến 17:30 tất cả các ngày trong tuần, kể cả thứ 7 và chủ nhật.",
+                },
+                {
+                    key: "2",
+                    delay: "0.6s",
+                    title: "Tôi có cần mang theo giấy tờ gì khi đi khám?",
+                    answer:
+                        "Bạn nên mang theo CCCD hoặc giấy tờ tùy thân và các hồ sơ bệnh án, phim chụp hoặc kết quả xét nghiệm trước đó nếu có.",
+                },
+                {
+                    key: "3",
+                    delay: "0.8s",
+                    title: "Tôi có thể chọn bác sĩ khám không?",
+                    answer:
+                        "Bạn hoàn toàn có thể yêu cầu bác sĩ mong muốn khi đặt lịch. Đội ngũ tư vấn sẽ hỗ trợ sắp xếp phù hợp.",
+                },
+                {
+                    key: "4",
+                    delay: "1s",
+                    title: "Chi phí khám và điều trị có được báo trước không?",
+                    answer:
+                        "Mọi chi phí sẽ được tư vấn rõ ràng trước khi thực hiện, đảm bảo minh bạch và phù hợp với từng trường hợp.",
+                },
+            ];
+
+    const faqImage = normalizeImageUrl(data?.image);
+    const appointmentLink = normalizeAppointmentLink(data?.appointment_btn?.link);
+
+    console.log("faq data:", data);
+    console.log("faq image:", faqImage);
+    console.log("faq items:", faqItems);
 
     return (
         <section
@@ -75,7 +146,7 @@ function Frequently({ data }: FrequentlyProps) {
                                     data-wow-delay="0.2s"
                                     data-wow-duration="0.7s"
                                 >
-                                    {data?.title || "Frequently Asked Questions"}
+                                    {data?.title || "Câu Hỏi Thường Gặp"}
                                 </h2>
                                 <p
                                     className="wow fadeInUp"
@@ -83,7 +154,7 @@ function Frequently({ data }: FrequentlyProps) {
                                     data-wow-duration="0.7s"
                                 >
                                     {data?.description ||
-                                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."}
+                                        "Giải đáp những thắc mắc phổ biến của bệnh nhân về quá trình thăm khám, điều trị và đặt lịch tại phòng khám."}
                                 </p>
                             </div>
 
@@ -111,7 +182,18 @@ function Frequently({ data }: FrequentlyProps) {
                             data-top-bottom="transform: translateY(-50px)"
                         >
                             <div className="dz-media">
-                                <Image src={IMAGES.about3} alt={data?.title || "FAQ"} />
+                                <Image
+                                    src={faqImage || IMAGES.about3}
+                                    alt={data?.title || "FAQ"}
+                                    width={700}
+                                    height={850}
+                                    style={{
+                                        width: "100%",
+                                        height: "auto",
+                                        objectFit: "cover",
+                                    }}
+                                    unoptimized={typeof faqImage === "string"}
+                                />
                             </div>
 
                             <div className="item1">
@@ -121,23 +203,23 @@ function Frequently({ data }: FrequentlyProps) {
                                     </div>
                                     <div className="widget-content">
                                         <h6 className="title">
-                                            {data?.contact?.text || "Contact us"}
+                                            {data?.contact?.text || "Liên hệ với chúng tôi"}
                                         </h6>
                                         <Link
-                                            href={`tel:${data?.contact?.phone || "+11234567890"}`}
+                                            href={`tel:${(data?.contact?.phone || "0901234567").replace(/\s+/g, "")}`}
                                             className="text-secondary"
                                         >
-                                            {data?.contact?.phone || "+1 123 456 7890"}
+                                            {data?.contact?.phone || "0901 234 567"}
                                         </Link>
                                     </div>
                                 </div>
 
                                 <Link
-                                    href={data?.appointment_btn?.link || "/appointment"}
+                                    href={appointmentLink}
                                     className="btn btn-lg btn-icon btn-primary btn-shadow"
                                 >
                                     <span className="w-100">
-                                        {data?.appointment_btn?.text || "Appointment"}
+                                        {data?.appointment_btn?.text || "Đặt lịch ngay"}
                                     </span>
                                     <span className="right-icon">
                                         <i className="feather icon-arrow-right" />
