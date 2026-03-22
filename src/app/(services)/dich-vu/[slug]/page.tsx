@@ -42,8 +42,13 @@ async function getPost(slug: string): Promise<PostDetail | null> {
     }
 }
 
-async function ServiceDetail({ params }: { params: { slug: string } }) {
-    const post = await getPost(params.slug);
+async function ServiceDetail({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+    const post = await getPost(slug);
 
     if (!post) {
         return <div className="container py-5">Không tìm thấy dịch vụ</div>;
@@ -61,8 +66,6 @@ async function ServiceDetail({ params }: { params: { slug: string } }) {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8">
-
-                                {/* Ảnh */}
                                 {post.image && (
                                     <div className="m-b30">
                                         <Image
@@ -76,10 +79,8 @@ async function ServiceDetail({ params }: { params: { slug: string } }) {
                                     </div>
                                 )}
 
-                                {/* Nội dung */}
                                 <h2>{post.name}</h2>
                                 <p>{post.description}</p>
-
                             </div>
                         </div>
                     </div>
