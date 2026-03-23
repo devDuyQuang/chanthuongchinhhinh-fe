@@ -39,7 +39,7 @@ function ServiceDetail() {
                                 </div>
                                 <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
                                     <h3>Frequently asked questions</h3>
-                                   <AccordionBlog />
+                                    <AccordionBlog />
                                 </div>
                             </div>
                             <div className="col-lg-4 m-b30">
@@ -54,7 +54,7 @@ function ServiceDetail() {
                                             ))}
                                         </ul>
                                     </div>
-                                    <div className="widget_contact wow fadeInUp" 
+                                    <div className="widget_contact wow fadeInUp"
                                         style={{ backgroundImage: `url(${IMAGES.bg3png.src})` }} data-wow-delay="0.4s" data-wow-duration="0.7s"
                                     >
                                         <div className="widget-content">
