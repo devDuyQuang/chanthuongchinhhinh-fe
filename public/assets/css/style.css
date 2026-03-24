@@ -47933,14 +47933,4 @@ footer.site-footer.footer-dark .fb-inner {
   height: 100%;
 }
 
-@media (max-width: 991px) {
-  .worldclass-image-large {
-    max-width: 100%;
-  }
-
-  .worldclass-image-small {
-    width: 220px;
-  }
-}
-
 /*# sourceMappingURL=style.css.map */
