@@ -223,7 +223,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { serviceboxdata } from "../constant/alldata";
 
 type ServiceItem = {
@@ -238,8 +237,17 @@ type ServiceBoxData = {
     items?: ServiceItem[];
 };
 
+type PostItem = {
+    id: number;
+    name?: string;
+    slug?: string;
+    image?: string | null;
+    description?: string | null;
+};
+
 type ServiceBoxProps = {
     data?: ServiceBoxData;
+    posts?: PostItem[];
     useFallback?: boolean;
 };
 
@@ -269,36 +277,49 @@ function normalizeImageUrl(url?: string | null) {
     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
 }
 
-function ServiceBox({ data, useFallback = true }: ServiceBoxProps) {
+function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
     const [active, setActive] = useState(1);
 
-    const hasDynamicItems = data?.items && data.items.length > 0;
+    const hasPosts = !!posts && posts.length > 0;
+    const hasSettingItems = !!data?.items && data.items.length > 0;
 
-    const services = hasDynamicItems
-        ? data!.items!.map((item, index) => ({
-            id: index + 1,
+    const services = hasPosts
+        ? posts!.map((item, index) => ({
+            id: item.id || index + 1,
             delay: `${0.1 * (index + 1)}s`,
-            title: item.title || "Dịch vụ",
+            title: item.name || "Dịch vụ",
             description: item.description || "Nội dung dịch vụ đang được cập nhật.",
-            subText: item.doctor_text || "Xem chi tiết",
-            link: item.link || "#",
+            subText: "Xem chi tiết",
+            link: item.slug ? `/${item.slug}` : "/dich-vu",
             image: normalizeImageUrl(item.image),
-            svg1: serviceboxdata[index]?.svg1 || serviceboxdata[0].svg1,
-            svg2: serviceboxdata[index]?.svg2 || serviceboxdata[0].svg2,
+            svg1: serviceboxdata[index % serviceboxdata.length]?.svg1 || serviceboxdata[0].svg1,
+            svg2: serviceboxdata[index % serviceboxdata.length]?.svg2 || serviceboxdata[0].svg2,
         }))
-        : useFallback
-            ? serviceboxdata.map((item) => ({
-                id: item.id,
-                delay: item.delay,
-                title: item.title,
-                description: "Nội dung dịch vụ đang được cập nhật.",
-                subText: "Xem chi tiết",
-                link: "/service-detail",
-                image: null,
-                svg1: item.svg1,
-                svg2: item.svg2,
+        : hasSettingItems
+            ? data!.items!.map((item, index) => ({
+                id: index + 1,
+                delay: `${0.1 * (index + 1)}s`,
+                title: item.title || "Dịch vụ",
+                description: item.description || "Nội dung dịch vụ đang được cập nhật.",
+                subText: item.doctor_text || "Xem chi tiết",
+                link: item.link || "#",
+                image: normalizeImageUrl(item.image),
+                svg1: serviceboxdata[index % serviceboxdata.length]?.svg1 || serviceboxdata[0].svg1,
+                svg2: serviceboxdata[index % serviceboxdata.length]?.svg2 || serviceboxdata[0].svg2,
             }))
-            : [];
+            : useFallback
+                ? serviceboxdata.map((item) => ({
+                    id: item.id,
+                    delay: item.delay,
+                    title: item.title,
+                    description: "Nội dung dịch vụ đang được cập nhật.",
+                    subText: "Xem chi tiết",
+                    link: "/service-detail",
+                    image: null,
+                    svg1: item.svg1,
+                    svg2: item.svg2,
+                }))
+                : [];
 
     if (!services.length) {
         return (
@@ -341,8 +362,7 @@ function ServiceBox({ data, useFallback = true }: ServiceBoxProps) {
                     key={i}
                 >
                     <div
-                        className={`icon-bx-wraper style-3 box-hover ${active === item.id ? "active" : ""
-                            }`}
+                        className={`icon-bx-wraper style-3 box-hover ${active === item.id ? "active" : ""}`}
                         onMouseEnter={() => setActive(item.id)}
                     >
                         <div className="icon-bx-head">

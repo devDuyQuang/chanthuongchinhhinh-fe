@@ -43,74 +43,112 @@
 // }
 // export default Services;
 
+export const dynamic = "force-dynamic";
 
 import PageBanner from "@/component/PageBanner";
 import { IMAGES } from "@/constant/theme";
 import Footer from "@/layout/Footer";
 import ServiceBox from "@/component/ServiceBox";
+import Whychoose from "@/component/WhyChoose";
+import Pricing from "@/component/Pricing";
+import RealPatient from "@/component/RealPatient";
+import Frequently from "@/component/Frequently";
 
-type PostItem = {
+type ServicePlanItem = {
+    name?: string;
+    price?: string;
+    period?: string;
+    btn_text?: string;
+    btn_link?: string;
+    features?: string[];
+};
+
+type CategoryPostItem = {
     id: number;
     name?: string;
     slug?: string;
     image?: string | null;
     description?: string | null;
-};
-
-type PostListResponse = {
-    success: boolean;
-    message: string;
-    data?: {
-        current_page?: number;
-        data?: PostItem[];
-    };
-};
-
-type ServiceHeroClinic = {
-    title?: string;
-    image?: string;
-    banner?: string;
-    banner_hero?: string;
-};
-
-type ServicePlanItem = {
-    name?: string;
-    price?: string;
-    duration?: string;
-    button_text?: string;
-    button_link?: string;
-    features?: string[];
-};
-
-type ServicePlansClinic = {
-    title?: string;
-    description?: string;
-    features_pool?: string[];
-    items?: ServicePlanItem[];
+    created_at?: string;
+    views?: number;
+    favorites?: number;
 };
 
 type SettingResponse = {
     success: boolean;
     message: string;
     data?: {
-        service_hero_clinic?: ServiceHeroClinic | [];
-        service_plans_clinic?: ServicePlansClinic | [];
+        service_hero_clinic?: {
+            title?: string;
+            banner_hero?: string;
+        };
+        service_plans_clinic?: {
+            title?: string;
+            description?: string;
+            features_pool?: string[];
+            items?: ServicePlanItem[];
+        };
     };
 };
 
-function normalizeImageUrl(url?: string | null) {
+type CategoryResponse = {
+    success: boolean;
+    message: string;
+    data?: {
+        id?: number;
+        name?: string;
+        slug?: string;
+        description?: string | null;
+        posts?: {
+            current_page?: number;
+            data?: CategoryPostItem[];
+        };
+        breadcrumbs?: {
+            name?: string;
+            slug?: string;
+            active?: boolean;
+        }[];
+    };
+};
+
+async function getSetting(): Promise<SettingResponse | null> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) throw new Error(`Fetch setting failed: ${res.status}`);
+        return await res.json();
+    } catch (error) {
+        console.error("Lỗi lấy setting:", error);
+        return null;
+    }
+}
+
+async function getServiceCategoryPosts(): Promise<CategoryPostItem[]> {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/dich-vu-dieu-tri?fields=id,name,slug,description`,
+            {
+                cache: "no-store",
+            }
+        );
+
+        if (!res.ok) throw new Error(`Fetch category posts failed: ${res.status}`);
+
+        const json: CategoryResponse = await res.json();
+        return json?.data?.posts?.data || [];
+    } catch (error) {
+        console.error("Lỗi lấy bài viết dịch vụ:", error);
+        return [];
+    }
+}
+
+function normalizeImageUrl(url?: string) {
     if (!url) return null;
 
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return url;
-    }
-
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
-
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
     }
 
     if (url.startsWith("/storage/")) {
@@ -121,168 +159,97 @@ function normalizeImageUrl(url?: string | null) {
         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-}
-
-async function getPosts(): Promise<PostItem[]> {
-    try {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=12&sort_name=id&sort_by=desc&name=`,
-            {
-                cache: "no-store",
-            }
-        );
-
-        if (!res.ok) {
-            throw new Error(`Fetch posts failed: ${res.status}`);
-        }
-
-        const result: PostListResponse = await res.json();
-        return result?.data?.data || [];
-    } catch (error) {
-        console.error("Lỗi lấy danh sách bài viết:", error);
-        return [];
+    if (url.startsWith("/uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
     }
-}
 
-async function getSetting() {
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
-            cache: "no-store",
-        });
-
-        if (!res.ok) {
-            throw new Error(`Fetch setting failed: ${res.status}`);
-        }
-
-        const result: SettingResponse = await res.json();
-        return result?.data || null;
-    } catch (error) {
-        console.error("Lỗi lấy setting:", error);
-        return null;
+    if (url.startsWith("uploads/")) {
+        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
     }
+
+    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
 }
 
 async function Services() {
-    const [posts, setting] = await Promise.all([getPosts(), getSetting()]);
+    const [setting, servicePosts] = await Promise.all([
+        getSetting(),
+        getServiceCategoryPosts(),
+    ]);
 
-    const serviceHero =
-        setting?.service_hero_clinic &&
-            !Array.isArray(setting.service_hero_clinic)
-            ? setting.service_hero_clinic
-            : null;
+    const serviceHero = setting?.data?.service_hero_clinic;
+    const servicePlans = setting?.data?.service_plans_clinic;
 
-    const servicePlans =
-        setting?.service_plans_clinic &&
-            !Array.isArray(setting.service_plans_clinic)
-            ? setting.service_plans_clinic
-            : null;
-
-    const serviceItems = posts.map((post) => ({
-        title: post.name || "Dịch vụ",
-        description: post.description || "Nội dung dịch vụ đang được cập nhật.",
-        doctor_text: "Xem chi tiết",
-        link: post.slug ? `/${post.slug}` : "#",
-        image: post.image || null,
-    }));
-
-    const bannerTitle = serviceHero?.title || "Dịch vụ";
-    const bannerImage =
-        normalizeImageUrl(
-            serviceHero?.banner_hero || serviceHero?.image || serviceHero?.banner
-        ) || IMAGES.bnr2.src;
+    const bannerUrl = normalizeImageUrl(serviceHero?.banner_hero);
 
     return (
         <>
             <main className="page-content">
-                <PageBanner title={bannerTitle} bnrimage={bannerImage} />
+                <PageBanner
+                    title={serviceHero?.title || "Services"}
+                    bnrimage={bannerUrl || IMAGES.bnr2.src}
+                />
 
                 <section
                     className="content-inner bg-light"
                     style={{ backgroundImage: `url(${IMAGES.bg5png.src})` }}
                 >
                     <div className="container">
-                        <ServiceBox data={{ items: serviceItems }} useFallback={false} />
+                        <ServiceBox posts={servicePosts} useFallback={true} />
                     </div>
                 </section>
 
-                {servicePlans &&
-                    ((servicePlans.items && servicePlans.items.length > 0) ||
-                        (servicePlans.features_pool && servicePlans.features_pool.length > 0)) && (
-                        <section className="content-inner">
-                            <div className="container">
-                                <div className="section-head style-1 text-center">
-                                    <h2 className="title">
-                                        {servicePlans.title || "Gói dịch vụ điều trị"}
-                                    </h2>
-                                    <p>
-                                        {servicePlans.description ||
-                                            "Lựa chọn gói dịch vụ phù hợp với nhu cầu thăm khám và điều trị của bạn."}
-                                    </p>
-                                </div>
+                <section
+                    className="content-inner overlay-secondary-dark background-blend-luminosity bg-img-fix overflow-hidden"
+                    style={{
+                        backgroundImage: `URL(${IMAGES.bg1.src})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "right center",
+                    }}
+                >
+                    <div className="container">
+                        <Whychoose />
+                    </div>
+                </section>
 
-                                {servicePlans.features_pool &&
-                                    servicePlans.features_pool.length > 0 && (
-                                        <div className="m-b30">
-                                            <ul className="list-check-circle row">
-                                                {servicePlans.features_pool.map((feature, index) => (
-                                                    <li
-                                                        key={index}
-                                                        className="col-lg-3 col-md-6 m-b10"
-                                                    >
-                                                        {feature}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    )}
+                <section className="content-inner">
+                    <div className="container">
+                        <div className="section-head style-1 text-center">
+                            <h2
+                                className="title wow fadeInUp"
+                                data-wow-delay="0.2s"
+                                data-wow-duration="0.7s"
+                            >
+                                {servicePlans?.title || "Choose Your Optimal Plan"}
+                            </h2>
+                            <p
+                                className="wow fadeInUp"
+                                data-wow-delay="0.4s"
+                                data-wow-duration="0.7s"
+                            >
+                                {servicePlans?.description ||
+                                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."}
+                            </p>
+                        </div>
 
-                                {servicePlans.items && servicePlans.items.length > 0 && (
-                                    <div className="row">
-                                        {servicePlans.items.map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="col-lg-4 col-md-6 m-b30"
-                                            >
-                                                <div className="p-4 rounded-4 bg-light border h-100">
-                                                    <h3 className="m-b10">
-                                                        {item.name || "Gói dịch vụ"}
-                                                    </h3>
+                        <Pricing data={servicePlans} />
+                    </div>
+                </section>
 
-                                                    {item.price && (
-                                                        <h4 className="text-primary m-b10">
-                                                            {item.price}
-                                                        </h4>
-                                                    )}
+                <section
+                    className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"
+                    style={{
+                        backgroundImage: `url(${IMAGES.bg3.src})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right center",
+                        backgroundSize: "cover",
+                    }}
+                >
+                    <RealPatient />
+                </section>
 
-                                                    {item.duration && (
-                                                        <p className="m-b15">{item.duration}</p>
-                                                    )}
-
-                                                    {item.features && item.features.length > 0 && (
-                                                        <ul className="list-check-circle m-b20">
-                                                            {item.features.map((feature, fIndex) => (
-                                                                <li key={fIndex}>{feature}</li>
-                                                            ))}
-                                                        </ul>
-                                                    )}
-
-                                                    <a
-                                                        href={item.button_link || "/dat-lich-kham"}
-                                                        className="btn btn-primary"
-                                                    >
-                                                        {item.button_text || "Đặt lịch ngay"}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </section>
-                    )}
+                <Frequently />
             </main>
-
             <Footer />
         </>
     );

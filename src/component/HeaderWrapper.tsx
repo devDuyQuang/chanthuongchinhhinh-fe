@@ -35,14 +35,13 @@ export default async function HeaderWrapper() {
   const menu = await getMenu("header");
   const categories = await getCategories();
 
-  //  Inject category vào menu "Bệnh lý"
   const newMenu = menu.map((item: any) => {
     if (item.title?.trim().toLowerCase() === "bệnh lý") {
       return {
         ...item,
         content: categories.map((cat) => ({
           title: cat.name,
-          to: `/${cat.slug}`, // link cấp 1 (SEO)
+          to: `/danh-muc/${cat.slug}`,
         })),
       };
     }
