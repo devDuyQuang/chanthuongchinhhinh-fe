@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { empolydata } from "../constant/alldata";
 import Image from "next/image";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 type SpecialistItem = {
     name?: string;
@@ -27,31 +28,31 @@ type EmpolyBlogProps = {
     data?: SpecialistsData;
 };
 
-function normalizeImageUrl(url?: string) {
-    if (!url) return null;
+// function normalizeImageUrl(url?: string) {
+//     if (!url) return null;
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return url;
+//     }
 
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-}
+//     return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+// }
 
 function EmpolyBlog({ data }: EmpolyBlogProps) {
     const [active, setActive] = useState(1);

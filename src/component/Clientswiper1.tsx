@@ -1,54 +1,151 @@
-"use client"
+// "use client"
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay } from "swiper/modules";
+// import { clientswiperdata1 } from "../constant/alldata";
+// import Image from "next/image";
+
+// function Clientswiper1() {
+//     return (
+//         <>
+//             <section className="content-inner">
+//                 <div className="container">
+//                     <div className="row align-items-center">
+//                         <div className="col-xl-4">
+//                             <div className="section-head style-1 m-b30">
+//                                 <h2 className="title m-b0 wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">Our Accepted insurance</h2>
+//                             </div>
+//                         </div>
+//                         <div className="col-xl-8 m-b30">
+//                             <Swiper className="swiper client-swiper2"
+//                                 slidesPerView={4}
+//                                 spaceBetween={30}
+//                                 autoplay={{
+//                                     delay: 3000,
+//                                 }}
+//                                 loop={true}
+//                                 breakpoints={{
+//                                     767: {
+//                                         slidesPerView: 4,
+//                                     },
+//                                     575: {
+//                                         slidesPerView: 3,
+//                                     },
+//                                     320: {
+//                                         slidesPerView: 2,
+//                                     },
+//                                 }}
+//                                 modules={[Autoplay]}
+//                             >
+//                                 {clientswiperdata1.map((item, i) => (
+//                                     <SwiperSlide key={i} className="wow fadeInUp" data-wow-delay={item.delay} data-wow-duration="0.8s">
+//                                         <div className="clients-logo2">
+//                                             <Image src={item.image} alt="" />
+//                                         </div>
+//                                     </SwiperSlide>
+//                                 ))}
+//                             </Swiper>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </section>
+//         </>
+//     );
+// }
+// export default Clientswiper1;
+
+
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { clientswiperdata1 } from "../constant/alldata";
 import Image from "next/image";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
-function Clientswiper1() {
+type ClientswiperData = {
+    title?: string;
+    logos?: string[];
+};
+
+type Clientswiper1Props = {
+    data?: ClientswiperData;
+};
+
+function Clientswiper1({ data }: Clientswiper1Props) {
+    const logos =
+        data?.logos && data.logos.length > 0
+            ? data.logos.map((item, index) => ({
+                image: normalizeImageUrl(item),
+                delay: `${0.2 * (index + 1)}s`,
+            }))
+            : clientswiperdata1.map((item) => ({
+                image: item.image,
+                delay: item.delay,
+            }));
+
     return (
-        <>
-            <section className="content-inner">
-                <div className="container">
-                    <div className="row align-items-center">
-                        <div className="col-xl-4">
-                            <div className="section-head style-1 m-b30">
-                                <h2 className="title m-b0 wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">Our Accepted insurance</h2>
-                            </div>
-                        </div>
-                        <div className="col-xl-8 m-b30">
-                            <Swiper className="swiper client-swiper2"
-                                slidesPerView={4}
-                                spaceBetween={30}
-                                autoplay={{
-                                    delay: 3000,
-                                }}
-                                loop={true}
-                                breakpoints={{
-                                    767: {
-                                        slidesPerView: 4,
-                                    },
-                                    575: {
-                                        slidesPerView: 3,
-                                    },
-                                    320: {
-                                        slidesPerView: 2,
-                                    },
-                                }}
-                                modules={[Autoplay]}
-                            >
-                                {clientswiperdata1.map((item, i) => (
-                                    <SwiperSlide key={i} className="wow fadeInUp" data-wow-delay={item.delay} data-wow-duration="0.8s">
-                                        <div className="clients-logo2">
-                                            <Image src={item.image} alt="" />
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
+        <section className="content-inner">
+            <div className="container">
+                <div className="row align-items-center">
+                    <div className="col-xl-4">
+                        <div className="section-head style-1 m-b30">
+                            <h2 className="title m-b0 wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">
+                                {data?.title || "Our Accepted insurance"}
+                            </h2>
                         </div>
                     </div>
+
+                    <div className="col-xl-8 m-b30">
+                        <Swiper
+                            className="swiper client-swiper2"
+                            slidesPerView={4}
+                            spaceBetween={30}
+                            autoplay={{
+                                delay: 3000,
+                            }}
+                            loop={true}
+                            breakpoints={{
+                                767: {
+                                    slidesPerView: 4,
+                                },
+                                575: {
+                                    slidesPerView: 3,
+                                },
+                                320: {
+                                    slidesPerView: 2,
+                                },
+                            }}
+                            modules={[Autoplay]}
+                        >
+                            {logos.map((item, i) => (
+                                <SwiperSlide
+                                    key={i}
+                                    className="wow fadeInUp"
+                                    data-wow-delay={item.delay}
+                                    data-wow-duration="0.8s"
+                                >
+                                    <div className="clients-logo2">
+                                        <Image
+                                            src={item.image || clientswiperdata1[0].image}
+                                            alt={`insurance-logo-${i + 1}`}
+                                            width={220}
+                                            height={120}
+                                            style={{
+                                                width: "100%",
+                                                height: "auto",
+                                                objectFit: "contain",
+                                            }}
+                                            unoptimized={typeof item.image === "string"}
+                                        />
+                                    </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }
+
 export default Clientswiper1;

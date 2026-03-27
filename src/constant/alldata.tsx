@@ -14,19 +14,19 @@ export const headerinfo = [
 ]
 
 export type HeaderContentItem = {
-  title: string;
-  to: string;
-  image?: string | StaticImageData;
+    title: string;
+    to: string;
+    image?: string | StaticImageData;
 };
 
 export type HeaderItem = {
-  title: string;
-  to?: string;
-  classChange?: string;
-  content?: HeaderContentItem[];
+    title: string;
+    to?: string;
+    classChange?: string;
+    content?: HeaderContentItem[];
 };
 
-export const headerdata : HeaderItem[] = [
+export const headerdata: HeaderItem[] = [
     {
         title: "Home",
         classChange: "has-mega-menu",
@@ -105,27 +105,27 @@ export const footerdata2 = [
 // pages 
 // testimonial 
 export const testidata = [
-    {treat:"Optimal Treatment", delay: '0.2s', title: 'Kenneth Fong', position: 'Patient', image: IMAGES.testimonial2 },
-    {treat:"Best Treatment", delay: '0.4s', title: 'Danial Frankie', position: 'Patient', image: IMAGES.testimonial3 },
-    {treat:"Recommended Care", delay: '0.6s', title: 'Rihana Roy', position: 'Patient', image: IMAGES.testimonial4 },
-    {treat:"First-Class Treatment", delay: '0.8s', title: 'Kenneth Fong', position: 'Patient', image: IMAGES.testimonial5 },
+    { treat: "Optimal Treatment", delay: '0.2s', title: 'Kenneth Fong', position: 'Patient', image: IMAGES.testimonial2 },
+    { treat: "Best Treatment", delay: '0.4s', title: 'Danial Frankie', position: 'Patient', image: IMAGES.testimonial3 },
+    { treat: "Recommended Care", delay: '0.6s', title: 'Rihana Roy', position: 'Patient', image: IMAGES.testimonial4 },
+    { treat: "First-Class Treatment", delay: '0.8s', title: 'Kenneth Fong', position: 'Patient', image: IMAGES.testimonial5 },
 ]
 export const testiswipeerdata2 = [
-    { image: IMAGES.testimonialsmall1 , name:"Danial Frankie"},
-    { image: IMAGES.testimonialsmall2 , name:"Esteban Serrano"},
-    { image: IMAGES.testimonialsmall3 , name:"Rihana Roy"},
+    { image: IMAGES.testimonialsmall1, name: "Danial Frankie" },
+    { image: IMAGES.testimonialsmall2, name: "Esteban Serrano" },
+    { image: IMAGES.testimonialsmall3, name: "Rihana Roy" },
 ]
 
 
 export interface BlogItem {
-  image: any;
-  dealy: string;
-  title: string;
+    image: any;
+    dealy: string;
+    title: string;
 }
 
 // bloggrid 
-export const blogdata : BlogItem[]= [
-    { image: IMAGES.blogoverlaylarge1, dealy: '0.1s', title: 'The Art of Managing Business and Patient Care.', }, 
+export const blogdata: BlogItem[] = [
+    { image: IMAGES.blogoverlaylarge1, dealy: '0.1s', title: 'The Art of Managing Business and Patient Care.', },
     { image: IMAGES.blogoverlaylarge2, dealy: '0.2s', title: 'Successful Transitional Rehab: More Than Just Exercise', },
     { image: IMAGES.blogoverlaylarge3, dealy: '0.3s', title: 'What is Respite Care and Why is it Important?', },
     { image: IMAGES.blogoverlaylarge4, dealy: '0.4s', title: 'The Art of Managing Business and Patient Care', },
@@ -133,7 +133,7 @@ export const blogdata : BlogItem[]= [
     { image: IMAGES.blogoverlaylarge6, dealy: '0.6s', title: 'How Transitional Rehabilitation Aids in Stroke Recovery', },
 ]
 export const blogdata2 = [
-    { image: IMAGES.bloggrid1, dealy: '0.1s', title: 'The Art of Managing Business and Patient Care.', }, 
+    { image: IMAGES.bloggrid1, dealy: '0.1s', title: 'The Art of Managing Business and Patient Care.', },
     { image: IMAGES.bloggrid2, dealy: '0.2s', title: 'Successful Transitional Rehab: More Than Just Exercise', },
     { image: IMAGES.bloggrid3, dealy: '0.3s', title: 'What is Respite Care and Why is it Important?', },
     { image: IMAGES.bloggrid4, dealy: '0.4s', title: 'The Art of Managing Business and Patient Care', },
@@ -215,7 +215,7 @@ export const clientswiperdata2 = [
 // counter 
 export const countupdata = [
     { title: 'Specialists', delay: '0.4s', countup: 200, span: '+', },
-    { title: 'Happy Patients', delay: '0.6s', countup: 45,  span: 'K', },
+    { title: 'Happy Patients', delay: '0.6s', countup: 45, span: 'K', },
     { title: 'Winning Awards', delay: '0.8s', countup: 150, span: '+', },
 ]
 // frequently 
@@ -312,12 +312,12 @@ export const pricingdata2 = [
 ]
 // raelpatient 
 export const testiswipeerdata = [
-    { image: IMAGES.testimonial1 , name:"Tariq Najeeb"},
-    { image: IMAGES.testimonial2 , name:"Nasir Qadiri"},
-    { image: IMAGES.testimonial3 , name:"Faisal Darwish"},
+    { image: IMAGES.testimonial1, name: "Tariq Najeeb" },
+    { image: IMAGES.testimonial2, name: "Nasir Qadiri" },
+    { image: IMAGES.testimonial3, name: "Faisal Darwish" },
 ]
 // servicebox
-export const serviceboxdata = [    
+export const serviceboxdata = [
     { id: 1, delay: '0.1s', title: 'Angioplasty', svg1: SVGICONS.iconcell1, svg2: SVGICONS.iconbg1, },
     { id: 2, delay: '0.2s', title: 'Cardiology', svg1: SVGICONS.iconcell2, svg2: SVGICONS.iconbg2, },
     { id: 3, delay: '0.3s', title: 'Dental', svg1: SVGICONS.iconcell3, svg2: SVGICONS.iconbg3, },
@@ -339,9 +339,9 @@ export const tagdata = [
     { title: 'Walking', num: '(06)', },
 ]
 export const sidebarpostdata = [
-    { date:"10 June 2025", image: IMAGES.blogsmall1, title:"The Art of Managing Business and Patient Care"},
-    { date:"13 June 2025", image: IMAGES.blogsmall2, title:"The New Face of Care Blending Empathy with Expertise"},
-    { date:"17 June 2025", image: IMAGES.blogsmall3, title:"Here Care Expertise Elevating the Patient Experience"},
+    { date: "10 June 2025", image: IMAGES.blogsmall1, title: "The Art of Managing Business and Patient Care" },
+    { date: "13 June 2025", image: IMAGES.blogsmall2, title: "The New Face of Care Blending Empathy with Expertise" },
+    { date: "17 June 2025", image: IMAGES.blogsmall3, title: "Here Care Expertise Elevating the Patient Experience" },
 ]
 // whychoose 
 export const whychoosedata = [

@@ -5,6 +5,7 @@ import { IMAGES } from "../constant/theme";
 import { Dropdown } from "react-bootstrap";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 type AppointmentSectionData = {
     title?: string;
@@ -19,31 +20,31 @@ type AppointmentDataProps = {
     data?: AppointmentSectionData;
 };
 
-function normalizeImageUrl(url?: string) {
-    if (!url) return null;
+// function normalizeImageUrl(url?: string) {
+//     if (!url) return null;
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return url;
+//     }
 
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-}
+//     return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+// }
 
 function AppointmentData({ data }: AppointmentDataProps) {
     const [selectCat, setSelectCat] = useState("Chọn dịch vụ");

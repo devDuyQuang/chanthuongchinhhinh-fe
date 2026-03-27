@@ -31,23 +31,40 @@ async function getCategories(): Promise<CategoryItem[]> {
   }
 }
 
+async function getSettings() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`,
+      { cache: "no-store" }
+    );
+
+    if (!res.ok) return null;
+
+    const result = await res.json();
+    return result.data || null;
+  } catch (error) {
+    console.error("Lỗi lấy settings:", error);
+    return null;
+  }
+}
+
 export default async function HeaderWrapper() {
   const menu = await getMenu("header");
   const categories = await getCategories();
+  const settings = await getSettings();
 
-  //  Inject category vào menu "Bệnh lý"
   const newMenu = menu.map((item: any) => {
     if (item.title?.trim().toLowerCase() === "bệnh lý") {
       return {
         ...item,
         content: categories.map((cat) => ({
           title: cat.name,
-          to: `/${cat.slug}`, // link cấp 1 (SEO)
+          to: `/danh-muc/${cat.slug}`,
         })),
       };
     }
     return item;
   });
 
-  return <Header menu={newMenu} />;
+  return <Header menu={newMenu} settings={settings} />;
 }
