@@ -65,6 +65,7 @@ import Getintouch from "@/component/Getintouch";
 import Alllocation from "@/component/Alllocation";
 import Image from "next/image";
 
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 type LocationItem = {
     title?: string;
     address?: string;
@@ -139,31 +140,31 @@ async function getSetting(): Promise<SettingResponse | null> {
     }
 }
 
-function normalizeImageUrl(url?: string) {
-    if (!url) return null;
+// function normalizeImageUrl(url?: string) {
+//     if (!url) return null;
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return url;
+//     }
 
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
-    }
+//     if (url.startsWith("/uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+//     }
 
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-    }
+//     if (url.startsWith("uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+//     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-}
+//     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+// }
 
 async function Contactus() {
     const setting = await getSetting();

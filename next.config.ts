@@ -61,7 +61,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "admin.chanthuongchinhhinh.com.vn",
-        pathname: "/storage/uploads/**",
+        pathname: "/storage/**",
       },
     ],
   },

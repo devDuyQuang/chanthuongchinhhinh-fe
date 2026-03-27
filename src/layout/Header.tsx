@@ -1,3 +1,418 @@
+// "use client";
+
+// import Link from "next/link";
+// import { IMAGES } from "../constant/theme";
+// import { headerinfo, HeaderItem } from "../constant/alldata";
+// import { useEffect, useRef, useState } from "react";
+// import Image from "next/image";
+// import { useEmailService } from "@/constant/useEmailService";
+
+// type HeaderProps = {
+//     menu: HeaderItem[];
+// };
+
+// function Header({ menu }: HeaderProps) {
+//     const [show, setShow] = useState<number | null>(null);
+//     const [isActive, setIsActive] = useState<number | null>(null);
+//     const [scroll, setScroll] = useState(false);
+
+//     const form = useRef<HTMLFormElement | null>(null);
+//     const { sendEmail } = useEmailService();
+
+//     useEffect(() => {
+//         const onScroll = () => {
+//             setScroll(window.scrollY >= 90);
+//         };
+
+//         window.addEventListener("scroll", onScroll);
+//         return () => window.removeEventListener("scroll", onScroll);
+//     }, []);
+
+//     function handleclick(index: number) {
+//         setShow((prev) => (prev === index ? null : index));
+//     }
+
+//     function menuHandler(index: number) {
+//         setIsActive((prev) => (prev === index ? null : index));
+//     }
+
+//     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+//         e.preventDefault();
+//         if (!form.current) return;
+
+//         const result = await sendEmail(form.current);
+//         if (result.success) {
+//             console.log("SUCCESS!", result.message);
+//         } else {
+//             console.error("FAILED...", result.message);
+//         }
+//     }
+
+//     return (
+//         <>
+//             <header className="site-header header style-1">
+//                 <div className="header-info-bar d-none d-xxl-block">
+//                     <div className="container-fluid">
+//                         <div className="row">
+//                             {headerinfo.map((data, i) => (
+//                                 <div className="col" key={i}>
+//                                     <div className="icon-bx-wraper style-5">
+//                                         <div className="icon-bx">
+//                                             <span className="icon-cell">
+//                                                 <Image src={data.image} alt="" />
+//                                             </span>
+//                                         </div>
+//                                         <div className="icon-content">
+//                                             <h2 className="dz-title text-primary">{data.title}</h2>
+//                                             <p>{data.paragraph}</p>
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             ))}
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 <div className={`sticky-header main-bar-wraper ${scroll ? "is-fixed" : ""}`}>
+//                     <div className="main-bar clearfix bg-secondary text-white">
+//                         <div className="container-fluid clearfix inner-bar">
+//                             <div className="logo-header logo-dark">
+//                                 <Link href="/">
+//                                     <Image src={IMAGES.logowhite} alt="logo" />
+//                                 </Link>
+//                             </div>
+
+//                             <button
+//                                 onClick={() => handleclick(2)}
+//                                 className={`w3menu-toggler navicon ${show === 2 ? "open" : ""}`}
+//                                 type="button"
+//                                 aria-label="Open menu"
+//                             >
+//                                 <span></span>
+//                                 <span></span>
+//                                 <span></span>
+//                             </button>
+
+//                             <div
+//                                 onClick={() => setShow(null)}
+//                                 className={`menu-close fade-overlay ${show === 2 ? "active" : ""}`}
+//                             ></div>
+
+//                             <div
+//                                 className={`header-nav w3menu w3menu-end mo-left ${show === 2 ? "show" : ""}`}
+//                                 id="W3Menu"
+//                             >
+//                                 <div className="logo-header logo-dark">
+//                                     <Link href="/">
+//                                         <Image src={IMAGES.logo} alt="logo" />
+//                                     </Link>
+//                                 </div>
+
+//                                 <ul className="nav navbar-nav">
+//                                     {menu.map((data: HeaderItem, i: number) => {
+//                                         const menuClassName = data.classChange;
+//                                         const isBenhLyMenu =
+//                                             data.title?.trim().toLowerCase() === "bệnh lý";
+
+//                                         if (menuClassName === "has-mega-menu") {
+//                                             return (
+//                                                 <li
+//                                                     key={i}
+//                                                     className={`has-mega-menu sub-menu-down auto-width menu-left ${i === isActive ? "open" : ""
+//                                                         }`}
+//                                                 >
+//                                                     <Link
+//                                                         href="#"
+//                                                         onClick={(e) => {
+//                                                             e.preventDefault();
+//                                                             menuHandler(i);
+//                                                         }}
+//                                                     >
+//                                                         <span>{data.title}</span>
+//                                                         <i className="fas fa-chevron-down tabIndex" />
+//                                                     </Link>
+
+//                                                     <div className="mega-menu">
+//                                                         <ul className="demo-menu">
+//                                                             {data.content?.map((item, index) => (
+//                                                                 <li key={index}>
+//                                                                     <Link href={item.to}>
+//                                                                         {item.image ? (
+//                                                                             <Image
+//                                                                                 src={item.image}
+//                                                                                 alt={item.title}
+//                                                                                 width={40}
+//                                                                                 height={40}
+//                                                                             />
+//                                                                         ) : null}
+//                                                                         <span className="menu-title">
+//                                                                             {item.title}
+//                                                                         </span>
+//                                                                     </Link>
+//                                                                 </li>
+//                                                             ))}
+//                                                         </ul>
+//                                                     </div>
+//                                                 </li>
+//                                             );
+//                                         }
+
+//                                         if (menuClassName === "sub-menu-down") {
+//                                             return (
+//                                                 <li
+//                                                     key={i}
+//                                                     className={`sub-menu-down ${i === isActive ? "open" : ""}`}
+//                                                 >
+//                                                     <Link
+//                                                         href="#"
+//                                                         onClick={(e) => {
+//                                                             e.preventDefault();
+//                                                             menuHandler(i);
+//                                                         }}
+//                                                     >
+//                                                         <span>{data.title}</span>
+//                                                         <i className="fas fa-chevron-down tabIndex" />
+//                                                     </Link>
+
+//                                                     <ul
+//                                                         className={`sub-menu ${isBenhLyMenu ? "benh-ly-sub-menu" : ""
+//                                                             }`}
+//                                                     >
+//                                                         {data.content?.map((item, index) => (
+//                                                             <li
+//                                                                 key={index}
+//                                                                 className={
+//                                                                     isBenhLyMenu
+//                                                                         ? "benh-ly-sub-menu-item"
+//                                                                         : ""
+//                                                                 }
+//                                                             >
+//                                                                 <Link
+//                                                                     href={item.to}
+//                                                                     onClick={() => {
+//                                                                         setShow(null);
+//                                                                         setIsActive(null);
+//                                                                     }}
+//                                                                 >
+//                                                                     {item.title}
+//                                                                 </Link>
+//                                                             </li>
+//                                                         ))}
+//                                                     </ul>
+//                                                 </li>
+//                                             );
+//                                         }
+
+//                                         return (
+//                                             <li key={i}>
+//                                                 <Link
+//                                                     href={data.to as string}
+//                                                     onClick={() => {
+//                                                         setShow(null);
+//                                                         setIsActive(null);
+//                                                     }}
+//                                                 >
+//                                                     <span>{data.title}</span>
+//                                                 </Link>
+//                                             </li>
+//                                         );
+//                                     })}
+//                                 </ul>
+
+//                                 <div className="dz-social-icon">
+//                                     <ul>
+//                                         <li>
+//                                             <Link
+//                                                 href="https://www.facebook.com/dexignzone"
+//                                                 target="_blank"
+//                                             >
+//                                                 <i className="fa-brands fa-facebook-f" />
+//                                             </Link>
+//                                         </li>
+//                                         <li>
+//                                             <Link href="https://x.com/dexignzone" target="_blank">
+//                                                 <i className="fa-brands fa-x-twitter" />
+//                                             </Link>
+//                                         </li>
+//                                         <li>
+//                                             <Link
+//                                                 href="https://www.linkedin.com/showcase/dexignzone"
+//                                                 target="_blank"
+//                                             >
+//                                                 <i className="fa-brands fa-linkedin" />
+//                                             </Link>
+//                                         </li>
+//                                         <li>
+//                                             <Link
+//                                                 href="https://www.instagram.com/dexignzone"
+//                                                 target="_blank"
+//                                             >
+//                                                 <i className="fa-brands fa-instagram" />
+//                                             </Link>
+//                                         </li>
+//                                     </ul>
+//                                 </div>
+//                             </div>
+
+//                             <div className={`extra-nav ${scroll ? "active" : ""}`}>
+//                                 <div className="extra-cell">
+//                                     <ul className="header-right">
+//                                         <li className="nav-item">
+//                                             <Link href="/dat-lich-kham" className="btn btn-primary btn-hover1">
+//                                                 Đặt lịch khám
+//                                             </Link>
+//                                         </li>
+//                                         <li className="nav-item">
+//                                             <button
+//                                                 onClick={() => handleclick(1)}
+//                                                 type="button"
+//                                                 className="toggle-nav-btn"
+//                                                 aria-label="Open sidebar"
+//                                             >
+//                                                 <span></span>
+//                                                 <span></span>
+//                                                 <span></span>
+//                                             </button>
+//                                         </li>
+//                                     </ul>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 <div
+//                     className={`offcanvas dz-offcanvas offcanvas offcanvas-end ${show === 1 ? "show" : ""
+//                         }`}
+//                     tabIndex={-1}
+//                     id="headerSidebar"
+//                 >
+//                     <button
+//                         onClick={() => setShow(null)}
+//                         type="button"
+//                         className="btn-close m-t10 m-l10"
+//                         aria-label="Close"
+//                     ></button>
+
+//                     <div className="offcanvas-body">
+//                         <div className="widget">
+//                             <div className="sidebar-header m-b20">
+//                                 <Link href="/">
+//                                     <Image src={IMAGES.logo} alt="logo" />
+//                                 </Link>
+//                             </div>
+//                             <p>
+//                                 ClinicMaster is a modern and responsive Bootstrap HTML template
+//                                 designed for health and medical websites. Ideal for clinics,
+//                                 hospitals, and healthcare professionals seeking a professional online
+//                                 presence with an elegant and user-friendly design.
+//                             </p>
+//                         </div>
+
+//                         <div className="widget">
+//                             <div className="widget-title">
+//                                 <h4 className="title">Contact Us</h4>
+//                             </div>
+//                             <ul className="list-check">
+//                                 <li>785 15h Street, Office 478 Berlin, De 81566</li>
+//                                 <li>
+//                                     <Link href="mailto:email@domain.com" className="text-body">
+//                                         email@domain.com
+//                                     </Link>
+//                                 </li>
+//                                 <li>
+//                                     <Link href="tel:+11234567890" className="text-body">
+//                                         +1 123 456 7890
+//                                     </Link>
+//                                 </li>
+//                             </ul>
+//                         </div>
+
+//                         <div className="widget">
+//                             <div className="widget-title">
+//                                 <h4 className="title">Newsletter</h4>
+//                             </div>
+//                             <form className="dzSubscribe style-2" ref={form} onSubmit={handleSubmit}>
+//                                 <div className="dzSubscribeMsg"></div>
+//                                 <div className="form-group">
+//                                     <div className="input-group mb-0">
+//                                         <input
+//                                             name="dzEmail"
+//                                             required
+//                                             type="email"
+//                                             className="form-control"
+//                                             placeholder="Your Email Address"
+//                                         />
+//                                         <div className="input-group-addon">
+//                                             <button
+//                                                 name="submit"
+//                                                 value="Submit"
+//                                                 type="submit"
+//                                                 className="btn text-primary btn-transparent p-2"
+//                                             >
+//                                                 <i className="fa-solid fa-paper-plane" />
+//                                             </button>
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             </form>
+//                         </div>
+
+//                         <div className="widget">
+//                             <div className="widget-title">
+//                                 <h4 className="title">Follow Us</h4>
+//                             </div>
+//                             <div className="dz-social-icon style-1">
+//                                 <ul>
+//                                     <li>
+//                                         <Link
+//                                             href="https://www.linkedin.com/showcase/dexignzone"
+//                                             target="_blank"
+//                                         >
+//                                             <i className="fa-brands fa-linkedin" />
+//                                         </Link>
+//                                     </li>
+//                                     <li>
+//                                         <Link
+//                                             href="https://www.instagram.com/dexignzone"
+//                                             target="_blank"
+//                                         >
+//                                             <i className="fa-brands fa-instagram" />
+//                                         </Link>
+//                                     </li>
+//                                     <li>
+//                                         <Link
+//                                             href="https://www.facebook.com/dexignzone"
+//                                             target="_blank"
+//                                         >
+//                                             <i className="fa-brands fa-facebook-f" />
+//                                         </Link>
+//                                     </li>
+//                                     <li>
+//                                         <Link href="https://x.com/dexignzone" target="_blank">
+//                                             <i className="fa-brands fa-x-twitter" />
+//                                         </Link>
+//                                     </li>
+//                                     <li>
+//                                         <Link
+//                                             href="https://www.youtube.com/@dexignzone"
+//                                             target="_blank"
+//                                         >
+//                                             <i className="fa-brands fa-youtube" />
+//                                         </Link>
+//                                     </li>
+//                                 </ul>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </header>
+//         </>
+//     );
+// }
+
+// export default Header;
+
 "use client";
 
 import Link from "next/link";
@@ -7,11 +422,21 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 
-type HeaderProps = {
-    menu: HeaderItem[];
+type TopbarInfoItem = {
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    paragraph?: string;
+    image?: any;
+    link?: string;
 };
 
-function Header({ menu }: HeaderProps) {
+type HeaderProps = {
+    menu: HeaderItem[];
+    settings?: any;
+};
+
+function Header({ menu, settings }: HeaderProps) {
     const [show, setShow] = useState<number | null>(null);
     const [isActive, setIsActive] = useState<number | null>(null);
     const [scroll, setScroll] = useState(false);
@@ -48,25 +473,62 @@ function Header({ menu }: HeaderProps) {
         }
     }
 
+    const rawTopbarValue = settings?.topbar_info_clinic;
+
+    const rawTopbar =
+        typeof rawTopbarValue === "string"
+            ? JSON.parse(rawTopbarValue)
+            : rawTopbarValue;
+
+    const rawItems = Array.isArray(rawTopbar?.items) ? rawTopbar.items : [];
+
+    const topbarItems: TopbarInfoItem[] =
+        rawItems.length > 0
+            ? headerinfo.slice(0, 6).map((defaultItem: any, index: number) => {
+                const adminItem = rawItems[index];
+
+                return {
+                    title: adminItem?.title || defaultItem?.title || "",
+                    subtitle:
+                        adminItem?.description ||
+                        adminItem?.subtitle ||
+                        adminItem?.paragraph ||
+                        defaultItem?.paragraph ||
+                        "",
+                    image: defaultItem?.image,
+                    link: adminItem?.link || "#",
+                };
+            })
+            : headerinfo.slice(0, 6).map((item: any) => ({
+                title: item?.title || "",
+                subtitle: item?.paragraph || "",
+                image: item?.image,
+                link: "#",
+            }));
+
     return (
         <>
             <header className="site-header header style-1">
                 <div className="header-info-bar d-none d-xxl-block">
                     <div className="container-fluid">
                         <div className="row">
-                            {headerinfo.map((data, i) => (
+                            {topbarItems.map((data, i) => (
                                 <div className="col" key={i}>
-                                    <div className="icon-bx-wraper style-5">
-                                        <div className="icon-bx">
-                                            <span className="icon-cell">
-                                                <Image src={data.image} alt="" />
-                                            </span>
+                                    <Link href={data.link || "#"}>
+                                        <div className="icon-bx-wraper style-5">
+                                            <div className="icon-bx">
+                                                <span className="icon-cell">
+                                                    <Image src={data.image} alt={data.title || ""} />
+                                                </span>
+                                            </div>
+                                            <div className="icon-content">
+                                                <h2 className="dz-title text-primary">
+                                                    {data.title}
+                                                </h2>
+                                                <p>{data.subtitle}</p>
+                                            </div>
                                         </div>
-                                        <div className="icon-content">
-                                            <h2 className="dz-title text-primary">{data.title}</h2>
-                                            <p>{data.paragraph}</p>
-                                        </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             ))}
                         </div>

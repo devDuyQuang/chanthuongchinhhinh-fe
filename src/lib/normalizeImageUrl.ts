@@ -1,25 +1,37 @@
-export function normalizeImageUrl(url?: string | null) {
-    if (!url) return null;
+export function normalizeImageUrl(url?: string | null): string | undefined {
+    if (!url) return undefined;
+
+    const baseUrl = "https://admin.chanthuongchinhhinh.com.vn";
 
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return url;
     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
-
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
-
     if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+        return `${baseUrl}${url}`;
     }
 
     if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+        return `${baseUrl}/${url}`;
     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    // nhóm file tenant/domain-specific
+    if (
+        url.startsWith("/uploads/chanthuongchinhhinh_com_vn/") ||
+        url.startsWith("uploads/chanthuongchinhhinh_com_vn/")
+    ) {
+        const cleanUrl = url.startsWith("/") ? url : `/${url}`;
+        return `${baseUrl}/storage${cleanUrl}`;
+    }
+
+    // nhóm file uploads/settings/... dùng public trực tiếp
+    if (url.startsWith("/uploads/")) {
+        return `${baseUrl}${url}`;
+    }
+
+    if (url.startsWith("uploads/")) {
+        return `${baseUrl}/${url}`;
+    }
+
+    return `${baseUrl}/${url}`;
 }

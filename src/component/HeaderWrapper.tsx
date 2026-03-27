@@ -31,9 +31,27 @@ async function getCategories(): Promise<CategoryItem[]> {
   }
 }
 
+async function getSettings() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`,
+      { cache: "no-store" }
+    );
+
+    if (!res.ok) return null;
+
+    const result = await res.json();
+    return result.data || null;
+  } catch (error) {
+    console.error("Lỗi lấy settings:", error);
+    return null;
+  }
+}
+
 export default async function HeaderWrapper() {
   const menu = await getMenu("header");
   const categories = await getCategories();
+  const settings = await getSettings();
 
   const newMenu = menu.map((item: any) => {
     if (item.title?.trim().toLowerCase() === "bệnh lý") {
@@ -48,5 +66,5 @@ export default async function HeaderWrapper() {
     return item;
   });
 
-  return <Header menu={newMenu} />;
+  return <Header menu={newMenu} settings={settings} />;
 }

@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import { IMAGES } from "../constant/theme";
 import { worldclasslistdata } from "../constant/alldata";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 type OpenHourItem = {
     day?: string;
@@ -24,33 +28,10 @@ type WorldClassProps = {
     data?: WorldClassData;
 };
 
-function normalizeImageUrl(url?: string) {
-    if (!url) return null;
-
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
-
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
-
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
-
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
-    }
-
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-    }
-
-    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-}
-
 function WorldClass({ data }: WorldClassProps) {
+    const [mainImageError, setMainImageError] = useState(false);
+    const [smallImageError, setSmallImageError] = useState(false);
+
     const featureList =
         data?.utilities && data.utilities.length > 0
             ? data.utilities.map((item) => ({ title: item }))
@@ -65,8 +46,11 @@ function WorldClass({ data }: WorldClassProps) {
         { day: "Saturday", time: "09:30 - 07:30" },
     ];
 
-    const imageOneUrl = normalizeImageUrl(data?.image_one);
-    const imageTwoUrl = normalizeImageUrl(data?.image_two);
+    const normalizedImageOne = useMemo(() => normalizeImageUrl(data?.image_one), [data?.image_one]);
+    const normalizedImageTwo = useMemo(() => normalizeImageUrl(data?.image_two), [data?.image_two]);
+
+    const mainImageSrc = !mainImageError && normalizedImageTwo ? normalizedImageTwo : IMAGES.about1;
+    const smallImageSrc = !smallImageError && normalizedImageOne ? normalizedImageOne : IMAGES.about2;
 
     return (
         <div className="row content-wrapper style-1 align-items-center">
@@ -74,10 +58,12 @@ function WorldClass({ data }: WorldClassProps) {
                 <div className="content-media">
                     <div className="dz-media">
                         <Image
-                            src={imageTwoUrl || IMAGES.about1}
+                            src={mainImageSrc}
                             alt="main image"
                             width={600}
                             height={700}
+                            unoptimized={typeof mainImageSrc === "string"}
+                            onError={() => setMainImageError(true)}
                         />
                     </div>
 
@@ -92,10 +78,12 @@ function WorldClass({ data }: WorldClassProps) {
                             </div>
                             <div className="widget-media">
                                 <Image
-                                    src={imageOneUrl || IMAGES.about2}
+                                    src={smallImageSrc}
                                     alt="small image"
                                     width={300}
                                     height={350}
+                                    unoptimized={typeof smallImageSrc === "string"}
+                                    onError={() => setSmallImageError(true)}
                                 />
                                 <div className="call-widget">
                                     <Link href={"#"} scroll={false}>
@@ -191,7 +179,7 @@ function WorldClass({ data }: WorldClassProps) {
                             <i className="feather icon-phone-call dz-ring-effect" />
                         </div>
                         <div className="widget-content">
-                            <h6 className="title">Contact us</h6>
+                            <h6 className="title">Liên hệ với chúng tôi</h6>
                             <Link
                                 href={`tel:${(data?.phone || "+11234567890").replace(/\s+/g, "")}`}
                                 className="text-secondary"
