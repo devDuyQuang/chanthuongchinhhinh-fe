@@ -47,7 +47,7 @@ export const dynamic = "force-dynamic";
 
 import PageBanner from "@/component/PageBanner";
 import { IMAGES } from "@/constant/theme";
-import Footer from "@/layout/Footer";
+// import Footer from "@/layout/Footer";
 import ServiceBox from "@/component/ServiceBox";
 import Whychoose from "@/component/WhyChoose";
 import Pricing from "@/component/Pricing";
@@ -269,7 +269,7 @@ async function Services() {
 
                 <Frequently />
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }
