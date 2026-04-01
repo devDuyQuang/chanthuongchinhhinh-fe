@@ -16,14 +16,14 @@ function PricingTable() {
                         <Pricing />
                     </div>
                 </section>
-                <section className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden" 
+                <section className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"
                     style={{ backgroundImage: `url(${IMAGES.bg3.src})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center', backgroundSize: 'cover' }}
                 >
                     <RealPatient />
                 </section>
                 <Frequently />
             </main>
-            <Footer />            
+            {/* <Footer />             */}
         </>
     );
 }

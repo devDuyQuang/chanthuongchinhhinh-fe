@@ -67,7 +67,7 @@ export default async function DanhMucSlugPage({ params }: Props) {
                         </div>
                     </section>
                 </main>
-                <Footer />
+                {/* <Footer /> */}
             </>
         );
     }
@@ -99,7 +99,7 @@ export default async function DanhMucSlugPage({ params }: Props) {
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

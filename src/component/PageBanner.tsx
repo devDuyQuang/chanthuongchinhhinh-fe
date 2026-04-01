@@ -1,12 +1,12 @@
 import { StaticImageData } from "next/image";
 import Link from "next/link";
 
-interface Props{
-    title : string,
-    bnrimage : string | StaticImageData
+interface Props {
+    title: string,
+    bnrimage: string | StaticImageData
 }
 
-function PageBanner({ title, bnrimage } : Props) {
+function PageBanner({ title, bnrimage }: Props) {
     return (
         <>
             <div className="dz-bnr-inr dz-banner-dark overlay-secondary-middle dz-bnr-inr-md" style={{ backgroundImage: `url(${bnrimage})` }}>
@@ -15,7 +15,7 @@ function PageBanner({ title, bnrimage } : Props) {
                         <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{title}</h1>
                         <nav aria-label="breadcrumb" className="breadcrumb-row wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="0.8s">
                             <ul className="breadcrumb">
-                                <li className="breadcrumb-item"><Link href="/">Home</Link></li>
+                                <li className="breadcrumb-item"><Link href="/">Trang Chủ</Link></li>
                                 <li className="breadcrumb-item">{title}</li>
                             </ul>
                         </nav>
@@ -28,21 +28,21 @@ function PageBanner({ title, bnrimage } : Props) {
                 </div>
                 <span className="text-vertical">24/7 EMERGENCY SERVICE</span>
                 <ul className="dz-social">
-                    <li><Link href="https://www.instagram.com/dexignzone" target="_blank"> 
-                            <i className="fa-brands fa-instagram" />
-                        </Link>
+                    <li><Link href="https://www.instagram.com/dexignzone" target="_blank">
+                        <i className="fa-brands fa-instagram" />
+                    </Link>
                     </li>
-                    <li><Link href="https://www.facebook.com/dexignzone" target="_blank"> 
-                            <i className="fa-brands fa-facebook-f" />
-                        </Link>
+                    <li><Link href="https://www.facebook.com/dexignzone" target="_blank">
+                        <i className="fa-brands fa-facebook-f" />
+                    </Link>
                     </li>
-                    <li><Link href="https://x.com/dexignzone" target="_blank"> 
-                            <i className="fa-brands fa-x-twitter" />
-                        </Link>
+                    <li><Link href="https://x.com/dexignzone" target="_blank">
+                        <i className="fa-brands fa-x-twitter" />
+                    </Link>
                     </li>
-                    <li><Link href="https://www.youtube.com/@dexignzone" target="_blank"> 
-                            <i className="fa-brands fa-youtube" />
-                        </Link>
+                    <li><Link href="https://www.youtube.com/@dexignzone" target="_blank">
+                        <i className="fa-brands fa-youtube" />
+                    </Link>
                     </li>
                 </ul>
             </div>

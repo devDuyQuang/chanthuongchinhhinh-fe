@@ -156,7 +156,6 @@
 // export default Footer;
 
 
-
 "use client";
 
 import Link from "next/link";
@@ -164,8 +163,18 @@ import { IMAGES } from "../constant/theme";
 import { useRef } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
+import { SiteCommonData } from "@/types/site";
+import { mapSiteToFooterData } from "@/lib/mappers/site";
 
-function Footer() {
+type FooterProps = {
+    settings?: {
+        site?: SiteCommonData;
+    };
+};
+
+function Footer({ settings }: FooterProps) {
+    const site = settings?.site;
+    const footerData = mapSiteToFooterData(site);
     const year = new Date().getFullYear();
     const form = useRef<HTMLFormElement | null>(null);
     const { sendEmail } = useEmailService();
@@ -185,21 +194,21 @@ function Footer() {
     const footerContactCards = [
         {
             delay: "0.4s",
-            icon: <i className="feather icon-map-pin" />,
-            title: "Địa chỉ",
-            paragraph: "Phòng khám Chấn thương Chỉnh hình, Việt Nam",
+            icon: <i className={footerData?.addressIcon || "feather icon-map-pin"} />,
+            title: footerData?.addressTitle || "Địa chỉ",
+            paragraph: footerData?.address || "Phòng khám Chấn thương Chỉnh hình, Việt Nam",
         },
         {
             delay: "0.6s",
-            icon: <i className="feather icon-phone-call" />,
-            title: "Hotline",
-            paragraph: "0901 234 567",
+            icon: <i className={footerData?.phoneIcon || "feather icon-phone-call"} />,
+            title: footerData?.phoneTitle || "Hotline",
+            paragraph: footerData?.phone || "0901 234 567",
         },
         {
             delay: "0.8s",
-            icon: <i className="feather icon-mail" />,
-            title: "Email",
-            paragraph: "info@chanthuongchinhhinh.com.vn",
+            icon: <i className={footerData?.emailIcon || "feather icon-mail"} />,
+            title: footerData?.emailTitle || "Email",
+            paragraph: footerData?.email || "info@chanthuongchinhhinh.com.vn",
         },
     ];
 
@@ -253,9 +262,12 @@ function Footer() {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h3 className="title">Kết nối với chúng tôi</h3>
+                                <h3 className="title">
+                                    {footerData?.contactTitle || "Kết nối với chúng tôi"}
+                                </h3>
                                 <p className="text">
-                                    Luôn sẵn sàng tư vấn, hỗ trợ và đồng hành cùng bạn trong quá trình thăm khám và điều trị.
+                                    {footerData?.contactDescription ||
+                                        "Luôn sẵn sàng tư vấn, hỗ trợ và đồng hành cùng bạn trong quá trình thăm khám và điều trị."}
                                 </p>
                             </div>
 
@@ -293,14 +305,16 @@ function Footer() {
                             <div className="widget widget_about me-2">
                                 <div className="footer-logo logo-white">
                                     <Link href="/">
-                                        <Image src={IMAGES.logo} alt="Clinic Master" />
+                                        <Image src={IMAGES.logo} alt={footerData?.company || "ClinicMaster"} />
                                     </Link>
                                 </div>
 
                                 <p>
-                                    <span className="text-primary">ClinicMaster</span> là hệ thống phòng khám chuyên sâu về
-                                    chấn thương chỉnh hình, cơ xương khớp và phục hồi chức năng. Chúng tôi hướng đến dịch vụ
-                                    thăm khám rõ ràng, tận tâm và phù hợp với từng bệnh nhân.
+                                    <span className="text-primary">
+                                        {footerData?.company || "ClinicMaster"}
+                                    </span>{" "}
+                                    {footerData?.description ||
+                                        "là hệ thống phòng khám chuyên sâu về chấn thương chỉnh hình, cơ xương khớp và phục hồi chức năng. Chúng tôi hướng đến dịch vụ thăm khám rõ ràng, tận tâm và phù hợp với từng bệnh nhân."}
                                 </p>
                             </div>
                         </div>
@@ -339,9 +353,12 @@ function Footer() {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title">Nhận thông tin mới từ chúng tôi</h2>
+                                <h2 className="title">
+                                    {footerData?.registerTitle || "Nhận thông tin mới từ chúng tôi"}
+                                </h2>
                                 <p>
-                                    Đăng ký email để nhận các cập nhật mới nhất về lịch khám, dịch vụ và kiến thức sức khỏe hữu ích.
+                                    {footerData?.registerDescription ||
+                                        "Đăng ký email để nhận các cập nhật mới nhất về lịch khám, dịch vụ và kiến thức sức khỏe hữu ích."}
                                 </p>
                             </div>
 
@@ -359,7 +376,9 @@ function Footer() {
                                                 required
                                                 type="email"
                                                 className="form-control"
-                                                placeholder="Nhập địa chỉ email của bạn"
+                                                placeholder={
+                                                    footerData?.emailPlaceholder || "Nhập địa chỉ email của bạn"
+                                                }
                                             />
                                             <div className="input-group-addon">
                                                 <button
@@ -389,11 +408,17 @@ function Footer() {
                         <div className="row">
                             <div className="col-lg-6 col-md-12 text-start">
                                 <p className="copyright-text">
-                                    © <span className="current-year">{year}</span>{" "}
-                                    <Link href="/" target="_self">
-                                        ClinicMaster
-                                    </Link>
-                                    . Bảo lưu mọi quyền.
+                                    {footerData?.copyright ? (
+                                        footerData.copyright
+                                    ) : (
+                                        <>
+                                            © <span className="current-year">{year}</span>{" "}
+                                            <Link href="/" target="_self">
+                                                {footerData?.company || "ClinicMaster"}
+                                            </Link>
+                                            . Bảo lưu mọi quyền.
+                                        </>
+                                    )}
                                 </p>
                             </div>
 
@@ -424,11 +449,17 @@ function Footer() {
                         <Image src={IMAGES.smallavatar6} alt="Hỗ trợ tư vấn" />
                     </div>
                     <div className="widget-content">
-                        <h6 className="title">Bạn cần hỗ trợ?</h6>
-                        <Link href="mailto:info@chanthuongchinhhinh.com.vn">
-                            info@chanthuongchinhhinh.com.vn
+                        <h6 className="title">{footerData?.contactTitle || "Bạn cần hỗ trợ?"}</h6>
+                        <Link
+                            href={`mailto:${footerData?.email || "info@chanthuongchinhhinh.com.vn"}`}
+                        >
+                            {footerData?.email || "info@chanthuongchinhhinh.com.vn"}
                         </Link>
-                        <span className="text">Đội ngũ tư vấn ClinicMaster</span>
+                        <span className="text">
+                            {footerData?.company
+                                ? `Đội ngũ tư vấn ${footerData.company}`
+                                : "Đội ngũ tư vấn ClinicMaster"}
+                        </span>
                     </div>
                 </div>
             </div>

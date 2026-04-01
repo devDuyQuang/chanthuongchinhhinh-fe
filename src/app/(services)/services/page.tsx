@@ -53,7 +53,7 @@ import Whychoose from "@/component/WhyChoose";
 import Pricing from "@/component/Pricing";
 import RealPatient from "@/component/RealPatient";
 import Frequently from "@/component/Frequently";
-
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 type ServicePlanItem = {
     name?: string;
     price?: string;
@@ -82,6 +82,7 @@ type SettingResponse = {
             title?: string;
             banner_hero?: string;
         };
+        services_home_clinic?: ServicesHomeClinicData;
         service_plans_clinic?: {
             title?: string;
             description?: string;
@@ -110,7 +111,20 @@ type CategoryResponse = {
         }[];
     };
 };
+type ServiceHomeItem = {
+    title?: string;
+    description?: string | null;
+    doctor_text?: string;
+    link?: string;
+    image?: string | null;
+};
 
+type ServicesHomeClinicData = {
+    title?: string;
+    subtitle?: string;
+    view_all_link?: string;
+    items?: ServiceHomeItem[];
+};
 async function getSetting(): Promise<SettingResponse | null> {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
@@ -144,31 +158,31 @@ async function getServiceCategoryPosts(): Promise<CategoryPostItem[]> {
     }
 }
 
-function normalizeImageUrl(url?: string) {
-    if (!url) return null;
+// function normalizeImageUrl(url?: string) {
+//     if (!url) return null;
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return url;
+//     }
 
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
-    }
+//     if (url.startsWith("/uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+//     }
 
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-    }
+//     if (url.startsWith("uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+//     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-}
+//     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+// }
 
 async function Services() {
     const [setting, servicePosts] = await Promise.all([
@@ -180,6 +194,7 @@ async function Services() {
     const servicePlans = setting?.data?.service_plans_clinic;
 
     const bannerUrl = normalizeImageUrl(serviceHero?.banner_hero);
+    const servicesHome = setting?.data?.services_home_clinic;
 
     return (
         <>
@@ -194,7 +209,11 @@ async function Services() {
                     style={{ backgroundImage: `url(${IMAGES.bg5png.src})` }}
                 >
                     <div className="container">
-                        <ServiceBox posts={servicePosts} useFallback={true} />
+                        {/* <ServiceBox posts={servicePosts} useFallback={true} /> */}
+                        <ServiceBox
+                            data={servicesHome}
+                            posts={servicePosts}
+                        />
                     </div>
                 </section>
 

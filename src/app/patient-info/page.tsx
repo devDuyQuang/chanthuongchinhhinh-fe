@@ -60,7 +60,7 @@ function PatientInfo() {
                 </section>
                 <StayInformed />
             </main>
-            <Footer />            
+            {/* <Footer />             */}
         </>
     );
 }

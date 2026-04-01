@@ -1,6 +1,6 @@
 import PageBanner from "@/component/PageBanner";
 import { IMAGES } from "@/constant/theme";
-import Footer from "@/layout/Footer";
+// import Footer from "@/layout/Footer";
 import Image from "next/image";
 
 type PostDetail = {
@@ -89,7 +89,7 @@ async function ServiceDetail({
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }
