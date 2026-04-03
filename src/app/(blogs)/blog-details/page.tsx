@@ -7,7 +7,7 @@ import Image from "next/image";
 import CommentForm from "./_components/CommentForm";
 
 function BlogDetail() {
-   
+
     return (
         <>
             <main className="page-content">
@@ -146,7 +146,7 @@ function BlogDetail() {
                     </div>
                 </section>
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

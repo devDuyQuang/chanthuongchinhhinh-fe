@@ -14,10 +14,10 @@ function BlogGrid() {
     const handleMoreItem = (): void => {
         setRefresh(true);
         setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * addData.length);
-        const randomItem = addData[randomIndex];
-        setAddData(prevData => [...prevData, randomItem]);
-        setRefresh(false);
+            const randomIndex = Math.floor(Math.random() * addData.length);
+            const randomItem = addData[randomIndex];
+            setAddData(prevData => [...prevData, randomItem]);
+            setRefresh(false);
         }, 1000);
     };
     return (
@@ -36,8 +36,8 @@ function BlogGrid() {
                                                     <div className="post-date">12 Jan 2025</div>
                                                     <div className="bottom-info">
                                                         <h3 className="dz-title"> <Link href="/blog-details">{item.title}</Link> </h3>
-                                                        <Link href="/blog-details" className="btn btn-square btn-white rounded-circle" 
-                                                            dangerouslySetInnerHTML={{__html : SVGICONS.uparrow2}}>  
+                                                        <Link href="/blog-details" className="btn btn-square btn-white rounded-circle"
+                                                            dangerouslySetInnerHTML={{ __html: SVGICONS.uparrow2 }}>
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -45,9 +45,9 @@ function BlogGrid() {
                                         </div>
                                     ))}
                                     <div className="text-center m-t30 m-lg-t0 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="0.5s"
-                                        onClick={()=>handleMoreItem()}
+                                        onClick={() => handleMoreItem()}
                                     >
-                                        <Link href={"#"} scroll={false} className={`btn btn-lg btn-icon btn-primary ${refresh ? "dz-load-more": ""}`}>
+                                        <Link href={"#"} scroll={false} className={`btn btn-lg btn-icon btn-primary ${refresh ? "dz-load-more" : ""}`}>
                                             Load More <span className="right-icon"><i className="feather icon-refresh-ccw" /></span>
                                         </Link>
                                     </div>
@@ -60,7 +60,7 @@ function BlogGrid() {
                     </div>
                 </section>
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table';
 import AppointForm from "./_componenets/AppointForm";
 import Image from "next/image";
 
-function TeamDetail() {   
+function TeamDetail() {
     return (
         <>
             <main className="page-content">
@@ -133,7 +133,7 @@ function TeamDetail() {
                                         <div className="title-head">
                                             <h2 className="form-title m-b0">Make An <span>Appointment</span> Apply For Treatments</h2>
                                         </div>
-                                       <AppointForm />
+                                        <AppointForm />
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ function TeamDetail() {
                     </div>
                 </section>
             </main>
-            <Footer />            
+            {/* <Footer />*/}
         </>
     );
 }

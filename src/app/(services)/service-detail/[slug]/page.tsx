@@ -91,7 +91,7 @@ async function ServiceDetail({
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

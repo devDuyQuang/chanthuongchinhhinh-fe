@@ -148,7 +148,7 @@ export default async function SlugPage({
                     </section>
                 </main>
 
-                <Footer />
+                {/* <Footer /> */}
             </>
         );
     }
@@ -207,7 +207,7 @@ export default async function SlugPage({
                 </section>
             </main>
 
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

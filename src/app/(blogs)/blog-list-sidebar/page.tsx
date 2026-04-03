@@ -15,10 +15,10 @@ function BlogListSidebar() {
     const handleMoreItem = (): void => {
         setRefresh(true);
         setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * addData.length);
-        const randomItem = addData[randomIndex];
-        setAddData(prevData => [...prevData, randomItem]);
-        setRefresh(false);
+            const randomIndex = Math.floor(Math.random() * addData.length);
+            const randomItem = addData[randomIndex];
+            setAddData(prevData => [...prevData, randomItem]);
+            setRefresh(false);
         }, 1000);
     };
     return (
@@ -52,8 +52,8 @@ function BlogListSidebar() {
                                         </div>
                                     ))}
                                     <div className="text-center m-t30 m-lg-t0 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="0.5s">
-                                        <Link href={"#"} scroll={false} className={`btn btn-lg btn-icon btn-primary ${refresh ? "dz-load-more": ""}`}
-                                            onClick={()=>handleMoreItem()}
+                                        <Link href={"#"} scroll={false} className={`btn btn-lg btn-icon btn-primary ${refresh ? "dz-load-more" : ""}`}
+                                            onClick={() => handleMoreItem()}
                                         >
                                             Load More <span className="right-icon"><i className="feather icon-refresh-ccw" /></span>
                                         </Link>
@@ -67,7 +67,7 @@ function BlogListSidebar() {
                     </div>
                 </section>
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

@@ -122,7 +122,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                 </h3>
 
                                                 <div className="m-b15">
-                                                    <h4 className="m-b5 font-16">Address:</h4>
+                                                    <h4 className="m-b5 font-16">Địa chỉ:</h4>
                                                     <p>
                                                         {item.address ||
                                                             "123 Health Way, Suite 456 Goodland, 78910 United States"}
@@ -130,7 +130,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                 </div>
 
                                                 <div className="m-b15">
-                                                    <h4 className="m-b5 font-16">Service Time:</h4>
+                                                    <h4 className="m-b5 font-16">thời gian phục vụ:</h4>
                                                     <p style={{ whiteSpace: "pre-line" }}>
                                                         {item.time || "Mon -Sat: 7:00 - 17:00"}
                                                     </p>

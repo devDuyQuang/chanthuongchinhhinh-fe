@@ -421,6 +421,7 @@ import { headerinfo, HeaderItem } from "../constant/alldata";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
+import { mapSiteToSidebarData } from "@/lib/mappers/site";
 
 type TopbarInfoItem = {
     title?: string;
@@ -437,6 +438,10 @@ type HeaderProps = {
 };
 
 function Header({ menu, settings }: HeaderProps) {
+    const site = settings?.site;
+    const sidebarData = mapSiteToSidebarData(site);
+
+
     const [show, setShow] = useState<number | null>(null);
     const [isActive, setIsActive] = useState<number | null>(null);
     const [scroll, setScroll] = useState(false);
@@ -764,27 +769,28 @@ function Header({ menu, settings }: HeaderProps) {
                                 </Link>
                             </div>
                             <p>
-                                ClinicMaster is a modern and responsive Bootstrap HTML template
-                                designed for health and medical websites. Ideal for clinics,
-                                hospitals, and healthcare professionals seeking a professional online
-                                presence with an elegant and user-friendly design.
+                                {sidebarData?.description || "Nội dung mô tả chưa cập nhật"}
                             </p>
                         </div>
 
                         <div className="widget">
                             <div className="widget-title">
-                                <h4 className="title">Contact Us</h4>
+                                <h4 className="title">
+                                    {sidebarData?.contactTitle || "Liên hệ"}
+                                </h4>
                             </div>
                             <ul className="list-check">
-                                <li>785 15h Street, Office 478 Berlin, De 81566</li>
+                                <li>{sidebarData?.address || "Địa chỉ chưa cập nhật"}</li>
+
                                 <li>
-                                    <Link href="mailto:email@domain.com" className="text-body">
-                                        email@domain.com
+                                    <Link href={`mailto:${sidebarData?.email || "Email chưa cập nhật"}`} className="text-body">
+                                        {sidebarData?.email || "Email chưa cập nhật"}
                                     </Link>
                                 </li>
+
                                 <li>
-                                    <Link href="tel:+11234567890" className="text-body">
-                                        +1 123 456 7890
+                                    <Link href={`tel:${sidebarData?.phone || "Số điện thoại chưa cập nhật"}`} className="text-body">
+                                        {sidebarData?.phone || "Số điện thoại chưa cập nhật"}
                                     </Link>
                                 </li>
                             </ul>
@@ -792,7 +798,9 @@ function Header({ menu, settings }: HeaderProps) {
 
                         <div className="widget">
                             <div className="widget-title">
-                                <h4 className="title">Newsletter</h4>
+                                <h4 className="title">
+                                    {sidebarData?.newsletterTitle || "Nhận bản tin"}
+                                </h4>
                             </div>
                             <form className="dzSubscribe style-2" ref={form} onSubmit={handleSubmit}>
                                 <div className="dzSubscribeMsg"></div>
@@ -803,7 +811,7 @@ function Header({ menu, settings }: HeaderProps) {
                                             required
                                             type="email"
                                             className="form-control"
-                                            placeholder="Your Email Address"
+                                            placeholder={sidebarData?.emailPlaceholder || "Nhập email"}
                                         />
                                         <div className="input-group-addon">
                                             <button
@@ -822,7 +830,9 @@ function Header({ menu, settings }: HeaderProps) {
 
                         <div className="widget">
                             <div className="widget-title">
-                                <h4 className="title">Follow Us</h4>
+                                <h4 className="title">
+                                    {sidebarData?.followTitle || "Mạng xã hội"}
+                                </h4>
                             </div>
                             <div className="dz-social-icon style-1">
                                 <ul>

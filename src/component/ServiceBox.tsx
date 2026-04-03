@@ -224,6 +224,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { serviceboxdata } from "../constant/alldata";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 type ServiceItem = {
     title?: string;
@@ -251,31 +252,31 @@ type ServiceBoxProps = {
     useFallback?: boolean;
 };
 
-function normalizeImageUrl(url?: string | null) {
-    if (!url) return null;
+// function normalizeImageUrl(url?: string | null) {
+//     if (!url) return null;
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-        return url;
-    }
+//     if (url.startsWith("http://") || url.startsWith("https://")) {
+//         return url;
+//     }
 
-    if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-    }
+//     if (url.startsWith("/storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//     }
 
-    if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-    }
+//     if (url.startsWith("storage/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     }
 
-    if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
-    }
+//     if (url.startsWith("/uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+//     }
 
-    if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-    }
+//     if (url.startsWith("uploads/")) {
+//         return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+//     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-}
+//     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+// }
 
 function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
     const [active, setActive] = useState(1);
@@ -283,43 +284,55 @@ function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
     const hasPosts = !!posts && posts.length > 0;
     const hasSettingItems = !!data?.items && data.items.length > 0;
 
-    const services = hasPosts
-        ? posts!.map((item, index) => ({
-            id: item.id || index + 1,
+    const services = hasSettingItems
+        ? data!.items!.map((item, index) => ({
+            id: index + 1,
             delay: `${0.1 * (index + 1)}s`,
-            title: item.name || "Dịch vụ",
+            title: item.title || "Dịch vụ",
             description: item.description || "Nội dung dịch vụ đang được cập nhật.",
-            subText: "Xem chi tiết",
-            link: item.slug ? `/${item.slug}` : "/dich-vu",
+            subText: item.doctor_text || "Xem chi tiết",
+            link: item.link || "#",
             image: normalizeImageUrl(item.image),
             svg1: serviceboxdata[index % serviceboxdata.length]?.svg1 || serviceboxdata[0].svg1,
             svg2: serviceboxdata[index % serviceboxdata.length]?.svg2 || serviceboxdata[0].svg2,
         }))
-        : hasSettingItems
-            ? data!.items!.map((item, index) => ({
-                id: index + 1,
+        : hasPosts
+            ? posts!.map((item, index) => ({
+                id: item.id || index + 1,
                 delay: `${0.1 * (index + 1)}s`,
-                title: item.title || "Dịch vụ",
+                title: item.name || "Dịch vụ",
                 description: item.description || "Nội dung dịch vụ đang được cập nhật.",
-                subText: item.doctor_text || "Xem chi tiết",
-                link: item.link || "#",
+                subText: "Xem chi tiết",
+                link: item.slug ? `/${item.slug}` : "/dich-vu",
                 image: normalizeImageUrl(item.image),
                 svg1: serviceboxdata[index % serviceboxdata.length]?.svg1 || serviceboxdata[0].svg1,
                 svg2: serviceboxdata[index % serviceboxdata.length]?.svg2 || serviceboxdata[0].svg2,
             }))
-            : useFallback
-                ? serviceboxdata.map((item) => ({
-                    id: item.id,
-                    delay: item.delay,
-                    title: item.title,
-                    description: "Nội dung dịch vụ đang được cập nhật.",
-                    subText: "Xem chi tiết",
-                    link: "/service-detail",
-                    image: null,
-                    svg1: item.svg1,
-                    svg2: item.svg2,
+            : hasSettingItems
+                ? data!.items!.map((item, index) => ({
+                    id: index + 1,
+                    delay: `${0.1 * (index + 1)}s`,
+                    title: item.title || "Dịch vụ",
+                    description: item.description || "Nội dung dịch vụ đang được cập nhật.",
+                    subText: item.doctor_text || "Xem chi tiết",
+                    link: item.link || "#",
+                    image: normalizeImageUrl(item.image),
+                    svg1: serviceboxdata[index % serviceboxdata.length]?.svg1 || serviceboxdata[0].svg1,
+                    svg2: serviceboxdata[index % serviceboxdata.length]?.svg2 || serviceboxdata[0].svg2,
                 }))
-                : [];
+                : useFallback
+                    ? serviceboxdata.map((item) => ({
+                        id: item.id,
+                        delay: item.delay,
+                        title: item.title,
+                        description: "Nội dung dịch vụ đang được cập nhật.",
+                        subText: "Xem chi tiết",
+                        link: "/service-detail",
+                        image: null,
+                        svg1: item.svg1,
+                        svg2: item.svg2,
+                    }))
+                    : [];
 
     if (!services.length) {
         return (

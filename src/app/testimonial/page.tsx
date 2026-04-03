@@ -67,7 +67,7 @@ function Testimonial() {
                                     autoplay={{
                                         delay: 3000,
                                     }}
-                                    modules={[EffectFade, Thumbs,Autoplay]}
+                                    modules={[EffectFade, Thumbs, Autoplay]}
                                     thumbs={{ swiper: thumbsSwiper }}
                                 >
                                     {testiswipeerdata2.map((item, i) => (
@@ -102,7 +102,7 @@ function Testimonial() {
                                         }}
                                         loop={true}
                                         modules={[Navigation, Autoplay, Thumbs]}
-                                        watchSlidesProgress                                       
+                                        watchSlidesProgress
                                         onSwiper={setThumbsSwiper}
                                     >
                                         {testiswipeerdata2.map((item, i) => (
@@ -132,9 +132,9 @@ function Testimonial() {
                                         ))}
                                     </Swiper>
                                     <div className="pagination-align">
-                                        <div className="swiper4-button-prev btn-prev" dangerouslySetInnerHTML={{__html : SVGICONS.prev}} role="button">                                            
+                                        <div className="swiper4-button-prev btn-prev" dangerouslySetInnerHTML={{ __html: SVGICONS.prev }} role="button">
                                         </div>
-                                        <div className="swiper4-button-next btn-next" dangerouslySetInnerHTML={{__html : SVGICONS.next}} role="button">
+                                        <div className="swiper4-button-next btn-next" dangerouslySetInnerHTML={{ __html: SVGICONS.next }} role="button">
                                         </div>
                                     </div>
                                 </div>
@@ -147,9 +147,9 @@ function Testimonial() {
                 </section>
                 <ClientSwiper2 />
             </main>
-            <Footer />                       
-            <Modal show={show} onHide={handleClose} centered  size={"lg"} className="video-model">                           
-                <video controls style={{width:"100%"}} autoPlay>
+            {/* <Footer />                        */}
+            <Modal show={show} onHide={handleClose} centered size={"lg"} className="video-model">
+                <video controls style={{ width: "100%" }} autoPlay>
                     <source src="/assets/images/demo.mp4" type="video/mp4" />
                 </video>
             </Modal>

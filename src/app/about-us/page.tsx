@@ -3,11 +3,11 @@ import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 import AboutUs from "./_components/AboutUs"
 
-const AboutUsPage = () =>{
-    return(
+const AboutUsPage = () => {
+    return (
         <Fragment>
             <AboutUs />
-            <Footer />
+            {/* <Footer /> */}
         </Fragment>
     )
 }

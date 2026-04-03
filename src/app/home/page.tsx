@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/constant/theme";
-import Footer from "@/layout/Footer";
+// import Footer from "@/layout/Footer";
 import DiagnosisReport from "./_components/DiagnosisReport";
 import WorldClass from "@/component/WorldClass";
 import Counter from "@/component/Counter";
@@ -18,6 +18,7 @@ import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
 import StayInformed from "@/component/StayInformed";
 import MapWraper from "@/component/MapWraper";
+import { SiteCommonData } from "@/types/site";
 
 type SettingResponse = {
     success: boolean;
@@ -231,7 +232,7 @@ type SettingResponse = {
             };
             map_iframe?: string;
         };
-
+        site?: SiteCommonData;
     };
 };
 
@@ -660,7 +661,7 @@ async function HomePage() {
                 <StayInformed />
                 <MapWraper data={contact} />
             </main>
-            <Footer />
+            {/* <Footer settings={{ site: setting?.data?.site }} /> */}
         </>
     );
 }
