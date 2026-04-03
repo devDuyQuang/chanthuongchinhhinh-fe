@@ -54,6 +54,7 @@ import Pricing from "@/component/Pricing";
 import RealPatient from "@/component/RealPatient";
 import Frequently from "@/component/Frequently";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import WhyChoose from "@/component/WhyChoose";
 type ServicePlanItem = {
     name?: string;
     price?: string;
@@ -89,8 +90,19 @@ type SettingResponse = {
             features_pool?: string[];
             items?: ServicePlanItem[];
         };
+        why_choose_us_home_clinic?: {
+            title?: string;
+            experience_number?: string;
+            experience_label?: string;
+            image?: string;
+            items?: {
+                title?: string;
+                description?: string;
+            }[];
+        };
     };
 };
+
 
 type CategoryResponse = {
     success: boolean;
@@ -192,7 +204,7 @@ async function Services() {
 
     const serviceHero = setting?.data?.service_hero_clinic;
     const servicePlans = setting?.data?.service_plans_clinic;
-
+    const whyChoose = setting?.data?.why_choose_us_home_clinic;
     const bannerUrl = normalizeImageUrl(serviceHero?.banner_hero);
     const servicesHome = setting?.data?.services_home_clinic;
 
@@ -227,7 +239,7 @@ async function Services() {
                     }}
                 >
                     <div className="container">
-                        <Whychoose />
+                        <WhyChoose data={whyChoose} />
                     </div>
                 </section>
 
