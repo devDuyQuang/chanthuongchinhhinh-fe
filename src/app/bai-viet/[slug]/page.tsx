@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Sidebar from "@/component/Sidebar";
 import { IMAGES } from "@/constant/theme";
 import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import BlogSidebar from "@/component/BlogSidebar";
 
 type PostDetail = {
   id: number;
@@ -18,6 +18,33 @@ type ApiResponse = {
   success: boolean;
   message: string;
   data?: PostDetail;
+};
+
+type CategoryListItem = {
+  name: string;
+  slug: string;
+};
+
+type CategoryListResponse = {
+  success: boolean;
+  message: string;
+  data?: CategoryListItem[];
+};
+
+type PostListItem = {
+  id?: number;
+  name?: string;
+  slug?: string;
+  image?: string | null;
+  created_at?: string;
+};
+
+type PostListResponse = {
+  success: boolean;
+  message: string;
+  data?: {
+    data?: PostListItem[];
+  };
 };
 
 async function getPost(slug: string): Promise<PostDetail | null> {
@@ -37,15 +64,68 @@ async function getPost(slug: string): Promise<PostDetail | null> {
   }
 }
 
+async function getCategories() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const result: CategoryListResponse = await res.json();
+    const categories = result.data || [];
+
+    const postCategorySlugs = [
+      "kien-thuc",
+      "kien-thuc-xuong-khop",
+      "tin-tuc-y-khoa",
+    ];
+
+    return categories
+      .filter((item) => postCategorySlugs.includes(item.slug))
+      .map((item) => ({
+        name: item.name,
+        slug: item.slug,
+        count: 0,
+      }));
+  } catch (error) {
+    console.error("Lỗi lấy category list:", error);
+    return [];
+  }
+}
+
+async function getLatestPosts() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=3&sort_name=id&sort_by=desc&name=`,
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const result: PostListResponse = await res.json();
+    return result.data?.data || [];
+  } catch (error) {
+    console.error("Lỗi lấy latest posts:", error);
+    return [];
+  }
+}
+
 type Props = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
-export default async function DanhMucSlugPage({ params }: Props) {
-  const { slug } = await params;
-  const post = await getPost(slug);
+export default async function BaiVietDetailPage({ params }: Props) {
+  const { slug } = params;
+
+  const [post, categories, latestPosts] = await Promise.all([
+    getPost(slug),
+    getCategories(),
+    getLatestPosts(),
+  ]);
 
   if (!post) {
     return (
@@ -167,7 +247,7 @@ export default async function DanhMucSlugPage({ params }: Props) {
             </div>
 
             <div className="col-xl-3">
-              <Sidebar />
+              <BlogSidebar categories={categories} latestPosts={latestPosts} />
             </div>
           </div>
         </div>
