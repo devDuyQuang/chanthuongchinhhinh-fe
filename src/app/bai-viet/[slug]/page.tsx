@@ -113,13 +113,13 @@ async function getLatestPosts() {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function BaiVietDetailPage({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const [post, categories, latestPosts] = await Promise.all([
     getPost(slug),
