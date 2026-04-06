@@ -42,7 +42,7 @@ export default function BlogSidebar({
         data-wow-duration="0.5s"
       >
         <div className="widget-title">
-          <h4 className="title">Search</h4>
+          <h4 className="title">Tìm Kiếm</h4>
         </div>
         <div className="search-bx">
           <form role="search">
@@ -69,7 +69,7 @@ export default function BlogSidebar({
         data-wow-duration="0.5s"
       >
         <div className="widget-title">
-          <h4 className="title">Category</h4>
+          <h4 className="title">Danh Mục</h4>
         </div>
         <ul>
           {categories.map((item, i) => (
@@ -87,7 +87,7 @@ export default function BlogSidebar({
         data-wow-duration="0.5s"
       >
         <div className="widget-title">
-          <h4 className="title">Latest Post</h4>
+          <h4 className="title">Bài Mới Nhất</h4>
         </div>
 
         <div className="widget-post-bx">
