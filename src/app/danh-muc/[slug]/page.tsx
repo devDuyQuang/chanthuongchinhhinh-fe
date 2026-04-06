@@ -107,7 +107,7 @@
 import Link from "next/link";
 import PageBanner from "@/component/PageBanner";
 import { IMAGES, SVGICONS } from "@/constant/theme";
-import Sidebar from "@/component/Sidebar";
+import BlogSidebar from "@/component/BlogSidebar";
 
 type CategoryPostItem = {
   id?: number;
@@ -132,6 +132,33 @@ type CategoryApiResponse = {
   success: boolean;
   message: string;
   data?: CategoryDetail;
+};
+
+type CategoryListItem = {
+  name: string;
+  slug: string;
+};
+
+type CategoryListResponse = {
+  success: boolean;
+  message: string;
+  data?: CategoryListItem[];
+};
+
+type PostListItem = {
+  id?: number;
+  name?: string;
+  slug?: string;
+  image?: string | null;
+  created_at?: string;
+};
+
+type PostListResponse = {
+  success: boolean;
+  message: string;
+  data?: {
+    data?: PostListItem[];
+  };
 };
 
 function normalizeImageUrl(url?: string | null) {
@@ -159,15 +186,68 @@ async function getCategory(slug: string): Promise<CategoryDetail | null> {
   }
 }
 
+async function getCategories() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const result: CategoryListResponse = await res.json();
+    const categories = result.data || [];
+
+    const postCategorySlugs = [
+      "kien-thuc",
+      "kien-thuc-xuong-khop",
+      "tin-tuc-y-khoa",
+    ];
+
+    return categories
+      .filter((item) => postCategorySlugs.includes(item.slug))
+      .map((item) => ({
+        name: item.name,
+        slug: item.slug,
+        count: 0,
+      }));
+  } catch (error) {
+    console.error("Lỗi lấy category list:", error);
+    return [];
+  }
+}
+
+async function getLatestPosts() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=3&sort_name=id&sort_by=desc&name=`,
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const result: PostListResponse = await res.json();
+    return result.data?.data || [];
+  } catch (error) {
+    console.error("Lỗi lấy latest posts:", error);
+    return [];
+  }
+}
+
 type Props = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
 export default async function DanhMucSlugPage({ params }: Props) {
-  const { slug } = await params;
-  const category = await getCategory(slug);
+  const { slug } = params;
+
+  const [category, categories, latestPosts] = await Promise.all([
+    getCategory(slug),
+    getCategories(),
+    getLatestPosts(),
+  ]);
 
   if (!category) {
     return (
@@ -179,6 +259,11 @@ export default async function DanhMucSlugPage({ params }: Props) {
   }
 
   const posts = category.posts?.data || [];
+
+  const categoriesWithCount = categories.map((cat) => ({
+    ...cat,
+    count: cat.slug === slug ? posts.length : 0,
+  }));
 
   return (
     <main className="page-content">
@@ -205,22 +290,9 @@ export default async function DanhMucSlugPage({ params }: Props) {
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
-                        minHeight: "420px",
                       }}
                     >
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          background:
-                            "linear-gradient(to top, rgba(20,35,70,0.75), rgba(20,35,70,0.15))",
-                          borderRadius: "inherit",
-                        }}
-                      />
-                      <div
-                        className="dz-info"
-                        style={{ position: "relative", zIndex: 2 }}
-                      >
+                      <div className="dz-info">
                         <div className="post-date">
                           {item.created_at
                             ? new Date(item.created_at).toLocaleDateString(
@@ -256,7 +328,10 @@ export default async function DanhMucSlugPage({ params }: Props) {
             </div>
 
             <div className="col-xl-3 col-lg-12">
-              <Sidebar />
+              <BlogSidebar
+                categories={categoriesWithCount}
+                latestPosts={latestPosts}
+              />
             </div>
           </div>
         </div>
