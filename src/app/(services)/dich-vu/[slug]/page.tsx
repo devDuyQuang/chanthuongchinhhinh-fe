@@ -191,9 +191,9 @@ async function getPost(slug: string): Promise<PostDetail | null> {
 export default async function ServiceDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const [post, setting] = await Promise.all([getPost(slug), getSetting()]);
 
   if (!post) {

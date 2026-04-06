@@ -141,6 +141,7 @@ function normalizeImageUrl(url?: string | null) {
 
   return `https://admin.chanthuongchinhhinh.com.vn/${url.replace(/^\/+/, "")}`;
 }
+
 async function getCategory(slug: string): Promise<CategoryDetail | null> {
   try {
     const res = await fetch(
@@ -159,13 +160,13 @@ async function getCategory(slug: string): Promise<CategoryDetail | null> {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export default async function DanhMucSlugPage({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   const category = await getCategory(slug);
 
   if (!category) {
@@ -181,17 +182,14 @@ export default async function DanhMucSlugPage({ params }: Props) {
 
   return (
     <main className="page-content">
-      {/* Banner */}
       <PageBanner
         title={category.name || "Danh mục"}
         bnrimage={IMAGES.bnr2.src}
       />
 
-      {/* Content */}
       <section className="content-inner">
         <div className="container">
           <div className="row">
-            {/* LEFT: BLOG GRID */}
             <div className="col-xl-9 col-lg-12 m-b30 pe-xl-5">
               <div className="row">
                 {posts.map((item, i) => (
@@ -251,14 +249,12 @@ export default async function DanhMucSlugPage({ params }: Props) {
                   </div>
                 ))}
 
-                {/* EMPTY */}
                 {posts.length === 0 && (
                   <p>Chưa có bài viết trong danh mục này.</p>
                 )}
               </div>
             </div>
 
-            {/* RIGHT: SIDEBAR */}
             <div className="col-xl-3 col-lg-12">
               <Sidebar />
             </div>

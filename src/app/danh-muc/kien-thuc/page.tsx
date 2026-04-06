@@ -2,5 +2,5 @@
 import DanhMucSlugPage from "../[slug]/page";
 
 export default function KienThucPage() {
-  return <DanhMucSlugPage params={{ slug: "kien-thuc" }} />;
+  return <DanhMucSlugPage params={Promise.resolve({ slug: "kien-thuc" })} />;
 }

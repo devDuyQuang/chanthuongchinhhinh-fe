@@ -38,13 +38,13 @@ async function getPost(slug: string): Promise<PostDetail | null> {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-export default async function BaiVietDetailPage({ params }: Props) {
-  const { slug } = params;
+export default async function DanhMucSlugPage({ params }: Props) {
+  const { slug } = await params;
   const post = await getPost(slug);
 
   if (!post) {
