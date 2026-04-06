@@ -20,6 +20,7 @@ import StayInformed from "@/component/StayInformed";
 import MapWraper from "@/component/MapWraper";
 import { SiteCommonData } from "@/types/site";
 
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 type SettingResponse = {
     success: boolean;
     message: string;
@@ -266,35 +267,44 @@ async function HomePage() {
     const testimonials = setting?.data?.testimonials_home_clinic;
     const howItWork = setting?.data?.how_it_work_home_clinic;
     const doctor = setting?.data?.doctor_home_clinic;
-    const faq = setting?.data?.faq_home_clinic;
+    // const faq = setting?.data?.faq_home_clinic;
+    const rawFaq = setting?.data?.faq_home_clinic;
+
+    const faq = rawFaq
+        ? {
+            ...rawFaq,
+            image: normalizeImageUrl(rawFaq.image),
+        }
+        : undefined;
     const awards = setting?.data?.awards_home;
     const contact = setting?.data?.contact_home;
 
-    function normalizeImageUrl(url?: string) {
-        if (!url) return null;
 
-        if (url.startsWith("http://") || url.startsWith("https://")) {
-            return url;
-        }
+    // function normalizeImageUrl(url?: string) {
+    //     if (!url) return null;
 
-        if (url.startsWith("/storage/")) {
-            return `https://admin.chanthuongchinhhinh.com.vn${url}`;
-        }
+    //     if (url.startsWith("http://") || url.startsWith("https://")) {
+    //         return url;
+    //     }
 
-        if (url.startsWith("storage/")) {
-            return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
-        }
+    //     if (url.startsWith("/storage/")) {
+    //         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+    //     }
 
-        if (url.startsWith("/uploads/")) {
-            return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
-        }
+    //     if (url.startsWith("storage/")) {
+    //         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    //     }
 
-        if (url.startsWith("uploads/")) {
-            return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-        }
+    //     if (url.startsWith("/uploads/")) {
+    //         return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+    //     }
 
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
-    }
+    //     if (url.startsWith("uploads/")) {
+    //         return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+    //     }
+
+    //     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+    // }
     const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
 
 

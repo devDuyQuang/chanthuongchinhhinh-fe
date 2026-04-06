@@ -100,9 +100,48 @@ type SettingResponse = {
                 description?: string;
             }[];
         };
+        testimonials_home_clinic?: {
+            main_title?: string;
+            main_image?: string;
+            floating_review?: {
+                name?: string;
+                rating?: string;
+                text?: string;
+                avatar?: string;
+            };
+            achievement?: {
+                number?: string;
+                text?: string;
+                avatars?: string[];
+            };
+            items?: {
+                name?: string;
+                role?: string;
+                title?: string;
+                review?: string;
+                video_link?: string;
+                image?: string;
+            }[];
+        };
+        faq_home_clinic?: {
+            title?: string;
+            description?: string;
+            image?: string;
+            contact?: {
+                text?: string;
+                phone?: string;
+            };
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            items?: {
+                question?: string;
+                answer?: string;
+            }[];
+        };
     };
 };
-
 
 type CategoryResponse = {
     success: boolean;
@@ -207,7 +246,15 @@ async function Services() {
     const whyChoose = setting?.data?.why_choose_us_home_clinic;
     const bannerUrl = normalizeImageUrl(serviceHero?.banner_hero);
     const servicesHome = setting?.data?.services_home_clinic;
+    const testimonials = setting?.data?.testimonials_home_clinic;
+    const rawFaq = setting?.data?.faq_home_clinic;
 
+    const faq = rawFaq
+        ? {
+            ...rawFaq,
+            image: normalizeImageUrl(rawFaq.image),
+        }
+        : undefined;
     return (
         <>
             <main className="page-content">
@@ -276,10 +323,10 @@ async function Services() {
                         backgroundSize: "cover",
                     }}
                 >
-                    <RealPatient />
+                    <RealPatient data={testimonials} />
                 </section>
 
-                <Frequently />
+                <Frequently data={faq} />
             </main>
             {/* <Footer /> */}
         </>
