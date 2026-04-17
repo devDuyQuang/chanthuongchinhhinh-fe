@@ -47922,7 +47922,8 @@ footer.site-footer.footer-dark .fb-inner {
     display: flex;
     align-items: center;
     justify-content: end;
-    gap: 10px;
+    /* gap: 10px; */
+    gap: 0;
     width: 100%;
   }
 
