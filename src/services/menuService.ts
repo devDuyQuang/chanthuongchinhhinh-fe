@@ -83,8 +83,11 @@ export async function getMenu(location: string = "header"): Promise<HeaderItem[]
 
   const json = await res.json();
   const raw: RawMenuItem[] = Array.isArray(json?.data) ? json.data : [];
-
-  const filtered = raw.filter((it) => !shouldHideFromMainNav(it.name));
+  console.log("MENU API RAW:", raw.map((it) => it.name));
+  // 🔥 SORT THEO ADMIN
+  const filtered = raw
+    .filter((it) => !shouldHideFromMainNav(it.name))
+    .sort((a: any, b: any) => (a.sort ?? a.order ?? a.position ?? 0) - (b.sort ?? b.order ?? b.position ?? 0));
 
   return filtered.map((it) => {
     const children = it.children ?? undefined;

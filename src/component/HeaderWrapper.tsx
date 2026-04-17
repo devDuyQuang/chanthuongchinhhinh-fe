@@ -18,7 +18,7 @@ async function getCategories(): Promise<CategoryItem[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     if (!res.ok) return [];
@@ -33,10 +33,9 @@ async function getCategories(): Promise<CategoryItem[]> {
 
 async function getSettings() {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`,
-      { cache: "no-store" }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) return null;
 
@@ -48,12 +47,38 @@ async function getSettings() {
   }
 }
 
+// export default async function HeaderWrapper() {
+//   const menu = await getMenu("header");
+//   const categories = await getCategories();
+//   const settings = await getSettings();
+
+//   const newMenu = menu.map((item: any) => {
+//     if (item.title?.trim().toLowerCase() === "bệnh lý") {
+//       return {
+//         ...item,
+//         content: categories.map((cat) => ({
+//           title: cat.name,
+//           to: `/danh-muc/${cat.slug}`,
+//         })),
+//       };
+//     }
+//     return item;
+//   });
+
+//   return <Header menu={newMenu} settings={settings} />;
+// }
+
 export default async function HeaderWrapper() {
   const menu = await getMenu("header");
   const categories = await getCategories();
   const settings = await getSettings();
 
-  const newMenu = menu.map((item: any) => {
+  //SORT THEO ADMIN
+  const sortedMenu = [...menu].sort(
+    (a: any, b: any) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
+  );
+
+  const newMenu = sortedMenu.map((item: any) => {
     if (item.title?.trim().toLowerCase() === "bệnh lý") {
       return {
         ...item,
@@ -65,6 +90,6 @@ export default async function HeaderWrapper() {
     }
     return item;
   });
-
+  console.log(menu);
   return <Header menu={newMenu} settings={settings} />;
 }
