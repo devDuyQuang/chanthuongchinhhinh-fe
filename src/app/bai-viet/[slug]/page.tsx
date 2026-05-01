@@ -1,255 +1,104 @@
-import Link from "next/link";
+import PageBanner from "@/component/PageBanner";
 import { IMAGES } from "@/constant/theme";
-import Image from "next/image";
-import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
-import BlogSidebar from "@/component/BlogSidebar";
+import ServiceBox from "@/component/ServiceBox";
+import { notFound } from "next/navigation";
 
-type PostDetail = {
-  id: number;
-  name?: string;
-  slug?: string;
-  image?: string | null;
-  description?: string | null;
-  content?: string | null;
-  created_at?: string;
-};
-
-type ApiResponse = {
-  success: boolean;
-  message: string;
-  data?: PostDetail;
-};
-
-type CategoryListItem = {
-  name: string;
-  slug: string;
-};
-
-type CategoryListResponse = {
-  success: boolean;
-  message: string;
-  data?: CategoryListItem[];
-};
-
-type PostListItem = {
+type CategoryPostItem = {
   id?: number;
   name?: string;
   slug?: string;
   image?: string | null;
-  created_at?: string;
+  description?: string | null;
 };
 
-type PostListResponse = {
-  success: boolean;
-  message: string;
-  data?: {
-    data?: PostListItem[];
+type CategoryDetail = {
+  id?: number;
+  name?: string;
+  slug?: string;
+  description?: string | null;
+  content?: string | null;
+  posts?: {
+    current_page?: number;
+    data?: CategoryPostItem[];
   };
 };
 
-async function getPost(slug: string): Promise<PostDetail | null> {
+type CategoryApiResponse = {
+  success: boolean;
+  message: string;
+  data?: CategoryDetail;
+};
+
+async function getCategory(slug: string): Promise<CategoryDetail | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${slug}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/${slug}`,
       { cache: "no-store" },
     );
 
     if (!res.ok) return null;
 
-    const result: ApiResponse = await res.json();
+    const result: CategoryApiResponse = await res.json();
     return result.data || null;
   } catch (error) {
-    console.error("Lỗi lấy post detail:", error);
+    console.error("Lỗi lấy category bài viết:", error);
     return null;
   }
 }
 
-async function getCategories() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
-      { cache: "no-store" },
-    );
-
-    if (!res.ok) return [];
-
-    const result: CategoryListResponse = await res.json();
-    const categories = result.data || [];
-
-    const postCategorySlugs = [
-      "kien-thuc",
-      "kien-thuc-xuong-khop",
-      "tin-tuc-y-khoa",
-    ];
-
-    return categories
-      .filter((item) => postCategorySlugs.includes(item.slug))
-      .map((item) => ({
-        name: item.name,
-        slug: item.slug,
-        count: 0,
-      }));
-  } catch (error) {
-    console.error("Lỗi lấy category list:", error);
-    return [];
-  }
-}
-
-async function getLatestPosts() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=3&sort_name=id&sort_by=desc&name=`,
-      { cache: "no-store" },
-    );
-
-    if (!res.ok) return [];
-
-    const result: PostListResponse = await res.json();
-    return result.data?.data || [];
-  } catch (error) {
-    console.error("Lỗi lấy latest posts:", error);
-    return [];
-  }
-}
-
-type Props = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
-
-export default async function BaiVietDetailPage({ params }: Props) {
+export default async function BaiVietCategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
-  const [post, categories, latestPosts] = await Promise.all([
-    getPost(slug),
-    getCategories(),
-    getLatestPosts(),
-  ]);
+  const category = await getCategory(slug);
 
-  if (!post) {
-    return (
-      <main className="page-content">
-        <div className="container py-5">
-          <p>Không tìm thấy bài viết.</p>
-        </div>
-      </main>
-    );
+  if (!category) {
+    notFound();
   }
 
-  const imageUrl = normalizeImageUrl(post.image) || IMAGES.bnr2.src;
+  const categoryItems =
+    category.posts?.data?.map((item) => ({
+      title: item.name || "Bài viết",
+      description: item.description || "Nội dung đang được cập nhật.",
+      doctor_text: "Xem chi tiết",
+
+      // Bài viết thật mở thẳng /{post.slug}
+      link: item.slug ? `/${item.slug}` : "#",
+
+      image: item.image || null,
+    })) || [];
 
   return (
     <main className="page-content">
-      <div className="section-full post-header blog-single style-1 mb-0">
-        <div className="dz-card text-center">
-          <div className="dz-media overlay-secondary-light">
-            <Image
-              src={imageUrl}
-              alt={post.name || ""}
-              width={1920}
-              height={800}
-              style={{ width: "100%", height: "auto" }}
-              unoptimized
-            />
-          </div>
+      <PageBanner
+        title={category.name || "Bài viết"}
+        bnrimage={IMAGES.bnr2.src}
+      />
 
-          <div className="dz-info">
-            <h1 className="dz-title text-white mx-auto">
-              {post.name || "Chi tiết bài viết"}
-            </h1>
-
-            <div className="dz-meta style-1">
-              <ul className="justify-content-center">
-                <li className="post-date">
-                  {post.created_at
-                    ? new Date(post.created_at).toLocaleDateString("vi-VN")
-                    : "N/A"}
-                </li>
-                <li className="dz-user">
-                  <i className="fa-solid fa-user" />
-                  By{" "}
-                  <Link href={"#"} scroll={false}>
-                    Admin
-                  </Link>
-                </li>
-                <li className="dz-comment">
-                  <i className="fa-solid fa-message" />
-                  <Link href={"#"} scroll={false}>
-                    0 Comments
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <section className="content-inner-3">
+      <section
+        className="content-inner bg-light"
+        style={{ backgroundImage: `url(${IMAGES.bg5png.src})` }}
+      >
         <div className="container">
-          <div className="row">
-            <div className="col-xl-9 pe-xl-5 m-b30">
-              <div className="dz-blog blog-single sidebar style-1">
-                <div className="dz-info">
-                  <div className="dz-post-text">
-                    {post.description ? <p>{post.description}</p> : null}
-
-                    {post.content ? (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: post.content,
-                        }}
-                      />
-                    ) : null}
-                  </div>
-
-                  <div className="dz-share-post meta-bottom">
-                    <div className="post-tags">
-                      <strong>Tags:</strong>
-                      <Link href={"#"} scroll={false}>
-                        Bài viết
-                      </Link>
-                      <Link href={"#"} scroll={false}>
-                        Kiến thức
-                      </Link>
-                    </div>
-
-                    <div className="dz-social-icon primary-light">
-                      <ul>
-                        <li>
-                          <Link href="https://www.facebook.com" target="_blank">
-                            <i className="fa-brands fa-facebook-f" />
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            href="https://www.instagram.com"
-                            target="_blank"
-                          >
-                            <i className="fa-brands fa-instagram" />
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="https://x.com" target="_blank">
-                            <i className="fa-brands fa-x-twitter" />
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="https://www.linkedin.com" target="_blank">
-                            <i className="fa-brands fa-linkedin" />
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {category.description && (
+            <div className="m-b30">
+              <p>{category.description}</p>
             </div>
+          )}
 
-            <div className="col-xl-3">
-              <BlogSidebar categories={categories} latestPosts={latestPosts} />
-            </div>
-          </div>
+          {category.content && (
+            <div
+              className="m-b30"
+              dangerouslySetInnerHTML={{
+                __html: category.content,
+              }}
+            />
+          )}
+
+          <ServiceBox data={{ items: categoryItems }} useFallback={false} />
         </div>
       </section>
     </main>
