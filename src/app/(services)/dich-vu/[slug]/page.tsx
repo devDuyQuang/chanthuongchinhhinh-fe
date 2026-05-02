@@ -8,6 +8,17 @@ import AccordionBlog from "../../service-detail/_components/AccordionBlog";
 import { SiteCommonData } from "@/types/site";
 import { notFound } from "next/navigation";
 
+type RelatedPostItem = {
+  id?: number;
+  name?: string;
+  slug?: string;
+  image?: string | null;
+  description?: string | null;
+  created_at?: string;
+  views?: number;
+  favorites?: number;
+};
+
 type ServiceCategoryDetail = {
   id: number;
   name?: string;
@@ -15,6 +26,11 @@ type ServiceCategoryDetail = {
   image?: string | null;
   description?: string | null;
   content?: string | null;
+  posts?: {
+    current_page?: number;
+    data?: RelatedPostItem[];
+    total?: number;
+  };
 };
 
 type CategoryApiResponse = {
@@ -59,6 +75,16 @@ type SettingResponse = {
   };
 };
 
+type RelatedPostResponse = {
+  success: boolean;
+  message: string;
+  data?: {
+    current_page?: number;
+    data?: RelatedPostItem[];
+    total?: number;
+  };
+};
+
 async function getSetting(): Promise<SettingResponse | null> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
@@ -93,6 +119,64 @@ async function getCategory(
   }
 }
 
+async function getRelatedPostsByCategory(
+  slug: string,
+): Promise<RelatedPostItem[]> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?category_slug=${encodeURIComponent(
+        slug,
+      )}&limit=6&sort_name=id&sort_by=desc`,
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const result: RelatedPostResponse = await res.json();
+    return result.data?.data || [];
+  } catch (error) {
+    console.error("Lỗi lấy bài viết liên quan:", error);
+    return [];
+  }
+}
+
+function EmptyCategoryContent() {
+  return (
+    <div
+      className="content-item text-center"
+      style={{
+        background: "#fff",
+        borderRadius: "24px",
+        padding: "60px 30px",
+        boxShadow: "0 10px 40px rgba(0,0,0,0.04)",
+      }}
+    >
+      <div
+        style={{
+          width: 72,
+          height: 72,
+          borderRadius: "50%",
+          background: "#f0f7ff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0 auto 20px",
+          color: "#05245c",
+          fontSize: 28,
+        }}
+      >
+        <i className="fa-regular fa-file-lines" />
+      </div>
+
+      <h3 className="m-b10">Chưa có bài viết</h3>
+
+      <p className="m-b0">
+        Danh mục này hiện chưa có nội dung. Vui lòng quay lại sau.
+      </p>
+    </div>
+  );
+}
+
 export default async function ServiceDetail({
   params,
 }: {
@@ -100,9 +184,10 @@ export default async function ServiceDetail({
 }) {
   const { slug } = await params;
 
-  const [category, setting] = await Promise.all([
+  const [category, setting, relatedPosts] = await Promise.all([
     getCategory(slug),
     getSetting(),
+    getRelatedPostsByCategory(slug),
   ]);
 
   if (!category) {
@@ -112,6 +197,15 @@ export default async function ServiceDetail({
   const specialists = setting?.data?.specialists_home_clinic;
   const faqHome = setting?.data?.faq_home_clinic;
   const faqItems = faqHome?.items || faqHome?.questions || [];
+
+  const hasCategoryDescription = Boolean(category.description?.trim());
+  const hasCategoryContent = Boolean(category.content?.trim());
+  const hasRelatedPosts = relatedPosts.length > 0;
+
+  // Chỉ xem là có nội dung khi category có mô tả/content hoặc có bài viết liên quan.
+  // Nếu không có gì thì chỉ hiện empty state, không render steps/doctors/faq.
+  const hasRealContent =
+    hasCategoryDescription || hasCategoryContent || hasRelatedPosts;
 
   return (
     <main className="page-content">
@@ -139,39 +233,103 @@ export default async function ServiceDetail({
 
               <div className="content-item m-b30">
                 <h2>{category.name}</h2>
-                {category.description && <p>{category.description}</p>}
+                {hasCategoryDescription && <p>{category.description}</p>}
               </div>
 
-              {category.content && (
-                <div
-                  className="content-item"
-                  dangerouslySetInnerHTML={{
-                    __html: category.content,
-                  }}
-                />
+              {!hasRealContent ? (
+                <EmptyCategoryContent />
+              ) : (
+                <>
+                  {hasCategoryContent && (
+                    <div
+                      className="content-item"
+                      dangerouslySetInnerHTML={{
+                        __html: category.content || "",
+                      }}
+                    />
+                  )}
+
+                  {hasRelatedPosts && (
+                    <div className="content-item m-b30">
+                      <h3>Bài viết liên quan</h3>
+
+                      <div className="row">
+                        {relatedPosts.map((post) => {
+                          const postHref = post.slug ? `/${post.slug}` : "#";
+                          const postImage =
+                            normalizeImageUrl(post.image) || IMAGES.bnr2.src;
+
+                          return (
+                            <div
+                              className="col-md-6 m-b30"
+                              key={post.id || post.slug}
+                            >
+                              <div className="dz-card style-1">
+                                <div className="dz-media">
+                                  <Link href={postHref}>
+                                    <Image
+                                      src={postImage}
+                                      alt={post.name || ""}
+                                      width={600}
+                                      height={400}
+                                      style={{
+                                        width: "100%",
+                                        height: "auto",
+                                      }}
+                                      unoptimized
+                                    />
+                                  </Link>
+                                </div>
+
+                                <div className="dz-info">
+                                  <h4 className="dz-title">
+                                    <Link href={postHref}>
+                                      {post.name || "Bài viết"}
+                                    </Link>
+                                  </h4>
+
+                                  {post.description ? (
+                                    <p>{post.description}</p>
+                                  ) : null}
+
+                                  <Link
+                                    href={postHref}
+                                    className="btn btn-primary"
+                                  >
+                                    Xem thêm
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="content-item">
+                    <h3>Các bước điều trị</h3>
+                    <ul className="list-check text-secondary grid-2 m-b30">
+                      <li>Thăm khám ban đầu</li>
+                      <li>Đánh giá triệu chứng</li>
+                      <li>Chẩn đoán hình ảnh</li>
+                      <li>Tư vấn hướng điều trị</li>
+                      <li>Theo dõi tiến triển</li>
+                      <li>Hướng dẫn phục hồi</li>
+                    </ul>
+                  </div>
+
+                  <div className="content-item">
+                    <h3>Đội ngũ bác sĩ chuyên khoa</h3>
+                    <SurgeryBlog doctors={specialists?.items} />
+                  </div>
+
+                  <div className="content-item">
+                    <h3>Câu hỏi thường gặp</h3>
+                    <AccordionBlog items={faqItems} />
+                  </div>
+                </>
               )}
-
-              <div className="content-item">
-                <h3>Các bước điều trị</h3>
-                <ul className="list-check text-secondary grid-2 m-b30">
-                  <li>Thăm khám ban đầu</li>
-                  <li>Đánh giá triệu chứng</li>
-                  <li>Chẩn đoán hình ảnh</li>
-                  <li>Tư vấn hướng điều trị</li>
-                  <li>Theo dõi tiến triển</li>
-                  <li>Hướng dẫn phục hồi</li>
-                </ul>
-              </div>
-
-              <div className="content-item">
-                <h3>Đội ngũ bác sĩ chuyên khoa</h3>
-                <SurgeryBlog doctors={specialists?.items} />
-              </div>
-
-              <div className="content-item">
-                <h3>Câu hỏi thường gặp</h3>
-                <AccordionBlog items={faqItems} />
-              </div>
             </div>
 
             <div className="col-lg-4 m-b30">
