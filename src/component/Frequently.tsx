@@ -382,14 +382,14 @@ function Frequently({ data }: FrequentlyProps) {
 }
 
 export default Frequently;
-  <div className="content-item">
-                  <h3>Các bước điều trị</h3>
-                  <ul className="list-check text-secondary grid-2 m-b30">
-                    <li>Thăm khám ban đầu</li>
-                    <li>Đánh giá triệu chứng</li>
-                    <li>Chẩn đoán hình ảnh</li>
-                    <li>Tư vấn hướng điều trị</li>
-                    <li>Theo dõi tiến triển</li>
-                    <li>Hướng dẫn phục hồi</li>
-                  </ul>
-                </div>
+<div className="content-item">
+  <h3>Các bước điều trị</h3>
+  <ul className="list-check text-secondary grid-2 m-b30">
+    <li>Thăm khám ban đầu</li>
+    <li>Đánh giá triệu chứng</li>
+    <li>Chẩn đoán hình ảnh</li>
+    <li>Tư vấn hướng điều trị</li>
+    <li>Theo dõi tiến triển</li>
+    <li>Hướng dẫn phục hồi</li>
+  </ul>
+</div>;
