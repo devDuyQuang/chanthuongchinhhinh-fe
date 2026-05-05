@@ -66,12 +66,33 @@ function AppointmentData({ data }: AppointmentDataProps) {
     // Thu thập dữ liệu từ Form thực tế thay vì biến 'data' (vốn là dữ liệu giao diện)
     const formData = new FormData(form.current!);
     const payload = {
-      dzName: formData.get("dzName"),
-      dzEmail: formData.get("dzEmail"),
-      dzPhoneNumber: formData.get("dzPhoneNumber"),
+      dzName: formData.get("dzName")?.toString().trim(),
+      dzEmail: formData.get("dzEmail")?.toString().trim(),
+      dzPhoneNumber: formData.get("dzPhoneNumber")?.toString().trim(),
       dzService: selectCat,
-      dzMessage: formData.get("dzMessage"),
+      dzMessage: formData.get("dzMessage")?.toString().trim(),
     };
+
+    if (!payload.dzName || payload.dzName.length < 3) {
+      return alert("Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).");
+    }
+
+    const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
+    if (!payload.dzPhoneNumber || !phoneRegex.test(payload.dzPhoneNumber)) {
+      return alert("Số điện thoại không đúng định dạng Việt Nam.");
+    }
+
+    if (!payload.dzEmail) {
+      return alert("Vui lòng nhập email để chúng tôi liên hệ.");
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (payload.dzEmail && !emailRegex.test(payload.dzEmail)) {
+      return alert("Email không hợp lệ.");
+    }
+
+    if (payload.dzService === "Chọn dịch vụ") {
+      return alert("Vui lòng chọn dịch vụ cần khám.");
+    }
 
     const apiBaseUrl =
       process.env.NEXT_PUBLIC_API_BASE_URL || "http://api.localhost:8000";
