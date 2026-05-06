@@ -40040,6 +40040,7 @@ select:focus {
 
 .blog-single .dz-post-text {
   padding-bottom: 5px;
+  text-align: justify;
 }
 
 .blog-single .dz-post-text:after {
