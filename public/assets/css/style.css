@@ -14210,6 +14210,7 @@ img {
   height: auto;
   max-width: 100%;
   vertical-align: middle;
+  border-radius: 3px;
 }
 
 li {

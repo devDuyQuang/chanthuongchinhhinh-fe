@@ -50,7 +50,7 @@ export default function BlogSidebar({
               <input
                 name="text"
                 className="form-control"
-                placeholder="Nhập Tìm Kiếm"
+                placeholder="Nhập Từ Khóa..."
                 type="text"
               />
               <div className="input-group-btn">
