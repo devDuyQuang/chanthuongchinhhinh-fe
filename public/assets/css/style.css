@@ -651,7 +651,7 @@ ol,
 ul,
 dl {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 30px;
 }
 
 ol ol,
@@ -41316,7 +41316,7 @@ pre {
 .dz-blog.blog-single .dz-post-text ol li,
 .dz-blog.blog-single .dz-blog.blog-single .dz-post-text p:not(.has-text-color):not(.has-text-align-center):not(.has-text-align-left):not(.has-text-align-right) {
   font-size: 1.125rem;
-  line-height: 1.7;
+  line-height: 2.2;
 }
 
 .wp-block-cover,
