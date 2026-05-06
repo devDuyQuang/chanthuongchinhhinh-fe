@@ -262,7 +262,7 @@ function Footer({ settings }: FooterProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h3 className="title">
+                                <h3 className="title fw-bold">
                                     {footerData?.contactTitle || "Kết nối với chúng tôi"}
                                 </h3>
                                 <p className="text">
@@ -283,7 +283,7 @@ function Footer({ settings }: FooterProps) {
                                             <span className="icon-cell">{item.icon}</span>
                                         </div>
                                         <div className="icon-content">
-                                            <h5 className="dz-title">{item.title}</h5>
+                                            <h5 className="dz-title fw-bold">{item.title}</h5>
                                             <p>{item.paragraph}</p>
                                         </div>
                                     </div>
@@ -327,7 +327,7 @@ function Footer({ settings }: FooterProps) {
                                 key={i}
                             >
                                 <div className="widget widget_services">
-                                    <h2 className="footer-title">{menu.title}</h2>
+                                    <h2 className="footer-title fw-bold">{menu.title}</h2>
                                     <ul className="list-hover1">
                                         {menu.links.map((link, idx) => (
                                             <li key={idx}>
@@ -353,7 +353,7 @@ function Footer({ settings }: FooterProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title">
+                                <h2 className="title fw-bold">
                                     {footerData?.registerTitle || "Nhận thông tin mới từ chúng tôi"}
                                 </h2>
                                 <p>

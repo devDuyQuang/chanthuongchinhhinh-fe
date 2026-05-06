@@ -91,7 +91,7 @@ function MapWraper({ data }: MapWraperProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title m-b0 text-white">
+                                <h2 className="title m-b0 text-white fw-bold">
                                     {data?.title || "Get in Touch with us"}
                                 </h2>
                                 <p className="text-white">

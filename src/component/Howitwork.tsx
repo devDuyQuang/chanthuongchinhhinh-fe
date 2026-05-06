@@ -126,7 +126,7 @@ function Howitwork({ data }: HowitworkProps) {
                     <div className="col-xl-4 m-b30 pe-xl-4">
                         <div className="section-head style-1 m-b30">
                             <h2
-                                className="title m-b0 wow fadeInUp"
+                                className="title m-b0 wow fadeInUp fw-bold"
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >

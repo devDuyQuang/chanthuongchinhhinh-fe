@@ -254,9 +254,32 @@ async function getSetting(): Promise<SettingResponse | null> {
     }
 }
 
+async function getPosts() {
+    // Sử dụng biến môi trường hoặc dùng link cứng nếu biến bị undefined
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://admin.localhost:8000/api";
+    
+    try {
+        const res = await fetch(`${baseUrl}/post?limit=4&sort_name=created_at&sort_by=desc`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) {
+            console.error("Fetch posts failed:", res.status);
+            return [];
+        }
+
+        const json = await res.json();
+        return json.success ? json.data.data : [];
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return [];
+    }
+}
+
 async function HomePage() {
     const setting = await getSetting();
-
+    const posts = await getPosts();
+    console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
     const hero = setting?.data?.hero_home;
     const facility = setting?.data?.utilities_home;
     const stats = setting?.data?.stats_home;
@@ -322,15 +345,15 @@ async function HomePage() {
                 >
                     <div className="container">
                         <div className="inner-wrapper">
-                            <span className="text-vertical text-secondary">
+                            {/* <span className="text-vertical text-secondary">
                                 24/7 EMERGENCY SERVICE
-                            </span>
+                            </span> */}
 
                             <div className="row align-items-end h-100">
                                 <div className="col-lg-6 align-self-center">
                                     <div className="hero-content">
                                         <h1
-                                            className="title wow fadeInUp"
+                                            className="title wow fadeInUp fw-bold"
                                             data-wow-delay="0.2s"
                                             data-wow-duration="0.8s"
                                         >
@@ -567,7 +590,7 @@ async function HomePage() {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title m-b0">
+                                <h2 className="title m-b0 fw-bold">
                                     {services?.title || "Start Feeling Your Best"} <br />
                                     {services?.subtitle || "Explore Our Wellness Services"}
                                 </h2>
@@ -622,7 +645,7 @@ async function HomePage() {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title m-b0">
+                                <h2 className="title m-b0 fw-bold">
                                     {specialists?.title || "We Employ only Specialists"}
                                 </h2>
                             </div>
@@ -668,7 +691,7 @@ async function HomePage() {
                 <MeetDr data={doctor} />
                 <Frequently data={faq} />
                 <Awards data={awards} />
-                <StayInformed />
+                <StayInformed posts={posts} />
                 <MapWraper data={contact} />
             </main>
             {/* <Footer settings={{ site: setting?.data?.site }} /> */}

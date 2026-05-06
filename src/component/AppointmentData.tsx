@@ -6,6 +6,7 @@ import { Dropdown } from "react-bootstrap";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import toast from "react-hot-toast";
 
 type AppointmentSectionData = {
   title?: string;
@@ -48,6 +49,8 @@ type AppointmentDataProps = {
 
 function AppointmentData({ data }: AppointmentDataProps) {
   const [selectCat, setSelectCat] = useState("Chọn dịch vụ");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMsg, setSuccessMsg] = useState("");
   const form = useRef<HTMLFormElement | null>(null);
   const { sendEmail } = useEmailService();
 
@@ -73,26 +76,39 @@ function AppointmentData({ data }: AppointmentDataProps) {
       dzMessage: formData.get("dzMessage")?.toString().trim(),
     };
 
+    const newErrors: Record<string, string> = {};
+
     if (!payload.dzName || payload.dzName.length < 3) {
-      return alert("Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).");
+      newErrors.dzName = "Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).";
     }
 
     const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
     if (!payload.dzPhoneNumber || !phoneRegex.test(payload.dzPhoneNumber)) {
-      return alert("Số điện thoại không đúng định dạng Việt Nam.");
+      newErrors.dzPhoneNumber = "Số điện thoại không đúng định dạng Việt Nam.";
     }
 
     if (!payload.dzEmail) {
-      return alert("Vui lòng nhập email để chúng tôi liên hệ.");
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (payload.dzEmail && !emailRegex.test(payload.dzEmail)) {
-      return alert("Email không hợp lệ.");
+      newErrors.dzEmail = "Vui lòng nhập email để chúng tôi liên hệ.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(payload.dzEmail)) {
+        newErrors.dzEmail = "Email không hợp lệ.";
+      }
     }
 
     if (payload.dzService === "Chọn dịch vụ") {
-      return alert("Vui lòng chọn dịch vụ cần khám.");
+      newErrors.dzService = "Vui lòng chọn dịch vụ cần khám.";
     }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setSuccessMsg("");
+      toast.error("Vui lòng kiểm tra lại thông tin.");
+      return;
+    }
+
+    setErrors({});
+    setSuccessMsg("");
 
     const apiBaseUrl =
       process.env.NEXT_PUBLIC_API_BASE_URL || "http://api.localhost:8000";
@@ -110,16 +126,17 @@ function AppointmentData({ data }: AppointmentDataProps) {
       const result = await response.json();
       if (response.ok) {
         // Kiểm tra status 200-299
-        alert("Đăng ký thành công!");
+        toast.success("Đăng ký thành công!");
+        setSuccessMsg("Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
         form.current?.reset();
         setSelectCat("Chọn dịch vụ");
       } else {
         console.error("Server Error:", result);
-        alert("Lỗi: " + (result.message || "Không thể gửi dữ liệu"));
+        toast.error("Lỗi: " + (result.message || "Không thể gửi dữ liệu"));
       }
     } catch (error) {
       console.error("Fetch Error:", error);
-      alert("Có lỗi xảy ra, vui lòng thử lại.");
+      toast.error("Có lỗi xảy ra, vui lòng thử lại.");
     }
   };
 
@@ -173,8 +190,8 @@ function AppointmentData({ data }: AppointmentDataProps) {
                 <div className="title-head">
                   <h2 className="form-title m-b0">
                     {data?.title || "Đăng Ký Lịch Hẹn"} <br />
-                    {data?.subtitle ||
-                      "Nhận tư vấn và đặt lịch khám nhanh chóng"}
+                    {/* {data?.subtitle ||
+                      "Nhận tư vấn và đặt lịch khám nhanh chóng"} */}
                   </h2>
                 </div>
 
@@ -211,12 +228,14 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzName"
                           type="text"
-                          className="form-control"
+                          className={`form-control ${errors.dzName ? 'is-invalid' : ''}`}
                           id="inputYourName"
                           placeholder="Họ và tên"
+                          onChange={() => setErrors({ ...errors, dzName: "" })}
                         />
                         <label htmlFor="inputYourName">Họ và tên</label>
                       </div>
+                      {errors.dzName && <div className="text-white mt-1 small text-start">{errors.dzName}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
@@ -224,12 +243,14 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzEmail"
                           type="email"
-                          className="form-control"
+                          className={`form-control ${errors.dzEmail ? 'is-invalid' : ''}`}
                           id="inputYourEmail"
                           placeholder="Email"
+                          onChange={() => setErrors({ ...errors, dzEmail: "" })}
                         />
                         <label htmlFor="inputYourEmail">Email</label>
                       </div>
+                      {errors.dzEmail && <div className="text-white mt-1 small text-start">{errors.dzEmail}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
@@ -237,49 +258,60 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzPhoneNumber"
                           type="tel"
-                          className="form-control"
+                          className={`form-control ${errors.dzPhoneNumber ? 'is-invalid' : ''}`}
                           id="inputPhoneNumber"
                           placeholder="Số điện thoại"
+                          onChange={() => setErrors({ ...errors, dzPhoneNumber: "" })}
                         />
                         <label htmlFor="inputPhoneNumber">Số điện thoại</label>
                       </div>
+                      {errors.dzPhoneNumber && <div className="text-white mt-1 small text-start">{errors.dzPhoneNumber}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
                       <div className="form-floating floating-underline input-light">
-                        <Dropdown className="form-control bs-select">
+                        <Dropdown className={`form-control bs-select ${errors.dzService ? 'is-invalid' : ''}`}>
                           <Dropdown.Toggle as="div">
                             {selectCat}
                           </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
+                          <Dropdown.Menu style={{ minWidth: "270px" }}>
                             <Dropdown.Item
-                              onClick={() => setSelectCat("Khám cơ xương khớp")}
+                              onClick={() => {
+                                setSelectCat("Khám cơ xương khớp");
+                                setErrors({ ...errors, dzService: "" });
+                              }}
                             >
                               Khám cơ xương khớp
                             </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() =>
-                                setSelectCat("Điều trị chấn thương chỉnh hình")
-                              }
+                              onClick={() => {
+                                setSelectCat("Điều trị chấn thương chỉnh hình");
+                                setErrors({ ...errors, dzService: "" });
+                              }}
                             >
                               Điều trị chấn thương chỉnh hình
                             </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() =>
-                                setSelectCat("Điều trị đau cột sống")
-                              }
+                              onClick={() => {
+                                setSelectCat("Điều trị đau cột sống");
+                                setErrors({ ...errors, dzService: "" });
+                              }}
                             >
                               Điều trị đau cột sống
                             </Dropdown.Item>
                             <Dropdown.Item
-                              onClick={() => setSelectCat("Phục hồi chức năng")}
+                              onClick={() => {
+                                setSelectCat("Phục hồi chức năng");
+                                setErrors({ ...errors, dzService: "" });
+                              }}
                             >
                               Phục hồi chức năng
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </div>
+                      {errors.dzService && <div className="text-white mt-1 small text-start">{errors.dzService}</div>}
                     </div>
 
                     <div className="col-sm-12 m-b30">
@@ -307,6 +339,7 @@ function AppointmentData({ data }: AppointmentDataProps) {
                           <i className="feather icon-arrow-right" />
                         </span>
                       </button>
+                      {successMsg && <div className="text-white mt-3 text-start fw-medium">{successMsg}</div>}
                     </div>
                   </div>
                 </form>
