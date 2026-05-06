@@ -336,7 +336,7 @@ function MeetDr({ data }: MeetDrProps) {
                                         {suffix}
                                     </span>
 
-                                    <h3 className="title m-b0">
+                                    <h3 className="title m-b0 fw-bold">
                                         {data?.experience?.label || (
                                             <>
                                                 Years <br /> Experienced
@@ -351,7 +351,7 @@ function MeetDr({ data }: MeetDrProps) {
                     <div className="col-xl-6 col-lg-7 m-b30 align-self-center">
                         <div className="section-head style-1 m-b30">
                             <h2
-                                className="title wow fadeInUp"
+                                className="title wow fadeInUp fw-bold"
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >

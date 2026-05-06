@@ -270,7 +270,7 @@ function Frequently({ data }: FrequentlyProps) {
             <div className="content-info">
               <div className="section-head style-1 m-b30">
                 <h2
-                  className="title wow fadeInUp"
+                  className="title wow fadeInUp fw-bold"
                   data-wow-delay="0.2s"
                   data-wow-duration="0.7s"
                 >
