@@ -74,7 +74,7 @@ function WorldClass({ data }: WorldClassProps) {
                     >
                         <div className="info-widget style-7">
                             <div className="widget-content bg-secondary">
-                                Video Call Support
+                                Hỗ trợ gọi video
                             </div>
                             <div className="widget-media">
                                 <Image
@@ -116,7 +116,7 @@ function WorldClass({ data }: WorldClassProps) {
                                 <Image src={IMAGES.clocksvg} alt="" />
                             </div>
                             <div className="widget-content">
-                                <h4 className="title">Open Hours</h4>
+                                <h4 className="title">Giờ làm việc</h4>
                                 <ul>
                                     {openHours.map((item, index) => (
                                         <li key={index}>

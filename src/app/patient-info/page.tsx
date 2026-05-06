@@ -7,6 +7,7 @@ import Schedule from "@/component/Schedule";
 import StayInformed from "@/component/StayInformed";
 import { worldclasslistdata } from "@/constant/alldata";
 import Image from "next/image";
+import { Post } from "@/types/post";
 
 function PatientInfo() {
     return (
@@ -58,7 +59,7 @@ function PatientInfo() {
                         </div>
                     </div>
                 </section>
-                <StayInformed />
+                <StayInformed posts={[] as unknown as Post[]} />
             </main>
             {/* <Footer />             */}
         </>

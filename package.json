@@ -19,6 +19,7 @@
     "react-countdown": "^2.3.6",
     "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-select": "^5.10.1",
     "swiper": "^11.2.8"
   },
