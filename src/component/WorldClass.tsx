@@ -74,7 +74,7 @@ function WorldClass({ data }: WorldClassProps) {
                     >
                         <div className="info-widget style-7">
                             <div className="widget-content bg-secondary">
-                                Video Call Support
+                                Hỗ trợ gọi video
                             </div>
                             <div className="widget-media">
                                 <Image

@@ -267,7 +267,7 @@ export const pricingdata1 = [
     { title: 'Emergency Medicine', },
     { title: 'Family Medicine', },
     { title: '24/7 customer support', },
-    { title: 'Video Call Support', },
+    { title: 'Hỗ trợ gọi video', },
 ]
 export const pricingdata2 = [
     {
