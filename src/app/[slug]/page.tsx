@@ -158,18 +158,18 @@ export default async function DirectPostDetailPage({ params }: Props) {
               <ul className="justify-content-center">
                 <li className="post-date">{createdDate}</li>
 
-                <li className="dz-user">
+                {/* <li className="dz-user">
                   <i className="fa-solid fa-user" />
                   By{" "}
                   <Link href="#" scroll={false}>
                     {creatorName}
                   </Link>
-                </li>
+                </li> */}
 
                 <li className="dz-comment">
-                  <i className="fa-solid fa-message" />
+                  <i className="fa-solid fa-eye" />
                   <Link href="#" scroll={false}>
-                    0 Comments
+                    100 Lượt xem
                   </Link>
                 </li>
               </ul>
