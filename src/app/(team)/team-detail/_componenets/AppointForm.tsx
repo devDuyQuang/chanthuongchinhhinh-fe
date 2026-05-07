@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useEmailService } from "@/constant/useEmailService";
 
-const AppointForm = () =>{
+const AppointForm = () => {
     const [selectCat, setSelectCat] = useState("Angioplasty");
     const form = useRef<HTMLFormElement | null>(null);
     const { sendEmail } = useEmailService();
@@ -12,14 +12,14 @@ const AppointForm = () =>{
         if (!form.current) return;
         const result = await sendEmail(form.current);
         if (result.success) {
-            console.log('SUCCESS!', result.message);
+            // console.log('SUCCESS!', result.message);
         } else {
-            console.error('FAILED...', result.message);
+            // console.error('FAILED...', result.message);
         }
     };
-    return(
+    return (
         <form ref={form} onSubmit={handleSubmit} className="dzForm" method="POST">
-            <input type="hidden" className="form-control" name="dzToDo" value="Contact" />            
+            <input type="hidden" className="form-control" name="dzToDo" value="Contact" />
             <div className="dzFormMsg"></div>
             <div className="row">
                 <div className="col-sm-6 m-b30">

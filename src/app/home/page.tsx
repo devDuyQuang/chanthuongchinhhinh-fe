@@ -234,6 +234,22 @@ type SettingResponse = {
             map_iframe?: string;
         };
         site?: SiteCommonData;
+        hero_home_clinic?: {
+            title?: string;
+            description?: string;
+            button_one_text?: string;
+            button_one_link?: string;
+            button_two_text?: string;
+            button_two_link?: string;
+            question_title?: string;
+            question_email?: string;
+            percent?: string;
+            percent_text?: string;
+            percent_link?: string;
+            patient_title?: string;
+            patient_des?: string;
+            banner_hero?: string;
+        };
     };
 };
 
@@ -257,7 +273,7 @@ async function getSetting(): Promise<SettingResponse | null> {
 async function getPosts() {
     // Sử dụng biến môi trường hoặc dùng link cứng nếu biến bị undefined
     const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.") || "http://admin.localhost:8000/api";
-    
+
     try {
         const res = await fetch(`${baseUrl}/post?limit=4&sort_name=created_at&sort_by=desc`, {
             cache: 'no-store'
@@ -271,7 +287,7 @@ async function getPosts() {
         const json = await res.json();
         return json.success ? json.data.data : [];
     } catch (error) {
-        console.error("Error fetching posts:", error);
+        // console.error("Error fetching posts:", error);
         return [];
     }
 }
@@ -279,8 +295,8 @@ async function getPosts() {
 async function HomePage() {
     const setting = await getSetting();
     const posts = await getPosts();
-    console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
-    const hero = setting?.data?.hero_home;
+    // console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
+    const hero = setting?.data?.hero_home_clinic;
     const facility = setting?.data?.utilities_home;
     const stats = setting?.data?.stats_home;
     const services = setting?.data?.services_home;
@@ -329,9 +345,6 @@ async function HomePage() {
     //     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
     // }
     const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
-
-
-
 
     return (
         <>

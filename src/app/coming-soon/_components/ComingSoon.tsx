@@ -13,9 +13,9 @@ function ComingSoon() {
         const now = new Date();
         const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 28, 23, 59, 59);
         setTargetDate(nextMonth);
-    }, []);    
+    }, []);
     // const targetDate = new Date('2025-12-31T23:59:59');
-    const renderer = ({ days, hours, minutes, seconds, completed } : CountdownRenderProps) => {
+    const renderer = ({ days, hours, minutes, seconds, completed }: CountdownRenderProps) => {
         if (completed) {
             return <span>Time's up!</span>;
         } else {
@@ -41,7 +41,7 @@ function ComingSoon() {
             );
         }
     };
-    
+
     const form = useRef<HTMLFormElement | null>(null);
     const { sendEmail } = useEmailService();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,13 +49,13 @@ function ComingSoon() {
         if (!form.current) return;
         const result = await sendEmail(form.current);
         if (result.success) {
-            console.log('SUCCESS!', result.message);
+            // console.log('SUCCESS!', result.message);
         } else {
-            console.error('FAILED...', result.message);
+            // console.error('FAILED...', result.message);
         }
     };
     return (
-        <>          
+        <>
             <div className="row">
                 <div className="col-xxl-6 col-xl-6 col-lg-6 px-0">
                     <div className="dz-coming-bx">
@@ -65,7 +65,7 @@ function ComingSoon() {
                             </div>
                             <div className="dz-content">
                                 <h2 className="dz-title pe-xl-4">We Are <br /> Coming Soon</h2>
-                                <div className="countdown">                                    
+                                <div className="countdown">
                                     {targetDate && <Countdown date={targetDate} renderer={renderer} />}
                                 </div>
                                 <p>Big things are coming! ClinicMaster will be opening its doors soon. Be the first to experience something special!</p>
@@ -105,7 +105,7 @@ function ComingSoon() {
                         <Image src={IMAGES.comingsoon} alt="coming" />
                     </div>
                 </div>
-            </div>               
+            </div>
         </>
     );
 }

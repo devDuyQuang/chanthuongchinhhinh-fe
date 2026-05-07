@@ -131,18 +131,18 @@ function AppointmentData({ data }: AppointmentDataProps) {
         form.current?.reset();
         setSelectCat("Chọn dịch vụ");
       } else {
-        console.error("Server Error:", result);
+        // console.error("Server Error:", result);
         toast.error("Lỗi: " + (result.message || "Không thể gửi dữ liệu"));
       }
     } catch (error) {
-      console.error("Fetch Error:", error);
+      // console.error("Fetch Error:", error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại.");
     }
   };
 
-  console.log("appointment section data:", data);
-  console.log("appointment raw image:", data?.image);
-  console.log("appointment full image:", appointmentImage);
+  // console.log("appointment section data:", data);
+  // console.log("appointment raw image:", data?.image);
+  // console.log("appointment full image:", appointmentImage);
 
   return (
     <section

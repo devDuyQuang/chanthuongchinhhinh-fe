@@ -15,12 +15,12 @@ function UnderConstruction() {
         if (!form.current) return;
         const result = await sendEmail(form.current);
         if (result.success) {
-            console.log('SUCCESS!', result.message);
+            // console.log('SUCCESS!', result.message);
         } else {
-            console.error('FAILED...', result.message);
+            // console.error('FAILED...', result.message);
         }
     };
-    
+
     return (
         <>
             <main className="page-content">
@@ -61,7 +61,7 @@ function UnderConstruction() {
                         </div>
                         <div className="col-lg-6">
                             <div className="construct-media">
-                                <span dangerouslySetInnerHTML={{__html :  SVGICONS.underconstruction}} />
+                                <span dangerouslySetInnerHTML={{ __html: SVGICONS.underconstruction }} />
                             </div>
                         </div>
                     </div>
@@ -71,8 +71,8 @@ function UnderConstruction() {
                 <div className="footer-bottom">
                     <div className="container">
                         <div className="fb-inner text-center border-0">
-                            <p className="copyright-text">© <span className="current-year">{year}</span> 
-                            <Link href="https://themeforest.net/user/dexignzone">DexignZone</Link> Theme. All Rights Reserved.</p>
+                            <p className="copyright-text">© <span className="current-year">{year}</span>
+                                <Link href="https://themeforest.net/user/dexignzone">DexignZone</Link> Theme. All Rights Reserved.</p>
                         </div>
                     </div>
                 </div>

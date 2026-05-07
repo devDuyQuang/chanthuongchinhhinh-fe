@@ -471,9 +471,9 @@ function Header({ menu, settings }: HeaderProps) {
 
     const result = await sendEmail(form.current);
     if (result.success) {
-      console.log("SUCCESS!", result.message);
+      // console.log("SUCCESS!", result.message);
     } else {
-      console.error("FAILED...", result.message);
+      // console.error("FAILED...", result.message);
     }
   }
 
@@ -489,30 +489,30 @@ function Header({ menu, settings }: HeaderProps) {
   const topbarItems: TopbarInfoItem[] =
     rawItems.length > 0
       ? headerinfo.slice(0, 6).map((defaultItem: any, index: number) => {
-          const adminItem = rawItems[index];
+        const adminItem = rawItems[index];
 
-          return {
-            title: adminItem?.title || defaultItem?.title || "",
-            subtitle:
-              adminItem?.description ||
-              adminItem?.subtitle ||
-              adminItem?.paragraph ||
-              defaultItem?.paragraph ||
-              "",
-            image: defaultItem?.image,
-            link: adminItem?.link || "#",
-          };
-        })
+        return {
+          title: adminItem?.title || defaultItem?.title || "",
+          subtitle:
+            adminItem?.description ||
+            adminItem?.subtitle ||
+            adminItem?.paragraph ||
+            defaultItem?.paragraph ||
+            "",
+          image: defaultItem?.image,
+          link: adminItem?.link || "#",
+        };
+      })
       : headerinfo.slice(0, 6).map((item: any) => ({
-          title: item?.title || "",
-          subtitle: item?.paragraph || "",
-          image: item?.image,
-          link: "#",
-        }));
-  console.log(
-    "MENU RENDER:",
-    menu.map((it) => it.title),
-  );
+        title: item?.title || "",
+        subtitle: item?.paragraph || "",
+        image: item?.image,
+        link: "#",
+      }));
+  // console.log(
+  //   "MENU RENDER:",
+  //   menu.map((it) => it.title),
+  // );
 
   return (
     <>
@@ -588,9 +588,8 @@ function Header({ menu, settings }: HeaderProps) {
                       return (
                         <li
                           key={i}
-                          className={`has-mega-menu sub-menu-down auto-width menu-left ${
-                            i === isActive ? "open" : ""
-                          }`}
+                          className={`has-mega-menu sub-menu-down auto-width menu-left ${i === isActive ? "open" : ""
+                            }`}
                         >
                           <Link
                             href="#"
@@ -646,9 +645,8 @@ function Header({ menu, settings }: HeaderProps) {
                           </Link>
 
                           <ul
-                            className={`sub-menu ${
-                              isBenhLyMenu ? "benh-ly-sub-menu" : ""
-                            }`}
+                            className={`sub-menu ${isBenhLyMenu ? "benh-ly-sub-menu" : ""
+                              }`}
                           >
                             {data.content?.map((item, index) => (
                               <li
@@ -755,9 +753,8 @@ function Header({ menu, settings }: HeaderProps) {
         </div>
 
         <div
-          className={`offcanvas dz-offcanvas offcanvas offcanvas-end ${
-            show === 1 ? "show" : ""
-          }`}
+          className={`offcanvas dz-offcanvas offcanvas offcanvas-end ${show === 1 ? "show" : ""
+            }`}
           tabIndex={-1}
           id="headerSidebar"
         >

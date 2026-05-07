@@ -97,8 +97,8 @@ function EmpolyBlog({ data }: EmpolyBlogProps) {
                 },
             }));
 
-    console.log("specialists data:", data);
-    console.log("mapped doctors:", doctors);
+    // console.log("specialists data:", data);
+    // console.log("mapped doctors:", doctors);
 
     return (
         <div className="row">

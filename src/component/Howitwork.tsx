@@ -114,10 +114,10 @@ function Howitwork({ data }: HowitworkProps) {
     const howItWorkImage = normalizeImageUrl(data?.image);
     const appointmentLink = normalizeAppointmentLink(data?.appointment_btn?.link);
 
-    console.log("how it work data:", data);
-    console.log("how it work image:", howItWorkImage);
-    console.log("how it work features:", features);
-    console.log("how it work stats:", stats);
+    // console.log("how it work data:", data);
+    // console.log("how it work image:", howItWorkImage);
+    // console.log("how it work features:", features);
+    // console.log("how it work stats:", stats);
 
     return (
         <section className="content-inner">
