@@ -18,7 +18,7 @@
 //     remotePatterns: [
 //       {
 //         protocol: "https",
-//         hostname: "api.chanthuongchinhhinh.com.vn",
+//         hostname: process.env.NEXT_PUBLIC_API_BASE_URL ? new URL(process.env.NEXT_PUBLIC_API_BASE_URL).hostname : "api.drduongortho.com",
 //       },
 //     ],
 //   },
@@ -56,11 +56,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.chanthuongchinhhinh.com.vn",
+        hostname: process.env.NEXT_PUBLIC_API_BASE_URL ? new URL(process.env.NEXT_PUBLIC_API_BASE_URL).hostname : "api.drduongortho.com",
       },
       {
         protocol: "https",
-        hostname: "admin.chanthuongchinhhinh.com.vn",
+        hostname: process.env.NEXT_PUBLIC_ADMIN_BASE_URL ? new URL(process.env.NEXT_PUBLIC_ADMIN_BASE_URL).hostname : "admin.drduongortho.com",
         pathname: "/storage/**",
       },
     ],

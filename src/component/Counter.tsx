@@ -39,22 +39,22 @@ function normalizeImageUrl(url?: string) {
     }
 
     if (url.startsWith("/storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
     }
 
     if (url.startsWith("storage/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
     }
 
     if (url.startsWith("/uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage${url}`;
     }
 
     if (url.startsWith("uploads/")) {
-        return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
     }
 
-    return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+    return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
 }
 
 function Counter({ data }: CounterProps) {

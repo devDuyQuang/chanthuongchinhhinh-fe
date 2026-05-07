@@ -166,7 +166,7 @@ function normalizeImageUrl(url?: string | null) {
 
   if (url.startsWith("http")) return url;
 
-  return `https://admin.chanthuongchinhhinh.com.vn/${url.replace(/^\/+/, "")}`;
+  return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url.replace(/^\/+/, "")}`;
 }
 
 async function getCategory(slug: string): Promise<CategoryDetail | null> {

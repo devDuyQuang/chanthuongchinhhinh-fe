@@ -29,22 +29,22 @@ type AppointmentDataProps = {
 //     }
 
 //     if (url.startsWith("/storage/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
 //     }
 
 //     if (url.startsWith("storage/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
 //     }
 
 //     if (url.startsWith("/uploads/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
 //     }
 
 //     if (url.startsWith("uploads/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
 //     }
 
-//     return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//     return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
 // }
 
 function AppointmentData({ data }: AppointmentDataProps) {

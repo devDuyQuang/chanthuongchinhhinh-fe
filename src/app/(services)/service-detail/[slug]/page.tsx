@@ -22,7 +22,7 @@ function normalizeImageUrl(url?: string | null) {
 
     if (url.startsWith("http")) return url;
 
-    return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+    return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
 }
 
 async function getPost(slug: string): Promise<PostDetail | null> {

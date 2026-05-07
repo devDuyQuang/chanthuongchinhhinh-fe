@@ -460,22 +460,22 @@ async function getSetting(): Promise<SettingResponse | null> {
 //     }
 
 //     if (url.startsWith("/storage/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
 //     }
 
 //     if (url.startsWith("storage/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn/${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
 //     }
 
 //     if (url.startsWith("/uploads/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn/storage${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage${url}`;
 //     }
 
 //     if (url.startsWith("uploads/")) {
-//         return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
 //     }
 
-//     return `https://admin.chanthuongchinhhinh.com.vn/storage/${url}`;
+//     return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
 // }
 
 async function AboutUs() {
@@ -499,10 +499,10 @@ async function AboutUs() {
     const connectData = mergeConnectData(connectHome, connectFallback);
 
     const bannerUrl = aboutHero?.banner_hero
-        ? `https://admin.chanthuongchinhhinh.com.vn/${aboutHero.banner_hero}`
+        ? `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${aboutHero.banner_hero}`
         : undefined;
     //  const bannerUrl = aboutHero?.banner_hero
-    //         ? `https://admin.chanthuongchinhhinh.com.vn/storage/${aboutHero.banner_hero}`
+    //         ? `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${aboutHero.banner_hero}`
     //         : undefined;
     return (
         <main className="page-content">

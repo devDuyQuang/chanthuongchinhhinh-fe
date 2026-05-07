@@ -208,7 +208,7 @@ function Footer({ settings }: FooterProps) {
             delay: "0.8s",
             icon: <i className={footerData?.emailIcon || "feather icon-mail"} />,
             title: footerData?.emailTitle || "Email",
-            paragraph: footerData?.email || "info@chanthuongchinhhinh.com.vn",
+            paragraph: footerData?.email || "info@${process.env.NEXT_PUBLIC_BASE_URL}",
         },
     ];
 
@@ -451,9 +451,9 @@ function Footer({ settings }: FooterProps) {
                     <div className="widget-content">
                         <h6 className="title">{footerData?.contactTitle || "Bạn cần hỗ trợ?"}</h6>
                         <Link
-                            href={`mailto:${footerData?.email || "info@chanthuongchinhhinh.com.vn"}`}
+                            href={`mailto:${footerData?.email || "info@${process.env.NEXT_PUBLIC_BASE_URL}"}`}
                         >
-                            {footerData?.email || "info@chanthuongchinhhinh.com.vn"}
+                            {footerData?.email || "info@${process.env.NEXT_PUBLIC_BASE_URL}"}
                         </Link>
                         <span className="text">
                             {footerData?.company

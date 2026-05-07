@@ -144,7 +144,7 @@ function Connect({ data }: ConnectProps) {
             para: (
                 <p>
                     <Link href={`mailto:${data?.email?.value || ""}`}>
-                        {data?.email?.value || "info@chanthuongchinhhinh.com.vn"}
+                        {data?.email?.value || "info@${process.env.NEXT_PUBLIC_BASE_URL}"}
                     </Link>
                 </p>
             ),
