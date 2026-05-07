@@ -239,7 +239,7 @@ type SettingResponse = {
 
 async function getSetting(): Promise<SettingResponse | null> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+        const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
             cache: "no-store",
         });
 
@@ -256,7 +256,7 @@ async function getSetting(): Promise<SettingResponse | null> {
 
 async function getPosts() {
     // Sử dụng biến môi trường hoặc dùng link cứng nếu biến bị undefined
-    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://admin.localhost:8000/api";
+    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.") || "http://admin.localhost:8000/api";
     
     try {
         const res = await fetch(`${baseUrl}/post?limit=4&sort_name=created_at&sort_by=desc`, {
@@ -311,22 +311,22 @@ async function HomePage() {
     //     }
 
     //     if (url.startsWith("/storage/")) {
-    //         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
     //     }
 
     //     if (url.startsWith("storage/")) {
-    //         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
     //     }
 
     //     if (url.startsWith("/uploads/")) {
-    //         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage${url}`;
+    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage${url}`;
     //     }
 
     //     if (url.startsWith("uploads/")) {
-    //         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
+    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
     //     }
 
-    //     return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
+    //     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
     // }
     const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
 

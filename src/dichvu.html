@@ -106,28 +106,28 @@ function normalizeImageUrl(url?: string | null) {
     }
 
     if (url.startsWith("/uploads/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
     }
 
     if (url.startsWith("uploads/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
     }
 
     if (url.startsWith("/storage/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
     }
 
     if (url.startsWith("storage/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
     }
 
-    return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+    return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 }
 
 async function getPosts(): Promise<PostItem[]> {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=12&sort_name=id&sort_by=desc&name=`,
+            `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/post?limit=12&sort_name=id&sort_by=desc&name=`,
             {
                 cache: "no-store",
             }
@@ -147,7 +147,7 @@ async function getPosts(): Promise<PostItem[]> {
 
 async function getSetting() {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+        const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
             cache: "no-store",
         });
 

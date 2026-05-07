@@ -29,22 +29,22 @@ type AppointmentDataProps = {
 //     }
 
 //     if (url.startsWith("/storage/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
 //     }
 
 //     if (url.startsWith("storage/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 //     }
 
 //     if (url.startsWith("/uploads/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
 //     }
 
 //     if (url.startsWith("uploads/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 //     }
 
-//     return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+//     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 // }
 
 function AppointmentData({ data }: AppointmentDataProps) {
@@ -111,7 +111,7 @@ function AppointmentData({ data }: AppointmentDataProps) {
     setSuccessMsg("");
 
     const apiBaseUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "http://api.localhost:8000";
+      (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.") || "http://api.localhost:8000";
 
     try {
       const response = await fetch(`${apiBaseUrl}/appointments`, {

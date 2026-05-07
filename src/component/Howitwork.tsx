@@ -41,22 +41,22 @@ function normalizeImageUrl(url?: string) {
     }
 
     if (url.startsWith("/storage/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
     }
 
     if (url.startsWith("storage/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
     }
 
     if (url.startsWith("/uploads/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
     }
 
     if (url.startsWith("uploads/")) {
-        return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+        return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
     }
 
-    return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+    return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 }
 
 function getDefaultIconClass(index: number) {

@@ -1,7 +1,7 @@
 export function normalizeImageUrl(url?: string | null): string | undefined {
     if (!url) return undefined;
 
-    const baseUrl = process.env.NEXT_PUBLIC_ADMIN_BASE_URL || "";
+    const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.") || "";
 
     if (url.startsWith("http://") || url.startsWith("https://")) {
         return url;

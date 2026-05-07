@@ -22,13 +22,13 @@ function normalizeImageUrl(url?: string | null) {
 
     if (url.startsWith("http")) return url;
 
-    return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+    return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 }
 
 async function getPost(slug: string): Promise<PostDetail | null> {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${slug}`,
+            `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/post/${slug}`,
             { cache: "no-store" },
         );
 

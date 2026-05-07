@@ -32,7 +32,7 @@ type CategoryApiResponse = {
 async function getCategory(slug: string): Promise<CategoryDetail | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/${slug}`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/${slug}`,
       { cache: "no-store" },
     );
 

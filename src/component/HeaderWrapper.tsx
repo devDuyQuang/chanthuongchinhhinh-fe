@@ -3,7 +3,7 @@ import Header from "@/layout/Header";
 
 async function getSettings() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+    const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
       cache: "no-store",
     });
 

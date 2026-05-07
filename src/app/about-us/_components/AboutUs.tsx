@@ -437,7 +437,7 @@ function mergeConnectData(
 
 async function getSetting(): Promise<SettingResponse | null> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+        const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
             cache: "no-store",
         });
 
@@ -460,22 +460,22 @@ async function getSetting(): Promise<SettingResponse | null> {
 //     }
 
 //     if (url.startsWith("/storage/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
 //     }
 
 //     if (url.startsWith("storage/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
 //     }
 
 //     if (url.startsWith("/uploads/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage${url}`;
 //     }
 
 //     if (url.startsWith("uploads/")) {
-//         return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
+//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
 //     }
 
-//     return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${url}`;
+//     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
 // }
 
 async function AboutUs() {
@@ -499,10 +499,10 @@ async function AboutUs() {
     const connectData = mergeConnectData(connectHome, connectFallback);
 
     const bannerUrl = aboutHero?.banner_hero
-        ? `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${aboutHero.banner_hero}`
+        ? `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${aboutHero.banner_hero}`
         : undefined;
     //  const bannerUrl = aboutHero?.banner_hero
-    //         ? `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/storage/${aboutHero.banner_hero}`
+    //         ? `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${aboutHero.banner_hero}`
     //         : undefined;
     return (
         <main className="page-content">

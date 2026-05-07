@@ -32,7 +32,7 @@
 // async function getCategory(slug: string): Promise<CategoryDetail | null> {
 //     try {
 //         const res = await fetch(
-//             `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/${slug}?fields=id,name,slug,description`,
+//             `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/${slug}?fields=id,name,slug,description`,
 //             { cache: "no-store" }
 //         );
 
@@ -166,13 +166,13 @@ function normalizeImageUrl(url?: string | null) {
 
   if (url.startsWith("http")) return url;
 
-  return `${process.env.NEXT_PUBLIC_ADMIN_BASE_URL}/${url.replace(/^\/+/, "")}`;
+  return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url.replace(/^\/+/, "")}`;
 }
 
 async function getCategory(slug: string): Promise<CategoryDetail | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/${slug}?fields=id,name,slug,description`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/${slug}?fields=id,name,slug,description`,
       { cache: "no-store" },
     );
 
@@ -189,7 +189,7 @@ async function getCategory(slug: string): Promise<CategoryDetail | null> {
 async function getCategories() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category`,
       { cache: "no-store" },
     );
 
@@ -220,7 +220,7 @@ async function getCategories() {
 async function getLatestPosts() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=3&sort_name=id&sort_by=desc&name=`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/post?limit=3&sort_name=id&sort_by=desc&name=`,
       { cache: "no-store" },
     );
 

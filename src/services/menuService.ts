@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/$/, "");
+const API_BASE = ((process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.") ?? "").replace(/\/$/, "");
 const API_URL = API_BASE ? `${API_BASE}/menu` : "";
 
 export type HeaderContentItem = {

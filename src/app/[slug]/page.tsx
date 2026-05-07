@@ -53,7 +53,7 @@ type PostListResponse = {
 async function getPost(slug: string): Promise<PostDetail | null> {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post/${slug}`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/post/${slug}`,
       { cache: "no-store" },
     );
 
@@ -70,7 +70,7 @@ async function getPost(slug: string): Promise<PostDetail | null> {
 async function getCategories() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/category`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category`,
       { cache: "no-store" },
     );
 
@@ -93,7 +93,7 @@ async function getCategories() {
 async function getLatestPosts() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/post?limit=3&sort_name=id&sort_by=desc&name=`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/post?limit=3&sort_name=id&sort_by=desc&name=`,
       { cache: "no-store" },
     );
 

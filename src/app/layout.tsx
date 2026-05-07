@@ -87,7 +87,7 @@ export const metadata: Metadata = {
 async function getSettings() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`,
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`,
       { cache: "no-store" }
     );
 

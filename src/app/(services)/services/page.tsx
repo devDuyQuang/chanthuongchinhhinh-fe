@@ -178,7 +178,7 @@ type ServicesHomeClinicData = {
 };
 async function getSetting(): Promise<SettingResponse | null> {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/setting`, {
+        const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
             cache: "no-store",
         });
 
@@ -193,7 +193,7 @@ async function getSetting(): Promise<SettingResponse | null> {
 async function getServiceCategoryPosts(): Promise<CategoryPostItem[]> {
     try {
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/category/dich-vu-dieu-tri?fields=id,name,slug,description`,
+            `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/dich-vu-dieu-tri?fields=id,name,slug,description`,
             {
                 cache: "no-store",
             }
