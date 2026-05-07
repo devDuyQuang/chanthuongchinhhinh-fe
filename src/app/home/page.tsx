@@ -250,6 +250,20 @@ type SettingResponse = {
             patient_des?: string;
             banner_hero?: string;
         };
+        utilities_home_clinic?: {
+            title?: string;
+            description?: string;
+            button_text?: string;
+            button_link?: string;
+            phone?: string;
+            image_one?: string;
+            image_two?: string;
+            open_hours?: {
+                day?: string;
+                time?: string;
+            }[];
+            utilities?: string[];
+        };
     };
 };
 
@@ -297,7 +311,7 @@ async function HomePage() {
     const posts = await getPosts();
     // console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
     const hero = setting?.data?.hero_home_clinic;
-    const facility = setting?.data?.utilities_home;
+    const facility = setting?.data?.utilities_home_clinic;
     const stats = setting?.data?.stats_home;
     const services = setting?.data?.services_home;
     const appointment = setting?.data?.appointment_home_clinic;
