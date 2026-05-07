@@ -20,30 +20,30 @@ function StayInformed({ posts }: { posts: Post[] }) {
             <div className="container">
                 <div className="section-head style-1 m-b30 row align-items-end">
                     <div className="col-lg-7 col-md-8">
-                        <h2 className="title m-b0 fw-bold">Tin Mới Nhất</h2>
+                        <h2 className="title m-b0 fw-bold">Tin Mới</h2>
                     </div>
                     <div className="col-lg-5 col-md-4 text-md-end d-none d-md-block">
-                        <Link href="/" className="btn btn-icon btn-primary btn-shadow"> 
+                        <Link href="/" className="btn btn-icon btn-primary btn-shadow">
                             Xem tất cả <span className="right-icon"><i className="feather icon-arrow-right" /></span>
                         </Link>
                     </div>
                 </div>
-                
+
                 <div className="row g-20">
                     {/* Bài 1: Cột trái (dz-card-overlay overlay-none) */}
                     {mainPosts[0] && (
                         <div className="col-lg-4">
-                            <div className="dz-card style-2 dz-card-overlay overlay-none" 
-                                 style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[0].image)})` }}>
+                            <div className="dz-card style-2 dz-card-overlay overlay-none"
+                                style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[0].image)})` }}>
                                 <div className="dz-info">
                                     <div className="content-half">
                                         <div className="post-date">{formatDate(mainPosts[0].created_at)}</div>
-                                        <h3 className="dz-title fw-bold"> 
-                                            <Link href={`/${mainPosts[0].slug}`}>{mainPosts[0].name}</Link> 
+                                        <h3 className="dz-title fw-bold">
+                                            <Link href={`/${mainPosts[0].slug}`}>{mainPosts[0].name}</Link>
                                         </h3>
                                     </div>
                                     <div className="bottom-info">
-                                        <Link href={`/${mainPosts[0].slug}`} className="btn btn-icon btn-lg btn-primary btn-shadow"> 
+                                        <Link href={`/${mainPosts[0].slug}`} className="btn btn-icon btn-lg btn-primary btn-shadow">
                                             Đọc thêm <span className="right-icon"><i className="feather icon-arrow-right" /></span>
                                         </Link>
                                     </div>
@@ -55,13 +55,13 @@ function StayInformed({ posts }: { posts: Post[] }) {
                     {/* Bài 2: Cột giữa (Large card) */}
                     {mainPosts[1] && (
                         <div className="col-xl-5 col-lg-8">
-                            <div className="dz-card style-2 dz-card-overlay" 
-                                 style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[1].image)})` }}>
+                            <div className="dz-card style-2 dz-card-overlay"
+                                style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[1].image)})` }}>
                                 <div className="dz-info">
                                     <div className="post-date">{formatDate(mainPosts[1].created_at)}</div>
                                     <div className="bottom-info">
-                                        <h3 className="dz-title fw-bold"> 
-                                            <Link href={`/${mainPosts[1].slug}`}>{mainPosts[1].name}</Link> 
+                                        <h3 className="dz-title fw-bold">
+                                            <Link href={`/${mainPosts[1].slug}`}>{mainPosts[1].name}</Link>
                                         </h3>
                                         <Link href={`/${mainPosts[1].slug}`} className="btn btn-square btn-white rounded-circle">
                                             <i className="feather icon-arrow-up-right" />
@@ -81,8 +81,8 @@ function StayInformed({ posts }: { posts: Post[] }) {
                                     <div className="dz-card style-2 dz-card-overlay card-sm no-image">
                                         <div className="dz-info">
                                             <div className="post-date">{formatDate(mainPosts[2].created_at)}</div>
-                                            <h3 className="dz-title fw-bold"> 
-                                                <Link href={`/${mainPosts[2].slug}`}>{mainPosts[2].name}</Link> 
+                                            <h3 className="dz-title fw-bold">
+                                                <Link href={`/${mainPosts[2].slug}`}>{mainPosts[2].name}</Link>
                                             </h3>
                                             <div className="bottom-info ms-auto">
                                                 <Link href={`/${mainPosts[2].slug}`} className="btn btn-square btn-white rounded-circle">
@@ -96,13 +96,13 @@ function StayInformed({ posts }: { posts: Post[] }) {
                             {/* Bài 4: Card nhỏ có ảnh */}
                             {mainPosts[3] && (
                                 <div className="col-xl-12 col-md-6">
-                                    <div className="dz-card style-2 dz-card-overlay card-sm" 
-                                         style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[3].image)})` }}>
+                                    <div className="dz-card style-2 dz-card-overlay card-sm"
+                                        style={{ backgroundImage: `url(${normalizeImageUrl(mainPosts[3].image)})` }}>
                                         <div className="dz-info">
                                             <div className="post-date">{formatDate(mainPosts[3].created_at)}</div>
                                             <div className="bottom-info">
-                                                <h3 className="dz-title fw-bold"> 
-                                                    <Link href={`/${mainPosts[3].slug}`}>{mainPosts[3].name}</Link> 
+                                                <h3 className="dz-title fw-bold">
+                                                    <Link href={`/${mainPosts[3].slug}`}>{mainPosts[3].name}</Link>
                                                 </h3>
                                                 <Link href={`/${mainPosts[3].slug}`} className="btn btn-square btn-white rounded-circle">
                                                     <i className="feather icon-arrow-up-right" />
