@@ -21,29 +21,55 @@ export type HeaderItem = {
 interface RawMenuItem {
   name?: string;
   path?: string | null;
+  public_url?: string | null;
+  status?: number | string | boolean | null;
+  is_active?: number | string | boolean | null;
+  active?: number | string | boolean | null;
+  is_show?: number | string | boolean | null;
+  published?: number | string | boolean | null;
   order_position?: number;
   children?: RawMenuItem[];
-  [k: string]: any;
+  [key: string]: any;
 }
 
-function normalizePath(p?: string | null): string {
-  if (!p) return "/";
+function isActiveMenu(item: RawMenuItem): boolean {
+  const value =
+    item?.status ??
+    item?.is_active ??
+    item?.active ??
+    item?.is_show ??
+    item?.published;
+
+  // Nếu API chưa trả status thì vẫn giữ menu, không tự ẩn
+  if (value === undefined || value === null) return true;
+
+  return (
+    value === true ||
+    value === 1 ||
+    value === "1" ||
+    String(value).toLowerCase() === "true" ||
+    String(value).toLowerCase() === "active"
+  );
+}
+
+function normalizePath(path?: string | null): string {
+  const value = String(path || "").trim();
+
+  if (!value) return "#";
 
   try {
-    const url = new URL(p, "http://example.com");
+    const url = new URL(value, "http://example.com");
     return url.pathname === "" ? "/" : `${url.pathname}${url.search || ""}`;
   } catch {
-    return p.startsWith("/") ? p : `/${p}`;
+    return value.startsWith("/") ? value : `/${value}`;
   }
 }
 
 function mapTemplateRoute(name?: string, path?: string | null): string {
   const normalized = normalizePath(path);
-  const title = (name || "").trim().toLowerCase();
+  const title = String(name || "").trim().toLowerCase();
 
-  if (normalized && normalized !== "/") {
-    return normalized;
-  }
+  if (normalized && normalized !== "#" && normalized !== "/") return normalized;
 
   if (title === "trang chủ") return "/";
   if (title === "giới thiệu") return "/gioi-thieu";
@@ -54,8 +80,7 @@ function mapTemplateRoute(name?: string, path?: string | null): string {
 }
 
 function shouldHideFromMainNav(name?: string): boolean {
-  const title = (name || "").trim().toLowerCase();
-  return title === "đặt lịch khám";
+  return String(name || "").trim().toLowerCase() === "đặt lịch khám";
 }
 
 function sortByAdminOrder<T extends { order_position?: number }>(items: T[]): T[] {
@@ -64,13 +89,23 @@ function sortByAdminOrder<T extends { order_position?: number }>(items: T[]): T[
   );
 }
 
-function mapRawToHeaderContent(items?: RawMenuItem[]): HeaderContentItem[] | undefined {
-  if (!items || !Array.isArray(items) || items.length === 0) return undefined;
+function getMenuPath(item: RawMenuItem): string | null {
+  return item.path || item.public_url || null;
+}
 
-  return sortByAdminOrder(items).map((it) => ({
-    title: it.name ?? "No title",
-    to: mapTemplateRoute(it.name, it.path),
-    order_position: it.order_position ?? 0,
+function mapRawToHeaderContent(items?: RawMenuItem[]): HeaderContentItem[] | undefined {
+  if (!Array.isArray(items) || items.length === 0) return undefined;
+
+  const activeChildren = sortByAdminOrder(
+    items.filter((item) => isActiveMenu(item)),
+  );
+
+  if (activeChildren.length === 0) return undefined;
+
+  return activeChildren.map((item) => ({
+    title: item.name ?? "No title",
+    to: mapTemplateRoute(item.name, getMenuPath(item)),
+    order_position: item.order_position ?? 0,
   }));
 }
 
@@ -86,26 +121,26 @@ export async function getMenu(location: string = "header"): Promise<HeaderItem[]
   });
 
   if (!res.ok) {
-    const txt = await res.text();
-    throw new Error(`Failed to fetch menu: ${res.status} ${res.statusText} — ${txt}`);
+    const text = await res.text();
+    throw new Error(`Failed to fetch menu: ${res.status} ${res.statusText} — ${text}`);
   }
 
   const json = await res.json();
   const raw: RawMenuItem[] = Array.isArray(json?.data) ? json.data : [];
 
-  const filtered = sortByAdminOrder(
-    raw.filter((it) => !shouldHideFromMainNav(it.name)),
+  const activeParents = sortByAdminOrder(
+    raw.filter((item) => isActiveMenu(item) && !shouldHideFromMainNav(item.name)),
   );
 
-  return filtered.map((it) => {
-    const content = it.children ? mapRawToHeaderContent(it.children) : undefined;
+  return activeParents.map((item) => {
+    const content = mapRawToHeaderContent(item.children);
 
     return {
-      title: it.name ?? "No title",
-      to: mapTemplateRoute(it.name, it.path),
+      title: item.name ?? "No title",
+      to: mapTemplateRoute(item.name, getMenuPath(item)),
       classChange: content && content.length > 0 ? "sub-menu-down" : undefined,
       content,
-      order_position: it.order_position ?? 0,
+      order_position: item.order_position ?? 0,
     };
   });
 }
