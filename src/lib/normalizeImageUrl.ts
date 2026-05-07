@@ -15,10 +15,17 @@ export function normalizeImageUrl(url?: string | null): string | undefined {
         return `${baseUrl}/${url}`;
     }
 
+    const domainText = (process.env.NEXT_PUBLIC_BASE_URL || "")
+        .replace(/^https?:\/\//, "")
+        .replace(/\/$/, "")
+        .replace(/\./g, "_");
+
     // nhóm file tenant/domain-specific
     if (
-        url.startsWith("/uploads/chanthuongchinhhinh_com_vn/") ||
-        url.startsWith("uploads/chanthuongchinhhinh_com_vn/")
+        domainText && (
+            url.startsWith(`/uploads/${domainText}/`) ||
+            url.startsWith(`uploads/${domainText}/`)
+        )
     ) {
         const cleanUrl = url.startsWith("/") ? url : `/${url}`;
         return `${baseUrl}/storage${cleanUrl}`;
