@@ -618,8 +618,8 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <h2 className="title m-b0 fw-bold">
-                                    {services?.title || "Start Feeling Your Best"} <br />
-                                    {services?.subtitle || "Explore Our Wellness Services"}
+                                    {services?.title || "Dịch Vụ"}
+                                    {/* {services?.subtitle || "Explore Our Wellness Services"} */}
                                 </h2>
                             </div>
 
