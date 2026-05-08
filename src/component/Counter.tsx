@@ -90,6 +90,12 @@ function Counter({ data }: CounterProps) {
         normalizeImageUrl(data?.background_image) ||
         IMAGES.bg2.src;
 
+
+        // --- THÊM ĐOẠN LOG NÀY ---
+    console.log("--- DEBUG COUNTER IMAGES ---");
+    console.log("1. Raw Background Data:", data?.background || data?.background_image);
+    console.log("2. Normalized BG URL:", backgroundImage);
+
     return (
         <section
             className="content-inner-3 bg-secondary background-blend-multiply bg-img-fix"
@@ -107,23 +113,36 @@ function Counter({ data }: CounterProps) {
                     <div className="col-lg-3 col-12 m-b30">
                         <div className="avatar-group m-b20 d-flex flex-wrap">
                             {avatarImages.slice(0, 4).map((avatar, index) => {
-                                const src =
-                                    typeof avatar === "string"
-                                        ? normalizeImageUrl(avatar) || avatar
-                                        : avatar;
+                                const src = typeof avatar === "string"
+                                    // ? normalizeImageUrl(avatar) || avatar
+                                    // : avatar;
+                                    ? normalizeImageUrl(avatar)
+                                    : (avatar as any)?.src || avatar;
+
+                                    if (!src) return null;
 
                                 return (
                                     <div
                                         key={index}
                                         className="avatar rounded-circle border border-white border-3 overflow-hidden"
                                     >
+                                        {/* <Image
+                                            src={src}
+                                            alt={`avatar-${index + 1}`}
+                                            width={50}
+                                            height={50}
+                                            className="w-100 h-100 object-fit-cover"
+                                        /> */}
+
                                         <Image
                                             src={src}
                                             alt={`avatar-${index + 1}`}
                                             width={50}
                                             height={50}
                                             className="w-100 h-100 object-fit-cover"
+                                            unoptimized={true} // Thêm cái này nếu anh muốn bỏ qua tối ưu hóa của Next trong lúc dev
                                         />
+
                                     </div>
                                 );
                             })}
