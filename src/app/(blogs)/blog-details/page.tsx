@@ -37,6 +37,7 @@ function BlogDetail() {
                 <section className="content-inner-3">
                     <div className="container">
                         <div className="row">
+                            
                             <div className="col-xl-9 pe-xl-5 m-b30">
                                 <div className="dz-blog blog-single sidebar style-1">
                                     <div className="dz-info">
@@ -142,11 +143,12 @@ function BlogDetail() {
                             <div className="col-xl-3">
                                 <Sidebar />
                             </div>
+                            
                         </div>
                     </div>
                 </section>
             </main>
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 }
