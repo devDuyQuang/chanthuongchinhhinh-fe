@@ -118,9 +118,9 @@ const Appointment = async () => {
   const rawFaq = setting?.data?.faq_home_clinic;
   const faq = rawFaq
     ? {
-        ...rawFaq,
-        image: normalizeImageUrl(rawFaq.image),
-      }
+      ...rawFaq,
+      image: normalizeImageUrl(rawFaq.image),
+    }
     : undefined;
 
   return (
@@ -144,7 +144,6 @@ const Appointment = async () => {
           </div>
         </section>
 
-        <Alllocation data={locations} />
         <Frequently data={faq} />
       </main>
     </>
