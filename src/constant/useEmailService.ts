@@ -4,18 +4,17 @@ export const useEmailService = () => {
       const formData = new FormData(form);
 
       const payload = {
-        first_name: formData.get("dzFirstName"),
-        last_name: formData.get("dzLastName"),
-        email: formData.get("dzEmail"),
-        phone: formData.get("dzPhoneNumber"),
-        message: formData.get("dzMessage"),
+        first_name: String(formData.get("dzFirstName") || "").trim(),
+        last_name: String(formData.get("dzLastName") || "").trim(),
+        email: String(formData.get("dzEmail") || "").trim(),
+        phone: String(formData.get("dzPhoneNumber") || "").trim(),
+        message: String(formData.get("dzMessage") || "").trim(),
       };
 
       const API_BASE = (
-        process.env.NEXT_PUBLIC_BASE_URL || ""
-      )
-        .replace(/^https?:\/\//, (match) => match + "api.")
-        .replace(/\/$/, "");
+        process.env.NEXT_PUBLIC_API_BASE_URL ||
+        `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/\/$/, "")}/api`
+      ).replace(/\/$/, "");
 
       const response = await fetch(`${API_BASE}/contact`, {
         method: "POST",
@@ -26,16 +25,23 @@ export const useEmailService = () => {
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: result?.message || "Không thể gửi liên hệ.",
+        };
+      }
 
       return {
-        success: result.success,
-        message: result.message,
+        success: Boolean(result?.success),
+        message: result?.message || "Gửi liên hệ thành công.",
       };
     } catch {
       return {
         success: false,
-        message: "Không thể gửi liên hệ",
+        message: "Không thể kết nối tới máy chủ.",
       };
     }
   };

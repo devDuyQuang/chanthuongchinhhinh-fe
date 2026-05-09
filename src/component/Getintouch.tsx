@@ -1,83 +1,3 @@
-// "use client"
-// import { useRef } from "react";
-// import { IMAGES } from "../constant/theme";
-// import { useEmailService } from "@/constant/useEmailService";
-
-// function Getintouch() {
-//     const form = useRef<HTMLFormElement | null>(null);
-//     const { sendEmail } = useEmailService();
-//     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//         e.preventDefault();
-//         if (!form.current) return;
-//         const result = await sendEmail(form.current);
-//         if (result.success) {
-//             console.log('SUCCESS!', result.message);
-//         } else {
-//             console.error('FAILED...', result.message);
-//         }
-//     };
-
-//     return (
-//         <>
-//             <div className="col-xl-5 m-b30" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-//                 <div className="form-wrapper style-1">
-//                     <div className="form-body bg-primary background-blend-burn"
-//                         style={{ backgroundImage: `url(${IMAGES.bg2png.src})`, backgroundSize: 'cover' }}
-//                     >
-//                         <div className="section-head style-1 m-b30">
-//                             <h2 className="title text-white m-b0">Get in Touch</h2>
-//                             <p className="text-white m-b0 fw-medium">You can react us anytime</p>
-//                         </div>
-//                         <form ref={form} onSubmit={handleSubmit} className="dzForm">
-//                             <input type="hidden" className="form-control" name="dzToDo" value="Contact" />
-//                             <input type="hidden" className="form-control" name="reCaptchaEnable" value="0" />
-//                             <div className="dzFormMsg"></div>
-//                             <div className="row">
-//                                 <div className="col-sm-6 m-b30">
-//                                     <div className="form-floating floating-underline input-light">
-//                                         <input name="dzFirstName" type="text" className="form-control" id="inputFirstName" placeholder="First Name" />
-//                                         <label htmlFor="inputFirstName">First Name</label>
-//                                     </div>
-//                                 </div>
-//                                 <div className="col-sm-6 m-b30">
-//                                     <div className="form-floating floating-underline input-light">
-//                                         <input name="dzLastName" type="text" className="form-control" id="inputLastName" placeholder="Last Name" />
-//                                         <label htmlFor="inputLastName">Last Name</label>
-//                                     </div>
-//                                 </div>
-//                                 <div className="col-sm-6 m-b30">
-//                                     <div className="form-floating floating-underline input-light">
-//                                         <input name="dzEmail" type="email" className="form-control" id="inputYourEmail" placeholder="Your Email" />
-//                                         <label htmlFor="inputYourEmail">Your Email</label>
-//                                     </div>
-//                                 </div>
-//                                 <div className="col-sm-6 m-b30">
-//                                     <div className="form-floating floating-underline input-light">
-//                                         <input name="dzPhoneNumber" type="number" className="form-control dz-number" id="inputPhoneNumber" placeholder="Phone Number" />
-//                                         <label htmlFor="inputPhoneNumber">Phone Number</label>
-//                                     </div>
-//                                 </div>
-//                                 <div className="col-sm-12 m-b30">
-//                                     <div className="form-floating floating-underline input-light">
-//                                         <textarea name="dzMessage" className="form-control" id="inputMessage" rows={6} placeholder="Select Service"></textarea>
-//                                         <label htmlFor="inputMessage">Message</label>
-//                                     </div>
-//                                 </div>
-//                                 <div className="col-sm-12">
-//                                     <button type="submit" name="submit" className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow">
-//                                         Submit <span className="right-icon"><i className="feather icon-arrow-right" /></span>
-//                                     </button>
-//                                 </div>
-//                             </div>
-//                         </form>
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     )
-// }
-// export default Getintouch;
-
 "use client";
 
 import { useRef, useState } from "react";
@@ -102,6 +22,13 @@ function Getintouch({ data }: GetintouchProps) {
   const [successMsg, setSuccessMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const clearError = (key: string) => {
+    setErrors((prev) => ({
+      ...prev,
+      [key]: "",
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -120,11 +47,11 @@ function Getintouch({ data }: GetintouchProps) {
     const newErrors: Record<string, string> = {};
 
     if (!payload.firstName || payload.firstName.length < 2) {
-      newErrors.dzFirstName = "Vui lòng nhập tên của bạn.";
+      newErrors.dzFirstName = "Vui lòng nhập họ của bạn.";
     }
 
     if (!payload.lastName || payload.lastName.length < 2) {
-      newErrors.dzLastName = "Vui lòng nhập họ của bạn.";
+      newErrors.dzLastName = "Vui lòng nhập tên của bạn.";
     }
 
     if (!payload.email) {
@@ -164,9 +91,7 @@ function Getintouch({ data }: GetintouchProps) {
 
     if (result.success) {
       toast.success("Gửi liên hệ thành công!");
-      setSuccessMsg(
-        "Gửi liên hệ thành công! Chúng tôi sẽ phản hồi bạn sớm nhất.",
-      );
+      setSuccessMsg("Gửi liên hệ thành công! Chúng tôi sẽ phản hồi bạn sớm nhất.");
       form.current.reset();
     } else {
       toast.error(result.message || "Không thể gửi liên hệ.");
@@ -189,26 +114,17 @@ function Getintouch({ data }: GetintouchProps) {
         >
           <div className="section-head style-1 m-b30">
             <h2 className="title text-white m-b0">
-              {data?.form_title || "Get in Touch"}
+              {data?.form_title || "Gửi Liên Hệ"}
             </h2>
+
             <p className="text-white m-b0 fw-medium">
-              {data?.form_subtitle || "You can react us anytime"}
+              {data?.form_subtitle || "Chúng tôi sẽ phản hồi sớm nhất để hỗ trợ bạn."}
             </p>
           </div>
 
           <form ref={form} onSubmit={handleSubmit} className="dzForm">
-            <input
-              type="hidden"
-              className="form-control"
-              name="dzToDo"
-              value="Contact"
-            />
-            <input
-              type="hidden"
-              className="form-control"
-              name="reCaptchaEnable"
-              value="0"
-            />
+            <input type="hidden" className="form-control" name="dzToDo" value="Contact" />
+            <input type="hidden" className="form-control" name="reCaptchaEnable" value="0" />
 
             <div className="dzFormMsg"></div>
 
@@ -220,11 +136,12 @@ function Getintouch({ data }: GetintouchProps) {
                     type="text"
                     className={`form-control ${errors.dzFirstName ? "is-invalid" : ""}`}
                     id="inputFirstName"
-                    placeholder="First Name"
-                    onChange={() => setErrors({ ...errors, dzFirstName: "" })}
+                    placeholder="Họ"
+                    onChange={() => clearError("dzFirstName")}
                   />
-                  <label htmlFor="inputFirstName">First Name</label>
+                  <label htmlFor="inputFirstName">Họ</label>
                 </div>
+
                 {errors.dzFirstName && (
                   <div className="text-white mt-1 small text-start">
                     {errors.dzFirstName}
@@ -239,11 +156,12 @@ function Getintouch({ data }: GetintouchProps) {
                     type="text"
                     className={`form-control ${errors.dzLastName ? "is-invalid" : ""}`}
                     id="inputLastName"
-                    placeholder="Last Name"
-                    onChange={() => setErrors({ ...errors, dzLastName: "" })}
+                    placeholder="Tên"
+                    onChange={() => clearError("dzLastName")}
                   />
-                  <label htmlFor="inputLastName">Last Name</label>
+                  <label htmlFor="inputLastName">Tên</label>
                 </div>
+
                 {errors.dzLastName && (
                   <div className="text-white mt-1 small text-start">
                     {errors.dzLastName}
@@ -258,11 +176,12 @@ function Getintouch({ data }: GetintouchProps) {
                     type="email"
                     className={`form-control ${errors.dzEmail ? "is-invalid" : ""}`}
                     id="inputYourEmail"
-                    placeholder="Your Email"
-                    onChange={() => setErrors({ ...errors, dzEmail: "" })}
+                    placeholder="Email"
+                    onChange={() => clearError("dzEmail")}
                   />
-                  <label htmlFor="inputYourEmail">Your Email</label>
+                  <label htmlFor="inputYourEmail">Email</label>
                 </div>
+
                 {errors.dzEmail && (
                   <div className="text-white mt-1 small text-start">
                     {errors.dzEmail}
@@ -277,11 +196,12 @@ function Getintouch({ data }: GetintouchProps) {
                     type="tel"
                     className={`form-control dz-number ${errors.dzPhoneNumber ? "is-invalid" : ""}`}
                     id="inputPhoneNumber"
-                    placeholder="Phone Number"
-                    onChange={() => setErrors({ ...errors, dzPhoneNumber: "" })}
+                    placeholder="Số điện thoại"
+                    onChange={() => clearError("dzPhoneNumber")}
                   />
-                  <label htmlFor="inputPhoneNumber">Phone Number</label>
+                  <label htmlFor="inputPhoneNumber">Số điện thoại</label>
                 </div>
+
                 {errors.dzPhoneNumber && (
                   <div className="text-white mt-1 small text-start">
                     {errors.dzPhoneNumber}
@@ -296,11 +216,12 @@ function Getintouch({ data }: GetintouchProps) {
                     className={`form-control ${errors.dzMessage ? "is-invalid" : ""}`}
                     id="inputMessage"
                     rows={6}
-                    placeholder="Message"
-                    onChange={() => setErrors({ ...errors, dzMessage: "" })}
+                    placeholder="Nội dung"
+                    onChange={() => clearError("dzMessage")}
                   ></textarea>
-                  <label htmlFor="inputMessage">Message</label>
+                  <label htmlFor="inputMessage">Nội dung</label>
                 </div>
+
                 {errors.dzMessage && (
                   <div className="text-white mt-1 small text-start">
                     {errors.dzMessage}
@@ -315,7 +236,7 @@ function Getintouch({ data }: GetintouchProps) {
                   disabled={isSubmitting}
                   className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow"
                 >
-                  {isSubmitting ? "Đang gửi..." : "Submit"}{" "}
+                  {isSubmitting ? "Đang gửi..." : "Gửi liên hệ"}
                   <span className="right-icon">
                     <i className="feather icon-arrow-right" />
                   </span>
