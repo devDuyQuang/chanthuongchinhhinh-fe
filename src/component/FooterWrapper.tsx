@@ -39,7 +39,7 @@ async function getSettings(): Promise<SettingResponse | null> {
         const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.");
         
         // BẮT BUỘC: Thêm ?keys=site,floating_info
-        const url = `${baseUrl}/setting?keys=site,floating_info,floating_info_clinic`;
+        const url = `${baseUrl}/setting?keys=site,floating_info,floating_info_clinic,site_assets_clinic`;
         
         //console.log("Đang gọi API tại:", url); // Anh xem log terminal xem có đúng url này không
 
@@ -64,7 +64,8 @@ export default async function FooterWrapper() {
             settings={{ 
                 site: data?.site, 
                 // Lấy cả 2 trường hợp: có alias hoặc giữ nguyên tên gốc trong DB
-                floating_info: data?.floating_info || data?.floating_info_clinic 
+                floating_info: data?.floating_info || data?.floating_info_clinic,
+                site_assets_clinic: data?.site_assets_clinic
             }} 
         />
     );

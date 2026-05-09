@@ -26,6 +26,7 @@ type FooterProps = {
     settings?: {
         site?: SiteCommonData;
         floating_info?: FloatingInfoData; // Thay any bằng Type cụ thể
+        site_assets_clinic?: any;
     };
 };
 
@@ -41,7 +42,9 @@ function Footer({ settings }: FooterProps) {
 
     const site = settings?.site;
     const footerData = mapSiteToFooterData(site);
-    
+    const site_assets_clinic = settings?.site_assets_clinic;
+    const logo = site_assets_clinic?.logo ? process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
+
     // Xử lý dữ liệu floating_info an toàn
     let floatingData = settings?.floating_info;
     if (typeof floatingData === 'string') {
@@ -185,13 +188,13 @@ function Footer({ settings }: FooterProps) {
                             <div className="widget widget_about me-2">
                                 <div className="footer-logo logo-white">
                                     <Link href="/">
-                                        <Image src={IMAGES.logo} alt={footerData?.company || "ClinicMaster"} />
+                                        <Image src={logo} alt={footerData?.company || "DrDuongOrtho"} width={200} height={60} />
                                     </Link>
                                 </div>
 
                                 <p>
                                     <span className="text-primary">
-                                        {footerData?.company || "ClinicMaster"}
+                                        {footerData?.company || "DrDuongOrtho"}
                                     </span>{" "}
                                     {footerData?.description ||
                                         "là hệ thống phòng khám chuyên sâu về chấn thương chỉnh hình, cơ xương khớp và phục hồi chức năng. Chúng tôi hướng đến dịch vụ thăm khám rõ ràng, tận tâm và phù hợp với từng bệnh nhân."}
@@ -204,21 +207,21 @@ function Footer({ settings }: FooterProps) {
                                         <ul className="d-flex align-items-center gap-2 list-unstyled p-0">
                                             {socials.map((social: SocialItem, index: number) => (
                                                 <li key={index} className="wow fadeInUp" data-wow-delay={`${index * 0.1}s`}>
-                                                    <Link 
-                                                        href={social.link || "#"} 
+                                                    <Link
+                                                        href={social.link || "#"}
                                                         target="_blank"
                                                         /* Kết hợp icon-bx-wraper và style-8 để lấy hiệu ứng hover của theme */
                                                         className="icon-bx-wraper box-hover d-flex align-items-center justify-content-center shadow-lg text-decoration-none"
-                                                        style={{ 
-                                                            width: '40px', 
-                                                            height: '40px', 
+                                                        style={{
+                                                            width: '40px',
+                                                            height: '40px',
                                                             borderRadius: '30%',
                                                             transition: 'all 0.3s ease',
                                                             border: 'none', // Bỏ border nếu theme style-8 có sẵn
                                                             backgroundColor: '#fff',
                                                         }}
                                                     >
-                                                                <i className={social.icon} />
+                                                        <i className={social.icon} />
                                                     </Link>
                                                 </li>
                                             ))}
@@ -323,7 +326,7 @@ function Footer({ settings }: FooterProps) {
                                         <>
                                             © <span className="current-year">{year}</span>{" "}
                                             <Link href="/" target="_self">
-                                                {footerData?.company || "ClinicMaster"}
+                                                {footerData?.company || "DrDuongOrtho"}
                                             </Link>
                                             . Bảo lưu mọi quyền.
                                         </>
@@ -368,7 +371,7 @@ function Footer({ settings }: FooterProps) {
                         <span className="text">
                             {footerData?.company
                                 ? `Đội ngũ tư vấn ${footerData.company}`
-                                : "Đội ngũ tư vấn ClinicMaster"}
+                                : "Đội ngũ tư vấn DrDuongOrtho"}
                         </span>
                     </div>
                 </div>
@@ -442,7 +445,7 @@ export default Footer;
 //                                     <div className="footer-logo logo-white">
 //                                         <Link href="/"><Image src={IMAGES.logo} alt="" /></Link>
 //                                     </div>
-//                                     <p><span className="text-primary">ClinicMaster</span> Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit, Sed Diam Nonummy Nibh Euismod Tincidunt Ut Laoreet Dolore Agna Aliquam Erat . Wisi Enim Ad Minim Veniam, Quis Tation. Sit Amet, Consec Tetuer. Ipsum Dolor</p>
+//                                     <p><span className="text-primary">DrDuongOrtho</span> Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit, Sed Diam Nonummy Nibh Euismod Tincidunt Ut Laoreet Dolore Agna Aliquam Erat . Wisi Enim Ad Minim Veniam, Quis Tation. Sit Amet, Consec Tetuer. Ipsum Dolor</p>
 //                                 </div>
 //                             </div>
 //                             {footerdata2.map((data, i) => (
