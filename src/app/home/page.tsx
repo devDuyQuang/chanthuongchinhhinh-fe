@@ -13,6 +13,7 @@ import WhyChoose from "@/component/WhyChoose";
 import EmpolyBlog from "@/component/EmpolyBlog";
 import RealPatient from "@/component/RealPatient";
 import Howitwork from "@/component/Howitwork";
+import ServicePackages from "@/component/ServicePackages";
 import MeetDr from "@/component/MeetDr";
 import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
@@ -109,6 +110,20 @@ type SettingResponse = {
                     youtube?: string | null;
                 };
             }[];
+        };
+
+        service_plans_clinic?: {
+                title?: string;
+                description?: string;
+                features_pool?: string[];
+                items?: {
+                    name?: string;
+                    price?: string;
+                    period?: string;
+                    btn_text?: string;
+                    btn_link?: string;
+                    features?: string[];
+                }[];
         };
         how_it_work_home_clinic?: {
             title?: string;
@@ -310,6 +325,14 @@ async function HomePage() {
     const setting = await getSetting();
     const posts = await getPosts();
     // console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
+
+    // --- ĐOẠN LOG KIỂM TRA ---
+    // console.log("-----------------------------------------");
+    // console.log("CHECK SERVICE PACKAGES DATA:");
+    
+    // Log key gốc từ API trả về để xem tên chính xác là gì
+    // console.log("Tên các Keys đang có trong data:", Object.keys(setting?.data || {}));
+
     const hero = setting?.data?.hero_home_clinic;
     const facility = setting?.data?.utilities_home_clinic;
     const stats = setting?.data?.stats_home;
@@ -318,6 +341,10 @@ async function HomePage() {
     const whyChoose = setting?.data?.why_choose_us_home_clinic;
     const specialists = setting?.data?.specialists_home_clinic;
     const testimonials = setting?.data?.testimonials_home_clinic;
+    const servicePackagesData = setting?.data?.service_plans_clinic;
+    // console.log("Giá trị service_package_home:", JSON.stringify(servicePackagesData, null, 2));
+    // console.log("-----------------------------------------");
+    
     const howItWork = setting?.data?.how_it_work_home_clinic;
     const doctor = setting?.data?.doctor_home_clinic;
     // const faq = setting?.data?.faq_home_clinic;
@@ -664,7 +691,7 @@ async function HomePage() {
                     </div>
                 </section>
 
-                <section className="content-inner">
+                {/* <section className="content-inner">
                     <div className="container">
                         <div className="section-head style-1 m-b30 row align-items-end">
                             <div
@@ -700,7 +727,9 @@ async function HomePage() {
 
                         <EmpolyBlog data={specialists} />
                     </div>
-                </section>
+                </section> */}
+
+                <ServicePackages data={servicePackagesData} />
 
                 <section
                     className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"
@@ -713,7 +742,6 @@ async function HomePage() {
                 >
                     <RealPatient data={testimonials} />
                 </section>
-
                 <Howitwork data={howItWork} />
                 <MeetDr data={doctor} />
                 <Frequently data={faq} />

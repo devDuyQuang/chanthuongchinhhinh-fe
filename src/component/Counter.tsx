@@ -91,10 +91,10 @@ function Counter({ data }: CounterProps) {
         IMAGES.bg2.src;
 
 
-        // --- THÊM ĐOẠN LOG NÀY ---
-    console.log("--- DEBUG COUNTER IMAGES ---");
-    console.log("1. Raw Background Data:", data?.background || data?.background_image);
-    console.log("2. Normalized BG URL:", backgroundImage);
+    // --- THÊM ĐOẠN LOG NÀY ---
+    // console.log("--- DEBUG COUNTER IMAGES ---");
+    // console.log("1. Raw Background Data:", data?.background || data?.background_image);
+    // console.log("2. Normalized BG URL:", backgroundImage);
 
     return (
         <section
@@ -119,7 +119,7 @@ function Counter({ data }: CounterProps) {
                                     ? normalizeImageUrl(avatar)
                                     : (avatar as any)?.src || avatar;
 
-                                    if (!src) return null;
+                                if (!src) return null;
 
                                 return (
                                     <div
