@@ -27,7 +27,8 @@ function Header({ menu, settings }: HeaderProps) {
   const sidebarData = mapSiteToSidebarData(site);
 
   const site_assets_clinic = settings?.site_assets_clinic;
-  const logo = site_assets_clinic?.logo ? process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
+  const adminUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.");
+  const logo = site_assets_clinic?.logo ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
 
   const [show, setShow] = useState<number | null>(null);
   const [isActive, setIsActive] = useState<number | null>(null);

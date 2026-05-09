@@ -43,7 +43,8 @@ function Footer({ settings }: FooterProps) {
     const site = settings?.site;
     const footerData = mapSiteToFooterData(site);
     const site_assets_clinic = settings?.site_assets_clinic;
-    const logo = site_assets_clinic?.logo ? process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
+    const adminUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.");
+    const logo = site_assets_clinic?.logo ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
 
     // Xử lý dữ liệu floating_info an toàn
     let floatingData = settings?.floating_info;
