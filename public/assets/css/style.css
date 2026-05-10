@@ -24803,7 +24803,8 @@ button {
 
 .dz-team.style-1 .dz-media {
   border: 4px solid transparent;
-  border-radius: 25px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
   background-color: var(--bs-light);
   overflow: hidden;
   position: relative;
