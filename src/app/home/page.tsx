@@ -113,19 +113,19 @@ type SettingResponse = {
         };
 
         service_plans_clinic?: {
-                title?: string;
-                description?: string;
-                features_pool?: string[];
-                items?: {
-                    name?: string;
-                    price?: string;
-                    period?: string;
-                    btn_text?: string;
-                    btn_link?: string;
-                    features?: string[];
-                }[];
+            title?: string;
+            description?: string;
+            features_pool?: string[];
+            items?: {
+                name?: string;
+                price?: string;
+                period?: string;
+                btn_text?: string;
+                btn_link?: string;
+                features?: string[];
+            }[];
         };
-        
+
         how_it_work_home_clinic?: {
             title?: string;
             description?: string;
@@ -330,7 +330,7 @@ async function HomePage() {
     // --- ĐOẠN LOG KIỂM TRA ---
     // console.log("-----------------------------------------");
     // console.log("CHECK SERVICE PACKAGES DATA:");
-    
+
     // Log key gốc từ API trả về để xem tên chính xác là gì
     // console.log("Tên các Keys đang có trong data:", Object.keys(setting?.data || {}));
 
@@ -345,7 +345,7 @@ async function HomePage() {
     const servicePackagesData = setting?.data?.service_plans_clinic;
     // console.log("Giá trị service_package_home:", JSON.stringify(servicePackagesData, null, 2));
     // console.log("-----------------------------------------");
-    
+
     const howItWork = setting?.data?.how_it_work_home_clinic;
     const doctor = setting?.data?.doctor_home_clinic;
     // const faq = setting?.data?.faq_home_clinic;
@@ -726,7 +726,7 @@ async function HomePage() {
                     </div>
                 </section>
 
-                
+
 
                 <section
                     className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"

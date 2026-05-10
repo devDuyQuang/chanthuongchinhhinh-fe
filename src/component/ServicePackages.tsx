@@ -50,7 +50,7 @@ function ServicePackage({ data }: ServicePackageProps) {
     // Lấy 8 item mới nhất từ mảng trả về (giả sử item mới nằm ở cuối mảng thì dùng slice(-8).reverse())
     // Hoặc đơn giản là lấy 8 item đầu tiên nếu backend đã sắp xếp
     const rawItems = data?.items || [];
-    const latestItems = [...rawItems].slice(-8).reverse(); 
+    const latestItems = [...rawItems].slice(-8).reverse();
 
     const packages = latestItems.length > 0
         ? latestItems.map((item, index) => ({
@@ -76,9 +76,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                 <Swiper
                     className="testimonial-swiper1"
                     modules={[Navigation, Autoplay]}
-                    slidesPerView={4}
+                    slidesPerView={3}
                     spaceBetween={30}
-                    loop={packages.length > 4} // Chỉ loop nếu có đủ item
+                    loop={packages.length > 3} // Chỉ loop nếu có đủ item
                     autoplay={{
                         delay: 3000,
                         disableOnInteraction: false,
@@ -88,7 +88,6 @@ function ServicePackage({ data }: ServicePackageProps) {
                         prevEl: ".swiper2-button-prev",
                     }}
                     breakpoints={{
-                        // Cấu hình responsive
                         320: { slidesPerView: 1, spaceBetween: 10 },
                         640: { slidesPerView: 2, spaceBetween: 20 },
                         1024: { slidesPerView: 3, spaceBetween: 20 },
@@ -149,9 +148,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                
+
                 {/* Nút điều hướng nếu template của anh yêu cầu nằm ngoài Swiper tag */}
-               <div className="swiper2-button-prev btn-prev" role="button">
+                <div className="swiper2-button-prev btn-prev" role="button">
                     <Image src={IMAGES.arrowleft} alt="" />
                 </div>
                 <div className="swiper2-button-next btn-next" role="button">
