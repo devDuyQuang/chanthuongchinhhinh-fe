@@ -325,14 +325,6 @@ async function getPosts() {
 async function HomePage() {
     const setting = await getSetting();
     const posts = await getPosts();
-    // console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
-
-    // --- ĐOẠN LOG KIỂM TRA ---
-    // console.log("-----------------------------------------");
-    // console.log("CHECK SERVICE PACKAGES DATA:");
-
-    // Log key gốc từ API trả về để xem tên chính xác là gì
-    // console.log("Tên các Keys đang có trong data:", Object.keys(setting?.data || {}));
 
     const hero = setting?.data?.hero_home_clinic;
     const facility = setting?.data?.utilities_home_clinic;
@@ -343,8 +335,6 @@ async function HomePage() {
     const specialists = setting?.data?.specialists_home_clinic;
     const testimonials = setting?.data?.testimonials_home_clinic;
     const servicePackagesData = setting?.data?.service_plans_clinic;
-    // console.log("Giá trị service_package_home:", JSON.stringify(servicePackagesData, null, 2));
-    // console.log("-----------------------------------------");
 
     const howItWork = setting?.data?.how_it_work_home_clinic;
     const doctor = setting?.data?.doctor_home_clinic;
@@ -360,32 +350,6 @@ async function HomePage() {
     const awards = setting?.data?.awards_home;
     const contact = setting?.data?.contact_home;
 
-
-    // function normalizeImageUrl(url?: string) {
-    //     if (!url) return null;
-
-    //     if (url.startsWith("http://") || url.startsWith("https://")) {
-    //         return url;
-    //     }
-
-    //     if (url.startsWith("/storage/")) {
-    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
-    //     }
-
-    //     if (url.startsWith("storage/")) {
-    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
-    //     }
-
-    //     if (url.startsWith("/uploads/")) {
-    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage${url}`;
-    //     }
-
-    //     if (url.startsWith("uploads/")) {
-    //         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
-    //     }
-
-    //     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/storage/${url}`;
-    // }
     const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
 
     return (
