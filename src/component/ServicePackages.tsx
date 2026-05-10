@@ -91,7 +91,7 @@ function ServicePackage({ data }: ServicePackageProps) {
                         320: { slidesPerView: 1, spaceBetween: 10 },
                         640: { slidesPerView: 2, spaceBetween: 20 },
                         1024: { slidesPerView: 3, spaceBetween: 20 },
-                        1200: { slidesPerView: 4, spaceBetween: 30 },
+                        1200: { slidesPerView: 3, spaceBetween: 30 },
                     }}
                 >
                     {packages.map((item) => (
@@ -114,9 +114,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                                         }}
                                         unoptimized={true}
                                     />
-                                    <Link href={item.buttonLink} className="btn btn-primary">
+                                    {/* <Link href={item.buttonLink} className="btn btn-primary">
                                         <i className="feather icon-shopping-cart m-r5" /> {item.buttonText}
-                                    </Link>
+                                    </Link> */}
                                 </div>
 
                                 <div className="dz-content">
@@ -140,9 +140,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                                         </ul>
                                     )}
 
-                                    {/* <Link href={item.buttonLink} className="btn btn-square btn-secondary">
-                                        <i className="feather icon-arrow-right" />
-                                    </Link> */}
+                                    <Link href={item.buttonLink} className="btn btn-square btn-secondary">
+                                        <i className="feather icon-search" />
+                                    </Link>
                                 </div>
                             </div>
                         </SwiperSlide>
