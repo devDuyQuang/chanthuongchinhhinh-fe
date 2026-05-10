@@ -124,9 +124,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                                         <h3 className="dz-name fs-6">
                                             <Link href={item.buttonLink}>{item.name}</Link>
                                         </h3>
-                                        <span className="dz-position fs-5 text-primary">
+                                        {/* <span className="dz-position fs-5 text-primary">
                                             {item.price} <small className="text-muted fw-normal">{item.period}</small>
-                                        </span>
+                                        </span> */}
                                     </div>
 
                                     {active === item.id && (
