@@ -125,6 +125,7 @@ type SettingResponse = {
                     features?: string[];
                 }[];
         };
+        
         how_it_work_home_clinic?: {
             title?: string;
             description?: string;
@@ -691,7 +692,7 @@ async function HomePage() {
                     </div>
                 </section>
 
-                {/* <section className="content-inner">
+                <section className="content-inner">
                     <div className="container">
                         <div className="section-head style-1 m-b30 row align-items-end">
                             <div
@@ -700,7 +701,7 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <h2 className="title m-b0 fw-bold">
-                                    {specialists?.title || "We Employ only Specialists"}
+                                    {servicePackagesData?.title || "We Employ only Specialists"}
                                 </h2>
                             </div>
 
@@ -710,11 +711,7 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <Link
-                                    href={
-                                        !specialists?.view_all_link || specialists.view_all_link === "/team"
-                                            ? "/bac-si"
-                                            : specialists.view_all_link
-                                    }
+                                    href="/goi-dich-vu-dieu-tri"
                                     className="btn btn-icon btn-primary btn-shadow"
                                 >
                                     Xem tất cả
@@ -724,12 +721,12 @@ async function HomePage() {
                                 </Link>
                             </div>
                         </div>
-
-                        <EmpolyBlog data={specialists} />
+                        <ServicePackages data={servicePackagesData} />
+                        {/* <EmpolyBlog data={specialists} /> */}
                     </div>
-                </section> */}
+                </section>
 
-                <ServicePackages data={servicePackagesData} />
+                
 
                 <section
                     className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"
