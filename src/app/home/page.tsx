@@ -23,6 +23,7 @@ import { SiteCommonData } from "@/types/site";
 
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 type SettingResponse = {
+<<<<<<< HEAD
   success: boolean;
   message: string;
   data?: {
@@ -41,6 +42,265 @@ type SettingResponse = {
       patient_title?: string;
       patient_des?: string;
       banner_hero?: string;
+=======
+    success: boolean;
+    message: string;
+    data?: {
+        hero_home?: {
+            title?: string;
+            description?: string;
+            button_one_text?: string;
+            button_one_link?: string;
+            button_two_text?: string;
+            button_two_link?: string;
+            question_title?: string;
+            question_email?: string;
+            percent?: string;
+            percent_text?: string;
+            percent_link?: string;
+            patient_title?: string;
+            patient_des?: string;
+            banner_hero?: string;
+        };
+        utilities_home?: {
+            title?: string;
+            description?: string;
+            button_text?: string;
+            button_link?: string;
+            phone?: string;
+            image_one?: string;
+            image_two?: string;
+            open_hours?: {
+                day?: string;
+                time?: string;
+            }[];
+            utilities?: string[];
+        };
+        stats_home?: {
+            background_image?: string;
+            avatar_title?: string;
+            avatars?: string[];
+            stats?: {
+                number?: string;
+                label?: string;
+            }[];
+        };
+        services_home?: {
+            title?: string;
+            subtitle?: string;
+            view_all_link?: string;
+            items?: {
+                title?: string;
+                description?: string;
+                doctor_text?: string;
+                link?: string;
+            }[];
+        };
+        appointment_home_clinic?: {
+            title?: string;
+            subtitle?: string;
+            appointment_now_text?: string;
+            button_text?: string;
+            button_link?: string;
+            image?: string;
+        };
+        why_choose_us_home_clinic?: {
+            title?: string;
+            experience_number?: string;
+            experience_label?: string;
+            image?: string;
+            items?: {
+                title?: string;
+                description?: string;
+            }[];
+        };
+        specialists_home_clinic?: {
+            title?: string;
+            view_all_link?: string;
+            items?: {
+                name?: string;
+                specialty?: string;
+                button_text?: string;
+                button_link?: string;
+                image?: string;
+                socials?: {
+                    linkedin?: string | null;
+                    facebook?: string | null;
+                    twitter?: string | null;
+                    youtube?: string | null;
+                };
+            }[];
+        };
+
+        service_plans_clinic?: {
+            title?: string;
+            description?: string;
+            features_pool?: string[];
+            items?: {
+                name?: string;
+                price?: string;
+                period?: string;
+                btn_text?: string;
+                btn_link?: string;
+                features?: string[];
+            }[];
+        };
+
+        how_it_work_home_clinic?: {
+            title?: string;
+            description?: string;
+            image?: string;
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            features?: {
+                title?: string;
+                description?: string;
+                icon?: string;
+            }[];
+            stats?: {
+                number?: string;
+                label?: string;
+            }[];
+        };
+        testimonials_home_clinic?: {
+            main_title?: string;
+            main_image?: string;
+            floating_review?: {
+                name?: string;
+                rating?: string;
+                text?: string;
+                avatar?: string;
+            };
+            achievement?: {
+                number?: string;
+                text?: string;
+                avatars?: string[];
+            };
+            items?: {
+                name?: string;
+                role?: string;
+                title?: string;
+                review?: string;
+                video_link?: string;
+                image?: string;
+            }[];
+        };
+
+        doctor_home_clinic?: {
+            title?: string;
+            doctor_name?: string;
+            description?: string;
+            skills_header?: string;
+            image?: string;
+            experience?: {
+                number?: string;
+                label?: string;
+            };
+            skills?: string[];
+            achievements?: {
+                image?: string;
+                title?: string;
+                subtitle?: string;
+                link_text?: string;
+            }[];
+        };
+        faq_home_clinic?: {
+            title?: string;
+            description?: string;
+            image?: string;
+            contact?: {
+                text?: string;
+                phone?: string;
+            };
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            items?: {
+                question?: string;
+                answer?: string;
+                title?: string;
+                content?: string;
+            }[];
+            questions?: {
+                question?: string;
+                answer?: string;
+                title?: string;
+                content?: string;
+            }[];
+        };
+        awards_home?: {
+            title?: string;
+            description?: string;
+            years?: string[];
+            items?: {
+                image?: string;
+                title?: string;
+                subtitle?: string;
+                link_text?: string;
+                year?: string;
+            }[];
+        };
+
+        contact_home?: {
+            title?: string;
+            description?: string;
+            address?: {
+                label?: string;
+                value?: string;
+            };
+            phone?: {
+                label?: string;
+                value?: string;
+            };
+            email?: {
+                label?: string;
+                value?: string;
+            };
+            time?: {
+                label?: string;
+                value?: string;
+            };
+            appointment_btn?: {
+                text?: string;
+                link?: string;
+            };
+            map_iframe?: string;
+        };
+        site?: SiteCommonData;
+        hero_home_clinic?: {
+            title?: string;
+            description?: string;
+            button_one_text?: string;
+            button_one_link?: string;
+            button_two_text?: string;
+            button_two_link?: string;
+            question_title?: string;
+            question_email?: string;
+            percent?: string;
+            percent_text?: string;
+            percent_link?: string;
+            patient_title?: string;
+            patient_des?: string;
+            banner_hero?: string;
+        };
+        utilities_home_clinic?: {
+            title?: string;
+            description?: string;
+            button_text?: string;
+            button_link?: string;
+            phone?: string;
+            image_one?: string;
+            image_two?: string;
+            open_hours?: {
+                day?: string;
+                time?: string;
+            }[];
+            utilities?: string[];
+        };
+>>>>>>> main
     };
     utilities_home?: {
       title?: string;
@@ -350,12 +610,38 @@ async function HomePage() {
   const posts = await getPosts();
   // console.log("=== DỮ LIỆU POSTS TẠI HOMEPAGE ===", JSON.stringify(posts, null, 2));
 
+<<<<<<< HEAD
   // --- ĐOẠN LOG KIỂM TRA ---
   // console.log("-----------------------------------------");
   // console.log("CHECK SERVICE PACKAGES DATA:");
 
   // Log key gốc từ API trả về để xem tên chính xác là gì
   // console.log("Tên các Keys đang có trong data:", Object.keys(setting?.data || {}));
+=======
+    // --- ĐOẠN LOG KIỂM TRA ---
+    // console.log("-----------------------------------------");
+    // console.log("CHECK SERVICE PACKAGES DATA:");
+
+    // Log key gốc từ API trả về để xem tên chính xác là gì
+    // console.log("Tên các Keys đang có trong data:", Object.keys(setting?.data || {}));
+
+    const hero = setting?.data?.hero_home_clinic;
+    const facility = setting?.data?.utilities_home_clinic;
+    const stats = setting?.data?.stats_home;
+    const services = setting?.data?.services_home;
+    const appointment = setting?.data?.appointment_home_clinic;
+    const whyChoose = setting?.data?.why_choose_us_home_clinic;
+    const specialists = setting?.data?.specialists_home_clinic;
+    const testimonials = setting?.data?.testimonials_home_clinic;
+    const servicePackagesData = setting?.data?.service_plans_clinic;
+    // console.log("Giá trị service_package_home:", JSON.stringify(servicePackagesData, null, 2));
+    // console.log("-----------------------------------------");
+
+    const howItWork = setting?.data?.how_it_work_home_clinic;
+    const doctor = setting?.data?.doctor_home_clinic;
+    // const faq = setting?.data?.faq_home_clinic;
+    const rawFaq = setting?.data?.faq_home_clinic;
+>>>>>>> main
 
   const hero = setting?.data?.hero_home_clinic;
   const facility = setting?.data?.utilities_home_clinic;
@@ -704,7 +990,31 @@ async function HomePage() {
           </div>
         </section>
 
+<<<<<<< HEAD
         {/* <section className="content-inner">
+=======
+                        <ServiceBox data={services} />
+                    </div>
+                </section>
+
+                <AppointmentData data={appointment} />
+
+                <section
+                    className="content-inner overlay-secondary-dark background-blend-luminosity bg-img-fix overflow-hidden"
+                    style={{
+                        backgroundImage: `URL(${IMAGES.bg1})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "right center",
+                    }}
+                >
+                    <div className="container">
+                        <WhyChoose data={whyChoose} />
+                    </div>
+                </section>
+
+                <section className="content-inner">
+>>>>>>> main
                     <div className="container">
                         <div className="section-head style-1 m-b30 row align-items-end">
                             <div
@@ -713,7 +1023,7 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <h2 className="title m-b0 fw-bold">
-                                    {specialists?.title || "We Employ only Specialists"}
+                                    {servicePackagesData?.title || "We Employ only Specialists"}
                                 </h2>
                             </div>
 
@@ -723,11 +1033,7 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <Link
-                                    href={
-                                        !specialists?.view_all_link || specialists.view_all_link === "/team"
-                                            ? "/bac-si"
-                                            : specialists.view_all_link
-                                    }
+                                    href="/goi-dich-vu-dieu-tri"
                                     className="btn btn-icon btn-primary btn-shadow"
                                 >
                                     Xem tất cả
@@ -737,12 +1043,16 @@ async function HomePage() {
                                 </Link>
                             </div>
                         </div>
-
-                        <EmpolyBlog data={specialists} />
+                        <ServicePackages data={servicePackagesData} />
+                        {/* <EmpolyBlog data={specialists} /> */}
                     </div>
-                </section> */}
+                </section>
 
+
+<<<<<<< HEAD
         <ServicePackages data={servicePackagesData} />
+=======
+>>>>>>> main
 
         <section
           className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"

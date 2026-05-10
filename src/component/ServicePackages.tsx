@@ -1,7 +1,14 @@
-"use client";
+"use client"
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import { IMAGES } from "../constant/theme";
 
-import { useState } from "react";
-import Link from "next/link";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 
 interface ServiceItem {
     name?: string;
@@ -10,129 +17,148 @@ interface ServiceItem {
     btn_text?: string;
     btn_link?: string;
     features?: string[];
+    image_url?: string;
+}
+
+interface ServicePlansData {
+    title?: string;
+    description?: string;
+    features_pool?: string[];
+    items?: ServiceItem[];
 }
 
 interface ServicePackageProps {
-    data?: {
-        title?: string;
-        description?: string;
-        items?: ServiceItem[];
-    };
+    data?: ServicePlansData;
 }
 
-const ServicePackages = ({ data }: ServicePackageProps) => {
-    const [active, setActive] = useState(0);
-    // Kiểm tra dữ liệu đầu vào
-    if (!data || !data.items || data.items.length === 0) return null;
+function ServicePackage({ data }: ServicePackageProps) {
+    const [active, setActive] = useState<number | null>(1);
 
-    // CHỈ LẤY 4 ITEM MỚI NHẤT
-    const latestItems = data.items.slice(0, 4);
+    const ADMIN_URL = process.env.NEXT_PUBLIC_ADMIN_URL || "http://admin.localhost:8000";
+    const defaultImage = "/assets/images/services/default-plan.jpg";
+
+    // Hàm xử lý hiển thị ảnh
+    const getFullImageUrl = (url: string | undefined) => {
+        if (!url) return defaultImage;
+        // Nếu đã có http/https thì trả về luôn, nếu không thì ghép với ADMIN_URL
+        if (url.startsWith('http')) return url;
+        // Đảm bảo không bị thừa dấu / khi ghép
+        const cleanUrl = url.startsWith('/') ? url.substring(1) : url;
+        return `${ADMIN_URL}/${cleanUrl}`;
+    };
+
+    // Lấy 8 item mới nhất từ mảng trả về (giả sử item mới nằm ở cuối mảng thì dùng slice(-8).reverse())
+    // Hoặc đơn giản là lấy 8 item đầu tiên nếu backend đã sắp xếp
+    const rawItems = data?.items || [];
+    const latestItems = [...rawItems].slice(-8).reverse();
+
+    const packages = latestItems.length > 0
+        ? latestItems.map((item, index) => ({
+            id: index + 1,
+            delay: `${0.1 * (index + 1)}s`,
+            image: getFullImageUrl(item.image_url),
+            name: item.name || "Gói dịch vụ",
+            price: item.price || "Liên hệ",
+            period: item.period ? `/ ${item.period}` : "",
+            buttonText: item.btn_text || "Chọn dịch vụ",
+            buttonLink: item.btn_link || "#",
+            features: item.features || []
+        }))
+        : [];
 
     return (
-        <section className="content-inner bg-light">
-            <div className="container">
-                <div className="section-head style-1 m-b30 row align-items-center justify-content-between ">
-                    <div
-                        className="col-sm-7 wow fadeInUp"
-                        data-wow-delay="0.2s"
-                        data-wow-duration="0.8s"
-                    >
-                        <h2 className="title m-b0 fw-bold">
-                            {data.title || "Gói dịch vụ điều trị"}
-                        </h2>
-                        <p className="max-w600">{data.description}</p>
-                    </div>
-
-                    <div
-                        className="col-sm-5 text-sm-end d-sm-block d-none wow fadeInUp"
-                        data-wow-delay="0.4s"
-                        data-wow-duration="0.8s"
-                    >
-                        <Link
-                            href="/dich-vu"
-                            className="btn btn-icon btn-primary btn-shadow"
-                        >
-                            Xem tất cả
-                            <span className="right-icon">
-                                <i className="feather icon-arrow-right" />
-                            </span>
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="row justify-content-center">
-                    {latestItems.map((item, index) => {
-                        const isActive = active === index;
-                        return (
-                            <div 
-                                className="col-xl-3 col-md-6 m-b30 wow fadeInUp" 
-                                data-wow-delay={`${0.1 * (index + 1)}s`}
-                                key={index}
+        <div className="row justify-content-center">
+            <div
+                className="col-12 swiper-btn-center-lr wow fadeInUp"
+                data-wow-delay="0.4s"
+                data-wow-duration="0.7s"
+            >
+                <Swiper
+                    className="testimonial-swiper1"
+                    modules={[Navigation, Autoplay]}
+                    slidesPerView={3}
+                    spaceBetween={30}
+                    loop={packages.length > 3} // Chỉ loop nếu có đủ item
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    navigation={{
+                        nextEl: ".swiper2-button-next",
+                        prevEl: ".swiper2-button-prev",
+                    }}
+                    breakpoints={{
+                        320: { slidesPerView: 1, spaceBetween: 10 },
+                        640: { slidesPerView: 2, spaceBetween: 20 },
+                        1024: { slidesPerView: 3, spaceBetween: 20 },
+                        1200: { slidesPerView: 3, spaceBetween: 30 },
+                    }}
+                >
+                    {packages.map((item) => (
+                        <SwiperSlide key={item.id}>
+                            <div
+                                className={`dz-team style-1 box-hover ${active === item.id ? "active" : ""}`}
+                                onMouseEnter={() => setActive(item.id)}
+                                style={{ margin: "15px 0" }} // Tạo khoảng cách để không bị cắt shadow khi hover
                             >
-                                <div 
-                                    className={`icon-bx-wraper style-3 box-hover ${active === index ? "active" : ""}`}
-                                    onMouseEnter={() => setActive(index)}
-                                    style={{ minHeight: '400px', display: 'flex', flexDirection: 'column', transition: 'all 0.3s ease' }}
-                                >
-                                    <div className="icon-bx-head">
-                                        {/* Phần hiển thị Giá thay cho Icon */}
-                                        <div 
-                                            className="icon-bx" 
-                                            style={{ 
-                                                width: 'auto', 
-                                                height: '80px', 
-                                                background: 'transparent',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'flex-start'
-                                            }}
-                                        >
-                                            <div className="pricing-value">
-                                                <h2 className="dz-title m-b15" style={{ fontSize: '21px', fontWeight: '700'}}>{item.name}</h2>
-                                                <h3 className="m-b0" style={{ fontSize: '17px', fontWeight: '700', color: isActive ? '#031B4E' : '#00BDE0', }}>
-                                                {item.price}<small style={{ fontSize: '14px', opacity: 0.6 }}>/{item.period}</small>
-                                            </h3>
-                                            </div>
-                                        </div>
+                                <div className="dz-media">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        width={300}
+                                        height={335}
+                                        style={{
+                                            width: "100%",
+                                            height: "335px",
+                                            objectFit: "cover",
+                                        }}
+                                        unoptimized={true}
+                                    />
+                                    {/* <Link href={item.buttonLink} className="btn btn-primary">
+                                        <i className="feather icon-shopping-cart m-r5" /> {item.buttonText}
+                                    </Link> */}
+                                </div>
 
-                                        {/* Nội dung gói */}
-                                        <div className="icon-content">
-                                            <ul className="list-check-2 primary m-b0">
-                                                {item.features?.map((feature, fIndex) => (
-                                                    <li key={fIndex} style={{ fontSize: '15px', marginBottom: '8px', textAlign: 'left', color: isActive ? '#ECF5FB' : '#161616ff',  }}>
-                                                        {feature}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                <div className="dz-content">
+                                    <div className="clearfix">
+                                        <h3 className="dz-name fs-6">
+                                            <Link href={item.buttonLink}>{item.name}</Link>
+                                        </h3>
+                                        {/* <span className="dz-position fs-5 text-primary">
+                                            {item.price} <small className="text-muted fw-normal">{item.period}</small>
+                                        </span> */}
                                     </div>
 
-                                    {/* Footer chứa nút bấm */}
-                                    <div className="icon-bx-footer" style={{ marginTop: 'auto' }}>
-                                        <span className="text-badge text-uppercase" style={{ fontSize: '12px', fontWeight: '600' }}>
-                                            <i className="fa fa-circle text-primary m-r5" /> 
-                                            {item.btn_text || "Chọn dịch vụ"}
-                                        </span>
-                                        <Link 
-                                            href={item.btn_link || "#"} 
-                                            className="btn btn-square btn-primary rounded-circle"
-                                        >
-                                            <i className="feather icon-arrow-up-right" />
-                                        </Link>
-                                    </div>
-                                    
-                                    {/* Lớp nền mờ tạo chiều sâu giống ServiceBox gốc */}
-                                    <span className="icon-bg d-flex align-items-center justify-content-center" style={{ fontSize: '100px', fontWeight: '900', opacity: 0.09, pointerEvents: 'none' }}>
-                                        {index + 1}
-                                    </span>
+                                    {active === item.id && (
+                                        <ul className="list-unstyled mt-2 mb-0 small text-muted animate__animated animate__fadeIn">
+                                            {item.features.slice(0, 3).map((feat, idx) => (
+                                                <li key={idx} className="text-truncate">
+                                                    <i className="feather icon-check-circle text-success me-1"></i>
+                                                    {feat}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+
+                                    <Link href={item.buttonLink} className="btn btn-square btn-secondary">
+                                        <i className="feather icon-search" />
+                                    </Link>
                                 </div>
                             </div>
-                        );
-                    })}
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                {/* Nút điều hướng nếu template của anh yêu cầu nằm ngoài Swiper tag */}
+                <div className="swiper2-button-prev btn-prev" role="button">
+                    <Image src={IMAGES.arrowleft} alt="" />
+                </div>
+                <div className="swiper2-button-next btn-next" role="button">
+                    <Image src={IMAGES.arrowright} alt="" />
                 </div>
             </div>
-        </section>
+        </div>
     );
-};
+}
 
-export default ServicePackages;
+export default ServicePackage;
