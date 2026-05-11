@@ -28,7 +28,9 @@ function Header({ menu, settings }: HeaderProps) {
 
   const site_assets_clinic = settings?.site_assets_clinic;
   const adminUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.");
-  const logo = site_assets_clinic?.logo_black ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo_black : IMAGES.logo;
+
+  const logo = site_assets_clinic?.logo ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo : IMAGES.logo;
+  const logo_black = site_assets_clinic?.logo_black ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo_black : IMAGES.logo;
 
   const [show, setShow] = useState<number | null>(null);
   const [isActive, setIsActive] = useState<number | null>(null);
@@ -354,7 +356,7 @@ function Header({ menu, settings }: HeaderProps) {
             <div className="widget">
               <div className="sidebar-header m-b20">
                 <Link href="/">
-                  <Image src={logo} alt="logo" width={200} height={60} />
+                  <Image src={logo_black} alt="logo" width={200} height={60} />
                 </Link>
               </div>
               <p>
