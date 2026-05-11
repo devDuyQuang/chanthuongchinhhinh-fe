@@ -182,7 +182,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
       <section className="content-inner-3">
         <div className="container">
           <div className="row">
-            <div className="col-xl-9 pe-xl-5 m-b30">
+            <div className="col-xl-9 mx-auto pe-xl-5 m-b30">
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
                   <div className="dz-post-text">
@@ -263,9 +263,9 @@ export default async function DirectPostDetailPage({ params }: Props) {
               {/* End Comment */}
             </div>
 
-            <div className="col-xl-3">
+            {/* <div className="col-xl-3">
               <BlogSidebar categories={categories} latestPosts={latestPosts} />
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
