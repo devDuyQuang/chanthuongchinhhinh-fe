@@ -21,38 +21,12 @@ type AppointmentDataProps = {
   data?: AppointmentSectionData;
 };
 
-// function normalizeImageUrl(url?: string) {
-//     if (!url) return null;
-
-//     if (url.startsWith("http://") || url.startsWith("https://")) {
-//         return url;
-//     }
-
-//     if (url.startsWith("/storage/")) {
-//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
-//     }
-
-//     if (url.startsWith("storage/")) {
-//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
-//     }
-
-//     if (url.startsWith("/uploads/")) {
-//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}${url}`;
-//     }
-
-//     if (url.startsWith("uploads/")) {
-//         return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
-//     }
-
-//     return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url}`;
-// }
-
 function AppointmentData({ data }: AppointmentDataProps) {
   const [selectCat, setSelectCat] = useState("Chọn dịch vụ");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [successMsg, setSuccessMsg] = useState("");
   const form = useRef<HTMLFormElement | null>(null);
-  const { sendEmail } = useEmailService();
+  const [loading, setLoading] = useState(false);
 
   const appointmentImage = normalizeImageUrl(data?.image);
 
@@ -76,42 +50,42 @@ function AppointmentData({ data }: AppointmentDataProps) {
       dzMessage: formData.get("dzMessage")?.toString().trim(),
     };
 
-    const newErrors: Record<string, string> = {};
+    // --- VALIDATION PHÍA CLIENT ---
+    const newErrors: string[] = [];
 
     if (!payload.dzName || payload.dzName.length < 3) {
-      newErrors.dzName = "Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).";
+      newErrors.push("Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).");
     }
 
     const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
     if (!payload.dzPhoneNumber || !phoneRegex.test(payload.dzPhoneNumber)) {
-      newErrors.dzPhoneNumber = "Số điện thoại không đúng định dạng Việt Nam.";
+      newErrors.push("Số điện thoại không đúng định dạng Việt Nam.");
     }
 
     if (!payload.dzEmail) {
-      newErrors.dzEmail = "Vui lòng nhập email để chúng tôi liên hệ.";
+      newErrors.push("Vui lòng nhập email để chúng tôi liên hệ.");
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(payload.dzEmail)) {
-        newErrors.dzEmail = "Email không hợp lệ.";
+        newErrors.push("Email không hợp lệ.");
       }
     }
 
     if (payload.dzService === "Chọn dịch vụ") {
-      newErrors.dzService = "Vui lòng chọn dịch vụ cần khám.";
+      newErrors.push("Vui lòng chọn dịch vụ cần khám.");
     }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setSuccessMsg("");
-      toast.error("Vui lòng kiểm tra lại thông tin.");
+    if (newErrors.length > 0) {
+      newErrors.forEach((msg) => toast.error(msg));
       return;
     }
 
-    setErrors({});
-    setSuccessMsg("");
-
+    setLoading(true);
     const apiBaseUrl =
-      (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.") || "http://api.localhost:8000";
+      (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
+        /^https?:\/\//,
+        (match) => match + "api.",
+      ) || "http://api.localhost:8000";
 
     try {
       const response = await fetch(`${apiBaseUrl}/appointments`, {
@@ -127,16 +101,24 @@ function AppointmentData({ data }: AppointmentDataProps) {
       if (response.ok) {
         // Kiểm tra status 200-299
         toast.success("Đăng ký thành công!");
-        setSuccessMsg("Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
+        setSuccessMsg(
+          "Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.",
+        );
         form.current?.reset();
         setSelectCat("Chọn dịch vụ");
+      } else if (response.status === 422 && result.errors) {
+        // --- XỬ LÝ LỖI TRẢ VỀ TỪ SERVER (LARAVEL) ---
+        Object.keys(result.errors).forEach((key) => {
+          result.errors[key].forEach((msg: string) => toast.error(msg));
+        });
       } else {
-        // console.error("Server Error:", result);
-        toast.error("Lỗi: " + (result.message || "Không thể gửi dữ liệu"));
+        toast.error(result.message || "Không thể gửi dữ liệu.");
       }
     } catch (error) {
       // console.error("Fetch Error:", error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -228,14 +210,18 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzName"
                           type="text"
-                          className={`form-control ${errors.dzName ? 'is-invalid' : ''}`}
+                          className="form-control"
                           id="inputYourName"
                           placeholder="Họ và tên"
                           onChange={() => setErrors({ ...errors, dzName: "" })}
                         />
-                        <label htmlFor="inputYourName">Họ và tên</label>
+                        <label
+                          className={errors.dzName ? "text-danger" : ""}
+                          htmlFor="inputYourName"
+                        >
+                          Họ và tên
+                        </label>
                       </div>
-                      {errors.dzName && <div className="text-white mt-1 small text-start">{errors.dzName}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
@@ -243,14 +229,13 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzEmail"
                           type="email"
-                          className={`form-control ${errors.dzEmail ? 'is-invalid' : ''}`}
+                          className="form-control"
                           id="inputYourEmail"
                           placeholder="Email"
                           onChange={() => setErrors({ ...errors, dzEmail: "" })}
                         />
                         <label htmlFor="inputYourEmail">Email</label>
                       </div>
-                      {errors.dzEmail && <div className="text-white mt-1 small text-start">{errors.dzEmail}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
@@ -258,19 +243,20 @@ function AppointmentData({ data }: AppointmentDataProps) {
                         <input
                           name="dzPhoneNumber"
                           type="tel"
-                          className={`form-control ${errors.dzPhoneNumber ? 'is-invalid' : ''}`}
+                          className="form-control"
                           id="inputPhoneNumber"
                           placeholder="Số điện thoại"
-                          onChange={() => setErrors({ ...errors, dzPhoneNumber: "" })}
+                          onChange={() =>
+                            setErrors({ ...errors, dzPhoneNumber: "" })
+                          }
                         />
                         <label htmlFor="inputPhoneNumber">Số điện thoại</label>
                       </div>
-                      {errors.dzPhoneNumber && <div className="text-white mt-1 small text-start">{errors.dzPhoneNumber}</div>}
                     </div>
 
                     <div className="col-sm-6 m-b30">
                       <div className="form-floating floating-underline input-light">
-                        <Dropdown className={`form-control bs-select ${errors.dzService ? 'is-invalid' : ''}`}>
+                        <Dropdown className="form-control bs-select">
                           <Dropdown.Toggle as="div">
                             {selectCat}
                           </Dropdown.Toggle>
@@ -311,7 +297,6 @@ function AppointmentData({ data }: AppointmentDataProps) {
                           </Dropdown.Menu>
                         </Dropdown>
                       </div>
-                      {errors.dzService && <div className="text-white mt-1 small text-start">{errors.dzService}</div>}
                     </div>
 
                     <div className="col-sm-12 m-b30">
@@ -339,7 +324,11 @@ function AppointmentData({ data }: AppointmentDataProps) {
                           <i className="feather icon-arrow-right" />
                         </span>
                       </button>
-                      {successMsg && <div className="text-white mt-3 text-start fw-medium">{successMsg}</div>}
+                      {successMsg && (
+                        <div className="text-white mt-3 text-start fw-medium">
+                          {successMsg}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </form>
