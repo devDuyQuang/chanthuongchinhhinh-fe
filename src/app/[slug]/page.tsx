@@ -196,54 +196,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                       />
                     ) : null}
                   </div>
-
-                  {/*<div className="dz-share-post meta-bottom">
-                    <div className="post-tags">
-                      <strong>Tags:</strong>
-
-                      <Link href="/bai-viet/kien-thuc" scroll={false}>
-                        Bài viết
-                      </Link>
-
-                      <Link
-                        href="/bai-viet/kien-thuc-xuong-khop"
-                        scroll={false}
-                      >
-                        Kiến thức
-                      </Link>
-                    </div>
-
-                    <div className="dz-social-icon primary-light">
-                      <ul>
-                        <li>
-                          <Link href="https://www.facebook.com" target="_blank">
-                            <i className="fa-brands fa-facebook-f" />
-                          </Link>
-                        </li>
-
-                        <li>
-                          <Link
-                            href="https://www.instagram.com"
-                            target="_blank"
-                          >
-                            <i className="fa-brands fa-instagram" />
-                          </Link>
-                        </li>
-
-                        <li>
-                          <Link href="https://x.com" target="_blank">
-                            <i className="fa-brands fa-x-twitter" />
-                          </Link>
-                        </li>
-
-                        <li>
-                          <Link href="https://www.linkedin.com" target="_blank">
-                            <i className="fa-brands fa-linkedin" />
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>*/}
                 </div>
               </div>
               {/* Comment */}
