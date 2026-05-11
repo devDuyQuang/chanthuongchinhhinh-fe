@@ -35,7 +35,7 @@ export default function BlogSidebar({
   latestPosts = [],
 }: BlogSidebarProps) {
   return (
-    <aside className="side-bar sticky-top @@dir m-b30 p-0">
+    <aside className="side-bar @@dir m-b30 p-0">
       <div
         className="widget wow fadeInUp"
         data-wow-delay="0.1s"
@@ -144,7 +144,7 @@ export default function BlogSidebar({
         </div>
       </div>
 
-      <div
+      {/* <div
         className="widget widget_tag_cloud wow fadeInUp"
         data-wow-delay="0.4s"
         data-wow-duration="0.5s"
@@ -159,7 +159,7 @@ export default function BlogSidebar({
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 }
