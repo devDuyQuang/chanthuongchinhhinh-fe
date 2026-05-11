@@ -31442,6 +31442,7 @@ table {
   right: 45px;
   max-width: 480px;
   width: 480px;
+  z-index: 2;
 }
 
 .content-wrapper.style-3 .row>*:not(:last-child)::after {
