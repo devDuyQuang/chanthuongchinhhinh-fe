@@ -33859,6 +33859,91 @@ table {
   margin-bottom: 8px;
 }
 
+/* thêm modal */
+.awards-wrapper.modal-open .swiper {
+  z-index: 9999;
+}
+
+.certificate-frame {
+  position: relative;
+  background: #f8fbff;
+  padding: 10px;
+  border-radius: 22px;
+  border: 8px solid #dbe5ef;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(0, 189, 224, 0.05),
+    inset 0 0 0 2px #c8d6e3;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.certificate-frame:hover {
+  border-color: #cddae7;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.10),
+    0 8px 18px rgba(0, 189, 224, 0.08),
+    inset 0 0 0 2px #bfd0df;
+}
+
+/* đóng */
+
+.dz-media {
+  position: relative;
+  z-index: 2;
+}
+
+.dz-media img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Modal */
+
+.certificate-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: pointer;
+}
+
+.certificate-modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  animation: zoomIn 0.3s ease;
+}
+
+.certificate-modal-content img {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .dz-img-box.style-1.box-lg {
     padding: 35px 25px;

@@ -2,7 +2,7 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { awardswiperdata } from "../constant/alldata";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
@@ -25,6 +25,7 @@ type AwardsProps = {
 
 function Awards({ data }: AwardsProps) {
   const [degrees, setDegrees] = useState<DegreeItem[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | StaticImageData | null>(null);
 
   useEffect(() => {
     const fetchDegrees = async () => {
@@ -101,55 +102,74 @@ function Awards({ data }: AwardsProps) {
           </div>
 
           <div className="col-xxl-9">
-            <Swiper
-              className="swiper awards-swiper wow fadeInUp"
-              data-wow-delay="0.4s"
-              data-wow-duration="0.8s"
-              loop={items.length > 1}
-              slidesPerView={3}
-              autoplay={{
-                delay: 3000,
-              }}
-              breakpoints={{
-                1200: {
-                  slidesPerView: 3,
-                },
-                991: {
-                  slidesPerView: 2.5,
-                },
-                767: {
-                  slidesPerView: 2,
-                },
-                575: {
-                  slidesPerView: 1.5,
-                },
-                320: {
-                  slidesPerView: 1.2,
-                },
-              }}
-              modules={[Autoplay]}
-            >
-              {items.map((item, i) => (
-                <SwiperSlide key={i}>
-                  <div className="dz-img-box style-1 box-lg grid-bx text-center">
-                    <div className="dz-media">
+            <div className={selectedImage ? "awards-wrapper modal-open" : "awards-wrapper"}>
+              <Swiper
+                className="swiper awards-swiper wow fadeInUp"
+                data-wow-delay="0.4s"
+                data-wow-duration="0.8s"
+                loop={items.length > 1}
+                slidesPerView={4}
+                spaceBetween={15}
+                autoplay={{
+                  delay: 3000,
+                }}
+                breakpoints={{
+                  1200: {
+                    slidesPerView: 3,
+                  },
+                  991: {
+                    slidesPerView: 2.5,
+                  },
+                  767: {
+                    slidesPerView: 2,
+                  },
+                  575: {
+                    slidesPerView: 1.5,
+                  },
+                  320: {
+                    slidesPerView: 1.2,
+                  },
+                }}
+                modules={[Autoplay]}
+              >
+                {items.map((item, i) => (
+                  <SwiperSlide key={i}>
+                    <div className="grid-bx text-center certificate-card">
+                      <div
+                        className="certificate-frame"
+                        onClick={() => setSelectedImage(item.image)}
+                      >
+                        <div className="dz-media">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            width={300}
+                            height={300}
+                            unoptimized={typeof item.image === "string"}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))}
+                {selectedImage && (
+                  <div
+                    className="certificate-modal"
+                    onClick={() => setSelectedImage(null)}
+                  >
+                    <div className="certificate-modal-content">
                       <Image
-                        src={item.image}
-                        alt={item.title}
-                        width={300}
-                        height={300}
-                        unoptimized={typeof item.image === "string"}
+                        src={selectedImage}
+                        alt="Certificate"
+                        width={1600}
+                        height={1200}
+                        unoptimized
                       />
                     </div>
-
-                    <div className="dz-content">
-                      <h3 className="title">{item.title}</h3>
-                      <p>{item.description}</p>
-                    </div>
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                )}
+              </Swiper>
+            </div>
           </div>
         </div>
       </div>
