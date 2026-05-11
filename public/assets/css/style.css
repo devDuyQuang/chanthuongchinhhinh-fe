@@ -68,8 +68,8 @@
   --gradient: linear-gradient(to right, rgb(255, 64, 62) 0%, rgb(255, 129, 27) 100%);
   --gradient-sec: linear-gradient(to right, rgb(57, 26, 166) 0%, rgb(6, 163, 245) 100%);
   --primary-hover: rgb(20, 218.28125, 255);
-  --font-family-base: Roboto, sans-serif;
-  --font-family-title: Roboto, sans-serif;
+  --font-family-base: 'Noto Serif', serif;
+  --font-family-title: 'Noto Serif', serif;
   --border-radius-base: 20px;
   --border-color: #E1EBF1;
   --headings-font-weight: 600;
@@ -409,10 +409,10 @@ html[data-theme-color=skin-8] .site-header.style-2 .nav>li.sub-menu-down:hover>a
   --bs-dark-border-subtle: #adb5bd;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", "Noto Serif", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-  --bs-body-font-family: "Roboto", sans-serif;
+  --bs-body-font-family: 'Noto Serif', serif;
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.6;
@@ -6774,7 +6774,7 @@ fieldset:disabled .btn {
   z-index: var(--bs-tooltip-zindex);
   display: block;
   margin: var(--bs-tooltip-margin);
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6899,7 +6899,7 @@ fieldset:disabled .btn {
   z-index: var(--bs-popover-zindex);
   display: block;
   max-width: var(--bs-popover-max-width);
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -30614,7 +30614,7 @@ table {
 .owl-btn-1 .owl-nav button.owl-next:before {
   content: "";
   position: absolute;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   font-size: 15px;
   line-height: 15px;
   letter-spacing: 3px;
@@ -41941,7 +41941,7 @@ pre {
 .dz-post-text figcaption,
 .dz-page-text figcaption {
   font-size: 0.875rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   font-style: normal;
   margin-top: 0.625rem;
 }
@@ -42019,7 +42019,7 @@ pre {
 .dz-page-text .bootstrap-select .dropdown-menu li a {
   box-shadow: none;
   font-size: 0.875rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
 }
 
 .dz-post-text .wp-block-calendar a {
@@ -42191,7 +42191,7 @@ pre {
 }
 
 .wp-block-rss .wp-block-rss__item a {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   font-size: 1.125rem;
   box-shadow: unset !important;
   font-weight: 600;
@@ -45047,7 +45047,7 @@ pre {
 .order-detail .dz-accordion .accordion-item .accordion-body p {
   font-weight: 400;
   font-size: 13px;
-  font-family: "Roboto";
+  font-family: 'Noto Serif';
 }
 
 .order-detail .text {
@@ -45073,7 +45073,7 @@ pre {
 .order-detail .form-group .form-check-label {
   font-weight: 400;
   font-size: 13px;
-  font-family: "Roboto";
+  font-family: 'Noto Serif';
   color: #5E626F;
 }
 
@@ -52991,7 +52991,7 @@ footer.site-footer.footer-dark .fb-inner {
 
 .footer-link li {
   display: inline-block;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Noto Serif', serif;
   position: relative;
   padding: 0 25px 0 20px;
 }

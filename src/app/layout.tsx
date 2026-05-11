@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Noto_Serif } from "next/font/google";
 import Script from "next/script";
 
-const roboto = Roboto({
+const notoSerif = Noto_Serif({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
   display: "swap",
-  variable: "--font-roboto",
+  variable: "--font-noto-serif",
 });
 
 import "swiper/css";
@@ -65,11 +65,11 @@ export default async function RootLayout({
   const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
-    <html lang="vi" data-theme-color="skin-1" className={roboto.variable}>
+    <html lang="vi" data-theme-color="skin-1" className={notoSerif.variable}>
       <head>
         {faviconUrl ? <link rel="icon" href={faviconUrl} /> : null}
       </head>
-      <body className={roboto.className}>
+      <body className={notoSerif.className}>
         <HeaderWrapper />
         {children}
         <FooterWrapper />
