@@ -14772,6 +14772,129 @@ img::selection {
   height: 290px;
 }
 
+/* thêm css cho 3d bác sĩ */
+.doctor-3d-page {
+  background:
+    radial-gradient(circle at top,
+      rgba(0, 189, 224, .18),
+      transparent 40%),
+    #f8fcff;
+  overflow: hidden;
+}
+
+.hero-section {
+  position: relative;
+}
+
+.doctor-title {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 20px 0;
+  color: #0b1c2d;
+}
+
+.doctor-desc {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #6c7a89;
+  max-width: 560px;
+}
+
+.badge-medical {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(0, 189, 224, .1);
+  color: #00bde0;
+  font-weight: 600;
+}
+
+.doctor-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  padding: 24px;
+  min-width: 160px;
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, .65);
+  border: 1px solid rgba(255, 255, 255, .4);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .05);
+}
+
+.stat-card h3 {
+  font-size: 38px;
+  color: #00bde0;
+  margin-bottom: 10px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.btn-outline {
+  border: 2px solid #00bde0;
+  color: #00bde0;
+  padding: 14px 28px;
+  border-radius: 14px;
+}
+
+.doctor-3d-wrapper {
+  position: relative;
+  height: 700px;
+}
+
+.doctor-image {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.doctor-image img {
+  object-fit: contain;
+  filter:
+    drop-shadow(0 30px 60px rgba(0, 189, 224, .25));
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* MOBILE */
+@media (max-width: 991px) {
+  .doctor-title {
+    font-size: 48px;
+  }
+
+  .doctor-3d-wrapper {
+    height: 500px;
+    margin-top: 50px;
+  }
+
+  .doctor-stats {
+    gap: 12px;
+  }
+
+  .stat-card {
+    min-width: 140px;
+  }
+}
+
+/* hết */
+
+
 @media only screen and (max-width: 1199px) {
   .height-lg {
     height: 600px;
@@ -33895,7 +34018,6 @@ table {
 
 .dz-media {
   position: relative;
-  z-index: 2;
 }
 
 .dz-media img {

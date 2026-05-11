@@ -355,7 +355,7 @@ function MeetDr({ data }: MeetDrProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                {data?.title || "Meet Dr. Natali jackson"}
+                                {data?.title || "Bác Sĩ Dương"}
                             </h2>
 
                             <p
@@ -364,10 +364,9 @@ function MeetDr({ data }: MeetDrProps) {
                                 data-wow-duration="0.8s"
                             >
                                 <strong className="text-secondary fw-semibold">
-                                    {data?.doctor_name || "Dr. Natali jackson"}{" "}
+                                    {data?.doctor_name || ""}
                                 </strong>
-                                {data?.description ||
-                                    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration."}
+                                {data?.description || ""} <Link href={'bac-si-duong'}><i className="fa fa-search" /></Link>
                             </p>
                         </div>
 
