@@ -197,7 +197,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     ) : null}
                   </div>
 
-                  <div className="dz-share-post meta-bottom">
+                  {/*<div className="dz-share-post meta-bottom">
                     <div className="post-tags">
                       <strong>Tags:</strong>
 
@@ -243,72 +243,72 @@ export default async function DirectPostDetailPage({ params }: Props) {
                         </li>
                       </ul>
                     </div>
-                  </div>
+                  </div>*/}
                 </div>
               </div>
               {/* Comment */}
               <div className="clear" id="comment-list">
-                  <div className="post-comments comments-area style-1 clearfix">
-                      <h4 className="comments-title mb-2">Comments (02)</h4>
-                      <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-                      <div id="comment">
-                          <ol className="comment-list">
-                              <li className="comment even thread-even depth-1 comment" id="comment-2">
-                                  <div className="comment-body">
-                                      <div className="comment-author vcard">
-                                          <Image src={IMAGES.avtarmiddle1} alt="/" className="avatar" />
-                                          <cite className="fn">Michel Poe</cite>
-                                      </div>
-                                      <div className="comment-content dz-page-text">
-                                          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                      </div>
-                                      <div className="reply">
-                                          <Link rel="nofollow" className="comment-reply-link" href={"#"}>Reply</Link>
-                                      </div>
-                                  </div>
-                                  <ol className="children">
-                                      <li className="comment byuser comment-author-w3itexpertsuser bypostauthor odd alt depth-2 comment" id="comment-3">
-                                          <div className="comment-body" id="div-comment-3">
-                                              <div className="comment-author vcard">
-                                                  <Image src={IMAGES.avtarmiddle2} alt="/" className="avatar" />
-                                                  <cite className="fn">Celesto Anderson</cite>
-                                              </div>
-                                              <div className="comment-content dz-page-text">
-                                                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                              </div>
-                                              <div className="reply">
-                                                  <Link className="comment-reply-link" href={"#"}> Reply</Link>
-                                              </div>
-                                          </div>
-                                      </li>
-                                  </ol>
-                              </li>
-                              <li className="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
-                                  <div className="comment-body" id="div-comment-4">
-                                      <div className="comment-author vcard">
-                                          <Image src={IMAGES.avtarmiddle1} alt="/" className="avatar" />
-                                          <cite className="fn">Monsur Rahman Lito</cite>
-                                      </div>
-                                      <div className="comment-content dz-page-text">
-                                          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                      </div>
-                                      <div className="reply">
-                                          <Link className="comment-reply-link" href={"#"}> Reply</Link>
-                                      </div>
-                                  </div>
-                              </li>
-                          </ol>
-                      </div>
-                      <div className="default-form comment-respond style-1" id="respond">
-                          <h4 className="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
-                          <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
-                          <div className="clearfix">
-                              <CommentForm />
+                <div className="post-comments comments-area style-1 clearfix">
+                  <h4 className="comments-title mb-2">Comments (02)</h4>
+                  <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
+                  <div id="comment">
+                    <ol className="comment-list">
+                      <li className="comment even thread-even depth-1 comment" id="comment-2">
+                        <div className="comment-body">
+                          <div className="comment-author vcard">
+                            <Image src={IMAGES.avtarmiddle1} alt="/" className="avatar" />
+                            <cite className="fn">Michel Poe</cite>
                           </div>
-                      </div>
+                          <div className="comment-content dz-page-text">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                          </div>
+                          <div className="reply">
+                            <Link rel="nofollow" className="comment-reply-link" href={"#"}>Reply</Link>
+                          </div>
+                        </div>
+                        <ol className="children">
+                          <li className="comment byuser comment-author-w3itexpertsuser bypostauthor odd alt depth-2 comment" id="comment-3">
+                            <div className="comment-body" id="div-comment-3">
+                              <div className="comment-author vcard">
+                                <Image src={IMAGES.avtarmiddle2} alt="/" className="avatar" />
+                                <cite className="fn">Celesto Anderson</cite>
+                              </div>
+                              <div className="comment-content dz-page-text">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                              </div>
+                              <div className="reply">
+                                <Link className="comment-reply-link" href={"#"}> Reply</Link>
+                              </div>
+                            </div>
+                          </li>
+                        </ol>
+                      </li>
+                      <li className="comment even thread-odd thread-alt depth-1 comment" id="comment-4">
+                        <div className="comment-body" id="div-comment-4">
+                          <div className="comment-author vcard">
+                            <Image src={IMAGES.avtarmiddle1} alt="/" className="avatar" />
+                            <cite className="fn">Monsur Rahman Lito</cite>
+                          </div>
+                          <div className="comment-content dz-page-text">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                          </div>
+                          <div className="reply">
+                            <Link className="comment-reply-link" href={"#"}> Reply</Link>
+                          </div>
+                        </div>
+                      </li>
+                    </ol>
                   </div>
+                  <div className="default-form comment-respond style-1" id="respond">
+                    <h4 className="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
+                    <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
+                    <div className="clearfix">
+                      <CommentForm />
+                    </div>
+                  </div>
+                </div>
               </div>
-              {/* End Comment */} 
+              {/* End Comment */}
             </div>
 
             <div className="col-xl-3">
