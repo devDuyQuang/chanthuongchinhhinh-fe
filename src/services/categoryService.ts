@@ -31,6 +31,11 @@ export interface Breadcrumb {
     active: boolean;
 }
 
+export interface CategoryChild {
+    name: string;
+    slug: string;
+}
+
 export interface Category {
     id: number;
     name: string;
@@ -50,6 +55,7 @@ export interface Category {
     posts?: PaginatedData<Post>;
     stories?: PaginatedData<Post>;
     breadcrumbs?: Breadcrumb[];
+    children?: CategoryChild[];
 }
 
 export interface CategoryResponse {

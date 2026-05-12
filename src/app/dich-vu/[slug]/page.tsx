@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { IMAGES, SVGICONS } from "@/constant/theme";
 import Footer from "@/layout/Footer";
-import { servicedetails } from "@/constant/alldata";
 import Image from "next/image";
-import { getCategoryBySlug } from "@/services/categoryService";
+import { getCategoryBySlug, getCategories } from "@/services/categoryService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; }) {
     const { slug } = await params;
 
-    const [category] = await Promise.all([
+    const [category, categories] = await Promise.all([
         getCategoryBySlug(slug + '?limit=6'),
+        getCategories(),
     ]);
 
     const name = category?.name;
@@ -42,8 +42,8 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                 </ul>
                             </nav>
                             <div className="dz-btn">
-                                <Link href="tel:+11234567890" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
-                                    <span className="left-icon"> <i className="feather icon-phone-call" /> </span> +1 123 456 7890
+                                <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
+                                    <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
                                 </Link>
                             </div>
                         </div>
@@ -106,38 +106,79 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4 m-b30">
-                                <aside className="side-bar sticky-top left">
-                                    <div className="widget service_menu_nav bg-secondary wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s">
-                                        <div className="widget-title">
-                                            <h4 className="title">Tất cả Dịch vụ</h4>
-                                        </div>
-                                        <ul>
-                                            {servicedetails.map((item, i) => (
-                                                <li key={i} className={item.columnstand}><Link href="#" scroll={false}>{item.title}</Link></li>
-                                            ))}
-                                        </ul>
+                            <div className="col-lg-4 m-b30 d-flex flex-column side-bar left">
+                                <div className="widget service_menu_nav bg-secondary wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s">
+                                    <div className="widget-title">
+                                        <h4 className="title">Tất cả Dịch vụ</h4>
                                     </div>
-                                    <div className="widget_contact wow fadeInUp"
-                                        style={{ backgroundImage: `url(${IMAGES.bg3png.src})` }} data-wow-delay="0.4s" data-wow-duration="0.7s"
+                                    <ul>
+                                        {(categories as any[]).map((parent, i) => {
+                                            const isParentActive = parent.slug === slug;
+                                            const hasActiveChild = parent.children?.some((c: { slug: string }) => c.slug === slug);
+                                            return (
+                                                <li key={i} className={isParentActive || hasActiveChild ? 'active' : ''}>
+                                                    <Link
+                                                        href={`/dich-vu/${parent.slug}`}
+                                                        scroll={false}
+                                                        className={isParentActive ? 'active' : ''}
+                                                        style={isParentActive ? {
+                                                            backgroundColor: 'var(--bs-primary)',
+                                                            color: '#ffffff',
+                                                            fontWeight: 700,
+                                                        } : {}}
+                                                    >
+                                                        {parent.name}
+                                                    </Link>
+                                                    {parent.children && parent.children.length > 0 && (
+                                                        <ul className="sub-menu">
+                                                            {parent.children.map((child: { name: string; slug: string }, j: number) => {
+                                                                const isChildActive = child.slug === slug;
+                                                                return (
+                                                                    <li key={j} className={isChildActive ? 'active' : ''}>
+                                                                        <Link
+                                                                            href={`/dich-vu/${child.slug}`}
+                                                                            scroll={false}
+                                                                            className={isChildActive ? 'active' : ''}
+                                                                            style={isChildActive ? {
+                                                                                color: 'var(--bs-primary)',
+                                                                                fontWeight: 700,
+                                                                                borderLeft: '3px solid var(--bs-primary)',
+                                                                                paddingLeft: '14px',
+                                                                            } : {}}
+                                                                        >
+                                                                            + {child.name}
+                                                                        </Link>
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    )}
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                                <div className="sticky-top">
+                                    <div className="widget_contact"
+                                        style={{ backgroundImage: `url(${IMAGES.bg3png.src})` }}
                                     >
                                         <div className="widget-content">
-                                            <Image src={IMAGES.question} width="80" alt="" />
-                                            <h4 className="title">Do you need any help?</h4>
+                                            <Image src={IMAGES.question} width="80" alt="icon help" />
+                                            <h4 className="title">Bạn có cần giúp đỡ gì không?</h4>
                                             <div className="phone-number">
-                                                <Link href="tel:+11234567890">+1 123 456 7890</Link>
+                                                <Link href="tel:0389951795">038 995 1795</Link>
                                             </div>
                                             <div className="email">
-                                                <Link href="mailto:info@support.com">info@support.com</Link>
+                                                <Link href="mailto:odrduong@gmail.com">odrduong@gmail.com</Link>
                                             </div>
                                             <div className="link-btn">
-                                                <Link href="#" scroll={false} className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow">
-                                                    Contact Us <span className="right-icon"><i className="feather icon-arrow-right" /></span>
+                                                <Link href="/lien-he" scroll={false} className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow">
+                                                    Liên hệ ngay <span className="right-icon"><i className="feather icon-arrow-right" /></span>
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
-                                </aside>
+                                </div>
                             </div>
                         </div>
                     </div>

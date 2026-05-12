@@ -26194,6 +26194,13 @@ button {
   color: var(--bs-primary);
 }
 
+/* submenu danh mục */
+.sub-menu {
+  padding-left: 10px;
+}
+
+/* hết */
+
 @media only screen and (max-width: 1199px) {
   .dz-card.style-2.dz-card-overlay {
     height: 420px;
@@ -37462,9 +37469,10 @@ footer:not(.style-4) .widget_rss ul li {
 }
 
 .service_menu_nav {
-  background: #fff;
+  background: #fff !important;
   padding: 30px 20px;
   border-radius: var(--radius-lg);
+  border: 3px solid #031b4e;
 }
 
 .service_menu_nav .widget-title {
@@ -37515,23 +37523,27 @@ footer:not(.style-4) .widget_rss ul li {
 .service_menu_nav ul li:hover a,
 .service_menu_nav ul li.current-menu-item a,
 .service_menu_nav ul li.active a {
-  color: #ffffff;
-  background-color: var(--bs-primary);
+  /* color: #ffffff; */
+  /* background-color: var(--bs-primary); */
 }
 
-.service_menu_nav ul li:hover a:before,
+.service_menu_nav ul li:hover a {
+  color: #00bde0;
+}
+
+/* .service_menu_nav ul li:hover a:before,
 .service_menu_nav ul li.current-menu-item a:before,
 .service_menu_nav ul li.active a:before {
-  color: #ffffff;
-}
+  color: #000;
+} */
 
 .service_menu_nav[class*=bg-] .title {
-  color: #fff;
+  color: #031b4e;
 }
 
 .service_menu_nav[class*=bg-] ul li:not(:hover):not(.current-menu-item):not(.active) a {
   background-color: transparent;
-  color: #fff;
+  color: #031b4e;
 }
 
 .dz-related-post {
