@@ -26,8 +26,8 @@ function PageBanner({ title, bnrimage }: Props) {
                         </div>
                     </div>
                 </div>
-                <span className="text-vertical">24/7 EMERGENCY SERVICE</span>
-                <ul className="dz-social">
+                {/* <span className="text-vertical">24/7 EMERGENCY SERVICE</span> */}
+                {/* <ul className="dz-social">
                     <li><Link href="https://www.instagram.com/dexignzone" target="_blank">
                         <i className="fa-brands fa-instagram" />
                     </Link>
@@ -44,7 +44,7 @@ function PageBanner({ title, bnrimage }: Props) {
                         <i className="fa-brands fa-youtube" />
                     </Link>
                     </li>
-                </ul>
+                </ul> */}
             </div>
         </>
     )
