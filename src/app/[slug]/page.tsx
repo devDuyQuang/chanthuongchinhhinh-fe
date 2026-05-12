@@ -201,7 +201,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
               {/* Comment */}
               <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
-                  <h4 className="comments-title mb-2">Comments (02)</h4>
+                  {/* <h4 className="comments-title mb-2">Comments (02)</h4>
                   <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
                   <div id="comment">
                     <ol className="comment-list">
@@ -250,10 +250,10 @@ export default async function DirectPostDetailPage({ params }: Props) {
                         </div>
                       </li>
                     </ol>
-                  </div>
+                  </div> */}
                   <div className="default-form comment-respond style-1" id="respond">
-                    <h4 className="comment-reply-title mb-2" id="reply-title">Good Comments</h4>
-                    <p className="dz-title-text">There are many variations of passages of Lorem Ipsum available.</p>
+                    <h4 className="comment-reply-title mb-2" id="reply-title">Để lại bình luận</h4>
+                    <p className="dz-title-text">Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người hiểu hơn về dịch vụ.</p>
                     <div className="clearfix">
                       <CommentForm />
                     </div>
