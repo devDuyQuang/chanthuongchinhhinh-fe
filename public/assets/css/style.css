@@ -8840,6 +8840,17 @@ fieldset:disabled .btn {
   width: 75% !important;
 }
 
+.w-80-desktop {
+  width: 100%;
+  margin: auto;
+}
+
+@media (min-width: 992px) {
+  .w-80-desktop {
+    width: 80%;
+  }
+}
+
 .w-100 {
   width: 100% !important;
 }
@@ -14210,7 +14221,7 @@ img {
   height: auto;
   max-width: 100%;
   vertical-align: middle;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 
 li {
@@ -41523,8 +41534,9 @@ blockquote.style-1 p {
 .dz-post-text h2,
 .dz-post-text .h2,
 .thm-unit-test .dz-post-text h2 {
-  margin-bottom: 1rem;
+  margin: 3rem auto 1rem;
   font-weight: 600;
+  width: 80%;
 }
 
 @media only screen and (max-width: 767px) {
@@ -41600,7 +41612,7 @@ pre {
 .dz-blog.blog-single .dz-post-text ol li,
 .dz-blog.blog-single .dz-blog.blog-single .dz-post-text p:not(.has-text-color):not(.has-text-align-center):not(.has-text-align-left):not(.has-text-align-right) {
   font-size: 1.125rem;
-  line-height: 2.2;
+  /* line-height: 2.2; */
 }
 
 .wp-block-cover,
@@ -41642,7 +41654,7 @@ pre {
 
 .dz-page-text p,
 .dz-blog.blog-single .dz-post-text p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-weight: 300;
   color: var(--bs-secondary);
 }
