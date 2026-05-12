@@ -301,18 +301,18 @@ function ServicePackage({ data }: ServicePackageProps) {
             backdropFilter: "blur(4px)",
             zIndex: 1050,
           }}
+          // 1. Thêm sự kiện click ra ngoài để đóng modal
+          onClick={() => setShowModal(false)}
         >
-          <div className="modal-dialog modal-dialog-centered">
+          <div
+            className="modal-dialog modal-dialog-centered"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-content shadow-lg border-0">
               <div className="modal-header bg-primary text-white">
                 <h5 className="modal-title text-white text-uppercase">
                   Đăng ký dịch vụ
                 </h5>
-                <button
-                  type="button"
-                  className="btn-close btn-close-white"
-                  onClick={() => setShowModal(false)}
-                ></button>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="modal-body p-4">
