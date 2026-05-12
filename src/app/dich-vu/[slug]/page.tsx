@@ -53,17 +53,25 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 single-inner order-lg-1">
-                                <div className="single-media dz-media single-media height-sm radius-lg wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.7s">
-                                    <Image src={image || ''} alt={name || ''} width={800} height={800} className="object-fit-cover" />
-                                </div>
-                                <div
-                                    className="content-item wow fadeInUp"
-                                    data-wow-delay="0.2s"
-                                    data-wow-duration="0.7s"
-                                    dangerouslySetInnerHTML={{
-                                        __html: content || '',
-                                    }}
-                                ></div>
+                                {
+                                    image && (
+                                        <div className="single-media dz-media single-media height-sm radius-lg wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.7s">
+                                            <Image src={image || ''} alt={name || ''} width={800} height={800} className="object-fit-cover" />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    content && (
+                                        <div
+                                            className="content-item wow fadeInUp"
+                                            data-wow-delay="0.2s"
+                                            data-wow-duration="0.7s"
+                                            dangerouslySetInnerHTML={{
+                                                __html: content || '',
+                                            }}
+                                        ></div>
+                                    )
+                                }
                                 <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
                                     <h3>Bài liên quan</h3>
                                     <div className="row loadmore-content">
