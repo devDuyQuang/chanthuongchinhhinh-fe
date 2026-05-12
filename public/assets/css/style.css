@@ -37647,6 +37647,61 @@ footer:not(.style-4) .widget_rss ul li {
   margin-bottom: 8px;
 }
 
+/* content frm */
+.frm {
+  position: relative;
+  background: #ffffff;
+  border: none;
+  border-left: 4px solid var(--bs-primary, #031b4e);
+  border-radius: 0 16px 16px 0;
+  padding: 24px 28px 10px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 20px rgba(3, 27, 78, 0.07), 0 1px 4px rgba(3, 27, 78, 0.04);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.frm:hover {
+  box-shadow: 0 8px 32px rgba(3, 27, 78, 0.13), 0 2px 8px rgba(3, 27, 78, 0.07);
+  transform: translateY(-2px);
+}
+
+.frm h1,
+.frm h2,
+.frm h3,
+.frm h4 {
+  color: #031b4e;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.frm h1:first-child,
+.frm h2:first-child,
+.frm h3:first-child,
+.frm h4:first-child {
+  margin-top: 0;
+}
+
+.frm p {
+  color: #4a5568;
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+
+.frm ul,
+.frm ol {
+  padding-left: 20px;
+  color: #4a5568;
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+
+.frm li {
+  margin-bottom: 6px;
+}
+
+/* hết */
+
 @media only screen and (max-width: 575px) {
   .author-box.style-1 .author-profile-info {
     display: block;
@@ -47237,7 +47292,6 @@ table tr:hover {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 2rem;
-  color: #007288;
 }
 
 .content-item ul li,
