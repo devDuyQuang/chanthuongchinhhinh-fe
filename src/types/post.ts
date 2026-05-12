@@ -3,8 +3,10 @@ export interface Post {
     name: string;
     slug: string;
     image: string;
+    image_url?: string;
     description: string;
     created_at: string;
+    updated_at?: string;
     views: number;
     favorites: number;
 }

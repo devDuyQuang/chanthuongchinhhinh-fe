@@ -2,42 +2,9 @@ import Link from "next/link";
 import PageBanner from "@/component/PageBanner";
 import { IMAGES, SVGICONS } from "@/constant/theme";
 import BlogSidebar from "@/component/BlogSidebar";
+import { getCategoryBySlug, getCategories as getCategoryList } from "@/services/categoryService";
 
-type CategoryPostItem = {
-  id?: number;
-  name?: string;
-  slug?: string;
-  image?: string | null;
-  description?: string | null;
-  created_at?: string;
-};
-
-type CategoryDetail = {
-  id?: number;
-  name?: string;
-  slug?: string;
-  description?: string | null;
-  posts?: {
-    data?: CategoryPostItem[];
-  };
-};
-
-type CategoryApiResponse = {
-  success: boolean;
-  message: string;
-  data?: CategoryDetail;
-};
-
-type CategoryListItem = {
-  name: string;
-  slug: string;
-};
-
-type CategoryListResponse = {
-  success: boolean;
-  message: string;
-  data?: CategoryListItem[];
-};
+// Types are now imported or handled by categoryService
 
 type PostListItem = {
   id?: number;
@@ -63,52 +30,23 @@ function normalizeImageUrl(url?: string | null) {
   return `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.")}/${url.replace(/^\/+/, "")}`;
 }
 
-async function getCategory(slug: string): Promise<CategoryDetail | null> {
-  try {
-    const res = await fetch(
-      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/${slug}?fields=id,name,slug,description`,
-      { cache: "no-store" },
-    );
-
-    if (!res.ok) return null;
-
-    const result: CategoryApiResponse = await res.json();
-    return result.data || null;
-  } catch (error) {
-    console.error("Lỗi lấy category:", error);
-    return null;
-  }
-}
-
+// Replaced by categoryService
 async function getCategories() {
-  try {
-    const res = await fetch(
-      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category`,
-      { cache: "no-store" },
-    );
+  const categories = await getCategoryList();
 
-    if (!res.ok) return [];
+  const postCategorySlugs = [
+    "kien-thuc",
+    "kien-thuc-xuong-khop",
+    "tin-tuc-y-khoa",
+  ];
 
-    const result: CategoryListResponse = await res.json();
-    const categories = result.data || [];
-
-    const postCategorySlugs = [
-      "kien-thuc",
-      "kien-thuc-xuong-khop",
-      "tin-tuc-y-khoa",
-    ];
-
-    return categories
-      .filter((item) => postCategorySlugs.includes(item.slug))
-      .map((item) => ({
-        name: item.name,
-        slug: item.slug,
-        count: 0,
-      }));
-  } catch (error) {
-    console.error("Lỗi lấy category list:", error);
-    return [];
-  }
+  return categories
+    .filter((item: any) => postCategorySlugs.includes(item.slug))
+    .map((item: any) => ({
+      name: item.name,
+      slug: item.slug,
+      count: 0,
+    }));
 }
 
 async function getLatestPosts() {
@@ -138,7 +76,7 @@ export default async function DanhMucSlugPage({ params }: Props) {
   const { slug } = await params;
 
   const [category, categories, latestPosts] = await Promise.all([
-    getCategory(slug),
+    getCategoryBySlug(slug, { limit: 12, page: 1, sortName: 'created_at', sortBy: 'desc' }),
     getCategories(),
     getLatestPosts(),
   ]);

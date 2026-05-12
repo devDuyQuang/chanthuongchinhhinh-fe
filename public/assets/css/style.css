@@ -26097,7 +26097,7 @@ button {
 
 .dz-card.style-2.dz-card-overlay {
   border-radius: var(--radius-xl);
-  height: 550px;
+  height: 450px;
   background-color: var(--bs-light);
   background-size: cover;
 }
@@ -26130,10 +26130,18 @@ button {
 }
 
 .dz-card.style-2.dz-card-overlay .dz-title {
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 0;
   line-height: 1.6;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
 }
 
 .dz-card.style-2.dz-card-overlay .dz-title a {
@@ -47165,6 +47173,7 @@ table.wishlist_table {
 .service-single .single-inner p {
   font-size: 18px;
   font-weight: 300;
+  color: var(--bs-secondary);
 }
 
 .service-single .single-inner h2,
@@ -47178,6 +47187,66 @@ table.wishlist_table {
   font-size: 28px;
   margin-bottom: 20px;
 }
+
+/* add table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 1rem;
+}
+
+table th,
+table td {
+  padding: 12px 16px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+}
+
+table th {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+table tr:hover {
+  background: #f1f5f9;
+}
+
+/* hết */
+
+/* .content-item ul, .content-item ol */
+.content-item ul,
+.content-item ol {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-left: 2rem;
+  color: #007288;
+}
+
+.content-item ul li,
+.content-item ol li {
+  margin-bottom: 15px;
+}
+
+.content-item ul li:last-child,
+.content-item ol li:last-child {
+  margin-bottom: 0;
+}
+
+.content-item ul li {
+  list-style: disc;
+}
+
+.content-item ol li {
+  list-style: decimal;
+}
+
+/* hết */
 
 @media only screen and (max-width: 767px) {
   .service-single .single-inner p {
@@ -47210,7 +47279,7 @@ table.wishlist_table {
 }
 
 .service-single .single-media {
-  margin-bottom: 45px;
+  margin-bottom: 1rem;
 }
 
 @media only screen and (max-width: 767px) {
