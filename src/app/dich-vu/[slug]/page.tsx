@@ -87,7 +87,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                             })}
                                                         </div>
                                                         <div className="bottom-info">
-                                                            <h3 className="dz-title"> <Link href="/blog-details">{item?.name}</Link> </h3>
+                                                            <h3 className="dz-title"> <Link href={"/" + item?.slug}>{item?.name}</Link> </h3>
                                                             <Link href={"/" + item?.slug} className="btn btn-square btn-white rounded-circle"
                                                                 dangerouslySetInnerHTML={{ __html: SVGICONS.uparrow2 }}>
                                                             </Link>
