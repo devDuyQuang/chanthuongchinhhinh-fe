@@ -125,7 +125,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             aria-hidden="true"
                                             style={{
                                                 position: 'absolute',
-                                                top: '-10px',
+                                                top: '0',
                                                 left: '0',
                                                 fontSize: '60px',
                                                 lineHeight: 1,
