@@ -4,6 +4,7 @@ import Footer from "@/layout/Footer";
 import Image from "next/image";
 import { getCategoryBySlug, getCategories } from "@/services/categoryService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import ImageLightboxActivator from "@/component/ImageLightboxContent";
 
 async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; }) {
     const { slug } = await params;
@@ -62,14 +63,17 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                 }
                                 {
                                     content && (
-                                        <div
-                                            className="content-item wow fadeInUp"
-                                            data-wow-delay="0.2s"
-                                            data-wow-duration="0.7s"
-                                            dangerouslySetInnerHTML={{
-                                                __html: content || '',
-                                            }}
-                                        ></div>
+                                        <>
+                                            {/* Nội dung render phía server — Google crawl được đầy đủ */}
+                                            <div
+                                                className="content-item wow fadeInUp"
+                                                data-wow-delay="0.2s"
+                                                data-wow-duration="0.7s"
+                                                dangerouslySetInnerHTML={{ __html: content }}
+                                            />
+                                            {/* Client component: chỉ gắn lightbox, không ảnh hưởng SSR/SEO */}
+                                            <ImageLightboxActivator containerSelector=".content-item" />
+                                        </>
                                     )
                                 }
                                 <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
