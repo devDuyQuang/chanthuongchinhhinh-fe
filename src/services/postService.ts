@@ -11,6 +11,8 @@ export type PostDetail = {
     title_seo?: string | null;
     description_seo?: string | null;
     canonical_seo?: string | null;
+    toc?: { id: string; text: string; level: number }[];
+    categories?: { id: number; name: string; slug: string; type: string }[];
 };
 
 type PostDetailResponse = {
@@ -35,6 +37,7 @@ export type PostListItem = {
     name?: string;
     slug?: string;
     image?: string | null;
+    description?: string | null;
     created_at?: string;
 };
 
@@ -105,6 +108,28 @@ export async function getLatestPosts(): Promise<PostListItem[]> {
         return result.data?.data || [];
     } catch (error) {
         console.error("Lỗi lấy latest posts:", error);
+        return [];
+    }
+}
+
+type RelatedPostListResponse = {
+    success: boolean;
+    message: string;
+    data?: PostListItem[];
+};
+
+export async function getRelatedPosts(slug: string): Promise<PostListItem[]> {
+    try {
+        const res = await fetch(`${getApiBase()}/post/${slug}/related`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) return [];
+
+        const result: RelatedPostListResponse = await res.json();
+        return result.data || [];
+    } catch (error) {
+        console.error("Lỗi lấy related posts:", error);
         return [];
     }
 }

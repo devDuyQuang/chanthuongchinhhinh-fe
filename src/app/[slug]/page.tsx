@@ -5,7 +5,7 @@ import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
 import CommentForm from "../(blogs)/blog-details/_components/CommentForm";
-import { getPost } from "@/services/postService";
+import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 
 type Props = {
@@ -44,7 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DirectPostDetailPage({ params }: Props) {
   const { slug } = await params;
 
-  const post = await getPost(slug);
+  const [post, relatedPosts] = await Promise.all([
+    getPost(slug),
+    getRelatedPosts(slug),
+  ]);
 
   if (!post) {
     notFound();
@@ -55,6 +58,8 @@ export default async function DirectPostDetailPage({ params }: Props) {
   const createdDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString("vi-VN")
     : "N/A";
+
+  const toc = post?.toc;
 
   return (
     <main className="page-content">
@@ -103,16 +108,12 @@ export default async function DirectPostDetailPage({ params }: Props) {
                       <blockquote
                         style={{
                           position: 'relative',
-                          background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
-                          borderTop: '1px solid rgba(26,111,196,0.15)',
-                          borderRight: '1px solid rgba(26,111,196,0.15)',
-                          borderBottom: '1px solid rgba(26,111,196,0.15)',
-                          borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
-                          borderRadius: '0 12px 12px 0',
-                          padding: '24px 28px 24px 32px',
-                          marginBottom: '32px',
-                          marginTop: 0,
-                          boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
+                          background: 'transparent',
+                          borderTop: '2px solid rgba(0,0,0,0.05)',
+                          borderBottom: '2px solid rgba(0,0,0,0.05)',
+                          padding: '30px 10px',
+                          marginBottom: '40px',
+                          marginTop: '0',
                           fontFamily: 'inherit',
                           fontSize: 'inherit',
                           fontWeight: 'inherit',
@@ -123,12 +124,11 @@ export default async function DirectPostDetailPage({ params }: Props) {
                           aria-hidden="true"
                           style={{
                             position: 'absolute',
-                            top: '10px',
-                            left: '14px',
-                            fontSize: '48px',
+                            top: '0',
+                            left: '0',
+                            fontSize: '60px',
                             lineHeight: 1,
-                            color: 'var(--bs-primary, #1a6fc4)',
-                            opacity: 0.18,
+                            color: 'rgba(0,0,0,0.05)',
                             fontFamily: 'Georgia, serif',
                             fontWeight: 700,
                             userSelect: 'none',
@@ -170,6 +170,51 @@ export default async function DirectPostDetailPage({ params }: Props) {
 
                     {post.content ? (
                       <>
+                        {toc && toc.length > 0 && (
+                          <>
+                            <style>{`
+                              .toc-link {
+                                text-decoration: none;
+                                transition: all 0.3s ease;
+                                display: block;
+                              }
+                              .toc-link:hover {
+                                color: var(--bs-primary) !important;
+                                transform: translateX(5px);
+                              }
+                            `}</style>
+                            <div
+                              className="table-of-contents mb-4 p-4 rounded mx-auto"
+                              style={{
+                                background: '#f8f9fa',
+                                borderLeft: '4px solid var(--bs-primary)',
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+                                width: '80%'
+                              }}
+                            >
+                              <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
+                              <ul className="list-unstyled mb-0">
+                                {toc.map((item, index) => (
+                                  <li
+                                    key={index}
+                                    className="mb-2"
+                                    style={{
+                                      paddingLeft: `${(item.level - 2) * 20}px`
+                                    }}
+                                  >
+                                    <Link
+                                      href={`#${item.id}`}
+                                      className="toc-link text-body"
+                                    >
+                                      <i className="feather icon-chevron-right me-2" style={{ fontSize: '12px', color: 'var(--bs-primary)' }}></i>
+                                      {item.text}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </>
+                        )}
                         <div
                           className="dz-post-content"
                           dangerouslySetInnerHTML={{
@@ -179,6 +224,61 @@ export default async function DirectPostDetailPage({ params }: Props) {
                         <ImageLightboxActivator containerSelector=".dz-post-content" />
                       </>
                     ) : null}
+
+                    {relatedPosts && relatedPosts.length > 0 && (
+                      <div className="content-item wow fadeInUp mt-5" data-wow-delay="0.5s" data-wow-duration="0.7s">
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                          <h3 className="m-0">Bài viết liên quan</h3>
+                          {post?.categories && post.categories.length > 0 && (
+                            <Link 
+                              href={`/dich-vu/${post.categories[0].slug}`} 
+                              scroll={false} 
+                              className="text-primary"
+                              style={{ fontWeight: 600, fontSize: '15px' }}
+                            >
+                              Xem thêm <i className="feather icon-arrow-right ms-1" />
+                            </Link>
+                          )}
+                        </div>
+                        <div className="row loadmore-content">
+                          {relatedPosts.map((item, i) => (
+                            <div className="dz-card style-2 blog-half m-b35 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
+                              <div className="dz-media">
+                                <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name || ''} width={500} height={500} />
+                              </div>
+                              <div className="dz-info">
+                                <div className="dz-meta">
+                                  <ul className="p-0">
+                                    <li className="post-date mb-0">
+                                      {item?.created_at && new Date(item.created_at).toLocaleDateString("en-GB", {
+                                        day: "2-digit",
+                                        month: "short",
+                                        year: "numeric",
+                                      })}
+                                    </li>
+                                    <li className="post-comments">100 lượt xem</li>
+                                  </ul>
+                                </div>
+                                <h3><Link href={"/" + item?.slug} scroll={false}>{item?.name}</Link></h3>
+                                {item?.description && (
+                                  <p style={{
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    margin: '8px 0 12px',
+                                    fontSize: '16px',
+                                  }}>{item?.description}</p>
+                                )}
+                                <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
+                                  Đọc Thêm <i className="feather icon-arrow-right" />
+                                </Link>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
