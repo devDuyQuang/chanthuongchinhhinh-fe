@@ -11,6 +11,12 @@ export type PostDetail = {
     title_seo?: string | null;
     description_seo?: string | null;
     canonical_seo?: string | null;
+     toc?: TocItem[];
+};
+export type TocItem = {
+    id: string;
+    text: string;
+    level: number;
 };
 
 type PostDetailResponse = {

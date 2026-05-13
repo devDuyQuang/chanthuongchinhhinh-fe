@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }),
     openGraph: {
       title,
-      description: description ?? undefined,
+      description: description || undefined,
       ...(image && {
         images: [{ url: image }],
       }),
@@ -43,7 +43,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DirectPostDetailPage({ params }: Props) {
   const { slug } = await params;
-
   const post = await getPost(slug);
 
   if (!post) {
@@ -98,69 +97,32 @@ export default async function DirectPostDetailPage({ params }: Props) {
             <div className="col-xl-8 mx-auto m-b30">
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
+                  {post.toc && post.toc.length > 0 ? (
+                    <div className="post-toc">
+                      <div className="post-toc-title">Mục lục bài viết</div>
+
+                      <ul className="post-toc-list">
+                        {post.toc.map((item) => (
+                          <li
+                            key={item.id}
+                            className={`toc-level-${item.level}`}
+                          >
+                            <a href={`#${item.id}`}>{item.text}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
                   <div className="dz-post-text">
                     {post.description ? (
-                      <blockquote
-                        style={{
-                          position: 'relative',
-                          background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
-                          borderTop: '1px solid rgba(26,111,196,0.15)',
-                          borderRight: '1px solid rgba(26,111,196,0.15)',
-                          borderBottom: '1px solid rgba(26,111,196,0.15)',
-                          borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
-                          borderRadius: '0 12px 12px 0',
-                          padding: '24px 28px 24px 32px',
-                          marginBottom: '32px',
-                          marginTop: 0,
-                          boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
-                          fontFamily: 'inherit',
-                          fontSize: 'inherit',
-                          fontWeight: 'inherit',
-                          color: 'inherit',
-                        }}
-                      >
-                        <span
-                          aria-hidden="true"
-                          style={{
-                            position: 'absolute',
-                            top: '10px',
-                            left: '14px',
-                            fontSize: '48px',
-                            lineHeight: 1,
-                            color: 'var(--bs-primary, #1a6fc4)',
-                            opacity: 0.18,
-                            fontFamily: 'Georgia, serif',
-                            fontWeight: 700,
-                            userSelect: 'none',
-                          }}
-                        >
+                      <blockquote className="post-description-box">
+                        <span aria-hidden="true" className="post-quote-mark">
                           &ldquo;
                         </span>
-                        <p
-                          style={{
-                            fontSize: '1.08rem',
-                            lineHeight: '1.85',
-                            fontStyle: 'italic',
-                            color: '#1e3a5f',
-                            margin: 0,
-                            fontWeight: 500,
-                            letterSpacing: '0.01em',
-                          }}
-                        >
-                          <span
-                            style={{
-                              float: 'left',
-                              fontSize: '3.6rem',
-                              lineHeight: '0.8',
-                              fontWeight: 700,
-                              fontStyle: 'normal',
-                              color: 'var(--bs-primary, #1a6fc4)',
-                              marginRight: '6px',
-                              marginTop: '6px',
-                              fontFamily: 'Georgia, serif',
-                              letterSpacing: '-1px',
-                            }}
-                          >
+
+                        <p className="post-description-text">
+                          <span className="post-description-first-letter">
                             {post.description.charAt(0)}
                           </span>
                           {post.description.slice(1)}
@@ -185,12 +147,16 @@ export default async function DirectPostDetailPage({ params }: Props) {
 
               <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
-                  <div className="default-form comment-respond style-1" id="respond">
+                  <div
+                    className="default-form comment-respond style-1"
+                    id="respond"
+                  >
                     <h4 className="comment-reply-title mb-2" id="reply-title">
                       Để lại bình luận
                     </h4>
                     <p className="dz-title-text">
-                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người hiểu hơn về dịch vụ.
+                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người
+                      hiểu hơn về dịch vụ.
                     </p>
                     <div className="clearfix">
                       <CommentForm />
@@ -202,6 +168,50 @@ export default async function DirectPostDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      <style>{`
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .post-toc {
+    background: #f8f9fb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #eef0f4;
+  }
+
+  .post-toc-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .post-toc-list {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .post-toc-list li {
+    margin-bottom: 10px;
+  }
+
+  .post-toc-list a {
+    color: #222;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+
+  .post-toc-list a:hover {
+    color: var(--bs-primary, #1a6fc4);
+  }
+
+  .toc-level-3 {
+    margin-left: 18px;
+    font-size: 14px;
+  }
+`}</style>
     </main>
   );
 }
