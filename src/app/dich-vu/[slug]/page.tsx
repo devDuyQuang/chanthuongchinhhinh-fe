@@ -167,7 +167,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                 </div>
                                                 <div className="dz-info">
                                                     <div className="dz-meta">
-                                                        <ul>
+                                                        <ul className="p-0">
                                                             <li className="post-date mb-0">
                                                                 {new Date(item?.created_at).toLocaleDateString("en-GB", {
                                                                     day: "2-digit",

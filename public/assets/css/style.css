@@ -26294,9 +26294,10 @@ button {
 }
 
 .dz-card.style-2.blog-half .dz-media {
-  min-width: 420px;
+  /* min-width: 420px;
   width: 420px;
-  height: 300px;
+  height: 300px; */
+  width: 40%;
 }
 
 .dz-card.style-2.blog-half .dz-title {
@@ -47250,7 +47251,7 @@ table.wishlist_table {
 }
 
 .service-single .single-inner p {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 300;
   color: var(--bs-secondary);
 }
