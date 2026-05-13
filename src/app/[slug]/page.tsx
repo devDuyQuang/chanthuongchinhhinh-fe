@@ -67,7 +67,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
       <section className="content-inner-3">
         <div className="container">
           <div className="row">
-            <div className="col-xl-9 mx-auto pe-xl-5 m-b30">
+            <div className="col-xl-8 mx-auto m-b30">
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
                   <div className="dz-post-text">
@@ -91,7 +91,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                           color: 'inherit',
                         }}
                       >
-                        {/* Dấu ngoặc kép trang trí */}
                         <span
                           aria-hidden="true"
                           style={{
@@ -149,7 +148,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                             __html: post.content,
                           }}
                         />
-                        {/* Client component: chỉ gắn lightbox, không ảnh hưởng SSR/SEO */}
                         <ImageLightboxActivator containerSelector=".dz-post-content" />
                       </>
                     ) : null}
@@ -157,7 +155,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                 </div>
               </div>
 
-              {/* Comment */}
               <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
                   <div className="default-form comment-respond style-1" id="respond">
@@ -173,7 +170,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                   </div>
                 </div>
               </div>
-              {/* End Comment */}
             </div>
           </div>
         </div>

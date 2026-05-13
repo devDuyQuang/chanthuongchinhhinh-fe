@@ -26108,7 +26108,7 @@ button {
 
 .dz-card.style-2.dz-card-overlay {
   border-radius: var(--radius-xl);
-  height: 450px;
+  height: 550px;
   background-color: var(--bs-light);
   background-size: cover;
 }

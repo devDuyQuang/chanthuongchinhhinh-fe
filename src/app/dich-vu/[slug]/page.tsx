@@ -28,6 +28,27 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="dz-bnr-inr-entry d-table-cell">
                             <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
+                            {description && (
+                                <p
+                                    className="wow fadeInUp"
+                                    data-wow-delay="0.35s"
+                                    data-wow-duration="0.8s"
+                                    style={{
+                                        color: 'rgba(255,255,255,0.82)',
+                                        fontSize: '1rem',
+                                        lineHeight: '1.7',
+                                        maxWidth: '600px',
+                                        marginBottom: '20px',
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden',
+                                        fontWeight: 400,
+                                    }}
+                                >
+                                    {description}
+                                </p>
+                            )}
                             <nav aria-label="breadcrumb" className="breadcrumb-row wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="0.8s">
                                 <ul className="breadcrumb">
                                     {(breadcrumbs || []).map((item, index) => (
@@ -75,7 +96,6 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             color: 'inherit',
                                         }}
                                     >
-                                        {/* Dấu ngoặc kép trang trí */}
                                         <span
                                             aria-hidden="true"
                                             style={{
@@ -141,23 +161,34 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                     <h3>Bài liên quan</h3>
                                     <div className="row loadmore-content">
                                         {posts && posts.map((item, i) => (
-                                            <div className="col-lg-6 col-md-6 m-b25 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
-                                                <div className="dz-card style-2 dz-card-overlay" style={{ backgroundImage: `url(${normalizeImageUrl(item?.image)})` }}>
-                                                    <div className="dz-info">
-                                                        <div className="post-date">
-                                                            {new Date(item.created_at).toLocaleDateString("en-GB", {
-                                                                day: "2-digit",
-                                                                month: "short",
-                                                                year: "numeric",
-                                                            })}
-                                                        </div>
-                                                        <div className="bottom-info">
-                                                            <h3 className="dz-title"> <Link href={"/" + item?.slug}>{item?.name}</Link> </h3>
-                                                            <Link href={"/" + item?.slug} className="btn btn-square btn-white rounded-circle"
-                                                                dangerouslySetInnerHTML={{ __html: SVGICONS.uparrow2 }}>
-                                                            </Link>
-                                                        </div>
+                                            <div className="dz-card style-2 blog-half m-b35 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
+                                                <div className="dz-media">
+                                                    <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} />
+                                                </div>
+                                                <div className="dz-info">
+                                                    <div className="dz-meta">
+                                                        <ul>
+                                                            <li className="post-date mb-0">
+                                                                {new Date(item?.created_at).toLocaleDateString("en-GB", {
+                                                                    day: "2-digit",
+                                                                    month: "short",
+                                                                    year: "numeric",
+                                                                })}
+                                                            </li>
+                                                            <li className="post-comments">100 lượt xem</li>
+                                                        </ul>
                                                     </div>
+                                                    <h3><Link href={"/" + item?.slug} scroll={false}>{item?.name}</Link></h3>
+                                                    <p style={{
+                                                        display: '-webkit-box',
+                                                        WebkitLineClamp: 2,
+                                                        WebkitBoxOrient: 'vertical',
+                                                        overflow: 'hidden',
+                                                        margin: '8px 0 12px',
+                                                    }}>{item?.description}</p>
+                                                    <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
+                                                        Đọc Thêm <i className="feather icon-arrow-right" />
+                                                    </Link>
                                                 </div>
                                             </div>
                                         ))}
