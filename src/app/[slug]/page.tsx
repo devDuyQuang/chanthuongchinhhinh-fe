@@ -5,6 +5,7 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
 import CommentForm from "../(blogs)/blog-details/_components/CommentForm";
 import { getPost } from "@/services/postService";
+import ImageLightboxActivator from "@/component/ImageLightboxContent";
 
 type Props = {
   params: Promise<{
@@ -73,11 +74,16 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     {post.description ? <p>{post.description}</p> : null}
 
                     {post.content ? (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: post.content,
-                        }}
-                      />
+                      <>
+                        <div
+                          className="dz-post-content"
+                          dangerouslySetInnerHTML={{
+                            __html: post.content,
+                          }}
+                        />
+                        {/* Client component: chỉ gắn lightbox, không ảnh hưởng SSR/SEO */}
+                        <ImageLightboxActivator containerSelector=".dz-post-content" />
+                      </>
                     ) : null}
                   </div>
                 </div>

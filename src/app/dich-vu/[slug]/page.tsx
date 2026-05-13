@@ -54,13 +54,13 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 single-inner order-lg-1">
-                                {
+                                {/* {
                                     image && (
                                         <div className="single-media dz-media single-media height-sm radius-lg wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.7s">
                                             <Image src={image || ''} alt={name || ''} width={800} height={800} className="object-fit-cover" />
                                         </div>
                                     )
-                                }
+                                } */}
                                 {
                                     content && (
                                         <>

@@ -57,7 +57,7 @@ export default function ImageLightboxActivator({
                 img.style.transition = 'transform 0.25s ease, box-shadow 0.25s ease';
 
                 const onEnter = () => {
-                    img.style.transform = 'scale(1.02)';
+                    img.style.transform = 'scale(1)';
                     img.style.boxShadow = '0 8px 32px rgba(0,0,0,0.18)';
                 };
                 const onLeave = () => {
