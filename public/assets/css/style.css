@@ -53601,4 +53601,10 @@ footer.site-footer.footer-dark .fb-inner {
   letter-spacing: -1px;
 }
 
+
+/* Ẩn ::after decoration trên sapo blockquote (đã có borderLeft tùy chỉnh) */
+.dz-post-text > blockquote:after {
+  display: none;
+}
+
 /*# sourceMappingURL=style.css.map */

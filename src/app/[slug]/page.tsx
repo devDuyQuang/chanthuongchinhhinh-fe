@@ -72,16 +72,23 @@ export default async function DirectPostDetailPage({ params }: Props) {
                 <div className="dz-info">
                   <div className="dz-post-text">
                     {post.description ? (
-                      <div
+                      <blockquote
                         style={{
                           position: 'relative',
                           background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
-                          border: '1px solid rgba(26,111,196,0.15)',
+                          borderTop: '1px solid rgba(26,111,196,0.15)',
+                          borderRight: '1px solid rgba(26,111,196,0.15)',
+                          borderBottom: '1px solid rgba(26,111,196,0.15)',
                           borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
                           borderRadius: '0 12px 12px 0',
                           padding: '24px 28px 24px 32px',
                           marginBottom: '32px',
+                          marginTop: 0,
                           boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
+                          fontFamily: 'inherit',
+                          fontSize: 'inherit',
+                          fontWeight: 'inherit',
+                          color: 'inherit',
                         }}
                       >
                         {/* Dấu ngoặc kép trang trí */}
@@ -131,7 +138,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                           </span>
                           {post.description.slice(1)}
                         </p>
-                      </div>
+                      </blockquote>
                     ) : null}
 
                     {post.content ? (
