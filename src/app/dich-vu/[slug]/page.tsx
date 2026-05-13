@@ -95,9 +95,13 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                         {(breadcrumbs || []).map((item, index) => (
                                             <li key={index} className={`breadcrumb-item ${item.active ? 'active' : ''}`} style={item.active ? { color: '#000' } : {}}>
                                                 {item.active ? (
-                                                    item.name
+                                                    <>
+                                                        {index === 0 && <i className="fa-solid fa-house me-1" />}
+                                                        {item.name}
+                                                    </>
                                                 ) : (
                                                     <Link href={item.slug.startsWith('/') ? item.slug : `/${item.slug}`}>
+                                                        {index === 0 && <i className="fa-solid fa-house me-1" />}
                                                         {item.name}
                                                     </Link>
                                                 )}
