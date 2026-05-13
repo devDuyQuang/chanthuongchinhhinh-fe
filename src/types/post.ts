@@ -5,10 +5,14 @@ export interface Post {
     image: string;
     image_url?: string;
     description: string;
+    content?: string;
     created_at: string;
     updated_at?: string;
     views: number;
     favorites: number;
+    title_seo?: string | null;
+    description_seo?: string | null;
+    canonical_seo?: string | null;
 }
 
 export interface PostResponse {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { IMAGES, SVGICONS } from "@/constant/theme";
 import Footer from "@/layout/Footer";
@@ -5,6 +6,35 @@ import Image from "next/image";
 import { getCategoryBySlug, getCategories } from "@/services/categoryService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
+
+export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+    const { slug } = await params;
+    const category = await getCategoryBySlug(slug + '?limit=7');
+
+    const title = `${category?.title_seo || category?.name || "Dịch vụ"} - DrDuongOrtho`;
+    const description = category?.description_seo || category?.description || "";
+    const canonical = category?.canonical_seo;
+    const image = normalizeImageUrl(category?.image);
+
+    return {
+        title,
+        description,
+        ...(canonical && {
+            alternates: {
+                canonical,
+            },
+        }),
+        openGraph: {
+            title,
+            description: description ?? undefined,
+            ...(image && {
+                images: [{ url: image }],
+            }),
+        },
+    };
+}
 
 async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; }) {
     const { slug } = await params;

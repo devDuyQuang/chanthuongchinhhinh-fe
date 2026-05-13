@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { IMAGES } from "@/constant/theme";
 import Image from "next/image";
@@ -12,6 +13,33 @@ type Props = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  const title = `${post?.title_seo || post?.name || "Bài viết"} - DrDuongOrtho`;
+  const description = post?.description_seo || post?.description || "";
+  const canonical = post?.canonical_seo;
+  const image = normalizeImageUrl(post?.image);
+
+  return {
+    title,
+    description,
+    ...(canonical && {
+      alternates: {
+        canonical,
+      },
+    }),
+    openGraph: {
+      title,
+      description: description ?? undefined,
+      ...(image && {
+        images: [{ url: image }],
+      }),
+    },
+  };
+}
 
 export default async function DirectPostDetailPage({ params }: Props) {
   const { slug } = await params;

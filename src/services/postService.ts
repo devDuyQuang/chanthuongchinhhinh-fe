@@ -8,6 +8,9 @@ export type PostDetail = {
     created_at?: string;
     creator_name?: string;
     creator?: string;
+    title_seo?: string | null;
+    description_seo?: string | null;
+    canonical_seo?: string | null;
 };
 
 type PostDetailResponse = {
