@@ -17,6 +17,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
     const name = category?.name;
     const description = category?.description;
     const content = category?.content;
+    const created_at = category?.created_at;
     const image = normalizeImageUrl(category?.image);
     const posts = category?.posts?.data;
     const breadcrumbs = category?.breadcrumbs;
@@ -28,42 +29,25 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="dz-bnr-inr-entry d-table-cell">
                             <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
-                            {description && (
-                                <p
-                                    className="wow fadeInUp"
-                                    data-wow-delay="0.35s"
-                                    data-wow-duration="0.8s"
-                                    style={{
-                                        color: 'rgba(255,255,255,0.82)',
-                                        fontSize: '1rem',
-                                        lineHeight: '1.7',
-                                        maxWidth: '600px',
-                                        marginBottom: '20px',
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 2,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        fontWeight: 400,
-                                    }}
-                                >
-                                    {description}
-                                </p>
-                            )}
-                            <nav aria-label="breadcrumb" className="breadcrumb-row wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="0.8s">
-                                <ul className="breadcrumb">
-                                    {(breadcrumbs || []).map((item, index) => (
-                                        <li key={index} className={`breadcrumb-item ${item.active ? 'active' : ''}`} style={item.active ? { color: '#fff' } : {}}>
-                                            {item.active ? (
-                                                item.name
-                                            ) : (
-                                                <Link href={item.slug.startsWith('/') ? item.slug : `/${item.slug}`}>
-                                                    {item.name}
-                                                </Link>
-                                            )}
+                            {/* {created_at && (
+                                <div className="dz-meta style-1">
+                                    <ul className="justify-content-center">
+                                        <li className="post-date">
+                                            {new Date(created_at).toLocaleDateString("en-GB", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                            })}
                                         </li>
-                                    ))}
-                                </ul>
-                            </nav>
+                                        <li className="dz-comment">
+                                            <i className="fa-solid fa-eye" />
+                                            <Link href="#" scroll={false}>
+                                                100 Lượt xem
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )} */}
                             <div className="dz-btn">
                                 <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
                                     <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
@@ -76,6 +60,21 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 single-inner order-lg-1">
+                                <nav aria-label="breadcrumb" className="breadcrumb-row wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="0.8s">
+                                    <ul className="breadcrumb">
+                                        {(breadcrumbs || []).map((item, index) => (
+                                            <li key={index} className={`breadcrumb-item ${item.active ? 'active' : ''}`} style={item.active ? { color: '#000' } : {}}>
+                                                {item.active ? (
+                                                    item.name
+                                                ) : (
+                                                    <Link href={item.slug.startsWith('/') ? item.slug : `/${item.slug}`}>
+                                                        {item.name}
+                                                    </Link>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </nav>
                                 {description ? (
                                     <blockquote
                                         style={{
@@ -158,7 +157,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                     )
                                 }
                                 <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
-                                    <h3>Bài liên quan</h3>
+                                    <h3>Có thể bạn quan tâm?</h3>
                                     <div className="row loadmore-content">
                                         {posts && posts.map((item, i) => (
                                             <div className="dz-card style-2 blog-half m-b35 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
