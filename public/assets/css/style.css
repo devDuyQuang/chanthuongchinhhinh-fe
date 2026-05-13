@@ -47262,6 +47262,7 @@ table.wishlist_table {
   font-size: 18px;
   font-weight: 300;
   color: var(--bs-secondary);
+  text-align: justify;
 }
 
 .service-single .single-inner table p {
