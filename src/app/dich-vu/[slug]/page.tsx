@@ -10,7 +10,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
     const { slug } = await params;
 
     const [category, categories] = await Promise.all([
-        getCategoryBySlug(slug + '?limit=6'),
+        getCategoryBySlug(slug + '?limit=7'),
         getCategories(),
     ]);
 
