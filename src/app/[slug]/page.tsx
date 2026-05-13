@@ -71,7 +71,31 @@ export default async function DirectPostDetailPage({ params }: Props) {
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
                   <div className="dz-post-text">
-                    {post.description ? <p>{post.description}</p> : null}
+                    {post.description ? (
+                      <div
+                        style={{
+                          borderLeft: '4px solid var(--bs-primary, #1a6fc4)',
+                          background: 'linear-gradient(90deg, rgba(26,111,196,0.07) 0%, transparent 100%)',
+                          borderRadius: '0 8px 8px 0',
+                          padding: '16px 20px',
+                          margin: '0 auto 28px',
+                          width: '80%'
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: '1.1rem',
+                            lineHeight: '1.8',
+                            fontStyle: 'italic',
+                            color: '#374151',
+                            margin: 0,
+                            fontWeight: 500,
+                          }}
+                        >
+                          {post.description}
+                        </p>
+                      </div>
+                    ) : null}
 
                     {post.content ? (
                       <>

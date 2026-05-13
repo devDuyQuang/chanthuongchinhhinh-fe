@@ -50241,7 +50241,7 @@ table tr:hover {
 .header-nav.w3menu .nav>li>a {
   color: var(--white);
   font-size: 18px;
-  padding: 28px 15px;
+  padding: 28px 10px;
   font-family: var(--font-family-title);
   cursor: pointer;
   font-weight: 500;
