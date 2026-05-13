@@ -53588,7 +53588,7 @@ footer.site-footer.footer-dark .fb-inner {
 
 
 /* Drop cap: chữ đầu tiên trong nội dung bài viết */
-.dz-post-content .w-80-desktop:first-child>p:first-of-type::first-letter {
+.style-letter-first>p:first-of-type::first-letter {
   float: left;
   font-size: 4rem;
   line-height: 0.82;
@@ -53603,7 +53603,8 @@ footer.site-footer.footer-dark .fb-inner {
 
 
 /* Ẩn ::after decoration trên sapo blockquote (đã có borderLeft tùy chỉnh) */
-.dz-post-text > blockquote:after {
+.dz-post-text>blockquote:after,
+.single-inner>blockquote:after {
   display: none;
 }
 

@@ -15,6 +15,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
     ]);
 
     const name = category?.name;
+    const description = category?.description;
     const content = category?.content;
     const image = normalizeImageUrl(category?.image);
     const posts = category?.posts?.data;
@@ -54,24 +55,84 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-8 single-inner order-lg-1">
-                                {/* {
-                                    image && (
-                                        <div className="single-media dz-media single-media height-sm radius-lg wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.7s">
-                                            <Image src={image || ''} alt={name || ''} width={800} height={800} className="object-fit-cover" />
-                                        </div>
-                                    )
-                                } */}
+                                {description ? (
+                                    <blockquote
+                                        style={{
+                                            position: 'relative',
+                                            background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
+                                            borderTop: '1px solid rgba(26,111,196,0.15)',
+                                            borderRight: '1px solid rgba(26,111,196,0.15)',
+                                            borderBottom: '1px solid rgba(26,111,196,0.15)',
+                                            borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
+                                            borderRadius: '0 12px 12px 0',
+                                            padding: '24px 28px 24px 32px',
+                                            marginBottom: '32px',
+                                            marginTop: 0,
+                                            boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
+                                            fontFamily: 'inherit',
+                                            fontSize: 'inherit',
+                                            fontWeight: 'inherit',
+                                            color: 'inherit',
+                                        }}
+                                    >
+                                        {/* Dấu ngoặc kép trang trí */}
+                                        <span
+                                            aria-hidden="true"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '10px',
+                                                left: '14px',
+                                                fontSize: '48px',
+                                                lineHeight: 1,
+                                                color: 'var(--bs-primary, #1a6fc4)',
+                                                opacity: 0.18,
+                                                fontFamily: 'Georgia, serif',
+                                                fontWeight: 700,
+                                                userSelect: 'none',
+                                            }}
+                                        >
+                                            &ldquo;
+                                        </span>
+                                        <p
+                                            style={{
+                                                fontSize: '1.08rem',
+                                                lineHeight: '1.85',
+                                                fontStyle: 'italic',
+                                                color: '#1e3a5f',
+                                                margin: 0,
+                                                fontWeight: 500,
+                                                letterSpacing: '0.01em',
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    float: 'left',
+                                                    fontSize: '3.6rem',
+                                                    lineHeight: '0.8',
+                                                    fontWeight: 700,
+                                                    fontStyle: 'normal',
+                                                    color: 'var(--bs-primary, #1a6fc4)',
+                                                    marginRight: '6px',
+                                                    marginTop: '6px',
+                                                    fontFamily: 'Georgia, serif',
+                                                    letterSpacing: '-1px',
+                                                }}
+                                            >
+                                                {description.charAt(0)}
+                                            </span>
+                                            {description.slice(1)}
+                                        </p>
+                                    </blockquote>
+                                ) : null}
                                 {
                                     content && (
                                         <>
-                                            {/* Nội dung render phía server — Google crawl được đầy đủ */}
                                             <div
-                                                className="content-item wow fadeInUp"
+                                                className="content-item wow fadeInUp add-style"
                                                 data-wow-delay="0.2s"
                                                 data-wow-duration="0.7s"
                                                 dangerouslySetInnerHTML={{ __html: content }}
                                             />
-                                            {/* Client component: chỉ gắn lightbox, không ảnh hưởng SSR/SEO */}
                                             <ImageLightboxActivator containerSelector=".content-item" />
                                         </>
                                     )
