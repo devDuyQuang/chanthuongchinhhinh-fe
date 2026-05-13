@@ -53586,4 +53586,19 @@ footer.site-footer.footer-dark .fb-inner {
   transition: none;
 }
 
+
+/* Drop cap: chữ đầu tiên trong nội dung bài viết */
+.dz-post-content .w-80-desktop:first-child>p:first-of-type::first-letter {
+  float: left;
+  font-size: 4rem;
+  line-height: 0.82;
+  font-weight: 700;
+  font-style: normal;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--bs-heading-color);
+  margin-right: 8px;
+  margin-top: 4px;
+  letter-spacing: -1px;
+}
+
 /*# sourceMappingURL=style.css.map */

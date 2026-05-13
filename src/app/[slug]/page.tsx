@@ -74,25 +74,62 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     {post.description ? (
                       <div
                         style={{
-                          borderLeft: '4px solid var(--bs-primary, #1a6fc4)',
-                          background: 'linear-gradient(90deg, rgba(26,111,196,0.07) 0%, transparent 100%)',
-                          borderRadius: '0 8px 8px 0',
-                          padding: '16px 20px',
-                          margin: '0 auto 28px',
-                          width: '80%'
+                          position: 'relative',
+                          background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
+                          border: '1px solid rgba(26,111,196,0.15)',
+                          borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
+                          borderRadius: '0 12px 12px 0',
+                          padding: '24px 28px 24px 32px',
+                          marginBottom: '32px',
+                          boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
                         }}
                       >
-                        <p
+                        {/* Dấu ngoặc kép trang trí */}
+                        <span
+                          aria-hidden="true"
                           style={{
-                            fontSize: '1.1rem',
-                            lineHeight: '1.8',
-                            fontStyle: 'italic',
-                            color: '#374151',
-                            margin: 0,
-                            fontWeight: 500,
+                            position: 'absolute',
+                            top: '10px',
+                            left: '14px',
+                            fontSize: '48px',
+                            lineHeight: 1,
+                            color: 'var(--bs-primary, #1a6fc4)',
+                            opacity: 0.18,
+                            fontFamily: 'Georgia, serif',
+                            fontWeight: 700,
+                            userSelect: 'none',
                           }}
                         >
-                          {post.description}
+                          &ldquo;
+                        </span>
+                        <p
+                          style={{
+                            fontSize: '1.08rem',
+                            lineHeight: '1.85',
+                            fontStyle: 'italic',
+                            color: '#1e3a5f',
+                            margin: 0,
+                            fontWeight: 500,
+                            letterSpacing: '0.01em',
+                          }}
+                        >
+                          <span
+                            style={{
+                              float: 'left',
+                              fontSize: '3.6rem',
+                              lineHeight: '0.8',
+                              fontWeight: 700,
+                              fontStyle: 'normal',
+                              color: 'var(--bs-primary, #1a6fc4)',
+                              marginRight: '6px',
+                              marginTop: '6px',
+                              fontFamily: 'Georgia, serif',
+                              letterSpacing: '-1px',
+                            }}
+                          >
+                            {post.description.charAt(0)}
+                          </span>
+                          {post.description.slice(1)}
                         </p>
                       </div>
                     ) : null}
