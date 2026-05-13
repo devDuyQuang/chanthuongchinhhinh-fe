@@ -606,7 +606,7 @@ h3,
 
   h3,
   .h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -14153,7 +14153,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -41614,6 +41614,14 @@ pre {
 .dz-blog.blog-single .dz-blog.blog-single .dz-post-text p:not(.has-text-color):not(.has-text-align-center):not(.has-text-align-left):not(.has-text-align-right) {
   font-size: 1.125rem;
   /* line-height: 2.2; */
+  color: #031b4e;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.dz-blog.blog-single .dz-post-text ul li:last-child,
+.dz-blog.blog-single .dz-post-text ol li:last-child {
+  margin-bottom: 0;
 }
 
 .wp-block-cover,
@@ -47251,9 +47259,13 @@ table.wishlist_table {
 }
 
 .service-single .single-inner p {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   color: var(--bs-secondary);
+}
+
+.service-single .single-inner table p {
+  font-size: 16px;
 }
 
 .service-single .single-inner h2,
@@ -47306,11 +47318,14 @@ table tr:hover {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 2rem;
+  color: #031b4e;
+  font-weight: 300;
+  font-size: 18px;
 }
 
 .content-item ul li,
 .content-item ol li {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .content-item ul li:last-child,

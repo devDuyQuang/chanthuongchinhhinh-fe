@@ -185,6 +185,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                         WebkitBoxOrient: 'vertical',
                                                         overflow: 'hidden',
                                                         margin: '8px 0 12px',
+                                                        fontSize: '16px',
                                                     }}>{item?.description}</p>
                                                     <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
                                                         Đọc Thêm <i className="feather icon-arrow-right" />
