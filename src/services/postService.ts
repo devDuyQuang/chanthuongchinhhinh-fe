@@ -13,6 +13,7 @@ export type PostDetail = {
     canonical_seo?: string | null;
     toc?: { id: string; text: string; level: number }[];
     categories?: { id: number; name: string; slug: string; type: string }[];
+    breadcrumbs?: { name: string; slug: string; active: boolean }[];
 };
 
 type PostDetailResponse = {

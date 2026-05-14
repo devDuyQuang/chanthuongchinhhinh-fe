@@ -60,38 +60,29 @@ export default async function DirectPostDetailPage({ params }: Props) {
     : "N/A";
 
   const toc = post?.toc;
+  const breadcrumbs = post?.breadcrumbs;
 
   return (
     <main className="page-content">
-      <div className="section-full post-header blog-single style-1 mb-0">
-        <div className="dz-card text-center">
-          <div className="dz-media overlay-secondary-light">
-            <Image
-              src={imageUrl}
-              alt={post.name || ""}
-              width={1920}
-              height={800}
-              style={{ width: "100%", height: "auto" }}
-              unoptimized
-            />
-          </div>
-
-          <div className="dz-info">
-            <h1 className="dz-title text-white mx-auto">
-              {post.name || "Chi tiết bài viết"}
-            </h1>
-
-            <div className="dz-meta style-1">
-              <ul className="justify-content-center">
-                <li className="post-date">{createdDate}</li>
-
-                <li className="dz-comment">
-                  <i className="fa-solid fa-eye" />
-                  <Link href="#" scroll={false}>
-                    100 Lượt xem
-                  </Link>
+      <div className="dz-bnr-inr dz-banner-dark overlay-secondary-middle dz-bnr-inr-md" style={{ backgroundImage: `url(${imageUrl})` }}>
+        <div className="container">
+          <div className="dz-bnr-inr-entry d-table-cell">
+            <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{post.name || "Chi tiết bài viết"}</h1>
+            <div className="dz-meta">
+              <ul className="justify-content-center" style={{ gap: '15px' }}>
+                <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                  <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i> {createdDate}
+                </li>
+                <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                  <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
+                  <span>100 Lượt xem</span>
                 </li>
               </ul>
+            </div>
+            <div className="dz-btn">
+              <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
+                  <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
+              </Link>
             </div>
           </div>
         </div>
@@ -101,6 +92,25 @@ export default async function DirectPostDetailPage({ params }: Props) {
         <div className="container">
           <div className="row">
             <div className="col-xl-8 mx-auto m-b30">
+              <nav aria-label="breadcrumb" className="breadcrumb-row wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="0.8s">
+                <ul className="breadcrumb">
+                  {(breadcrumbs || []).map((item, index) => (
+                    <li key={index} className={`breadcrumb-item ${item.active ? 'active' : ''}`} style={item.active ? { color: '#000' } : {}}>
+                      {item.active ? (
+                        <>
+                          {index === 0 && <i className="fa-solid fa-house me-1" />}
+                          {item.name}
+                        </>
+                      ) : (
+                        <Link href={item.slug.startsWith('/') ? item.slug : `/${item.slug}`}>
+                          {index === 0 && <i className="fa-solid fa-house me-1" />}
+                          {item.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </nav>
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
                   <div className="dz-post-text">
@@ -230,9 +240,9 @@ export default async function DirectPostDetailPage({ params }: Props) {
                         <div className="d-flex justify-content-between align-items-center mb-4">
                           <h3 className="m-0">Bài viết liên quan</h3>
                           {post?.categories && post.categories.length > 0 && (
-                            <Link 
-                              href={`/dich-vu/${post.categories[0].slug}`} 
-                              scroll={false} 
+                            <Link
+                              href={`/dich-vu/${post.categories[0].slug}`}
+                              scroll={false}
                               className="text-primary"
                               style={{ fontWeight: 600, fontSize: '15px' }}
                             >

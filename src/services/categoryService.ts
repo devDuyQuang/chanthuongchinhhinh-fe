@@ -52,6 +52,7 @@ export interface Category {
     title_seo?: string | null;
     description_seo?: string | null;
     canonical_seo?: string | null;
+    toc?: Array<{ id: string; text: string; level: number }>;
     posts?: PaginatedData<Post>;
     stories?: PaginatedData<Post>;
     breadcrumbs?: Breadcrumb[];
