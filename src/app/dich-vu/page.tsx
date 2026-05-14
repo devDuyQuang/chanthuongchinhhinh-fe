@@ -21,6 +21,11 @@ async function Services() {
                                     <li className="breadcrumb-item">Dịch vụ</li>
                                 </ul>
                             </nav>
+                            <div className="dz-btn">
+                                <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
+                                    <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,7 +157,7 @@ async function Services() {
                         ))}
                     </div>
                 </section>
-            </main>
+            </main >
         </>
     );
 }
