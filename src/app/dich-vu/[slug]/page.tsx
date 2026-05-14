@@ -65,10 +65,10 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                             <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
                             <div className="dz-meta">
                                 <ul className="justify-content-center" style={{ gap: '15px' }}>
-                                    <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
                                         <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i> {createdDate}
                                     </li>
-                                    <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
                                         <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
                                         <span>100 Lượt xem</span>
                                     </li>

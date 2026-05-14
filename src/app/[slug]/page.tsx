@@ -70,10 +70,10 @@ export default async function DirectPostDetailPage({ params }: Props) {
             <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{post.name || "Chi tiết bài viết"}</h1>
             <div className="dz-meta">
               <ul className="justify-content-center" style={{ gap: '15px' }}>
-                <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
                   <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i> {createdDate}
                 </li>
-                <li style={{ background: '#fff', borderRadius: '30px', padding: '5px 20px', color: '#1e3a5f', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
                   <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
                   <span>100 Lượt xem</span>
                 </li>
@@ -81,7 +81,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
             </div>
             <div className="dz-btn">
               <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
-                  <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
+                <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
               </Link>
             </div>
           </div>
