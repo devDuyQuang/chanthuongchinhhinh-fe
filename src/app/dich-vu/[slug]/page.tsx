@@ -268,10 +268,9 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                                                 color: 'var(--bs-primary)',
                                                                                 fontWeight: 700,
                                                                                 borderLeft: '3px solid var(--bs-primary)',
-                                                                                paddingLeft: '14px',
                                                                             } : {}}
                                                                         >
-                                                                            {child.name}
+                                                                            + {child.name}
                                                                         </Link>
                                                                     </li>
                                                                 );
