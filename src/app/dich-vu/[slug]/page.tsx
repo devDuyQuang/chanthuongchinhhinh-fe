@@ -271,7 +271,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                                                 paddingLeft: '14px',
                                                                             } : {}}
                                                                         >
-                                                                            + {child.name}
+                                                                            {child.name}
                                                                         </Link>
                                                                     </li>
                                                                 );
