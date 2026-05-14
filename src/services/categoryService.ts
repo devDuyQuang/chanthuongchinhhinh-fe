@@ -114,11 +114,11 @@ export async function getCategoryBySlug(
  * Lấy danh sách tất cả các danh mục
  * API: /category
  */
-export async function getCategories(): Promise<any[]> {
+export async function getCategories(type: string = 'service'): Promise<any[]> {
     if (!API_BASE) return [];
 
     try {
-        const res = await fetch(`${API_BASE}/category`, {
+        const res = await fetch(`${API_BASE}/category?type=${type}`, {
             cache: 'no-store',
             headers: {
                 'Accept': 'application/json',
