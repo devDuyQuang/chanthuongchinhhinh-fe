@@ -5,6 +5,7 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
 import CommentForm from "../(blogs)/blog-details/_components/CommentForm";
 import { getPost } from "@/services/postService";
+import CommentSection from "@/component/CommentSection";
 
 type Props = {
   params: Promise<{
@@ -84,22 +85,27 @@ export default async function DirectPostDetailPage({ params }: Props) {
               </div>
 
               {/* Comment */}
-              <div className="clear" id="comment-list">
+              {/* <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
-                  <div className="default-form comment-respond style-1" id="respond">
+                  <div
+                    className="default-form comment-respond style-1"
+                    id="respond"
+                  >
                     <h4 className="comment-reply-title mb-2" id="reply-title">
                       Để lại bình luận
                     </h4>
                     <p className="dz-title-text">
-                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người hiểu hơn về dịch vụ.
+                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người
+                      hiểu hơn về dịch vụ.
                     </p>
                     <div className="clearfix">
                       <CommentForm />
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* End Comment */}
+              <CommentSection postId={post.id} />
             </div>
           </div>
         </div>
