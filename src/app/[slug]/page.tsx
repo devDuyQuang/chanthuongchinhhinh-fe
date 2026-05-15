@@ -4,7 +4,7 @@ import { IMAGES } from "@/constant/theme";
 import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
-import CommentForm from "../(blogs)/blog-details/_components/CommentForm";
+import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 
@@ -126,58 +126,58 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     {post.description ? (
                       <blockquote
                         style={{
-                          position: 'relative',
-                          background: 'transparent',
-                          borderTop: '2px solid rgba(0,0,0,0.05)',
-                          borderBottom: '2px solid rgba(0,0,0,0.05)',
-                          padding: '30px 10px',
-                          marginBottom: '40px',
-                          marginTop: '0',
-                          fontFamily: 'inherit',
-                          fontSize: 'inherit',
-                          fontWeight: 'inherit',
-                          color: 'inherit',
+                          position: "relative",
+                          background: "transparent",
+                          borderTop: "2px solid rgba(0,0,0,0.05)",
+                          borderBottom: "2px solid rgba(0,0,0,0.05)",
+                          padding: "30px 10px",
+                          marginBottom: "40px",
+                          marginTop: "0",
+                          fontFamily: "inherit",
+                          fontSize: "inherit",
+                          fontWeight: "inherit",
+                          color: "inherit",
                         }}
                       >
                         <span
                           aria-hidden="true"
                           style={{
-                            position: 'absolute',
-                            top: '0',
-                            left: '0',
-                            fontSize: '60px',
+                            position: "absolute",
+                            top: "0",
+                            left: "0",
+                            fontSize: "60px",
                             lineHeight: 1,
-                            color: 'rgba(0,0,0,0.05)',
-                            fontFamily: 'Georgia, serif',
+                            color: "rgba(0,0,0,0.05)",
+                            fontFamily: "Georgia, serif",
                             fontWeight: 700,
-                            userSelect: 'none',
+                            userSelect: "none",
                           }}
                         >
                           &ldquo;
                         </span>
                         <p
                           style={{
-                            fontSize: '1.08rem',
-                            lineHeight: '1.85',
-                            fontStyle: 'italic',
-                            color: '#1e3a5f',
+                            fontSize: "1.08rem",
+                            lineHeight: "1.85",
+                            fontStyle: "italic",
+                            color: "#1e3a5f",
                             margin: 0,
                             fontWeight: 500,
-                            letterSpacing: '0.01em',
+                            letterSpacing: "0.01em",
                           }}
                         >
                           <span
                             style={{
-                              float: 'left',
-                              fontSize: '3.6rem',
-                              lineHeight: '0.8',
+                              float: "left",
+                              fontSize: "3.6rem",
+                              lineHeight: "0.8",
                               fontWeight: 700,
-                              fontStyle: 'normal',
-                              color: 'var(--bs-primary, #1a6fc4)',
-                              marginRight: '6px',
-                              marginTop: '6px',
-                              fontFamily: 'Georgia, serif',
-                              letterSpacing: '-1px',
+                              fontStyle: "normal",
+                              color: "var(--bs-primary, #1a6fc4)",
+                              marginRight: "6px",
+                              marginTop: "6px",
+                              fontFamily: "Georgia, serif",
+                              letterSpacing: "-1px",
                             }}
                           >
                             {post.description.charAt(0)}
@@ -205,27 +205,38 @@ export default async function DirectPostDetailPage({ params }: Props) {
                             <div
                               className="table-of-contents mb-4 p-4 rounded mx-auto"
                               style={{
-                                background: '#f8f9fa',
-                                borderLeft: '4px solid var(--bs-primary)',
-                                boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                                width: '80%'
+                                background: "#f8f9fa",
+                                borderLeft: "4px solid var(--bs-primary)",
+                                boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+                                width: "80%",
                               }}
                             >
-                              <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
+                              <h4
+                                className="mb-3"
+                                style={{ fontSize: "1.25rem", fontWeight: 600 }}
+                              >
+                                Nội dung chính
+                              </h4>
                               <ul className="list-unstyled mb-0">
                                 {toc.map((item, index) => (
                                   <li
                                     key={index}
                                     className="mb-2"
                                     style={{
-                                      paddingLeft: `${(item.level - 2) * 20}px`
+                                      paddingLeft: `${(item.level - 2) * 20}px`,
                                     }}
                                   >
                                     <Link
                                       href={`#${item.id}`}
                                       className="toc-link text-body"
                                     >
-                                      <i className="feather icon-chevron-right me-2" style={{ fontSize: '12px', color: 'var(--bs-primary)' }}></i>
+                                      <i
+                                        className="feather icon-chevron-right me-2"
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "var(--bs-primary)",
+                                        }}
+                                      ></i>
                                       {item.text}
                                     </Link>
                                   </li>
@@ -245,7 +256,11 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     ) : null}
 
                     {relatedPosts && relatedPosts.length > 0 && (
-                      <div className="content-item wow fadeInUp mt-5" data-wow-delay="0.5s" data-wow-duration="0.7s">
+                      <div
+                        className="content-item wow fadeInUp mt-5"
+                        data-wow-delay="0.5s"
+                        data-wow-duration="0.7s"
+                      >
                         <div className="d-flex justify-content-between align-items-center mb-4">
                           <h3 className="m-0">Bài viết liên quan</h3>
                           {post?.categories && post.categories.length > 0 && (
@@ -253,44 +268,73 @@ export default async function DirectPostDetailPage({ params }: Props) {
                               href={`/dich-vu/${post.categories[0].slug}`}
                               scroll={false}
                               className="text-primary"
-                              style={{ fontWeight: 600, fontSize: '15px' }}
+                              style={{ fontWeight: 600, fontSize: "15px" }}
                             >
-                              Xem thêm <i className="feather icon-arrow-right ms-1" />
+                              Xem thêm{" "}
+                              <i className="feather icon-arrow-right ms-1" />
                             </Link>
                           )}
                         </div>
                         <div className="row loadmore-content">
                           {relatedPosts.map((item, i) => (
-                            <div className="dz-card style-2 blog-half m-b35 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
+                            <div
+                              className="dz-card style-2 blog-half m-b35 wow fadeInUp"
+                              data-wow-delay="0.1s"
+                              data-wow-duration="0.5s"
+                              key={i}
+                            >
                               <div className="dz-media">
-                                <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name || ''} width={500} height={500} />
+                                <Image
+                                  src={normalizeImageUrl(item?.image) ?? ""}
+                                  alt={item?.name || ""}
+                                  width={500}
+                                  height={500}
+                                />
                               </div>
                               <div className="dz-info">
                                 <div className="dz-meta">
                                   <ul className="p-0">
                                     <li className="post-date mb-0">
-                                      {item?.created_at && new Date(item.created_at).toLocaleDateString("en-GB", {
-                                        day: "2-digit",
-                                        month: "short",
-                                        year: "numeric",
-                                      })}
+                                      {item?.created_at &&
+                                        new Date(
+                                          item.created_at,
+                                        ).toLocaleDateString("en-GB", {
+                                          day: "2-digit",
+                                          month: "short",
+                                          year: "numeric",
+                                        })}
                                     </li>
-                                    <li className="post-comments">100 lượt xem</li>
+                                    <li className="post-comments">
+                                      100 lượt xem
+                                    </li>
                                   </ul>
                                 </div>
-                                <h3><Link href={"/" + item?.slug} scroll={false}>{item?.name}</Link></h3>
+                                <h3>
+                                  <Link href={"/" + item?.slug} scroll={false}>
+                                    {item?.name}
+                                  </Link>
+                                </h3>
                                 {item?.description && (
-                                  <p style={{
-                                    display: '-webkit-box',
-                                    WebkitLineClamp: 2,
-                                    WebkitBoxOrient: 'vertical',
-                                    overflow: 'hidden',
-                                    margin: '8px 0 12px',
-                                    fontSize: '16px',
-                                  }}>{item?.description}</p>
+                                  <p
+                                    style={{
+                                      display: "-webkit-box",
+                                      WebkitLineClamp: 2,
+                                      WebkitBoxOrient: "vertical",
+                                      overflow: "hidden",
+                                      margin: "8px 0 12px",
+                                      fontSize: "16px",
+                                    }}
+                                  >
+                                    {item?.description}
+                                  </p>
                                 )}
-                                <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
-                                  Đọc Thêm <i className="feather icon-arrow-right" />
+                                <Link
+                                  href={"/" + item?.slug}
+                                  scroll={false}
+                                  className="btn icon-link-hover-end btn-primary radius-sm"
+                                >
+                                  Đọc Thêm{" "}
+                                  <i className="feather icon-arrow-right" />
                                 </Link>
                               </div>
                             </div>
@@ -301,22 +345,29 @@ export default async function DirectPostDetailPage({ params }: Props) {
                   </div>
                 </div>
               </div>
+              {/* Comment */}
+              {/* <div className="clear" id="comment-list">
 
-              <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
-                  <div className="default-form comment-respond style-1" id="respond">
+                  <div
+                    className="default-form comment-respond style-1"
+                    id="respond"
+                  >
                     <h4 className="comment-reply-title mb-2" id="reply-title">
                       Để lại bình luận
                     </h4>
                     <p className="dz-title-text">
-                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người hiểu hơn về dịch vụ.
+                      Chia sẻ ý kiến hoặc trải nghiệm của bạn để giúp mọi người
+                      hiểu hơn về dịch vụ.
                     </p>
                     <div className="clearfix">
                       <CommentForm />
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+              {/* End Comment */}
+              <CommentSection postId={post.id} />
             </div>
           </div>
         </div>
