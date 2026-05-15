@@ -41,8 +41,17 @@ function ServicePackage({ data }: ServicePackageProps) {
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  // Thêm state để bắt lỗi validate từ Laravel
   const [errors, setErrors] = useState<any>(null);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  
+  const timelineSteps = [
+    { num: "01", title: "Thăm khám & đánh giá ban đầu", desc: "Bác sĩ kiểm tra vị trí dụng cụ, tình trạng liền xương, mức độ đau và khả năng vận động của người bệnh." },
+    { num: "02", title: "Chụp X-quang / cận lâm sàng", desc: "Đánh giá xương đã liền chắc, vị trí vít nẹp và điều kiện an toàn trước khi thực hiện tháo dụng cụ." },
+    { num: "03", title: "Tư vấn kế hoạch điều trị", desc: "Bác sĩ giải thích phương pháp thực hiện, thời gian điều trị, hình thức vô cảm và lưu ý sau phẫu thuật." },
+    { num: "04", title: "Thực hiện tháo dụng cụ KHX", desc: "Tiến hành tháo vít, nẹp hoặc vật liệu cố định tại một vị trí theo quy trình vô khuẩn, an toàn." },
+    { num: "05", title: "Theo dõi sau phẫu thuật", desc: "Kiểm tra vết mổ, kiểm soát đau, phòng ngừa nhiễm trùng và hướng dẫn chăm sóc tại nhà." },
+    { num: "06", title: "Phục hồi vận động & tái khám", desc: "Hướng dẫn vận động phù hợp, theo dõi tiến triển và tái khám để đảm bảo phục hồi hiệu quả." }
+  ];
 
   const ADMIN_URL =
     process.env.NEXT_PUBLIC_ADMIN_URL || "http://admin.localhost:8000";
@@ -195,7 +204,8 @@ function ServicePackage({ data }: ServicePackageProps) {
     <div
       className={`dz-team style-1 box-hover ${active === item.id ? "active" : ""}`}
       onMouseEnter={() => setActive(item.id)}
-      style={{ margin: isServicePage ? "0 0 30px 0" : "15px 0" }}
+      onClick={(e) => handleOpenModal(e, item)}
+      style={{ margin: isServicePage ? "0 0 30px 0" : "15px 0", cursor: "pointer" }}
     >
       <div className="dz-media">
         <Image
@@ -299,119 +309,258 @@ function ServicePackage({ data }: ServicePackageProps) {
           style={{
             backgroundColor: "rgba(0,0,0,0.7)",
             backdropFilter: "blur(4px)",
-            zIndex: 1050,
+            zIndex: 99999,
           }}
           // 1. Thêm sự kiện click ra ngoài để đóng modal
           onClick={() => setShowModal(false)}
         >
           <div
-            className="modal-dialog modal-dialog-centered"
+            className="modal-dialog modal-dialog-centered modal-xl"
             onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: '1120px' }}
           >
-            <div className="modal-content shadow-lg border-0">
-              <div className="modal-header bg-primary text-white">
-                <h5 className="modal-title text-white text-uppercase">
-                  Đăng ký dịch vụ
-                </h5>
-              </div>
-              <form onSubmit={handleSubmit}>
-                <div className="modal-body p-4">
-                  <div className="mb-4 text-center">
-                    <h4 className="text-dark mb-1">{selectedPackage?.name}</h4>
-                    <p className="text-primary fw-bold fs-5 mb-0">
-                      {selectedPackage?.price} {selectedPackage?.period}
+            <div className="modal-content shadow-lg border-0 bg-transparent">
+              <style>{`
+                .treatment-section {
+                    padding: 40px;
+                    background: linear-gradient(135deg, #f4fbff 0%, #ffffff 55%, #e8f9fd 100%);
+                    border-radius: 12px;
+                    overflow: hidden;
+                    text-align: left;
+                }
+                .treatment-section .section-head {
+                    max-width: 800px;
+                    margin: 0 auto 50px auto;
+                    text-align: center;
+                }
+                .treatment-section .label {
+                    display: inline-block;
+                    padding: 6px 16px;
+                    border-radius: 20px;
+                    background: rgba(3, 27, 78, 0.05);
+                    color: #031b4e;
+                    font-weight: 700;
+                    font-size: 13px;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    margin-bottom: 16px;
+                }
+                .treatment-section .section-head h1 {
+                    font-size: 36px;
+                    color: #031b4e;
+                    margin: 0 0 20px;
+                    font-weight: 800;
+                    line-height: 1.3;
+                    text-transform: uppercase;
+                }
+                .treatment-section .section-head p {
+                    font-size: 16px;
+                    line-height: 1.6;
+                    color: #555;
+                    margin: 0;
+                }
+                .treatment-section .timeline {
+                    position: relative;
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: 40px;
+                }
+                .treatment-section .step {
+                    width: 33.333%;
+                    position: relative;
+                    text-align: center;
+                    padding: 20px 15px;
+                    cursor: pointer;
+                }
+                .treatment-section .step::before {
+                    content: "";
+                    position: absolute;
+                    top: 87px;
+                    left: 50%;
+                    width: 100%;
+                    height: 0;
+                    border-top: 2px dashed #c0c0c0;
+                    z-index: 1;
+                }
+                .treatment-section .step:nth-child(3n)::before {
+                    display: none;
+                }
+                .treatment-section .step-number {
+                    font-size: 54px;
+                    font-weight: 800;
+                    margin-bottom: 5px;
+                    transition: 0.3s ease;
+                    line-height: 1;
+                }
+                .treatment-section .step-dot {
+                    width: 16px;
+                    height: 16px;
+                    background: #fff;
+                    border: 3px solid #e0e0e0;
+                    border-radius: 50%;
+                    margin: 0 auto 20px auto;
+                    position: relative;
+                    z-index: 2;
+                    transition: 0.3s ease;
+                }
+                .treatment-section .step.active .step-number,
+                .treatment-section .step:hover .step-number {
+                    transform: scale(1.1);
+                }
+                .treatment-section .step-content h3 {
+                    margin: 0 0 10px;
+                    color: #183b56;
+                    font-size: 17px;
+                    font-weight: 700;
+                }
+                .treatment-section .step-content p {
+                    margin: 0;
+                    color: #666;
+                    line-height: 1.5;
+                    font-size: 14px;
+                }
+                .treatment-section .note-box {
+                    margin-top: 40px;
+                    padding: 24px 30px;
+                    border-radius: 12px;
+                    background: #f4f9ff;
+                    border-left: 5px solid #031b4e;
+                    color: #183b56;
+                    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+                }
+                .treatment-section .note-box h2 {
+                    margin: 0 0 8px;
+                    font-size: 20px;
+                    color: #031b4e;
+                    font-weight: 700;
+                }
+                .treatment-section .note-box p {
+                    margin: 0;
+                    line-height: 1.6;
+                    color: #425466;
+                    font-size: 15px;
+                }
+                @media (max-width: 991px) {
+                    .treatment-section .step {
+                        width: 50%;
+                    }
+                    .treatment-section .step::before {
+                        display: block;
+                    }
+                    .treatment-section .step:nth-child(2n)::before {
+                        display: none;
+                    }
+                    .treatment-section .step:nth-child(3n)::before {
+                        display: block;
+                    }
+                }
+                @media (max-width: 768px) {
+                    .treatment-section {
+                        padding: 20px;
+                    }
+                    .treatment-section .section-head h1 {
+                        font-size: 30px;
+                    }
+                    .treatment-section .note-box {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                }
+                @media (max-width: 575px) {
+                    .treatment-section .step {
+                        width: 100%;
+                    }
+                    .treatment-section .step::before {
+                        display: none;
+                    }
+                }
+              `}</style>
+              <div className="treatment-section position-relative">
+                <button 
+                  onClick={() => setShowModal(false)}
+                  className="btn-close position-absolute" 
+                  style={{ top: '20px', right: '20px', zIndex: 10 }}
+                  aria-label="Close"
+                ></button>
+                <div className="container-fluid px-0">
+                  <div className="section-head">
+                    <span className="label">Liệu trình điều trị</span>
+                    <h1>{selectedPackage?.name || "Tháo dụng cụ KHX 1 nơi"}</h1>
+                    <p>
+                        Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
+                        hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
                     </p>
                   </div>
 
-                  <div className="mb-3">
-                    <label className="form-label small fw-bold">
-                      Họ và tên
-                    </label>
-                    <input
-                      type="text"
-                      name="full_name"
-                      className="form-control"
-                      placeholder="Nguyễn Văn A"
-                      required
-                    />
-                    {errors?.full_name && (
-                      <div className="invalid-feedback">
-                        {errors.full_name[0]}
+                  <div className="timeline">
+                    {timelineSteps.map((step, index) => {
+                      const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
+                      const color = colors[index % colors.length];
+                      return (
+                      <div 
+                        key={index} 
+                        className={`step ${activeStep === index ? 'active' : ''}`}
+                        onMouseEnter={() => setActiveStep(index)}
+                        onClick={() => setActiveStep(index)}
+                      >
+                        <div className="step-number" style={{ color: color }}>{Number(step.num)}</div>
+                        <div 
+                          className="step-dot" 
+                          style={{ 
+                            borderColor: activeStep === index ? color : '#e0e0e0', 
+                            background: activeStep === index ? color : '#fff',
+                            boxShadow: activeStep === index ? `0 0 10px ${color}80` : 'none'
+                          }}
+                        ></div>
+                        <div className="step-content">
+                            <h3>{step.title}</h3>
+                            <p>{step.desc}</p>
+                        </div>
                       </div>
-                    )}
+                      );
+                    })}
                   </div>
 
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label small fw-bold">
-                        Số điện thoại
-                      </label>
-                      <input
-                        type="text"
-                        name="phone"
-                        className="form-control"
-                        placeholder="090..."
-                        required
-                      />
-                      {errors?.phone && (
-                        <div className="invalid-feedback">
-                          {errors.phone[0]}
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-md-6 mb-3">
-                      <label className="form-label small fw-bold">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="nva@gmail.com"
-                        required
-                      />
-                      {errors?.email && (
-                        <div className="invalid-feedback">
-                          {errors.email[0]}
-                        </div>
-                      )}
+                  <div className="note-box">
+                    <div>
+                        <h2>An toàn – Hiệu quả – Phục hồi nhanh</h2>
+                        <p>
+                            Phù hợp với người bệnh đã liền xương vững chắc, cần tháo vật liệu cố định để giảm khó chịu,
+                            hạn chế biến chứng và cải thiện sinh hoạt.
+                        </p>
                     </div>
                   </div>
 
-                  <div className="mb-0">
-                    <label className="form-label small fw-bold">
-                      Lời nhắn (không bắt buộc)
-                    </label>
-                    <textarea
-                      name="message"
-                      className="form-control"
-                      rows={3}
-                      placeholder="Tôi muốn tư vấn về tình trạng..."
-                    ></textarea>
+                  <div className="d-flex justify-content-center gap-3 mt-4">
+                    <button 
+                      className="btn w-50 py-3 rounded-pill fw-bold text-white" 
+                      style={{ 
+                        fontSize: '16px', 
+                        textTransform: 'uppercase',
+                        background: '#031b4e',
+                        border: 'none',
+                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.3)'
+                      }}
+                    >
+                      Đăng ký gói khám
+                    </button>
+                    <Link 
+                      href="tel:0389951795" 
+                      className="btn w-50 py-3 rounded-pill fw-bold d-flex align-items-center justify-content-center" 
+                      style={{ 
+                        fontSize: '16px', 
+                        textTransform: 'uppercase',
+                        background: '#fff',
+                        color: '#031b4e',
+                        border: '2px solid #031b4e',
+                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.1)'
+                      }}
+                    >
+                      Liên hệ trực tiếp bác sĩ
+                    </Link>
                   </div>
                 </div>
-                <div className="modal-footer bg-light">
-                  {/* <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Hủy
-                  </button> */}
-                  <button
-                    type="submit"
-                    className="btn btn-sm btn-secondary px-4"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2"></span>{" "}
-                        Đang gửi...
-                      </>
-                    ) : (
-                      selectedPackage?.buttonText || "Đăng ký"
-                    )}
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
