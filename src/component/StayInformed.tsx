@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Post } from "@/types/post";
+import { PostListItem } from "@/services/postService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
-function StayInformed({ posts }: { posts: Post[] }) {
+function StayInformed({ posts }: { posts: PostListItem[] }) {
     // Nếu không có bài viết, không hiển thị section hoặc hiển thị thông báo
     if (!posts || posts.length === 0) return null;
 
@@ -10,7 +10,8 @@ function StayInformed({ posts }: { posts: Post[] }) {
     const mainPosts = posts.slice(0, 4);
 
     // Hàm format ngày tháng
-    const formatDate = (dateStr: string) => {
+    const formatDate = (dateStr?: string) => {
+        if (!dateStr) return '';
         const date = new Date(dateStr);
         return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     };

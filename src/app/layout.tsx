@@ -32,10 +32,18 @@ export const metadata: Metadata = {
   title: "Bác sĩ Dương Chuyên khoa II Chấn thương Chỉnh hình - DrDuongOrtho",
   description:
     "Bác sĩ Dương Chuyên khoa II  Chấn thương Chỉnh hình chuyên khám và điều trị các bệnh lý cơ xương khớp, chấn thương thể thao, đau lưng, thoái hóa khớp và phục hồi vận động với giải pháp an toàn, hiệu quả và tận tâm cho từng bệnh nhân.",
-  // robots: {
-  //   index: false,
-  //   follow: false,
-  // },
+  openGraph: {
+    title: "Bác sĩ Dương Chuyên khoa II Chấn thương Chỉnh hình - DrDuongOrtho",
+    description: "Bác sĩ Dương Chuyên khoa II  Chấn thương Chỉnh hình chuyên khám và điều trị các bệnh lý cơ xương khớp, chấn thương thể thao, đau lưng, thoái hóa khớp và phục hồi vận động với giải pháp an toàn, hiệu quả và tận tâm cho từng bệnh nhân.",
+    type: "website",
+    locale: "vi_VN",
+    siteName: "DrDuongOrtho",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bác sĩ Dương Chuyên khoa II Chấn thương Chỉnh hình - DrDuongOrtho",
+    description: "Bác sĩ Dương Chuyên khoa II  Chấn thương Chỉnh hình chuyên khám và điều trị các bệnh lý cơ xương khớp, chấn thương thể thao, đau lưng, thoái hóa khớp và phục hồi vận động với giải pháp an toàn, hiệu quả và tận tâm cho từng bệnh nhân.",
+  },
 };
 
 async function getSettings() {

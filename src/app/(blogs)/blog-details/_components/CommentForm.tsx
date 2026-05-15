@@ -96,30 +96,24 @@ const CommentForm = ({
         id="comments_form"
         className="comment-form"
       >
-        <div className="row">
-          <div className="col-md-6 mb-3">
-            <p className="comment-form-author">
-              <input
-                id="name"
-                placeholder="Họ và tên *"
-                name="author"
-                type="text"
-                className="form-control"
-              />
-            </p>
-          </div>
-          <div className="col-md-6 mb-3">
-            <p className="comment-form-email">
-              <input
-                id="email"
-                placeholder="Email *"
-                name="email"
-                type="email"
-                className="form-control"
-              />
-            </p>
-          </div>
-        </div>
+        <p className="comment-form-author">
+          <input
+            id="name"
+            placeholder="Họ và tên *"
+            name="author"
+            type="text"
+            className="form-control"
+          />
+        </p>
+        <p className="comment-form-email">
+          <input
+            id="email"
+            placeholder="Email *"
+            name="email"
+            type="email"
+            className="form-control"
+          />
+        </p>
 
         <p className="comment-form-comment">
           <textarea

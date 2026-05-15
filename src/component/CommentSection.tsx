@@ -4,6 +4,13 @@ import { useState, useEffect } from "react";
 import CommentForm from "@/app/(blogs)/blog-details/_components/CommentForm";
 import Image from "next/image";
 import { IMAGES } from "@/constant/theme";
+import { color } from "framer-motion";
+
+const apiBaseUrl =
+  (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
+    /^https?:\/\//,
+    (match) => match + "api.",
+  ) || "http://api.localhost:8000";
 
 const CommentSection = ({ postId }: { postId: any }) => {
   const [comments, setComments] = useState([]);
@@ -11,9 +18,7 @@ const CommentSection = ({ postId }: { postId: any }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/comments?post_id=${postId}`,
-      );
+      const res = await fetch(`${apiBaseUrl}/comments?post_id=${postId}`);
       const data = await res.json();
       setComments(data.data || []);
     } catch (error) {
@@ -68,39 +73,71 @@ const CommentSection = ({ postId }: { postId: any }) => {
 const CommentItem = ({ comment, postId, onRefresh }: any) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
 
+  // --- THÊM DÒNG NÀY ĐỂ CHECK LOG ---
+  //console.log(`Data in CommentItem (ID: ${comment.id}):`, comment);
+  // ----------------------------------
+
+  // Kiểm tra xem đây có phải là Admin không (dựa vào log anh gửi)
+  const isAdmin = comment.name === "Admin";
+
   return (
-    <li className="comment">
-      <div className="comment-body">
+    <li className={`comment ${isAdmin ? "admin-comment" : ""}`}>
+      <div
+        className="comment-body"
+        style={{
+          marginLeft: "0px",
+          marginBottom: "18px",
+          paddingBottom: "0px",
+          minHeight: "100px",
+        }} // Căn chỉnh lại margin cho comment chính
+      >
         <div className="comment-author vcard">
-          {/* Avatar mặc định nếu không có ảnh */}
-          <Image
-            src={IMAGES.avtarmiddle1}
+          {/* <Image
+            src={isAdmin ? IMAGES.avtarmiddle2 : IMAGES.avtarmiddle1} // Có thể đổi avatar admin khác
             alt="avatar"
             className="avatar"
             width={60}
             height={60}
-          />
-          <cite className="fn">{comment.name}</cite>
+          /> */}
+          <cite className="fn">
+            {comment.name}
+            {/* {isAdmin && (
+              <span
+                className="badge bg-primary ms-2"
+                style={{ fontSize: "10px", padding: "2px 5px" }}
+              >
+                Quản trị viên
+              </span>
+            )} */}
+          </cite>
           <div className="comment-meta d-block small text-muted">
-            {comment.created_at}
+            {comment.formatted_date}
           </div>
         </div>
         <div className="comment-content dz-page-text">
           <p>{comment.content}</p>
         </div>
-        <div className="reply">
+
+        {/* Chỉ hiện nút trả lời nếu không phải là admin (hoặc tùy logic của anh) */}
+        {/* <div className="reply">
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
-            className="comment-reply-link"
-            style={{ background: "none", border: "none", cursor: "pointer" }}
+            className="comment-reply-link text-primary font-weight-600"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "13px",
+            }}
           >
+            <i className="fa fa-reply me-1"></i>
             {showReplyForm ? "Hủy bỏ" : "Trả lời"}
           </button>
-        </div>
+        </div> */}
       </div>
 
       {showReplyForm && (
-        <div className="comment-respond style-1 mt-3 ms-5">
+        <div className="comment-respond style-1 mt-3 ms-md-5 ms-3">
           <CommentForm
             postId={postId}
             parentId={comment.id}
@@ -112,11 +149,12 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
         </div>
       )}
 
+      {/* Render Replies */}
       {comment.replies && comment.replies.length > 0 && (
-        <ol className="children">
+        <ol className="children" style={{ listStyle: "none" }}>
           {comment.replies.map((reply: any) => (
             <CommentItem
-              key={reply.id}
+              key={reply.id || `reply-${Math.random()}`} // Backup key nếu id reply trùng
               comment={reply}
               postId={postId}
               onRefresh={onRefresh}
