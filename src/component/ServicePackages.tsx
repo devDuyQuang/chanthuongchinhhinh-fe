@@ -333,8 +333,10 @@ function ServicePackage({ data }: ServicePackageProps) {
                   aria-label="Close"
                 ></button>
                 <div className="container-fluid px-0">
-                  <div className="section-head">
-                    <span className="label">Liệu trình điều trị</span>
+                  <div className="row align-items-center">
+                    <div className="col-lg-8">
+                      <div className="section-head">
+                        <span className="label">Liệu trình điều trị</span>
                     <h1>{selectedPackage?.name || "Tháo dụng cụ KHX 1 nơi"}</h1>
                     <p>
                       Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
@@ -398,6 +400,18 @@ function ServicePackage({ data }: ServicePackageProps) {
                     >
                       Liên hệ trực tiếp bác sĩ
                     </Link>
+                  </div>
+                    </div>
+                    <div className="col-lg-4 d-none d-lg-block text-center">
+                      <Image
+                        src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
+                        alt={selectedPackage?.name || "Dịch vụ"}
+                        width={400}
+                        height={500}
+                        style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "16px", boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}
+                        unoptimized={true}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
