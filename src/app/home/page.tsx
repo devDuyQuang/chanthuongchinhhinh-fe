@@ -372,7 +372,7 @@ async function HomePage() {
                                 data-wow-duration="0.8s"
                             >
                                 <h2 className="title m-b0 fw-bold">
-                                    {servicePackagesData?.title || "Các Gói Liệu Trình"}
+                                    {servicePackagesData?.title || "Gói Liệu Trình"}
                                 </h2>
                             </div>
 

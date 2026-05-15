@@ -4,7 +4,7 @@ import { IMAGES } from "@/constant/theme";
 import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
-import CommentForm from "../(blogs)/blog-details/_components/CommentForm";
+import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 
@@ -345,8 +345,9 @@ export default async function DirectPostDetailPage({ params }: Props) {
                   </div>
                 </div>
               </div>
+              {/* Comment */}
+              {/* <div className="clear" id="comment-list">
 
-              <div className="clear" id="comment-list">
                 <div className="post-comments comments-area style-1 clearfix">
                   <div
                     className="default-form comment-respond style-1"
@@ -364,7 +365,9 @@ export default async function DirectPostDetailPage({ params }: Props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+              {/* End Comment */}
+              <CommentSection postId={post.id} />
             </div>
           </div>
         </div>
