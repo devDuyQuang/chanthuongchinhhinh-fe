@@ -40,6 +40,15 @@ const CommentSection = ({ postId }: { postId: any }) => {
           Chia sẻ ý kiến hoặc trải nghiệm của bạn.
         </p>
 
+        <div className="default-form comment-respond style-1 mb-5" id="respond">
+          <h4 className="comment-reply-title mb-2" id="reply-title">
+            Để lại bình luận
+          </h4>
+          <div className="clearfix">
+            <CommentForm postId={postId} onCommentSuccess={fetchComments} />
+          </div>
+        </div>
+
         <div id="comment">
           {loading ? (
             <p>Đang tải bình luận...</p>
@@ -55,15 +64,6 @@ const CommentSection = ({ postId }: { postId: any }) => {
               ))}
             </ol>
           )}
-        </div>
-
-        <div className="default-form comment-respond style-1" id="respond">
-          <h4 className="comment-reply-title mb-2" id="reply-title">
-            Để lại bình luận
-          </h4>
-          <div className="clearfix">
-            <CommentForm postId={postId} onCommentSuccess={fetchComments} />
-          </div>
         </div>
       </div>
     </div>
@@ -89,74 +89,75 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
         className="comment-body"
         style={{
           marginLeft: "0px",
-          marginBottom: "18px",
-          paddingBottom: "0px",
-          minHeight: "100px",
-        }} // Căn chỉnh lại margin cho comment chính
+          padding: "20px 0",
+          borderBottom: "1px solid #eee",
+        }}
       >
-        <div className="comment-author vcard">
-          {/* <Image
-            src={isAdmin ? IMAGES.avtarmiddle2 : IMAGES.avtarmiddle1} // Có thể đổi avatar admin khác
-            alt="avatar"
-            className="avatar"
-            width={60}
-            height={60}
-          /> */}
+        {/* Header: Author & Reply Button */}
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <div className="comment-author vcard mb-0">
+            <cite
+              className="fn"
+              style={{ display: "flex", alignItems: "center", fontStyle: "normal" }}
+            >
+              {isReply ? (
+                <i
+                  className="fa-solid fa-arrow-turn-up fa-rotate-90 me-2"
+                  style={{ fontSize: "16px", color: "#13b5ea" }}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-circle-user me-2"
+                  style={{ fontSize: "18px", color: "#031b4e" }}
+                ></i>
+              )}
 
-          <cite
-            className="fn"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {isReply ? (
-              <i
-                className="fa-solid fa-arrow-turn-up fa-rotate-90 me-2 text-primary"
-                style={{ fontSize: "12px" }}
-              ></i>
-            ) : (
-              <i
-                className="fa-solid fa-circle-user me-2 text-#212529"
-                style={{ fontSize: "14px" }}
-              ></i>
-            )}
+              <span
+                style={{
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  color: "#031b4e",
+                }}
+              >
+                {comment.name === "Admin"
+                  ? "Quản Trị Viên Dr.Dương Ortho"
+                  : comment.name}
+              </span>
+            </cite>
+          </div>
 
-            {/* 2. Hiển thị tên: Nếu là Admin thì hiển thị Dr Dương Ortho, nếu không thì hiện name khách */}
-            <span
+          <div className="reply mt-0">
+            <button
+              onClick={() => setShowReplyForm(!showReplyForm)}
+              className="comment-reply-link p-0"
               style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "13px",
                 fontWeight: "600",
-                color: isAdmin ? "text-primary" : "inherit",
+                color: "#13b5ea",
+                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center"
               }}
             >
-              {comment.name === "Admin"
-                ? "Quản Trị Viên Dr.Dương Ortho"
-                : comment.name}
-            </span>
-          </cite>
-
-          <div className="comment-meta d-block small text-muted">
-            <i className="fa-regular fa-calendar-days me-2"></i>{" "}
-            {comment.formatted_date}
+              <i className="fa-solid fa-reply me-1"></i>
+              {showReplyForm ? "Hủy bỏ" : "Trả lời"}
+            </button>
           </div>
         </div>
-        <div className="comment-content dz-page-text">
-          <p>{comment.content}</p>
-        </div>
 
-        {/* Chỉ hiện nút trả lời nếu không phải là admin (hoặc tùy logic của anh) */}
-        {/* <div className="reply">
-          <button
-            onClick={() => setShowReplyForm(!showReplyForm)}
-            className="comment-reply-link text-primary font-weight-600"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "13px",
-            }}
-          >
-            <i className="fa fa-reply me-1"></i>
-            {showReplyForm ? "Hủy bỏ" : "Trả lời"}
-          </button>
-        </div> */}
+        {/* Date and Content indented */}
+        <div style={{ paddingLeft: "26px" }}>
+          <div className="comment-meta d-block small text-muted mb-2">
+            <i className="fa-regular fa-calendar-days me-1"></i>
+            {comment.formatted_date}
+          </div>
+          <div className="comment-content dz-page-text" style={{ color: "#5a6a85" }}>
+            <p className="mb-0">{comment.content}</p>
+          </div>
+        </div>
       </div>
 
       {showReplyForm && (
@@ -178,6 +179,7 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
           className="children"
           style={{
             listStyle: "none",
+            marginLeft: "40px",
           }}
         >
           {comment.replies.map((reply: any) => (

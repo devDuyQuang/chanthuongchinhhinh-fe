@@ -375,9 +375,9 @@ function ServicePackage({ data }: ServicePackageProps) {
 
                   <div className="d-flex justify-content-center gap-3 mt-4">
                     <button
-                      className="btn w-50 py-3 rounded-pill fw-bold text-white"
+                      className="btn py-2 px-4 rounded-pill fw-bold text-white"
                       style={{
-                        fontSize: '16px',
+                        fontSize: '14px',
                         textTransform: 'uppercase',
                         background: '#031b4e',
                         border: 'none',
@@ -388,9 +388,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                     </button>
                     <Link
                       href="tel:0389951795"
-                      className="btn w-50 py-3 rounded-pill fw-bold d-flex align-items-center justify-content-center"
+                      className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
                       style={{
-                        fontSize: '16px',
+                        fontSize: '14px',
                         textTransform: 'uppercase',
                         background: '#fff',
                         color: '#031b4e',
