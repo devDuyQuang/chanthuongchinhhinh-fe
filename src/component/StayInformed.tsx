@@ -21,7 +21,7 @@ function StayInformed({ posts }: { posts: PostListItem[] }) {
             <div className="container">
                 <div className="section-head style-1 m-b30 row align-items-end">
                     <div className="col-lg-7 col-md-8">
-                        <h2 className="title m-b0 fw-bold">Tin Mới</h2>
+                        <h2 className="title m-b0 fw-bold">Bài viết mới</h2>
                     </div>
                     <div className="col-lg-5 col-md-4 text-md-end d-none d-md-block">
                         <Link href="/" className="btn btn-icon btn-primary btn-shadow">
