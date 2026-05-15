@@ -51551,7 +51551,7 @@ table tr:hover {
   height: var(--dz-banner-height);
   vertical-align: middle;
   display: table-cell;
-  padding: 90px 0 90px 0;
+  padding: 90px;
   text-align: center;
 }
 
