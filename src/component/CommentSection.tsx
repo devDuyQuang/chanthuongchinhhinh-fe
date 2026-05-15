@@ -179,7 +179,7 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
           className="children"
           style={{
             listStyle: "none",
-            marginLeft: "40px",
+            // marginLeft: "40px",
           }}
         >
           {comment.replies.map((reply: any) => (
