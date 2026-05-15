@@ -606,7 +606,7 @@ h3,
 
   h3,
   .h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -14153,7 +14153,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -26108,7 +26108,7 @@ button {
 
 .dz-card.style-2.dz-card-overlay {
   border-radius: var(--radius-xl);
-  height: 450px;
+  height: 550px;
   background-color: var(--bs-light);
   background-size: cover;
 }
@@ -26294,9 +26294,10 @@ button {
 }
 
 .dz-card.style-2.blog-half .dz-media {
-  min-width: 420px;
+  /* min-width: 420px;
   width: 420px;
-  height: 300px;
+  height: 300px; */
+  width: 40%;
 }
 
 .dz-card.style-2.blog-half .dz-title {
@@ -37483,7 +37484,7 @@ footer:not(.style-4) .widget_rss ul li {
   background: #fff !important;
   padding: 30px 20px;
   border-radius: var(--radius-lg);
-  border: 3px solid #031b4e;
+  border: 2px solid #031b4e;
 }
 
 .service_menu_nav .widget-title {
@@ -40406,7 +40407,7 @@ select:focus {
   border: 0;
   padding: 0;
   margin-top: 0;
-  padding: 60px 0 0 0;
+  /* padding: 60px 0 0 0; */
 }
 
 @media only screen and (max-width: 1199px) {
@@ -41613,6 +41614,14 @@ pre {
 .dz-blog.blog-single .dz-blog.blog-single .dz-post-text p:not(.has-text-color):not(.has-text-align-center):not(.has-text-align-left):not(.has-text-align-right) {
   font-size: 1.125rem;
   /* line-height: 2.2; */
+  color: #031b4e;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.dz-blog.blog-single .dz-post-text ul li:last-child,
+.dz-blog.blog-single .dz-post-text ol li:last-child {
+  margin-bottom: 0;
 }
 
 .wp-block-cover,
@@ -47253,6 +47262,11 @@ table.wishlist_table {
   font-size: 18px;
   font-weight: 300;
   color: var(--bs-secondary);
+  text-align: justify;
+}
+
+.service-single .single-inner table p {
+  font-size: 16px;
 }
 
 .service-single .single-inner h2,
@@ -47305,11 +47319,14 @@ table tr:hover {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 2rem;
+  color: #031b4e;
+  font-weight: 300;
+  font-size: 18px;
 }
 
 .content-item ul li,
 .content-item ol li {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .content-item ul li:last-child,
@@ -50241,7 +50258,7 @@ table tr:hover {
 .header-nav.w3menu .nav>li>a {
   color: var(--white);
   font-size: 18px;
-  padding: 28px 15px;
+  padding: 28px 10px;
   font-family: var(--font-family-title);
   cursor: pointer;
   font-weight: 500;
@@ -51778,7 +51795,7 @@ table tr:hover {
   padding: 0;
   margin-right: 3px;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   text-transform: capitalize;
   color: var(--bs-heading-color);
@@ -51794,14 +51811,14 @@ table tr:hover {
 }
 
 .breadcrumb-row ul .breadcrumb-item+.breadcrumb-item::before {
-  content: "\f101";
+  content: "\f105";
   float: left;
-  color: var(--bs-heading-color);
+  color: #03bde0;
   font-weight: 700;
   font-family: "Font Awesome 5 Free";
-  font-size: 14px;
+  font-size: 12px;
   padding-right: 12px;
-  top: 2px;
+  top: 3px;
   position: relative;
 }
 
@@ -53584,6 +53601,28 @@ footer.site-footer.footer-dark .fb-inner {
   -webkit-transition: none;
   -ms-transition: none;
   transition: none;
+}
+
+
+/* Drop cap: chữ đầu tiên trong nội dung bài viết */
+.style-letter-first>p:first-of-type::first-letter {
+  float: left;
+  font-size: 4rem;
+  line-height: 0.82;
+  font-weight: 700;
+  font-style: normal;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--bs-heading-color);
+  margin-right: 8px;
+  margin-top: 4px;
+  letter-spacing: -1px;
+}
+
+
+/* Ẩn ::after decoration trên sapo blockquote (đã có borderLeft tùy chỉnh) */
+.dz-post-text>blockquote:after,
+.single-inner>blockquote:after {
+  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */
