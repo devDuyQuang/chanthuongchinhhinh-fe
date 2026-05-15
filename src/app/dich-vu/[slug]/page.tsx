@@ -95,9 +95,13 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                         {(breadcrumbs || []).map((item, index) => (
                                             <li key={index} className={`breadcrumb-item ${item.active ? 'active' : ''}`} style={item.active ? { color: '#000' } : {}}>
                                                 {item.active ? (
-                                                    item.name
+                                                    <>
+                                                        {index === 0 && <i className="fa-solid fa-house me-1" />}
+                                                        {item.name}
+                                                    </>
                                                 ) : (
                                                     <Link href={item.slug.startsWith('/') ? item.slug : `/${item.slug}`}>
+                                                        {index === 0 && <i className="fa-solid fa-house me-1" />}
                                                         {item.name}
                                                     </Link>
                                                 )}
@@ -109,16 +113,12 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                     <blockquote
                                         style={{
                                             position: 'relative',
-                                            background: 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)',
-                                            borderTop: '1px solid rgba(26,111,196,0.15)',
-                                            borderRight: '1px solid rgba(26,111,196,0.15)',
-                                            borderBottom: '1px solid rgba(26,111,196,0.15)',
-                                            borderLeft: '5px solid var(--bs-primary, #1a6fc4)',
-                                            borderRadius: '0 12px 12px 0',
-                                            padding: '24px 28px 24px 32px',
-                                            marginBottom: '32px',
-                                            marginTop: 0,
-                                            boxShadow: '0 4px 20px rgba(26,111,196,0.08)',
+                                            background: 'transparent',
+                                            borderTop: '2px solid rgba(0,0,0,0.05)',
+                                            borderBottom: '2px solid rgba(0,0,0,0.05)',
+                                            padding: '30px 10px',
+                                            marginBottom: '40px',
+                                            marginTop: '10px',
                                             fontFamily: 'inherit',
                                             fontSize: 'inherit',
                                             fontWeight: 'inherit',
@@ -129,12 +129,11 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             aria-hidden="true"
                                             style={{
                                                 position: 'absolute',
-                                                top: '10px',
-                                                left: '14px',
-                                                fontSize: '48px',
+                                                top: '0',
+                                                left: '0',
+                                                fontSize: '60px',
                                                 lineHeight: 1,
-                                                color: 'var(--bs-primary, #1a6fc4)',
-                                                opacity: 0.18,
+                                                color: 'rgba(0,0,0,0.05)',
                                                 fontFamily: 'Georgia, serif',
                                                 fontWeight: 700,
                                                 userSelect: 'none',
@@ -269,7 +268,6 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                                                 color: 'var(--bs-primary)',
                                                                                 fontWeight: 700,
                                                                                 borderLeft: '3px solid var(--bs-primary)',
-                                                                                paddingLeft: '14px',
                                                                             } : {}}
                                                                         >
                                                                             + {child.name}

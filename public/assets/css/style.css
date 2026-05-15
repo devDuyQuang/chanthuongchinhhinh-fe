@@ -37482,9 +37482,9 @@ footer:not(.style-4) .widget_rss ul li {
 
 .service_menu_nav {
   background: #fff !important;
-  padding: 30px 20px;
-  border-radius: var(--radius-lg);
-  border: 2px solid #031b4e;
+  /* padding: 30px 20px; */
+  /* border-radius: var(--radius-lg); */
+  /* border: 2px solid #031b4e; */
 }
 
 .service_menu_nav .widget-title {
@@ -40407,7 +40407,7 @@ select:focus {
   border: 0;
   padding: 0;
   margin-top: 0;
-  padding: 60px 0 0 0;
+  /* padding: 60px 0 0 0; */
 }
 
 @media only screen and (max-width: 1199px) {
