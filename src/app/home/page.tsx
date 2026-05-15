@@ -25,10 +25,14 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { getSetting } from "@/services/settingService";
 import { getHomePosts } from "@/services/postService";
 
+import { getCategories } from "@/services/categoryService";
+
 async function HomePage() {
     const setting = await getSetting();
     const posts = await getHomePosts();
 
+    const homeCategories = await getCategories("service", true);
+    
     const hero = setting?.data?.hero_home_clinic;
     const facility = setting?.data?.utilities_home_clinic;
     const stats = setting?.data?.stats_home;
@@ -339,7 +343,7 @@ async function HomePage() {
                             </div>
                         </div>
 
-                        <ServiceBox data={services} />
+                       <ServiceBox posts={homeCategories} useFallback={false}/>
                     </div>
                 </section>
 

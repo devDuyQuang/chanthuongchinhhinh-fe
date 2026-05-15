@@ -37,6 +37,7 @@ export interface CategoryChild {
 }
 
 export interface Category {
+    home: number;
     id: number;
     name: string;
     slug: string;
@@ -115,23 +116,32 @@ export async function getCategoryBySlug(
  * Lấy danh sách tất cả các danh mục
  * API: /category
  */
-export async function getCategories(type: string = 'service'): Promise<any[]> {
-    if (!API_BASE) return [];
+export async function getCategories(
+  type: string = "service",
+  home: boolean = false
+): Promise<any[]> {
+  if (!API_BASE) return [];
 
-    try {
-        const res = await fetch(`${API_BASE}/category?type=${type}`, {
-            cache: 'no-store',
-            headers: {
-                'Accept': 'application/json',
-            }
-        });
+  try {
 
-        if (!res.ok) return [];
+    const url = home
+      ? `${API_BASE}/category?type=${type}&home=1`
+      : `${API_BASE}/category?type=${type}`;
 
-        const result = await res.json();
-        return result.data || [];
-    } catch (error) {
-        console.error("Error fetching categories:", error);
-        return [];
-    }
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+
+    if (!res.ok) return [];
+
+    const result = await res.json();
+    return result.data || [];
+
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
 }
