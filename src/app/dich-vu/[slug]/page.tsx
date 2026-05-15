@@ -51,6 +51,10 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
     const image = normalizeImageUrl(category?.image);
     const posts = category?.posts?.data;
     const breadcrumbs = category?.breadcrumbs;
+    const toc = category?.toc;
+    const createdDate = created_at
+        ? new Date(created_at).toLocaleDateString("vi-VN")
+        : "N/A";
 
     return (
         <>
@@ -59,25 +63,17 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                     <div className="container">
                         <div className="dz-bnr-inr-entry d-table-cell">
                             <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
-                            {/* {created_at && (
-                                <div className="dz-meta style-1">
-                                    <ul className="justify-content-center">
-                                        <li className="post-date">
-                                            {new Date(created_at).toLocaleDateString("en-GB", {
-                                                day: "2-digit",
-                                                month: "short",
-                                                year: "numeric",
-                                            })}
-                                        </li>
-                                        <li className="dz-comment">
-                                            <i className="fa-solid fa-eye" />
-                                            <Link href="#" scroll={false}>
-                                                100 Lượt xem
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )} */}
+                            <div className="dz-meta">
+                                <ul className="justify-content-center" style={{ gap: '15px' }}>
+                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                                        <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i> {createdDate}
+                                    </li>
+                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                                        <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
+                                        <span>100 Lượt xem</span>
+                                    </li>
+                                </ul>
+                            </div>
                             <div className="dz-btn">
                                 <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
                                     <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
@@ -118,7 +114,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             borderBottom: '2px solid rgba(0,0,0,0.05)',
                                             padding: '30px 10px',
                                             marginBottom: '40px',
-                                            marginTop: '10px',
+                                            marginTop: '0',
                                             fontFamily: 'inherit',
                                             fontSize: 'inherit',
                                             fontWeight: 'inherit',
@@ -172,19 +168,62 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                         </p>
                                     </blockquote>
                                 ) : null}
-                                {
-                                    content && (
-                                        <>
-                                            <div
-                                                className="content-item wow fadeInUp add-style"
-                                                data-wow-delay="0.2s"
-                                                data-wow-duration="0.7s"
-                                                dangerouslySetInnerHTML={{ __html: content }}
-                                            />
-                                            <ImageLightboxActivator containerSelector=".content-item" />
-                                        </>
-                                    )
-                                }
+                                {content ? (
+                                    <>
+                                        {toc && toc.length > 0 && (
+                                            <>
+                                                <style>{`
+                                                    .toc-link {
+                                                        text-decoration: none;
+                                                        transition: all 0.3s ease;
+                                                        display: block;
+                                                    }
+                                                    .toc-link:hover {
+                                                        color: var(--bs-primary) !important;
+                                                        transform: translateX(5px);
+                                                    }
+                                                `}</style>
+                                                <div
+                                                    className="table-of-contents mb-4 p-4 rounded mx-auto"
+                                                    style={{
+                                                        background: '#f8f9fa',
+                                                        borderLeft: '4px solid var(--bs-primary)',
+                                                        boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+                                                        width: '80%'
+                                                    }}
+                                                >
+                                                    <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
+                                                    <ul className="list-unstyled mb-0">
+                                                        {toc.map((item, index) => (
+                                                            <li
+                                                                key={index}
+                                                                className="mb-2"
+                                                                style={{
+                                                                    paddingLeft: `${(item.level - 2) * 20}px`
+                                                                }}
+                                                            >
+                                                                <Link
+                                                                    href={`#${item.id}`}
+                                                                    className="toc-link text-body"
+                                                                >
+                                                                    <i className="feather icon-chevron-right me-2" style={{ fontSize: '12px', color: 'var(--bs-primary)' }}></i>
+                                                                    {item.text}
+                                                                </Link>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </>
+                                        )}
+                                        <div
+                                            className="content-item wow fadeInUp add-style"
+                                            data-wow-delay="0.2s"
+                                            data-wow-duration="0.7s"
+                                            dangerouslySetInnerHTML={{ __html: content }}
+                                        />
+                                        <ImageLightboxActivator containerSelector=".content-item" />
+                                    </>
+                                ) : null}
                                 <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
                                     <h3>Có thể bạn quan tâm?</h3>
                                     <div className="row loadmore-content">

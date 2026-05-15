@@ -13,6 +13,7 @@ export type PostDetail = {
     canonical_seo?: string | null;
     toc?: { id: string; text: string; level: number }[];
     categories?: { id: number; name: string; slug: string; type: string }[];
+    breadcrumbs?: { name: string; slug: string; active: boolean }[];
 };
 
 type PostDetailResponse = {
@@ -128,8 +129,27 @@ export async function getRelatedPosts(slug: string): Promise<PostListItem[]> {
 
         const result: RelatedPostListResponse = await res.json();
         return result.data || [];
-    } catch (error) {
+} catch (error) {
         console.error("Lỗi lấy related posts:", error);
+        return [];
+    }
+}
+
+export async function getHomePosts(): Promise<PostListItem[]> {
+    try {
+        const baseUrl = getApiBase() || "http://admin.localhost:8000/api";
+        const res = await fetch(`${baseUrl}/post?limit=4&sort_name=created_at&sort_by=desc`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) {
+            console.error("Fetch posts failed:", res.status);
+            return [];
+        }
+
+        const json = await res.json();
+        return json.success ? json.data.data : [];
+    } catch (error) {
         return [];
     }
 }
