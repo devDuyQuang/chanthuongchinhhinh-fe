@@ -4,6 +4,24 @@ import { getSetting } from "@/services/settingService";
 import { getCategories } from "@/services/categoryService";
 import { serviceboxdata } from "@/constant/alldata";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Dịch vụ Chấn thương Chỉnh hình - DrDuongOrtho",
+    description: "Danh sách các dịch vụ chuyên khoa Chấn thương Chỉnh hình, điều trị bệnh lý cơ xương khớp, chấn thương thể thao và phục hồi chức năng chuyên sâu.",
+    openGraph: {
+        title: "Dịch vụ Chấn thương Chỉnh hình - DrDuongOrtho",
+        description: "Danh sách các dịch vụ chuyên khoa Chấn thương Chỉnh hình, điều trị bệnh lý cơ xương khớp, chấn thương thể thao và phục hồi chức năng chuyên sâu.",
+        type: "website",
+        locale: "vi_VN",
+        siteName: "DrDuongOrtho",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Dịch vụ Chấn thương Chỉnh hình - DrDuongOrtho",
+        description: "Danh sách các dịch vụ chuyên khoa Chấn thương Chỉnh hình, điều trị bệnh lý cơ xương khớp, chấn thương thể thao và phục hồi chức năng chuyên sâu.",
+    },
+};
 
 async function Services() {
     const categories = await getCategories();

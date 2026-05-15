@@ -26141,18 +26141,18 @@ button {
 }
 
 .dz-card.style-2.dz-card-overlay .dz-title {
-  font-size: 16px;
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 0;
   line-height: 1.6;
-
+  /* 
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 
   overflow: hidden;
   text-overflow: ellipsis;
-  color: white;
+  color: white; */
 }
 
 .dz-card.style-2.dz-card-overlay .dz-title a {
@@ -51551,7 +51551,7 @@ table tr:hover {
   height: var(--dz-banner-height);
   vertical-align: middle;
   display: table-cell;
-  padding: 90px 0 90px 0;
+  padding: 90px;
   text-align: center;
 }
 

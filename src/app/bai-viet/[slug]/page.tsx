@@ -1,106 +1,203 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 import PageBanner from "@/component/PageBanner";
 import { IMAGES } from "@/constant/theme";
-import ServiceBox from "@/component/ServiceBox";
+import { getCategoryBySlug, getCategories } from "@/services/categoryService";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import { tagdata, sidebarpostdata } from "@/constant/alldata";
 import { notFound } from "next/navigation";
 
-type CategoryPostItem = {
-  id?: number;
-  name?: string;
-  slug?: string;
-  image?: string | null;
-  description?: string | null;
-};
+export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+    const { slug } = await params;
+    const category = await getCategoryBySlug(slug);
 
-type CategoryDetail = {
-  id?: number;
-  name?: string;
-  slug?: string;
-  description?: string | null;
-  content?: string | null;
-  posts?: {
-    current_page?: number;
-    data?: CategoryPostItem[];
-  };
-};
+    const title = `${category?.title_seo || category?.name || "Danh mục bài viết"} - DrDuongOrtho`;
+    const description = category?.description_seo || category?.description || "";
+    const canonical = category?.canonical_seo;
+    const image = normalizeImageUrl(category?.image);
 
-type CategoryApiResponse = {
-  success: boolean;
-  message: string;
-  data?: CategoryDetail;
-};
-
-async function getCategory(slug: string): Promise<CategoryDetail | null> {
-  try {
-    const res = await fetch(
-      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/category/${slug}`,
-      { cache: "no-store" },
-    );
-
-    if (!res.ok) return null;
-
-    const result: CategoryApiResponse = await res.json();
-    return result.data || null;
-  } catch (error) {
-    console.error("Lỗi lấy category bài viết:", error);
-    return null;
-  }
+    return {
+        title,
+        description,
+        ...(canonical && {
+            alternates: {
+                canonical,
+            },
+        }),
+        openGraph: {
+            title,
+            description: description ?? undefined,
+            ...(image && {
+                images: [{ url: image }],
+            }),
+        },
+    };
 }
 
-export default async function BaiVietCategoryPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function BaiVietCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-
-  const category = await getCategory(slug);
+  
+  const [category, categories] = await Promise.all([
+    getCategoryBySlug(slug),
+    getCategories('post')
+  ]);
 
   if (!category) {
     notFound();
   }
 
-  const categoryItems =
-    category.posts?.data?.map((item) => ({
-      title: item.name || "Bài viết",
-      description: item.description || "Nội dung đang được cập nhật.",
-      doctor_text: "Xem chi tiết",
-
-      // Bài viết thật mở thẳng /{post.slug}
-      link: item.slug ? `/${item.slug}` : "#",
-
-      image: item.image || null,
-    })) || [];
+  const posts = category?.posts?.data || [];
 
   return (
-    <main className="page-content">
-      <PageBanner
-        title={category.name || "Bài viết"}
-        bnrimage={IMAGES.bnr2.src}
-      />
-
-      <section
-        className="content-inner bg-light"
-        style={{ backgroundImage: `url(${IMAGES.bg5png.src})` }}
-      >
-        <div className="container">
-          {category.description && (
-            <div className="m-b30">
-              <p>{category.description}</p>
+    <>
+      <main className="page-content">
+        <PageBanner title={category?.name || "Danh mục bài viết"} bnrimage={IMAGES.bnr2.src} />
+        <section className="content-inner">
+          <div className="container">
+            <div className="row">
+              <div className="col-xl-8 col-lg-12 m-b30 pe-xl-5">
+                <div className="row loadmore-content">
+                  {posts.map((item, i) => (
+                    <div className="col-12 m-b25 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
+                      <div className="dz-card style-2 blog-half m-b35">
+                        <div className="dz-media">
+                          <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name || ''} width={500} height={500} />
+                        </div>
+                        <div className="dz-info">
+                          <div className="dz-meta">
+                            <ul className="p-0">
+                              <li className="post-date mb-0">
+                                {item?.created_at && new Date(item.created_at).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                })}
+                              </li>
+                              <li className="post-comments">100 lượt xem</li>
+                            </ul>
+                          </div>
+                          <h3><Link href={"/" + item?.slug} scroll={false}>{item?.name}</Link></h3>
+                          {item?.description && (
+                            <p style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                              margin: '8px 0 12px',
+                              fontSize: '16px',
+                            }}>{item?.description}</p>
+                          )}
+                          <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
+                            Đọc Thêm <i className="feather icon-arrow-right" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {posts.length === 0 && (
+                    <div className="col-12 text-center">
+                       <p>Chưa có bài viết nào trong danh mục này.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-xl-4 col-lg-12">
+                <aside className="side-bar @@dir m-b30 p-0">
+                  <div className="widget wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
+                    <div className="widget-title">
+                      <h4 className="title">Tìm kiếm</h4>
+                    </div>
+                    <div className="search-bx">
+                      <form role="search">
+                        <div className="input-group">
+                          <input name="text" className="form-control" placeholder="Tìm kiếm..." type="text" />
+                          <div className="input-group-btn">
+                            <button type="submit">
+                              <i className="feather icon-search" />
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="widget widget_categories style-1 wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.5s">
+                    <div className="widget-title">
+                      <h4 className="title">Danh mục</h4>
+                    </div>
+                    <ul>
+                      {(categories as any[]).map((parent, i) => {
+                          const isParentActive = parent.slug === slug;
+                          const hasActiveChild = parent.children?.some((c: { slug: string }) => c.slug === slug);
+                          return (
+                              <li key={i} className={isParentActive || hasActiveChild ? 'active' : ''}>
+                                  <Link
+                                      href={`/bai-viet/${parent.slug}`}
+                                      scroll={false}
+                                      className={isParentActive ? 'active' : ''}
+                                      style={isParentActive ? {
+                                          color: 'var(--bs-primary)',
+                                          fontWeight: 700,
+                                      } : {}}
+                                  >
+                                      {parent.name}
+                                  </Link>
+                                  {parent.children && parent.children.length > 0 && (
+                                      <ul className="sub-menu ps-3 mt-2" style={{ borderLeft: '1px solid #eee' }}>
+                                          {parent.children.map((child: { name: string; slug: string }, j: number) => {
+                                              const isChildActive = child.slug === slug;
+                                              return (
+                                                  <li key={j} className={`cat-item ${isChildActive ? 'active' : ''}`}>
+                                                      <Link
+                                                          href={`/bai-viet/${child.slug}`}
+                                                          scroll={false}
+                                                          style={isChildActive ? {
+                                                              color: 'var(--bs-primary)',
+                                                              fontWeight: 700,
+                                                          } : {}}
+                                                      >
+                                                          {child.name}
+                                                      </Link>
+                                                  </li>
+                                              );
+                                          })}
+                                      </ul>
+                                  )}
+                              </li>
+                          );
+                      })}
+                    </ul>
+                  </div>
+                  <div className="widget recent-posts-entry wow fadeInUp" data-wow-delay="0.3s" data-wow-duration="0.5s">
+                    <div className="widget-title">
+                      <h4 className="title">Bài viết mới</h4>
+                    </div>
+                    <div className="widget-post-bx">
+                      {sidebarpostdata.map((data, i) => (
+                        <div className="widget-post clearfix" key={i}>
+                          <div className="dz-media">
+                            <Image src={data.image} alt="/" />
+                          </div>
+                          <div className="dz-info">
+                            <div className="dz-meta">
+                              <ul>
+                                <li className="post-date"><Link href={"#"} scroll={false}>{data.date}</Link></li>
+                              </ul>
+                            </div>
+                            <h6 className="title"><Link href="/blog-details">{data.title}</Link></h6>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </aside>
+              </div>
             </div>
-          )}
-
-          {category.content && (
-            <div
-              className="m-b30"
-              dangerouslySetInnerHTML={{
-                __html: category.content,
-              }}
-            />
-          )}
-
-          <ServiceBox data={{ items: categoryItems }} useFallback={false} />
-        </div>
-      </section>
-    </main>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
