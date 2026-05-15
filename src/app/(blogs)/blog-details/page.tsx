@@ -296,9 +296,7 @@ function BlogDetail() {
                         There are many variations of passages of Lorem Ipsum
                         available.
                       </p>
-                      <div className="clearfix">
-                        <CommentForm />
-                      </div>
+                      <div className="clearfix">{/* <CommentForm /> */}</div>
                     </div>
                   </div>
                 </div>
