@@ -73,12 +73,15 @@ const CommentSection = ({ postId }: { postId: any }) => {
 const CommentItem = ({ comment, postId, onRefresh }: any) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
 
+  // Kiểm tra xem đây có phải là một phản hồi hay không
+  // Nếu có parent_id thì chính là reply
+  const isReply = comment.parent_id !== null;
+  const isAdmin =
+    comment.name === "Admin" || comment.name === "Quản Trị Viên Dr.Dương Ortho";
+
   // --- THÊM DÒNG NÀY ĐỂ CHECK LOG ---
   //console.log(`Data in CommentItem (ID: ${comment.id}):`, comment);
   // ----------------------------------
-
-  // Kiểm tra xem đây có phải là Admin không (dựa vào log anh gửi)
-  const isAdmin = comment.name === "Admin";
 
   return (
     <li className={`comment ${isAdmin ? "admin-comment" : ""}`}>
@@ -99,18 +102,38 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
             width={60}
             height={60}
           /> */}
-          <cite className="fn">
-            {comment.name}
-            {/* {isAdmin && (
-              <span
-                className="badge bg-primary ms-2"
-                style={{ fontSize: "10px", padding: "2px 5px" }}
-              >
-                Quản trị viên
-              </span>
-            )} */}
+
+          <cite
+            className="fn"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            {isReply ? (
+              <i
+                className="fa-solid fa-arrow-turn-up fa-rotate-90 me-2 text-primary"
+                style={{ fontSize: "12px" }}
+              ></i>
+            ) : (
+              <i
+                className="fa-solid fa-circle-user me-2 text-#212529"
+                style={{ fontSize: "14px" }}
+              ></i>
+            )}
+
+            {/* 2. Hiển thị tên: Nếu là Admin thì hiển thị Dr Dương Ortho, nếu không thì hiện name khách */}
+            <span
+              style={{
+                fontWeight: "600",
+                color: isAdmin ? "text-primary" : "inherit",
+              }}
+            >
+              {comment.name === "Admin"
+                ? "Quản Trị Viên Dr.Dương Ortho"
+                : comment.name}
+            </span>
           </cite>
+
           <div className="comment-meta d-block small text-muted">
+            <i className="fa-regular fa-calendar-days me-2"></i>{" "}
             {comment.formatted_date}
           </div>
         </div>
@@ -151,7 +174,12 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
 
       {/* Render Replies */}
       {comment.replies && comment.replies.length > 0 && (
-        <ol className="children" style={{ listStyle: "none" }}>
+        <ol
+          className="children"
+          style={{
+            listStyle: "none",
+          }}
+        >
           {comment.replies.map((reply: any) => (
             <CommentItem
               key={reply.id || `reply-${Math.random()}`} // Backup key nếu id reply trùng

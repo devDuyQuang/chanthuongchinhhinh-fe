@@ -118,7 +118,7 @@ const CommentForm = ({
         <p className="comment-form-comment">
           <textarea
             id="comments"
-            placeholder="Nhập nội dung bình luận..."
+            placeholder="Nhập nội dung bình luận"
             className="form-control"
             name="comment"
             rows={4}
