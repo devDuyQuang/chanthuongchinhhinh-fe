@@ -372,7 +372,7 @@ async function HomePage() {
                                 </h2>
                             </div>
 
-                            <div
+                            {/* <div
                                 className="col-sm-5 text-sm-end d-sm-block d-none wow fadeInUp"
                                 data-wow-delay="0.4s"
                                 data-wow-duration="0.8s"
@@ -386,7 +386,7 @@ async function HomePage() {
                                         <i className="feather icon-arrow-right" />
                                     </span>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                         <ServicePackages data={servicePackagesData} />
                     </div>

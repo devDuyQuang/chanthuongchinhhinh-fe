@@ -38,7 +38,6 @@ function ServicePackage({ data }: ServicePackageProps) {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [showZoom, setShowZoom] = useState(false);
 
   const timelineSteps = [
     { num: "01", title: "Thăm khám & đánh giá ban đầu", desc: "Bác sĩ kiểm tra vị trí dụng cụ, tình trạng liền xương, mức độ đau và khả năng vận động của người bệnh." },
@@ -355,144 +354,114 @@ function ServicePackage({ data }: ServicePackageProps) {
                   aria-label="Close"
                 ></button>
                 <div className="container-fluid px-0">
-                  <div className="row mb-4 align-items-center">
-                    <div className="col-lg-10">
-                      <div className="section-head text-start mb-0">
-                        <span className="label">Liệu trình điều trị</span>
-                        <h1>{selectedPackage?.name || "Tháo dụng cụ KHX 1 nơi"}</h1>
-                        <p className="mb-0">
-                          Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
-                          hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
-                        </p>
+                  {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
+                    <>
+                      <div className="row mb-4 align-items-center">
+                        <div className="col-lg-12">
+                          <div className="section-head text-start mb-0">
+                            <span className="label">Liệu trình điều trị</span>
+                            <p className="mb-0">
+                              Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
+                              hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-lg-2 text-end">
-                      <div
-                        className="d-none d-lg-block"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => setShowZoom(true)}
-                      >
-                        <Image
-                          src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
-                          alt={selectedPackage?.name || "Dịch vụ"}
-                          width={400}
-                          height={500}
-                          style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "12px", boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}
-                          unoptimized={true}
-                        />
-                        <div className="text-center mt-2 small text-muted">
-                          <i className="fa fa-search-plus me-1"></i> Bấm để phóng to
+
+                      <div className="row">
+                        <div className="col-lg-12">
+                          <div className="timeline">
+                            {selectedPackage.treatment_steps.map((step: any, index: number) => {
+                              const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
+                              const color = colors[index % colors.length];
+                              return (
+                                <div
+                                  key={index}
+                                  className={`step ${activeStep === index ? 'active' : ''}`}
+                                  onMouseEnter={() => setActiveStep(index)}
+                                  onClick={() => setActiveStep(index)}
+                                >
+                                  <div className="step-inner">
+                                    <div className="step-number" style={{ color: color }}>{Number(step.step_number || step.num || index + 1)}</div>
+                                    <div className="step-content">
+                                      <h3>{step.title?.replace(/&amp;/g, '&')}</h3>
+                                      {(() => {
+                                        const desc = step.description || step.desc || "";
+                                        if (desc.includes('\n')) {
+                                          const items = desc.split('\n').filter((item: string) => item.trim() !== "");
+                                          return (
+                                            <ul style={{ textAlign: "left", listStyle: "none", padding: '0 0 0 10px', margin: 0, color: "#555", fontSize: "12.5px", lineHeight: "1.3" }}>
+                                              {items.map((item: string, i: number) => (
+                                                <li key={i} style={{ marginBottom: "5px", display: "flex", alignItems: "flex-start" }}>
+                                                  <span style={{ color: color, marginRight: "6px", fontSize: "10px", marginTop: "4px" }}>◆</span>
+                                                  <span>{item.replace(/&amp;/g, '&')}</span>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          );
+                                        }
+                                        return <p>{desc.replace(/&amp;/g, '&')}</p>;
+                                      })()}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="row">
+                      <div className="col-12">
+                        <div>
+                          <Image
+                            src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
+                            alt={selectedPackage?.name || "Dịch vụ"}
+                            width={1200}
+                            height={800}
+                            unoptimized={true}
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="timeline">
-                        {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
-                          selectedPackage.treatment_steps.map((step: any, index: number) => {
-                            const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
-                            const color = colors[index % colors.length];
-                            return (
-                              <div
-                                key={index}
-                                className={`step ${activeStep === index ? 'active' : ''}`}
-                                onMouseEnter={() => setActiveStep(index)}
-                                onClick={() => setActiveStep(index)}
-                              >
-                                <div className="step-inner">
-                                  <div className="step-number" style={{ color: color }}>{Number(step.step_number || step.num || index + 1)}</div>
-                                  <div className="step-content">
-                                    <h3>{step.title?.replace(/&amp;/g, '&')}</h3>
-                                    {(() => {
-                                      const desc = step.description || step.desc || "";
-                                      if (desc.includes('\n')) {
-                                        const items = desc.split('\n').filter((item: string) => item.trim() !== "");
-                                        return (
-                                          <ul style={{ textAlign: "left", listStyle: "none", padding: '0 0 0 10px', margin: 0, color: "#555", fontSize: "12.5px", lineHeight: "1.3" }}>
-                                            {items.map((item: string, i: number) => (
-                                              <li key={i} style={{ marginBottom: "5px", display: "flex", alignItems: "flex-start" }}>
-                                                <span style={{ color: color, marginRight: "6px", fontSize: "10px", marginTop: "4px" }}>◆</span>
-                                                <span>{item.replace(/&amp;/g, '&')}</span>
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        );
-                                      }
-                                      return <p>{desc.replace(/&amp;/g, '&')}</p>;
-                                    })()}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })
-                        ) : (
-                          <div className="w-100 text-center py-5" style={{ minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <h4 className="text-muted" style={{ fontWeight: 600 }}>Nội dung liệu trình đang được cập nhật</h4>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="d-flex justify-content-center gap-3 mt-4">
-                        <button
-                          className="btn py-2 px-4 rounded-pill fw-bold text-white"
-                          style={{
-                            fontSize: '14px',
-                            textTransform: 'uppercase',
-                            background: '#031b4e',
-                            border: 'none',
-                            boxShadow: '0 8px 15px rgba(3, 27, 78, 0.3)'
-                          }}
-                        >
-                          Đăng ký gói khám
-                        </button>
-                        <Link
-                          href="tel:0389951795"
-                          className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
-                          style={{
-                            fontSize: '14px',
-                            textTransform: 'uppercase',
-                            background: '#fff',
-                            color: '#031b4e',
-                            border: '2px solid #031b4e',
-                            boxShadow: '0 8px 15px rgba(3, 27, 78, 0.1)'
-                          }}
-                        >
-                          Liên hệ trực tiếp bác sĩ
-                        </Link>
-                      </div>
-                    </div>
+                  <div className="d-flex justify-content-center gap-3 mt-4">
+                    <button
+                      className="btn py-2 px-4 rounded-pill fw-bold text-white"
+                      style={{
+                        fontSize: '14px',
+                        textTransform: 'uppercase',
+                        background: '#031b4e',
+                        border: 'none',
+                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.3)'
+                      }}
+                    >
+                      Đăng ký gói khám
+                    </button>
+                    <Link
+                      href="tel:0389951795"
+                      className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
+                      style={{
+                        fontSize: '14px',
+                        textTransform: 'uppercase',
+                        background: '#fff',
+                        color: '#031b4e',
+                        border: '2px solid #031b4e',
+                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.1)'
+                      }}
+                    >
+                      Liên hệ trực tiếp bác sĩ
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
-      {showZoom && (
-        <div
-          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-          style={{ backgroundColor: 'rgba(0,0,0,0.9)', zIndex: 1000000, cursor: 'zoom-out' }}
-          onClick={() => setShowZoom(false)}
-        >
-          <div className="position-relative" style={{ maxWidth: '90%', maxHeight: '90%' }} onClick={(e) => e.stopPropagation()}>
-            <Image
-              src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
-              alt="Zoomed"
-              width={1200}
-              height={1600}
-              style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '90vh', objectFit: 'contain', borderRadius: '8px' }}
-              unoptimized={true}
-            />
-            <button
-              className="btn-close btn-close-white position-absolute"
-              style={{ top: '-40px', right: '0', filter: 'brightness(0) invert(1)' }}
-              onClick={() => setShowZoom(false)}
-            ></button>
-          </div>
-        </div>
-      )}
+      )
+      }
     </>
   );
 }
