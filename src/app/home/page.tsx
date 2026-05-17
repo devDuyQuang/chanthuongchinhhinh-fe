@@ -9,6 +9,7 @@ import WorldClass from "@/component/WorldClass";
 import Counter from "@/component/Counter";
 import ServiceBox from "@/component/ServiceBox";
 import AppointmentData from "@/component/AppointmentData";
+import AppointmentButton from "@/component/AppointmentButton";
 import WhyChoose from "@/component/WhyChoose";
 import EmpolyBlog from "@/component/EmpolyBlog";
 import RealPatient from "@/component/RealPatient";
@@ -104,17 +105,12 @@ async function HomePage() {
                                                 "Your health is our top priority. Schedule an appointment with us today"}
                                         </p>
 
-                                        <Link
-                                            href={hero?.button_one_link || "/appointment"}
+                                        <AppointmentButton
+                                            text={hero?.button_one_text || "Appointment"}
                                             className="btn btn-lg btn-icon btn-primary m-r20 wow fadeInUp"
-                                            data-wow-delay="0.6s"
-                                            data-wow-duration="0.8s"
-                                        >
-                                            {hero?.button_one_text || "Appointment"}
-                                            <span className="right-icon">
-                                                <i className="feather icon-arrow-right" />
-                                            </span>
-                                        </Link>
+                                            delay="0.6s"
+                                            duration="0.8s"
+                                        />
 
                                         <Link
                                             href={hero?.button_two_link || "/lien-he"}
