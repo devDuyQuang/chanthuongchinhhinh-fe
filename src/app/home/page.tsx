@@ -361,7 +361,7 @@ async function HomePage() {
 
                 <section className="content-inner">
                     <div className="container">
-                        <div className="section-head style-1 m-b30 row align-items-end">
+                        <div className="section-head style-1 m-b30 row align-items-center justify-content-center text-center">
                             <div
                                 className="col-sm-7 wow fadeInUp"
                                 data-wow-delay="0.2s"
