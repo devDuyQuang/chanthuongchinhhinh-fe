@@ -79,12 +79,19 @@ async function HomePage() {
                                             data-wow-delay="0.2s"
                                             data-wow-duration="0.8s"
                                         >
-                                            {hero?.title || (
+                                            {hero?.title ? (
+                                                <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: hero.title,
+                                                    }}
+                                                />
+                                            ) : (
                                                 <>
                                                     Medical & <br />
                                                     Health Care <span className="text-primary">Services</span>
                                                 </>
-                                            )}{" "}
+                                            )}
+
                                             <Image src={IMAGES.herobannerline} alt="" />
                                         </h1>
 
