@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import toast from "react-hot-toast";
+import { IMAGES } from "../constant/theme";
 
 type AppointmentModalProps = {
     show: boolean;
@@ -10,6 +11,7 @@ type AppointmentModalProps = {
 
 export default function AppointmentModal({ show, onClose }: AppointmentModalProps) {
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
     const formRef = useRef<HTMLFormElement | null>(null);
 
     if (!show) return null;
@@ -22,30 +24,55 @@ export default function AppointmentModal({ show, onClose }: AppointmentModalProp
             dzName: formData.get("dzName")?.toString().trim(),
             dzEmail: formData.get("dzEmail")?.toString().trim(),
             dzPhoneNumber: formData.get("dzPhoneNumber")?.toString().trim(),
-            dzService: "Đặt lịch khám", // Default value to prevent Laravel backend validation failure
+            dzService: "Đặt lịch khám", // Standard default value for backend validator
             dzMessage: formData.get("dzMessage")?.toString().trim(),
         };
 
-        // Validation
-        const newErrors: string[] = [];
-        if (!payload.dzName || payload.dzName.length < 3) {
-            newErrors.push("Vui lòng nhập họ tên đầy đủ (ít nhất 3 ký tự).");
+        // Custom validation check
+        const newErrors: Record<string, string> = {};
+
+        // 1. Họ và tên (Bắt buộc, Giới hạn 100 ký tự)
+        if (!payload.dzName) {
+            newErrors.dzName = "Vui lòng nhập họ và tên.";
+        } else if (payload.dzName.length < 3) {
+            newErrors.dzName = "Họ và tên phải có ít nhất 3 ký tự.";
+        } else if (payload.dzName.length > 100) {
+            newErrors.dzName = "Họ và tên không được vượt quá 100 ký tự.";
         }
-        const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8}$/;
-        if (!payload.dzPhoneNumber || !phoneRegex.test(payload.dzPhoneNumber)) {
-            newErrors.push("Số điện thoại không đúng định dạng Việt Nam.");
+
+        // 2. Số điện thoại (Bắt buộc, Giới hạn 10 hoặc 11 số)
+        const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8,9}$/;
+        if (!payload.dzPhoneNumber) {
+            newErrors.dzPhoneNumber = "Vui lòng nhập số điện thoại.";
+        } else if (payload.dzPhoneNumber.length < 10 || payload.dzPhoneNumber.length > 11) {
+            newErrors.dzPhoneNumber = "Số điện thoại không hợp lệ.";
+        } else if (!phoneRegex.test(payload.dzPhoneNumber)) {
+            newErrors.dzPhoneNumber = "Số điện thoại không đúng định dạng Việt Nam.";
         }
+
+        // 3. Email (Bắt buộc, Giới hạn 100 ký tự)
         if (!payload.dzEmail) {
-            newErrors.push("Vui lòng nhập email để chúng tôi liên hệ.");
+            newErrors.dzEmail = "Vui lòng nhập địa chỉ email.";
+        } else if (payload.dzEmail.length > 100) {
+            newErrors.dzEmail = "Email không được vượt quá 100 ký tự.";
         } else {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(payload.dzEmail)) {
-                newErrors.push("Email không hợp lệ.");
+                newErrors.dzEmail = "Địa chỉ email không hợp lệ.";
             }
         }
 
-        if (newErrors.length > 0) {
-            newErrors.forEach((msg) => toast.error(msg));
+        // 4. Nội dung tin nhắn (Bắt buộc, Giới hạn 300 ký tự)
+        if (!payload.dzMessage) {
+            newErrors.dzMessage = "Vui lòng nhập nội dung triệu chứng hoặc yêu cầu tư vấn.";
+        } else if (payload.dzMessage.length < 5) {
+            newErrors.dzMessage = "Nội dung triệu chứng hoặc yêu cầu tư vấn quá ngắn.";
+        } else if (payload.dzMessage.length > 300) {
+            newErrors.dzMessage = "Nội dung không được vượt quá 300 ký tự.";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
             return;
         }
 
@@ -70,11 +97,16 @@ export default function AppointmentModal({ show, onClose }: AppointmentModalProp
             if (response.ok) {
                 toast.success("Đăng ký đặt lịch hẹn thành công!");
                 formRef.current?.reset();
+                setErrors({});
                 onClose();
             } else if (response.status === 422 && result.errors) {
+                const backendErrors: Record<string, string> = {};
                 Object.keys(result.errors).forEach((key) => {
-                    result.errors[key].forEach((msg: string) => toast.error(msg));
+                    if (result.errors[key] && result.errors[key].length > 0) {
+                        backendErrors[key] = result.errors[key][0];
+                    }
                 });
+                setErrors(backendErrors);
             } else {
                 toast.error(result.message || "Không thể gửi dữ liệu.");
             }
@@ -98,128 +130,237 @@ export default function AppointmentModal({ show, onClose }: AppointmentModalProp
             <div
                 className="modal-dialog modal-dialog-centered"
                 onClick={(e) => e.stopPropagation()}
-                style={{ maxWidth: "550px" }}
+                style={{ maxWidth: "600px" }}
             >
                 <div
-                    className="modal-content border-0 shadow-lg"
+                    className="modal-content border-0 form-wrapper style-1 text-vr-wrapper"
                     style={{
                         borderRadius: "20px",
-                        background: "#ffffff",
                         overflow: "hidden",
+                        background: "transparent",
+                        boxShadow: "none",
                     }}
                 >
-                    {/* Modal Header */}
+                    {/* Vertical Side Title */}
+                    <div className="text-vertical" style={{ color: "#ffffff", opacity: 0.9 }}>
+                        ĐẶT LỊCH KHÁM
+                    </div>
+
+                    {/* Main Form Body */}
                     <div
-                        className="p-4 text-center text-white position-relative"
+                        className="form-body bg-primary background-blend-burn p-4 p-sm-5 position-relative text-start"
                         style={{
-                            background: "linear-gradient(135deg, #031b4e 0%, #0d3b66 100%)",
+                            backgroundImage: `url(${IMAGES.bg2png.src})`,
+                            backgroundSize: "cover",
+                            borderRadius: "20px",
                         }}
                     >
+                        {/* Close button */}
                         <button
                             type="button"
                             onClick={onClose}
                             className="btn-close btn-close-white position-absolute"
-                            style={{ top: "20px", right: "20px", fontSize: "16px" }}
+                            style={{ top: "25px", right: "25px", fontSize: "16px", zIndex: 10 }}
                             aria-label="Close"
                         ></button>
-                        <h3 className="m-b5 text-white fw-bold" style={{ fontSize: "24px" }}>
-                            Đặt Lịch Hẹn Khám
-                        </h3>
-                        <p className="mb-0 text-white-50 small">
-                            Vui lòng điền thông tin để bác sĩ liên hệ tư vấn sớm nhất
-                        </p>
-                    </div>
 
-                    {/* Modal Body Form */}
-                    <div className="p-4">
-                        <form ref={formRef} onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label className="form-label fw-bold text-secondary small">Họ và tên</label>
-                                <input
-                                    name="dzName"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Nhập họ và tên đầy đủ"
-                                    style={{
-                                        borderRadius: "10px",
-                                        padding: "12px",
-                                        border: "1px solid #ced4da",
-                                    }}
-                                    required
-                                />
-                            </div>
+                        <div className="title-head m-b30">
+                            <h2 className="form-title m-b0 text-white" style={{ fontSize: "28px" }}>
+                                Đăng Ký Lịch Hẹn
+                            </h2>
+                            <p className="text-white mb-0 opacity-75 small mt-2">
+                                Điền thông tin bên dưới để bác sĩ liên hệ hỗ trợ bạn sớm nhất <span style={{ color: "#000" }}>(* là bắt buộc nhập)</span>
+                            </p>
+                        </div>
 
+                        <form ref={formRef} onSubmit={handleSubmit} className="dzForm">
                             <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label fw-bold text-secondary small">Số điện thoại</label>
-                                    <input
-                                        name="dzPhoneNumber"
-                                        type="tel"
-                                        className="form-control"
-                                        placeholder="Nhập số điện thoại"
-                                        style={{
-                                            borderRadius: "10px",
-                                            padding: "12px",
-                                            border: "1px solid #ced4da",
-                                        }}
-                                        required
-                                    />
+                                <div className="col-sm-12 m-b30">
+                                    <div className="form-floating floating-underline input-light">
+                                        <input
+                                            name="dzName"
+                                            type="text"
+                                            className="form-control text-white"
+                                            id="modalInputYourName"
+                                            placeholder="Họ và tên *"
+                                            maxLength={100}
+                                            onChange={() => {
+                                                setErrors(prev => {
+                                                    const updated = { ...prev };
+                                                    delete updated.dzName;
+                                                    return updated;
+                                                });
+                                            }}
+                                            style={
+                                                errors.dzName
+                                                    ? { borderColor: "#930000", color: "#930000" }
+                                                    : undefined
+                                            }
+                                        />
+                                        <label
+                                            htmlFor="modalInputYourName"
+                                            style={
+                                                errors.dzName
+                                                    ? { color: "#930000" }
+                                                    : undefined
+                                            }
+                                        >
+                                            Họ và tên *
+                                        </label>
+                                    </div>
+                                    {errors.dzName && (
+                                        <span className="mt-1 d-block" style={{ color: "#FAFF17", fontSize: "12px", fontWeight: 500 }}>
+                                            {errors.dzName}
+                                        </span>
+                                    )}
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label fw-bold text-secondary small">Email</label>
-                                    <input
-                                        name="dzEmail"
-                                        type="email"
-                                        className="form-control"
-                                        placeholder="Nhập địa chỉ email"
-                                        style={{
-                                            borderRadius: "10px",
-                                            padding: "12px",
-                                            border: "1px solid #ced4da",
-                                        }}
-                                        required
-                                    />
+
+                                <div className="col-sm-6 m-b30">
+                                    <div className="form-floating floating-underline input-light">
+                                        <input
+                                            name="dzPhoneNumber"
+                                            type="tel"
+                                            className="form-control text-white"
+                                            id="modalInputPhoneNumber"
+                                            placeholder="Số điện thoại *"
+                                            maxLength={11}
+                                            onChange={(e) => {
+                                                e.target.value = e.target.value.replace(/\D/g, "");
+                                                setErrors(prev => {
+                                                    const updated = { ...prev };
+                                                    delete updated.dzPhoneNumber;
+                                                    return updated;
+                                                });
+                                            }}
+                                            style={
+                                                errors.dzPhoneNumber
+                                                    ? { borderColor: "#930000", color: "#930000" }
+                                                    : undefined
+                                            }
+                                        />
+                                        <label
+                                            htmlFor="modalInputPhoneNumber"
+                                            style={
+                                                errors.dzPhoneNumber
+                                                    ? { color: "#930000" }
+                                                    : undefined
+                                            }
+                                        >
+                                            Số điện thoại *
+                                        </label>
+                                    </div>
+                                    {errors.dzPhoneNumber && (
+                                        <span className="mt-1 d-block" style={{ color: "#FAFF17", fontSize: "12px", fontWeight: 500 }}>
+                                            {errors.dzPhoneNumber}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="col-sm-6 m-b30">
+                                    <div className="form-floating floating-underline input-light">
+                                        <input
+                                            name="dzEmail"
+                                            type="email"
+                                            className="form-control text-white"
+                                            id="modalInputYourEmail"
+                                            placeholder="Email *"
+                                            maxLength={100}
+                                            onChange={() => {
+                                                setErrors(prev => {
+                                                    const updated = { ...prev };
+                                                    delete updated.dzEmail;
+                                                    return updated;
+                                                });
+                                            }}
+                                            style={
+                                                errors.dzEmail
+                                                    ? { borderColor: "#930000", color: "#930000" }
+                                                    : undefined
+                                            }
+                                        />
+                                        <label
+                                            htmlFor="modalInputYourEmail"
+                                            style={
+                                                errors.dzEmail
+                                                    ? { color: "#930000" }
+                                                    : undefined
+                                            }
+                                        >
+                                            Email *
+                                        </label>
+                                    </div>
+                                    {errors.dzEmail && (
+                                        <span className="mt-1 d-block" style={{ color: "#FAFF17", fontSize: "12px", fontWeight: 500 }}>
+                                            {errors.dzEmail}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="col-sm-12 m-b30">
+                                    <div className="form-floating floating-underline input-light">
+                                        <textarea
+                                            name="dzMessage"
+                                            className="form-control text-white"
+                                            id="modalInputMessage"
+                                            rows={5}
+                                            placeholder="Nội dung triệu chứng hoặc yêu cầu tư vấn *..."
+                                            maxLength={300}
+                                            onChange={() => {
+                                                setErrors(prev => {
+                                                    const updated = { ...prev };
+                                                    delete updated.dzMessage;
+                                                    return updated;
+                                                });
+                                            }}
+                                            style={{
+                                                height: "auto",
+                                                minHeight: "100px",
+                                                ...(errors.dzMessage
+                                                    ? { borderColor: "#930000", color: "#930000" }
+                                                    : {})
+                                            }}
+                                        ></textarea>
+                                        <label
+                                            htmlFor="modalInputMessage"
+                                            style={
+                                                errors.dzMessage
+                                                    ? { color: "#930000" }
+                                                    : undefined
+                                            }
+                                        >
+                                            Nội dung triệu chứng hoặc yêu cầu tư vấn *
+                                        </label>
+                                    </div>
+                                    {errors.dzMessage && (
+                                        <span className="mt-1 d-block" style={{ color: "#FAFF17", fontSize: "12px", fontWeight: 500 }}>
+                                            {errors.dzMessage}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="col-sm-12 text-start">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="btn btn-lg btn-icon btn-white hover-secondary d-inline-flex align-items-center gap-2"
+                                        style={{ boxShadow: "none" }}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Đang xử lý...
+                                            </>
+                                        ) : (
+                                            <>
+                                                Đăng ký ngay
+                                                <span className="right-icon">
+                                                    <i className="feather icon-arrow-right" />
+                                                </span>
+                                            </>
+                                        )}
+                                    </button>
                                 </div>
                             </div>
-
-                            <div className="mb-4">
-                                <label className="form-label fw-bold text-secondary small">Nội dung tin nhắn</label>
-                                <textarea
-                                    name="dzMessage"
-                                    className="form-control"
-                                    rows={4}
-                                    placeholder="Nhập triệu chứng hoặc nội dung bạn cần tư vấn..."
-                                    style={{
-                                        borderRadius: "10px",
-                                        padding: "12px",
-                                        border: "1px solid #ced4da",
-                                    }}
-                                ></textarea>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn btn-primary w-100 py-3 rounded-pill fw-bold text-white d-flex align-items-center justify-content-center gap-2"
-                                style={{
-                                    background: "linear-gradient(135deg, #031b4e 0%, #0d3b66 100%)",
-                                    border: "none",
-                                    boxShadow: "0 8px 15px rgba(3, 27, 78, 0.2)",
-                                    transition: "all 0.3s ease",
-                                }}
-                            >
-                                {loading ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Đang xử lý...
-                                    </>
-                                ) : (
-                                    <>
-                                        Đăng Ký Đặt Lịch
-                                        <i className="feather icon-arrow-right" />
-                                    </>
-                                )}
-                            </button>
                         </form>
                     </div>
                 </div>
