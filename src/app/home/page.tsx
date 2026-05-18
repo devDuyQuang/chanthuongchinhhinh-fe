@@ -3,14 +3,13 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/constant/theme";
-// import Footer from "@/layout/Footer";
 import DiagnosisReport from "./_components/DiagnosisReport";
 import WorldClass from "@/component/WorldClass";
 import Counter from "@/component/Counter";
 import ServiceBox from "@/component/ServiceBox";
 import AppointmentData from "@/component/AppointmentData";
+import AppointmentButton from "@/component/AppointmentButton";
 import WhyChoose from "@/component/WhyChoose";
-import EmpolyBlog from "@/component/EmpolyBlog";
 import RealPatient from "@/component/RealPatient";
 import Howitwork from "@/component/Howitwork";
 import ServicePackages from "@/component/ServicePackages";
@@ -19,7 +18,6 @@ import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
 import StayInformed from "@/component/StayInformed";
 import MapWraper from "@/component/MapWraper";
-import { SiteCommonData } from "@/types/site";
 
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { getSetting } from "@/services/settingService";
@@ -83,12 +81,19 @@ async function HomePage() {
                                             data-wow-delay="0.2s"
                                             data-wow-duration="0.8s"
                                         >
-                                            {hero?.title || (
+                                            {hero?.title ? (
+                                                <span
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: hero.title,
+                                                    }}
+                                                />
+                                            ) : (
                                                 <>
                                                     Medical & <br />
                                                     Health Care <span className="text-primary">Services</span>
                                                 </>
-                                            )}{" "}
+                                            )}
+
                                             <Image src={IMAGES.herobannerline} alt="" />
                                         </h1>
 
@@ -101,17 +106,12 @@ async function HomePage() {
                                                 "Your health is our top priority. Schedule an appointment with us today"}
                                         </p>
 
-                                        <Link
-                                            href={hero?.button_one_link || "/appointment"}
+                                        <AppointmentButton
+                                            text={hero?.button_one_text || "Appointment"}
                                             className="btn btn-lg btn-icon btn-primary m-r20 wow fadeInUp"
-                                            data-wow-delay="0.6s"
-                                            data-wow-duration="0.8s"
-                                        >
-                                            {hero?.button_one_text || "Appointment"}
-                                            <span className="right-icon">
-                                                <i className="feather icon-arrow-right" />
-                                            </span>
-                                        </Link>
+                                            delay="0.6s"
+                                            duration="0.8s"
+                                        />
 
                                         <Link
                                             href={hero?.button_two_link || "/lien-he"}
@@ -365,7 +365,7 @@ async function HomePage() {
 
                 <section className="content-inner">
                     <div className="container">
-                        <div className="section-head style-1 m-b30 row align-items-end">
+                        <div className="section-head style-1 m-b30 row align-items-center justify-content-center text-center">
                             <div
                                 className="col-sm-7 wow fadeInUp"
                                 data-wow-delay="0.2s"
@@ -376,7 +376,7 @@ async function HomePage() {
                                 </h2>
                             </div>
 
-                            <div
+                            {/* <div
                                 className="col-sm-5 text-sm-end d-sm-block d-none wow fadeInUp"
                                 data-wow-delay="0.4s"
                                 data-wow-duration="0.8s"
@@ -390,7 +390,7 @@ async function HomePage() {
                                         <i className="feather icon-arrow-right" />
                                     </span>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                         <ServicePackages data={servicePackagesData} />
                     </div>

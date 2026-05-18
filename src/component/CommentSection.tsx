@@ -40,6 +40,15 @@ const CommentSection = ({ postId }: { postId: any }) => {
           Chia sẻ ý kiến hoặc trải nghiệm của bạn.
         </p>
 
+        <div className="default-form comment-respond style-1 mb-5" id="respond">
+          <h4 className="comment-reply-title mb-2" id="reply-title">
+            Để lại bình luận
+          </h4>
+          <div className="clearfix">
+            <CommentForm postId={postId} onCommentSuccess={fetchComments} />
+          </div>
+        </div>
+
         <div id="comment">
           {loading ? (
             <p>Đang tải bình luận...</p>
@@ -56,15 +65,6 @@ const CommentSection = ({ postId }: { postId: any }) => {
             </ol>
           )}
         </div>
-
-        <div className="default-form comment-respond style-1" id="respond">
-          <h4 className="comment-reply-title mb-2" id="reply-title">
-            Để lại bình luận
-          </h4>
-          <div className="clearfix">
-            <CommentForm postId={postId} onCommentSuccess={fetchComments} />
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -73,12 +73,15 @@ const CommentSection = ({ postId }: { postId: any }) => {
 const CommentItem = ({ comment, postId, onRefresh }: any) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
 
+  // Kiểm tra xem đây có phải là một phản hồi hay không
+  // Nếu có parent_id thì chính là reply
+  const isReply = comment.parent_id !== null;
+  const isAdmin =
+    comment.name === "Admin" || comment.name === "Quản Trị Viên Dr.Dương Ortho";
+
   // --- THÊM DÒNG NÀY ĐỂ CHECK LOG ---
   //console.log(`Data in CommentItem (ID: ${comment.id}):`, comment);
   // ----------------------------------
-
-  // Kiểm tra xem đây có phải là Admin không (dựa vào log anh gửi)
-  const isAdmin = comment.name === "Admin";
 
   return (
     <li className={`comment ${isAdmin ? "admin-comment" : ""}`}>
@@ -86,54 +89,75 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
         className="comment-body"
         style={{
           marginLeft: "0px",
-          marginBottom: "18px",
-          paddingBottom: "0px",
-          minHeight: "100px",
-        }} // Căn chỉnh lại margin cho comment chính
+          padding: "20px 0",
+          borderBottom: "1px solid #eee",
+        }}
       >
-        <div className="comment-author vcard">
-          {/* <Image
-            src={isAdmin ? IMAGES.avtarmiddle2 : IMAGES.avtarmiddle1} // Có thể đổi avatar admin khác
-            alt="avatar"
-            className="avatar"
-            width={60}
-            height={60}
-          /> */}
-          <cite className="fn">
-            {comment.name}
-            {/* {isAdmin && (
+        {/* Header: Author & Reply Button */}
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <div className="comment-author vcard mb-0">
+            <cite
+              className="fn"
+              style={{ display: "flex", alignItems: "center", fontStyle: "normal" }}
+            >
+              {isReply ? (
+                <i
+                  className="fa-solid fa-arrow-turn-up fa-rotate-90 me-2"
+                  style={{ fontSize: "16px", color: "#13b5ea" }}
+                ></i>
+              ) : (
+                <i
+                  className="fa-solid fa-circle-user me-2"
+                  style={{ fontSize: "18px", color: "#031b4e" }}
+                ></i>
+              )}
+
               <span
-                className="badge bg-primary ms-2"
-                style={{ fontSize: "10px", padding: "2px 5px" }}
+                style={{
+                  fontWeight: "700",
+                  fontSize: "16px",
+                  color: "#031b4e",
+                }}
               >
-                Quản trị viên
+                {comment.name === "Admin"
+                  ? "Quản Trị Viên Dr.Dương Ortho"
+                  : comment.name}
               </span>
-            )} */}
-          </cite>
-          <div className="comment-meta d-block small text-muted">
-            {comment.formatted_date}
+            </cite>
+          </div>
+
+          <div className="reply mt-0">
+            <button
+              onClick={() => setShowReplyForm(!showReplyForm)}
+              className="comment-reply-link p-0"
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "#13b5ea",
+                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
+              <i className="fa-solid fa-reply me-1"></i>
+              {showReplyForm ? "Hủy bỏ" : "Trả lời"}
+            </button>
           </div>
         </div>
-        <div className="comment-content dz-page-text">
-          <p>{comment.content}</p>
-        </div>
 
-        {/* Chỉ hiện nút trả lời nếu không phải là admin (hoặc tùy logic của anh) */}
-        {/* <div className="reply">
-          <button
-            onClick={() => setShowReplyForm(!showReplyForm)}
-            className="comment-reply-link text-primary font-weight-600"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "13px",
-            }}
-          >
-            <i className="fa fa-reply me-1"></i>
-            {showReplyForm ? "Hủy bỏ" : "Trả lời"}
-          </button>
-        </div> */}
+        {/* Date and Content indented */}
+        <div style={{ paddingLeft: "26px" }}>
+          <div className="comment-meta d-block small text-muted mb-2">
+            <i className="fa-regular fa-calendar-days me-1"></i>
+            {comment.formatted_date}
+          </div>
+          <div className="comment-content dz-page-text" style={{ color: "#5a6a85" }}>
+            <p className="mb-0">{comment.content}</p>
+          </div>
+        </div>
       </div>
 
       {showReplyForm && (
@@ -151,7 +175,13 @@ const CommentItem = ({ comment, postId, onRefresh }: any) => {
 
       {/* Render Replies */}
       {comment.replies && comment.replies.length > 0 && (
-        <ol className="children" style={{ listStyle: "none" }}>
+        <ol
+          className="children"
+          style={{
+            listStyle: "none",
+            // marginLeft: "40px",
+          }}
+        >
           {comment.replies.map((reply: any) => (
             <CommentItem
               key={reply.id || `reply-${Math.random()}`} // Backup key nếu id reply trùng

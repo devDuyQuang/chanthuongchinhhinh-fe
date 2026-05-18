@@ -18,6 +18,7 @@ interface ServiceItem {
   btn_link?: string;
   features?: string[];
   image_url?: string;
+  treatment_steps?: any[];
 }
 
 interface ServicePlansData {
@@ -75,6 +76,7 @@ function ServicePackage({ data }: ServicePackageProps) {
     buttonText: item.btn_text || "Chọn dịch vụ",
     buttonLink: item.btn_link || "#",
     features: item.features || [],
+    treatment_steps: item.treatment_steps || [],
   }));
 
   const handleOpenModal = (e: React.MouseEvent, item: any) => {
@@ -82,7 +84,6 @@ function ServicePackage({ data }: ServicePackageProps) {
     setSelectedPackage(item);
     setShowModal(true);
   };
-
 
   const RenderCard = ({ item }: { item: any }) => (
     <div
@@ -190,7 +191,7 @@ function ServicePackage({ data }: ServicePackageProps) {
           <div
             className="modal-dialog modal-dialog-centered modal-xl"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '1120px' }}
+            style={{ maxWidth: '1200px' }}
           >
             <div className="modal-content shadow-lg border-0 bg-transparent">
               <style>{`
@@ -236,61 +237,81 @@ function ServicePackage({ data }: ServicePackageProps) {
                     position: relative;
                     display: flex;
                     flex-wrap: wrap;
-                    margin-top: 40px;
                 }
                 .treatment-section .step {
                     width: 33.333%;
                     position: relative;
                     text-align: center;
-                    padding: 20px 15px;
+                    padding: 20px 30px;
                     cursor: pointer;
+                }
+                .treatment-section .step-inner {
+                    background: #fff;
+                    border: 1px solid rgba(0,0,0,0.08);
+                    border-radius: 50%;
+                    padding: 30px;
+                    width: 100%;
+                    max-width: 340px;
+                    aspect-ratio: 1 / 1;
+                    margin: 0 auto;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+                    position: relative;
+                    z-index: 2;
+                }
+                .treatment-section .step:hover .step-inner {
+                    transform: scale(1.08);
+                    border-color: currentColor;
+                    box-shadow: 0 15px 45px rgba(0,0,0,0.1);
+                    z-index: 10;
                 }
                 .treatment-section .step::before {
                     content: "";
                     position: absolute;
-                    top: 87px;
-                    left: 50%;
-                    width: 100%;
-                    height: 0;
-                    border-top: 2px dashed #c0c0c0;
-                    z-index: 1;
+                    top: 50%;
+                    left: 100%;
+                    transform: translate(-50%, -50%);
+                    width: 70px;
+                    height: 30px;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23031b4e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    z-index: 3;
+                    opacity: 0.4;
                 }
                 .treatment-section .step:nth-child(3n)::before {
                     display: none;
                 }
                 .treatment-section .step-number {
-                    font-size: 54px;
-                    font-weight: 800;
-                    margin-bottom: 5px;
-                    transition: 0.3s ease;
+                    font-size: 40px;
+                    font-weight: 900;
                     line-height: 1;
+                    margin-bottom: 5px;
+                    opacity: 0.2;
                 }
-                .treatment-section .step-dot {
-                    width: 16px;
-                    height: 16px;
+                .treatment-section .step.active .step-inner {
+                    border-color: currentColor;
                     background: #fff;
-                    border: 3px solid #e0e0e0;
-                    border-radius: 50%;
-                    margin: 0 auto 20px auto;
-                    position: relative;
-                    z-index: 2;
-                    transition: 0.3s ease;
                 }
-                .treatment-section .step.active .step-number,
-                .treatment-section .step:hover .step-number {
-                    transform: scale(1.1);
+                .treatment-section .step.active .step-number {
+                    opacity: 0.8;
                 }
                 .treatment-section .step-content h3 {
-                    margin: 0 0 10px;
-                    color: #183b56;
-                    font-size: 17px;
-                    font-weight: 700;
+                    margin: 0 0 5px;
+                    color: #031b4e;
+                    font-size: 15px;
+                    font-weight: 800;
+                    line-height: 1.3;
                 }
                 .treatment-section .step-content p {
                     margin: 0;
-                    color: #666;
-                    line-height: 1.5;
-                    font-size: 14px;
+                    color: #555;
+                    line-height: 1.3;
+                    font-size: 12.5px;
                 }
 
                 @media (max-width: 991px) {
@@ -333,51 +354,84 @@ function ServicePackage({ data }: ServicePackageProps) {
                   aria-label="Close"
                 ></button>
                 <div className="container-fluid px-0">
-                  <div className="row align-items-center">
-                    <div className="col-lg-8">
-                      <div className="section-head">
-                        <span className="label">Liệu trình điều trị</span>
-                    <h1>{selectedPackage?.name || "Tháo dụng cụ KHX 1 nơi"}</h1>
-                    <p>
-                      Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
-                      hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
-                    </p>
-                  </div>
-
-                  <div className="timeline">
-                    {timelineSteps.map((step, index) => {
-                      const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
-                      const color = colors[index % colors.length];
-                      return (
-                        <div
-                          key={index}
-                          className={`step ${activeStep === index ? 'active' : ''}`}
-                          onMouseEnter={() => setActiveStep(index)}
-                          onClick={() => setActiveStep(index)}
-                        >
-                          <div className="step-number" style={{ color: color }}>{Number(step.num)}</div>
-                          <div
-                            className="step-dot"
-                            style={{
-                              borderColor: activeStep === index ? color : '#e0e0e0',
-                              background: activeStep === index ? color : '#fff',
-                              boxShadow: activeStep === index ? `0 0 10px ${color}80` : 'none'
-                            }}
-                          ></div>
-                          <div className="step-content">
-                            <h3>{step.title}</h3>
-                            <p>{step.desc}</p>
+                  {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
+                    <>
+                      <div className="row mb-4 align-items-center">
+                        <div className="col-lg-12">
+                          <div className="section-head text-start mb-0">
+                            <span className="label">Liệu trình điều trị</span>
+                            <p className="mb-0">
+                              Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
+                              hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
+                            </p>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-lg-12">
+                          <div className="timeline">
+                            {selectedPackage.treatment_steps.map((step: any, index: number) => {
+                              const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
+                              const color = colors[index % colors.length];
+                              return (
+                                <div
+                                  key={index}
+                                  className={`step ${activeStep === index ? 'active' : ''}`}
+                                  onMouseEnter={() => setActiveStep(index)}
+                                  onClick={() => setActiveStep(index)}
+                                >
+                                  <div className="step-inner">
+                                    <div className="step-number" style={{ color: color }}>{Number(step.step_number || step.num || index + 1)}</div>
+                                    <div className="step-content">
+                                      <h3>{step.title?.replace(/&amp;/g, '&')}</h3>
+                                      {(() => {
+                                        const desc = step.description || step.desc || "";
+                                        if (desc.includes('\n')) {
+                                          const items = desc.split('\n').filter((item: string) => item.trim() !== "");
+                                          return (
+                                            <ul style={{ textAlign: "left", listStyle: "none", padding: '0 0 0 10px', margin: 0, color: "#555", fontSize: "12.5px", lineHeight: "1.3" }}>
+                                              {items.map((item: string, i: number) => (
+                                                <li key={i} style={{ marginBottom: "5px", display: "flex", alignItems: "flex-start" }}>
+                                                  <span style={{ color: color, marginRight: "6px", fontSize: "10px", marginTop: "4px" }}>◆</span>
+                                                  <span>{item.replace(/&amp;/g, '&')}</span>
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          );
+                                        }
+                                        return <p>{desc.replace(/&amp;/g, '&')}</p>;
+                                      })()}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="row">
+                      <div className="col-12">
+                        <div>
+                          <Image
+                            src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
+                            alt={selectedPackage?.name || "Dịch vụ"}
+                            width={1200}
+                            height={800}
+                            unoptimized={true}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="d-flex justify-content-center gap-3 mt-4">
                     <button
-                      className="btn w-50 py-3 rounded-pill fw-bold text-white"
+                      className="btn py-2 px-4 rounded-pill fw-bold text-white"
                       style={{
-                        fontSize: '16px',
+                        fontSize: '14px',
                         textTransform: 'uppercase',
                         background: '#031b4e',
                         border: 'none',
@@ -388,9 +442,9 @@ function ServicePackage({ data }: ServicePackageProps) {
                     </button>
                     <Link
                       href="tel:0389951795"
-                      className="btn w-50 py-3 rounded-pill fw-bold d-flex align-items-center justify-content-center"
+                      className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
                       style={{
-                        fontSize: '16px',
+                        fontSize: '14px',
                         textTransform: 'uppercase',
                         background: '#fff',
                         color: '#031b4e',
@@ -401,24 +455,13 @@ function ServicePackage({ data }: ServicePackageProps) {
                       Liên hệ trực tiếp bác sĩ
                     </Link>
                   </div>
-                    </div>
-                    <div className="col-lg-4 d-none d-lg-block text-center">
-                      <Image
-                        src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
-                        alt={selectedPackage?.name || "Dịch vụ"}
-                        width={400}
-                        height={500}
-                        style={{ width: "100%", height: "auto", objectFit: "cover", borderRadius: "16px", boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}
-                        unoptimized={true}
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      )
+      }
     </>
   );
 }

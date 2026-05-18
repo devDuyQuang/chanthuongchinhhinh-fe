@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 import { mapSiteToSidebarData } from "@/lib/mappers/site";
+import AppointmentModal from "@/component/AppointmentModal";
 
 type TopbarInfoItem = {
   title?: string;
@@ -35,6 +36,7 @@ function Header({ menu, settings }: HeaderProps) {
   const [show, setShow] = useState<number | null>(null);
   const [isActive, setIsActive] = useState<number | null>(null);
   const [scroll, setScroll] = useState(false);
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
 
   const form = useRef<HTMLFormElement | null>(null);
   const { sendEmail } = useEmailService();
@@ -313,12 +315,13 @@ function Header({ menu, settings }: HeaderProps) {
                 <div className="extra-cell">
                   <ul className="header-right">
                     <li className="nav-item">
-                      <Link
-                        href="/dat-lich-kham"
-                        className="btn btn-primary btn-hover1"
+                      <button
+                        type="button"
+                        onClick={() => setShowAppointmentModal(true)}
+                        className="btn btn-primary btn-hover1 border-0"
                       >
                         Đặt lịch khám
-                      </Link>
+                      </button>
                     </li>
                     <li className="nav-item">
                       <button
@@ -482,6 +485,7 @@ function Header({ menu, settings }: HeaderProps) {
           </div>
         </div>
       </header>
+      <AppointmentModal show={showAppointmentModal} onClose={() => setShowAppointmentModal(false)} />
     </>
   );
 }
