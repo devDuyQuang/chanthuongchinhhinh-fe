@@ -162,6 +162,7 @@ import Link from "next/link";
 import { accordiondata } from "../constant/alldata";
 import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import AppointmentButton from "./AppointmentButton";
 
 type FAQItem = {
   question?: string;
@@ -190,66 +191,60 @@ type FrequentlyProps = {
   data?: FAQData;
 };
 
-function normalizeAppointmentLink(link?: string) {
-  if (!link || link === "/appointment") return "/dat-lich-kham";
-  return link;
-}
-
 function Frequently({ data }: FrequentlyProps) {
   const rawFaqItems = data?.items || data?.questions || [];
 
   const faqItems =
     rawFaqItems.length > 0
       ? rawFaqItems.map((item, index) => ({
-        key: String(index),
-        delay: `${0.2 + index * 0.2}s`,
-        title:
-          item.question ||
-          item.title ||
-          accordiondata[index]?.title ||
-          "Câu hỏi thường gặp",
-        answer: item.answer || item.content || "Nội dung đang được cập nhật.",
-      }))
+          key: String(index),
+          delay: `${0.2 + index * 0.2}s`,
+          title:
+            item.question ||
+            item.title ||
+            accordiondata[index]?.title ||
+            "Câu hỏi thường gặp",
+          answer: item.answer || item.content || "Nội dung đang được cập nhật.",
+        }))
       : [
-        {
-          key: "0",
-          delay: "0.2s",
-          title: "Quy trình đặt lịch khám như thế nào?",
-          answer:
-            "Bạn có thể đặt lịch trực tiếp trên website hoặc gọi hotline để được tư vấn và đặt lịch nhanh chóng.",
-        },
-        {
-          key: "1",
-          delay: "0.4s",
-          title: "Thời gian làm việc của phòng khám?",
-          answer:
-            "Phòng khám làm việc từ 8:00 đến 17:30 tất cả các ngày trong tuần, kể cả thứ 7 và chủ nhật.",
-        },
-        {
-          key: "2",
-          delay: "0.6s",
-          title: "Tôi có cần mang theo giấy tờ gì khi đi khám?",
-          answer:
-            "Bạn nên mang theo CCCD hoặc giấy tờ tùy thân và các hồ sơ bệnh án, phim chụp hoặc kết quả xét nghiệm trước đó nếu có.",
-        },
-        {
-          key: "3",
-          delay: "0.8s",
-          title: "Tôi có thể chọn bác sĩ khám không?",
-          answer:
-            "Bạn hoàn toàn có thể yêu cầu bác sĩ mong muốn khi đặt lịch. Đội ngũ tư vấn sẽ hỗ trợ sắp xếp phù hợp.",
-        },
-        {
-          key: "4",
-          delay: "1s",
-          title: "Chi phí khám và điều trị có được báo trước không?",
-          answer:
-            "Mọi chi phí sẽ được tư vấn rõ ràng trước khi thực hiện, đảm bảo minh bạch và phù hợp với từng trường hợp.",
-        },
-      ];
+          {
+            key: "0",
+            delay: "0.2s",
+            title: "Quy trình đặt lịch khám như thế nào?",
+            answer:
+              "Bạn có thể đặt lịch trực tiếp trên website hoặc gọi hotline để được tư vấn và đặt lịch nhanh chóng.",
+          },
+          {
+            key: "1",
+            delay: "0.4s",
+            title: "Thời gian làm việc của phòng khám?",
+            answer:
+              "Phòng khám làm việc từ 8:00 đến 17:30 tất cả các ngày trong tuần, kể cả thứ 7 và chủ nhật.",
+          },
+          {
+            key: "2",
+            delay: "0.6s",
+            title: "Tôi có cần mang theo giấy tờ gì khi đi khám?",
+            answer:
+              "Bạn nên mang theo CCCD hoặc giấy tờ tùy thân và các hồ sơ bệnh án, phim chụp hoặc kết quả xét nghiệm trước đó nếu có.",
+          },
+          {
+            key: "3",
+            delay: "0.8s",
+            title: "Tôi có thể chọn bác sĩ khám không?",
+            answer:
+              "Bạn hoàn toàn có thể yêu cầu bác sĩ mong muốn khi đặt lịch. Đội ngũ tư vấn sẽ hỗ trợ sắp xếp phù hợp.",
+          },
+          {
+            key: "4",
+            delay: "1s",
+            title: "Chi phí khám và điều trị có được báo trước không?",
+            answer:
+              "Mọi chi phí sẽ được tư vấn rõ ràng trước khi thực hiện, đảm bảo minh bạch và phù hợp với từng trường hợp.",
+          },
+        ];
 
   const faqImage = data?.image;
-  const appointmentLink = normalizeAppointmentLink(data?.appointment_btn?.link);
 
   // console.log("faq data:", data);
   // console.log("faq image:", faqImage);
@@ -361,17 +356,10 @@ function Frequently({ data }: FrequentlyProps) {
                   </div>
                 </div>
 
-                <Link
-                  href={appointmentLink}
+                <AppointmentButton
+                  text={data?.appointment_btn?.text || "Đặt lịch ngay"}
                   className="btn btn-lg btn-icon btn-primary btn-shadow"
-                >
-                  <span className="w-100">
-                    {data?.appointment_btn?.text || "Đặt lịch ngay"}
-                  </span>
-                  <span className="right-icon">
-                    <i className="feather icon-arrow-right" />
-                  </span>
-                </Link>
+                />
               </div>
             </div>
           </div>
