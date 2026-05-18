@@ -129,14 +129,14 @@ export default function BlogSidebar({
                 <div className="dz-meta">
                   <ul>
                     <li className="post-date">
-                      <Link href={`/bai-viet/${item.slug}`}>
+                      <Link href={`/${item.slug}`}>
                         {formatDate(item.created_at)}
                       </Link>
                     </li>
                   </ul>
                 </div>
                 <h6 className="title">
-                  <Link href={`/bai-viet/${item.slug}`}>{item.name}</Link>
+                  <Link href={`/${item.slug}`}>{item.name}</Link>
                 </h6>
               </div>
             </div>
