@@ -56,29 +56,29 @@ async function HomePage() {
   const site = setting?.data?.site;
 
   const contact = {
-    title: site?.contact_title,
-    description: site?.contact_description,
+    title: site?.contact_title ?? undefined,
+    description: site?.contact_description ?? undefined,
     address: {
-      label: site?.address_title,
-      value: site?.address_description,
+      label: site?.address_title ?? undefined,
+      value: site?.address_description ?? undefined,
     },
     phone: {
-      label: site?.phone_title,
-      value: site?.phone_description,
+      label: site?.phone_title ?? undefined,
+      value: site?.phone_description ?? undefined,
     },
     email: {
-      label: site?.email_title,
-      value: site?.email_description,
+      label: site?.email_title ?? undefined,
+      value: site?.email_description ?? undefined,
     },
     time: {
-      label: site?.time_title,
-      value: site?.time_description,
+      label: site?.time_title ?? undefined,
+      value: site?.time_description ?? undefined,
     },
     appointment_btn: {
-      text: site?.btn_appointment_title,
-      link: site?.btn_appointment_link,
+      text: site?.btn_appointment_title ?? undefined,
+      link: site?.btn_appointment_link ?? undefined,
     },
-    map_iframe: site?.map,
+    map_iframe: site?.map ?? undefined,
   };
 
   const heroBannerUrl = normalizeImageUrl(hero?.banner_hero);
