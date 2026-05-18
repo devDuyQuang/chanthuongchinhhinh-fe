@@ -99,7 +99,7 @@ export async function getCategories(): Promise<
 export async function getLatestPosts(): Promise<PostListItem[]> {
     try {
         const res = await fetch(
-            `${getApiBase()}/post?limit=3&sort_name=id&sort_by=desc&name=`,
+            `${getApiBase()}/post?type=post&sort_name=created_at&sort_by=desc&limit=3`,
             { cache: "no-store" },
         );
 
@@ -112,7 +112,6 @@ export async function getLatestPosts(): Promise<PostListItem[]> {
         return [];
     }
 }
-
 type RelatedPostListResponse = {
     success: boolean;
     message: string;
@@ -129,7 +128,7 @@ export async function getRelatedPosts(slug: string): Promise<PostListItem[]> {
 
         const result: RelatedPostListResponse = await res.json();
         return result.data || [];
-} catch (error) {
+    } catch (error) {
         console.error("Lỗi lấy related posts:", error);
         return [];
     }
