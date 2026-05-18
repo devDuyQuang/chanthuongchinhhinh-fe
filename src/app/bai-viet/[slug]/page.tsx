@@ -270,7 +270,7 @@ export default async function BaiVietCategoryPage({
                             <Image
                               src={
                                 normalizeImageUrl(item.image) ||
-                                IMAGES.blogGridPic1
+                                IMAGES.bloggrid1
                               }
                               alt={item.name || "Bài viết mới"}
                               width={90}
