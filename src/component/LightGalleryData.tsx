@@ -7,7 +7,7 @@
 // import Image from "next/image";
 
 // function LightGalleryData() {
-//     return (        
+//     return (
 //         <div className="overflow-hidden">
 //             <LightGallery
 //                 zoom={true}
@@ -94,7 +94,7 @@
 //                     </div>
 //                 </div>
 //             </LightGallery >
-//         </div >        
+//         </div >
 //     )
 // }
 // export default LightGalleryData;
@@ -109,9 +109,9 @@ import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
 type LightGalleryDataProps = {
-    data?: {
-        images?: string[];
-    };
+  data?: {
+    images?: string[];
+  };
 };
 
 // function normalizeImageUrl(url?: string | null): string | undefined {
@@ -143,109 +143,234 @@ type LightGalleryDataProps = {
 // }
 
 function LightGalleryData({ data }: LightGalleryDataProps) {
-    const gallery =
-        data?.images && data.images.length > 0
-            ? data.images
-                .map((item) => normalizeImageUrl(item))
-                .filter((item): item is string => Boolean(item))
-            : [
-                IMAGES.portfolio1.src,
-                IMAGES.portfolio2.src,
-                IMAGES.portfolio3.src,
-                IMAGES.portfolio4.src,
-                IMAGES.portfolio5.src,
-                IMAGES.portfolio6.src,
-            ];
+  const gallery =
+    data?.images && data.images.length > 0
+      ? data.images
+          .map((item) => normalizeImageUrl(item))
+          .filter((item): item is string => Boolean(item))
+      : [
+          IMAGES.portfolio1.src,
+          IMAGES.portfolio2.src,
+          IMAGES.portfolio3.src,
+          IMAGES.portfolio4.src,
+          IMAGES.portfolio5.src,
+          IMAGES.portfolio6.src,
+        ];
 
-    const getImage = (index: number) => gallery[index % gallery.length];
+  const getImage = (index: number) => gallery[index % gallery.length];
 
-    return (
-        <div className="overflow-hidden">
-            <LightGallery zoom={true} thumbnail={true} plugins={[lgThumbnail, lgZoom]} selector=".lightimg">
-                <div className="dz-img-wrapper" id="lightgallery">
-                    <div className="left-wrapper">
-                        <div className="dz-media media-lg">
-                            <a href={getImage(0)} data-src={getImage(0)} className="lg-item lightimg">
-                                <Image src={getImage(0)} alt="portfolio" width={800} height={800} unoptimized />
-                            </a>
-                        </div>
-                        <div className="media-inner">
-                            <div className="dz-media media-md">
-                                <a href={getImage(1)} data-src={getImage(1)} className="lg-item lightimg">
-                                    <Image src={getImage(1)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                            <div className="dz-media media-sm">
-                                <a href={getImage(2)} data-src={getImage(2)} className="lg-item lightimg">
-                                    <Image src={getImage(2)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div className="overflow-hidden mb-5">
+      <LightGallery
+        zoom={true}
+        thumbnail={true}
+        plugins={[lgThumbnail, lgZoom]}
+        selector=".lightimg"
+      >
+        <div className="dz-img-wrapper" id="lightgallery">
+          <div className="left-wrapper">
+            <div className="dz-media media-lg">
+              <a
+                href={getImage(0)}
+                data-src={getImage(0)}
+                className="lg-item lightimg"
+              >
+                <Image
+                  src={getImage(0)}
+                  alt="portfolio"
+                  width={800}
+                  height={800}
+                  unoptimized
+                />
+              </a>
+            </div>
+            <div className="media-inner">
+              <div className="dz-media media-md">
+                <a
+                  href={getImage(1)}
+                  data-src={getImage(1)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(1)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+              <div className="dz-media media-sm">
+                <a
+                  href={getImage(2)}
+                  data-src={getImage(2)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(2)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
 
-                    <div className="right-wrapper">
-                        <div className="media-inner">
-                            <div className="dz-media media-sm">
-                                <a href={getImage(3)} data-src={getImage(3)} className="lg-item lightimg">
-                                    <Image src={getImage(3)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                            <div className="dz-media media-md">
-                                <a href={getImage(0)} data-src={getImage(0)} className="lg-item lightimg">
-                                    <Image src={getImage(0)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="dz-media media-lg">
-                            <a href={getImage(1)} data-src={getImage(1)} className="lg-item lightimg">
-                                <Image src={getImage(1)} alt="portfolio" width={800} height={800} unoptimized />
-                            </a>
-                        </div>
-                    </div>
+          <div className="right-wrapper">
+            <div className="media-inner">
+              <div className="dz-media media-sm">
+                <a
+                  href={getImage(3)}
+                  data-src={getImage(3)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(3)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+              <div className="dz-media media-md">
+                <a
+                  href={getImage(0)}
+                  data-src={getImage(0)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(0)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+            </div>
+            <div className="dz-media media-lg">
+              <a
+                href={getImage(1)}
+                data-src={getImage(1)}
+                className="lg-item lightimg"
+              >
+                <Image
+                  src={getImage(1)}
+                  alt="portfolio"
+                  width={800}
+                  height={800}
+                  unoptimized
+                />
+              </a>
+            </div>
+          </div>
 
-                    <div className="left-wrapper">
-                        <div className="dz-media media-lg">
-                            <a href={getImage(2)} data-src={getImage(2)} className="lg-item lightimg">
-                                <Image src={getImage(2)} alt="portfolio" width={800} height={800} unoptimized />
-                            </a>
-                        </div>
-                        <div className="media-inner">
-                            <div className="dz-media media-md">
-                                <a href={getImage(3)} data-src={getImage(3)} className="lg-item lightimg">
-                                    <Image src={getImage(3)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                            <div className="dz-media media-sm">
-                                <a href={getImage(0)} data-src={getImage(0)} className="lg-item lightimg">
-                                    <Image src={getImage(0)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+          <div className="left-wrapper">
+            <div className="dz-media media-lg">
+              <a
+                href={getImage(2)}
+                data-src={getImage(2)}
+                className="lg-item lightimg"
+              >
+                <Image
+                  src={getImage(2)}
+                  alt="portfolio"
+                  width={800}
+                  height={800}
+                  unoptimized
+                />
+              </a>
+            </div>
+            <div className="media-inner">
+              <div className="dz-media media-md">
+                <a
+                  href={getImage(3)}
+                  data-src={getImage(3)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(3)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+              <div className="dz-media media-sm">
+                <a
+                  href={getImage(0)}
+                  data-src={getImage(0)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(0)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
 
-                    <div className="right-wrapper">
-                        <div className="media-inner">
-                            <div className="dz-media media-sm">
-                                <a href={getImage(1)} data-src={getImage(1)} className="lg-item lightimg">
-                                    <Image src={getImage(1)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                            <div className="dz-media media-md">
-                                <a href={getImage(2)} data-src={getImage(2)} className="lg-item lightimg">
-                                    <Image src={getImage(2)} alt="portfolio" width={800} height={800} unoptimized />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="dz-media media-lg">
-                            <a href={getImage(3)} data-src={getImage(3)} className="lg-item lightimg">
-                                <Image src={getImage(3)} alt="portfolio" width={800} height={800} unoptimized />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </LightGallery>
+          <div className="right-wrapper">
+            <div className="media-inner">
+              <div className="dz-media media-sm">
+                <a
+                  href={getImage(1)}
+                  data-src={getImage(1)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(1)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+              <div className="dz-media media-md">
+                <a
+                  href={getImage(2)}
+                  data-src={getImage(2)}
+                  className="lg-item lightimg"
+                >
+                  <Image
+                    src={getImage(2)}
+                    alt="portfolio"
+                    width={800}
+                    height={800}
+                    unoptimized
+                  />
+                </a>
+              </div>
+            </div>
+            <div className="dz-media media-lg">
+              <a
+                href={getImage(3)}
+                data-src={getImage(3)}
+                className="lg-item lightimg"
+              >
+                <Image
+                  src={getImage(3)}
+                  alt="portfolio"
+                  width={800}
+                  height={800}
+                  unoptimized
+                />
+              </a>
+            </div>
+          </div>
         </div>
-    );
+      </LightGallery>
+    </div>
+  );
 }
 
 export default LightGalleryData;

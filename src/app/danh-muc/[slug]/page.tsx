@@ -2,7 +2,10 @@ import Link from "next/link";
 import PageBanner from "@/component/PageBanner";
 import { IMAGES, SVGICONS } from "@/constant/theme";
 import BlogSidebar from "@/component/BlogSidebar";
-import { getCategoryBySlug, getCategories as getCategoryList } from "@/services/categoryService";
+import {
+  getCategoryBySlug,
+  getCategories as getCategoryList,
+} from "@/services/categoryService";
 
 // Types are now imported or handled by categoryService
 
@@ -76,7 +79,12 @@ export default async function DanhMucSlugPage({ params }: Props) {
   const { slug } = await params;
 
   const [category, categories, latestPosts] = await Promise.all([
-    getCategoryBySlug(slug, { limit: 12, page: 1, sortName: 'created_at', sortBy: 'desc' }),
+    getCategoryBySlug(slug, {
+      limit: 12,
+      page: 1,
+      sortName: "created_at",
+      sortBy: "desc",
+    }),
     getCategories(),
     getLatestPosts(),
   ]);
@@ -128,8 +136,8 @@ export default async function DanhMucSlugPage({ params }: Props) {
                         <div className="post-date">
                           {item.created_at
                             ? new Date(item.created_at).toLocaleDateString(
-                              "vi-VN",
-                            )
+                                "vi-VN",
+                              )
                             : "N/A"}
                         </div>
 
