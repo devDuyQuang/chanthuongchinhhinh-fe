@@ -1,0 +1,451 @@
+"use client";
+
+import { useRef, useState } from "react";
+import { IMAGES } from "../constant/theme"; // Anh điều chỉnh lại đường dẫn cho đúng cấu trúc thư mục (vd: @/constant/theme)
+import Image from "next/image";
+import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
+import toast from "react-hot-toast";
+
+// 1. Định nghĩa Type chuẩn khớp với dữ liệu JSON mới của anh
+type ConsultationValue = {
+  title?: string;
+  btn_text?: string;
+  btn_link?: string;
+  image?: string;
+};
+
+type ConsultationSectionProps = {
+  data?: {
+    message?: string;
+    key?: string;
+    value?: ConsultationValue;
+  };
+};
+
+function ConsultationSection({ data }: ConsultationSectionProps) {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMsg, setSuccessMsg] = useState("");
+  const form = useRef<HTMLFormElement | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  // Bóc tách dữ liệu từ object value
+  const consultationData = data?.value;
+  const consultationImage = normalizeImageUrl(consultationData?.image);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(form.current!);
+    const payload = {
+      dzName: formData.get("dzName")?.toString().trim(),
+      dzEmail: formData.get("dzEmail")?.toString().trim(),
+      dzPhoneNumber: formData.get("dzPhoneNumber")?.toString().trim(),
+      dzService: "Đặt lịch tư vấn", // Ghi nhận đúng dịch vụ tư vấn
+      dzMessage: formData.get("dzMessage")?.toString().trim(),
+    };
+
+    // --- Khối Validation dữ liệu ---
+    const newErrors: Record<string, string> = {};
+
+    if (!payload.dzName) {
+      newErrors.dzName = "Vui lòng nhập họ và tên.";
+    } else if (payload.dzName.length < 3) {
+      newErrors.dzName = "Họ và tên phải có ít nhất 3 ký tự.";
+    } else if (payload.dzName.length > 100) {
+      newErrors.dzName = "Họ và tên không được vượt quá 100 ký tự.";
+    }
+
+    const phoneRegex = /^(0|\+84)[3|5|7|8|9][0-9]{8,9}$/;
+    if (!payload.dzPhoneNumber) {
+      newErrors.dzPhoneNumber = "Vui lòng nhập số điện thoại.";
+    } else if (
+      payload.dzPhoneNumber.length < 10 ||
+      payload.dzPhoneNumber.length > 11
+    ) {
+      newErrors.dzPhoneNumber = "Số điện thoại không hợp lệ.";
+    } else if (!phoneRegex.test(payload.dzPhoneNumber)) {
+      newErrors.dzPhoneNumber = "Số điện thoại không đúng định dạng Việt Nam.";
+    }
+
+    if (!payload.dzEmail) {
+      newErrors.dzEmail = "Vui lòng nhập địa chỉ email.";
+    } else if (payload.dzEmail.length > 100) {
+      newErrors.dzEmail = "Email không được vượt quá 100 ký tự.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(payload.dzEmail)) {
+        newErrors.dzEmail = "Địa chỉ email không hợp lệ.";
+      }
+    }
+
+    if (!payload.dzMessage) {
+      newErrors.dzMessage =
+        "Vui lòng nhập nội dung triệu chứng hoặc yêu cầu tư vấn.";
+    } else if (payload.dzMessage.length < 5) {
+      newErrors.dzMessage = "Nội dung yêu cầu tư vấn quá ngắn.";
+    } else if (payload.dzMessage.length > 300) {
+      newErrors.dzMessage = "Nội dung không được vượt quá 300 ký tự.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // --- Tiến hành Call API gửi thông tin đặt lịch ---
+    setLoading(true);
+    const apiBaseUrl =
+      (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
+        /^https?:\/\//,
+        (match) => match + "api.",
+      ) || "http://api.localhost:8000";
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/appointments`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        toast.success("Đăng ký lịch tư vấn thành công!");
+        setSuccessMsg(
+          "Đăng ký đặt lịch tư vấn thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.",
+        );
+        form.current?.reset();
+        setErrors({});
+      } else if (response.status === 422 && result.errors) {
+        const backendErrors: Record<string, string> = {};
+        Object.keys(result.errors).forEach((key) => {
+          if (result.errors[key] && result.errors[key].length > 0) {
+            backendErrors[key] = result.errors[key][0];
+          }
+        });
+        setErrors(backendErrors);
+      } else {
+        toast.error(result.message || "Không thể gửi dữ liệu.");
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section
+      className="content-inner-2 bg-light z-2"
+      style={{ backgroundImage: `url(${IMAGES.bg5png?.src})` }}
+    >
+      <div className="container">
+        <div className="row align-items-end content-wrapper style-8">
+          {/* Cột hiển thị hình ảnh từ JSON */}
+          <div
+            className="col-lg-6 text-center wow fadeInUp"
+            data-wow-delay="0.2s"
+            data-wow-duration="0.8s"
+          >
+            <Image
+              src={consultationImage || IMAGES.about3png}
+              alt={consultationData?.title || "Đặt lịch tư vấn"}
+              width={600}
+              height={600}
+              style={{
+                width: "100%",
+                height: "auto",
+                objectFit: "contain",
+              }}
+              unoptimized={typeof consultationImage === "string"}
+            />
+          </div>
+
+          {/* Cột hiển thị Form nhập thông tin */}
+          <div
+            className="col-lg-6"
+            data-bottom-top="transform: translateY(100px)"
+            data-top-bottom="transform: translateY(-10px)"
+          >
+            <div className="form-wrapper style-1 text-vr-wrapper">
+              <div className="text-vertical">TƯ VẤN NGAY</div>
+
+              <div
+                className="form-body bg-primary background-blend-burn"
+                style={{
+                  backgroundImage: `url(${IMAGES.bg2png?.src})`,
+                  backgroundSize: "cover",
+                }}
+              >
+                <div className="title-head m-b30">
+                  {/* Nhận Title từ JSON động */}
+                  <h2
+                    className="form-title m-b0 text-white"
+                    style={{ fontSize: "28px" }}
+                  >
+                    {consultationData?.title || "Đặt lịch tư vấn"}
+                  </h2>
+                  <p className="text-white mb-0 opacity-75 small mt-2">
+                    Điền thông tin bên dưới để bác sĩ liên hệ hỗ trợ bạn sớm
+                    nhất{" "}
+                    <span style={{ color: "#000" }}>(* là bắt buộc nhập)</span>
+                  </p>
+                </div>
+
+                <form
+                  ref={form}
+                  onSubmit={handleSubmit}
+                  className="dzForm"
+                  method="POST"
+                >
+                  <input
+                    type="hidden"
+                    name="dzToDo"
+                    value={consultationData?.btn_text || "Đặt lịch ngay"}
+                  />
+                  <input type="hidden" name="reCaptchaEnable" value="0" />
+                  <input
+                    type="hidden"
+                    name="dzService"
+                    value="Đặt lịch tư vấn"
+                  />
+
+                  <div className="dzFormMsg"></div>
+
+                  <div className="row">
+                    {/* Input Họ và Tên */}
+                    <div className="col-sm-12 m-b30">
+                      <div className="form-floating floating-underline input-light">
+                        <input
+                          name="dzName"
+                          type="text"
+                          className="form-control text-white"
+                          id="inputYourName"
+                          placeholder="Họ và tên *"
+                          maxLength={100}
+                          onChange={() => {
+                            setErrors((prev) => {
+                              const updated = { ...prev };
+                              delete updated.dzName;
+                              return updated;
+                            });
+                          }}
+                          style={
+                            errors.dzName
+                              ? { borderColor: "#930000", color: "#930000" }
+                              : undefined
+                          }
+                        />
+                        <label
+                          htmlFor="inputYourName"
+                          style={
+                            errors.dzName ? { color: "#930000" } : undefined
+                          }
+                        >
+                          Họ và tên *
+                        </label>
+                      </div>
+                      {errors.dzName && (
+                        <span
+                          className="mt-1 d-block"
+                          style={{
+                            color: "#FAFF17",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {errors.dzName}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Input Số điện thoại */}
+                    <div className="col-sm-6 m-b30">
+                      <div className="form-floating floating-underline input-light">
+                        <input
+                          name="dzPhoneNumber"
+                          type="tel"
+                          className="form-control text-white"
+                          id="inputPhoneNumber"
+                          placeholder="Số điện thoại *"
+                          maxLength={11}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(/\D/g, "");
+                            setErrors((prev) => {
+                              const updated = { ...prev };
+                              delete updated.dzPhoneNumber;
+                              return updated;
+                            });
+                          }}
+                          style={
+                            errors.dzPhoneNumber
+                              ? { borderColor: "#930000", color: "#930000" }
+                              : undefined
+                          }
+                        />
+                        <label
+                          htmlFor="inputPhoneNumber"
+                          style={
+                            errors.dzPhoneNumber
+                              ? { color: "#930000" }
+                              : undefined
+                          }
+                        >
+                          Số điện thoại *
+                        </label>
+                      </div>
+                      {errors.dzPhoneNumber && (
+                        <span
+                          className="mt-1 d-block"
+                          style={{
+                            color: "#FAFF17",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {errors.dzPhoneNumber}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Input Email */}
+                    <div className="col-sm-6 m-b30">
+                      <div className="form-floating floating-underline input-light">
+                        <input
+                          name="dzEmail"
+                          type="email"
+                          className="form-control text-white"
+                          id="inputYourEmail"
+                          placeholder="Email *"
+                          maxLength={100}
+                          onChange={() => {
+                            setErrors((prev) => {
+                              const updated = { ...prev };
+                              delete updated.dzEmail;
+                              return updated;
+                            });
+                          }}
+                          style={
+                            errors.dzEmail
+                              ? { borderColor: "#930000", color: "#930000" }
+                              : undefined
+                          }
+                        />
+                        <label
+                          htmlFor="inputYourEmail"
+                          style={
+                            errors.dzEmail ? { color: "#930000" } : undefined
+                          }
+                        >
+                          Email *
+                        </label>
+                      </div>
+                      {errors.dzEmail && (
+                        <span
+                          className="mt-1 d-block"
+                          style={{
+                            color: "#FAFF17",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {errors.dzEmail}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Input Ghi chú / Triệu chứng */}
+                    <div className="col-sm-12 m-b30">
+                      <div className="form-floating floating-underline input-light">
+                        <textarea
+                          name="dzMessage"
+                          className="form-control text-white"
+                          id="inputMessage"
+                          rows={6}
+                          placeholder="Nội dung triệu chứng hoặc yêu cầu tư vấn *..."
+                          maxLength={300}
+                          onChange={() => {
+                            setErrors((prev) => {
+                              const updated = { ...prev };
+                              delete updated.dzMessage;
+                              return updated;
+                            });
+                          }}
+                          style={{
+                            height: "auto",
+                            minHeight: "100px",
+                            ...(errors.dzMessage
+                              ? { borderColor: "#930000", color: "#930000" }
+                              : {}),
+                          }}
+                        ></textarea>
+                        <label
+                          htmlFor="inputMessage"
+                          style={
+                            errors.dzMessage ? { color: "#930000" } : undefined
+                          }
+                        >
+                          Nội dung triệu chứng hoặc yêu cầu tư vấn *
+                        </label>
+                      </div>
+                      {errors.dzMessage && (
+                        <span
+                          className="mt-1 d-block"
+                          style={{
+                            color: "#FAFF17",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {errors.dzMessage}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Nút gửi Form nhận text động từ JSON */}
+                    <div className="col-sm-12">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="btn btn-lg btn-icon btn-white hover-secondary d-inline-flex align-items-center gap-2"
+                        style={{ boxShadow: "none" }}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            Đang xử lý...
+                          </>
+                        ) : (
+                          <>
+                            {consultationData?.btn_text || "Đặt lịch ngay"}
+                            <span className="right-icon">
+                              <i className="feather icon-arrow-right" />
+                            </span>
+                          </>
+                        )}
+                      </button>
+
+                      {successMsg && (
+                        <div className="text-white mt-3 text-start fw-medium">
+                          {successMsg}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default ConsultationSection;

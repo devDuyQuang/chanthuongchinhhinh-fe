@@ -64,9 +64,12 @@ type SettingResponse = {
 
 async function getSetting(): Promise<SettingResponse | null> {
   try {
-    const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`,
+      {
+        cache: "no-store",
+      },
+    );
 
     if (!res.ok) {
       throw new Error(`Fetch setting failed: ${res.status}`);
@@ -89,9 +92,9 @@ const Appointment = async () => {
   const rawFaq = setting?.data?.faq_home_clinic;
   const faq = rawFaq
     ? {
-      ...rawFaq,
-      image: normalizeImageUrl(rawFaq.image),
-    }
+        ...rawFaq,
+        image: normalizeImageUrl(rawFaq.image),
+      }
     : undefined;
 
   return (

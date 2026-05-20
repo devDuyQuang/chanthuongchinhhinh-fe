@@ -1,5 +1,3 @@
-
-
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
@@ -190,7 +188,7 @@ async function Contactus() {
                     target="_blank"
                     className="icon-link-hover-end"
                   >
-                   Mở Google Map
+                    Mở Google Map
                     <i className="feather icon-arrow-right" />
                   </Link>
                 </div>

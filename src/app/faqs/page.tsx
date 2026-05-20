@@ -8,24 +8,23 @@ import Connect from "@/component/Connect";
 import Getintouch from "@/component/Getintouch";
 
 function Faqs() {
-    return (
-        <>
-
-            <main className="page-content">
-                <PageBanner title="Faq's" bnrimage={IMAGES.bnr2.src} />
-                <Frequently />
-                <Schedule />
-                <section className="content-inner">
-                    <div className="container">
-                        <div className="row g-xl-4 align-items-center">
-                            <Connect />
-                            <Getintouch />
-                        </div>
-                    </div>
-                </section>
-            </main>
-            {/* <Footer /> */}
-        </>
-    );
+  return (
+    <>
+      <main className="page-content">
+        <PageBanner title="Faq's" bnrimage={IMAGES.bnr2.src} />
+        <Frequently />
+        <Schedule />
+        <section className="content-inner">
+          <div className="container">
+            <div className="row g-xl-4 align-items-center">
+              <Connect />
+              <Getintouch />
+            </div>
+          </div>
+        </section>
+      </main>
+      {/* <Footer /> */}
+    </>
+  );
 }
 export default Faqs;
