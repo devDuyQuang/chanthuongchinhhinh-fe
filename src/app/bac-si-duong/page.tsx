@@ -41,24 +41,6 @@ async function getSetting() {
     return null;
   }
 }
-const apiResponse = {
-  message: "Đã lưu phần đầu.",
-  key: "about_page_hero_clinic",
-  value: {
-    banner_hero: "uploads/settings/about_hero_1779092792.jpg",
-  },
-};
-
-const apiData = {
-  message: "Đã lưu đặt lịch tư vấn.",
-  key: "about_page_consultation_clinic",
-  value: {
-    title: "Đặt Lịch Tư Vấn",
-    btn_text: "Đặt lịch ngay",
-    btn_link: "/dat-lich-kham",
-    image: "uploads/settings/about_consultation_1779167017.jpg",
-  },
-};
 
 async function BacsiDuong() {
   const setting = await getSetting();
@@ -77,9 +59,7 @@ async function BacsiDuong() {
   // Lấy ra chuỗi path hình ảnh từ data trả về
   const bannerHeroPath = aboutHero?.banner_hero;
   // Ghép nối chuỗi domain tĩnh để hiển thị ảnh từ Laravel
-  const finalBannerUrl = bannerHeroPath
-    ? `${storageUrl}/${bannerHeroPath}`
-    : IMAGES.bnr1;
+  const finalBannerUrl = normalizeImageUrl(bannerHeroPath) || IMAGES.bnr2.src;
 
   const aboutGallery = data?.about_page_gallery_clinic;
   const aboutConsultation = data?.about_page_consultation_clinic;
