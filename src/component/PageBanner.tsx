@@ -44,14 +44,14 @@ function PageBanner({ title, bnrimage }: Props) {
             </nav>
             <div className="dz-btn">
               <Link
-                href="tel:+11234567890"
+                href="tel:0389951795"
                 className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0"
               >
                 <span className="left-icon">
                   {" "}
                   <i className="feather icon-phone-call" />{" "}
                 </span>{" "}
-                +1 123 456 7890
+                038 995 1795
               </Link>
             </div>
           </div>
