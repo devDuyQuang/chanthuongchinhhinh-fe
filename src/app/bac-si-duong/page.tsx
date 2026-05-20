@@ -16,14 +16,20 @@ import Awards from "@/component/Awards";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import RealPatient from "@/component/RealPatient";
 
+const apiBaseUrl =
+  (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
+    /^https?:\/\//,
+    (match) => match + "api.",
+  ) || "http://api.localhost:8000";
+
+// Domain gốc dùng để tải ảnh tĩnh từ Laravel
+const storageUrl = apiBaseUrl.replace("api.", "");
+
 async function getSetting() {
   try {
-    const res = await fetch(
-      `${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`,
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch(`${apiBaseUrl}/setting`, {
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       throw new Error(`Fetch setting failed: ${res.status}`);
@@ -57,20 +63,34 @@ const apiData = {
 async function BacsiDuong() {
   const setting = await getSetting();
   const data = setting?.data;
+
+  // 1. Xử lý phần Banner Hero (Ưu tiên data thật từ API, fallback về mock data của anh)
+  const aboutHero = data?.about_page_hero_clinic;
+
+  // console.log("====================================");
+  // console.log(
+  //   "DỮ LIỆU ABOUT HERO THỰC TẾ TỪ API:",
+  //   JSON.stringify(aboutHero, null, 2),
+  // );
+  // console.log("====================================");
+
   // Lấy ra chuỗi path hình ảnh từ data trả về
-  const bannerHeroPath = apiResponse?.value?.banner_hero;
+  const bannerHeroPath = aboutHero?.banner_hero;
+  // Ghép nối chuỗi domain tĩnh để hiển thị ảnh từ Laravel
+  const finalBannerUrl = bannerHeroPath
+    ? `${storageUrl}/${bannerHeroPath}`
+    : IMAGES.bnr1;
 
   const aboutGallery = data?.about_page_gallery_clinic;
   const aboutConsultation = data?.about_page_consultation_clinic;
   const aboutInsurance = data?.about_page_insurance_clinic;
   const aboutVisionMission = data?.about_page_vision_mission_clinic;
   const awards = setting?.data?.awards_home;
-  const testimonials = setting?.data?.testimonials_home_clinic;
 
   return (
     <>
       <main className="page-content">
-        <PageBanner title="Bác Sĩ Đường" bnrimage={IMAGES.bnr2.src} />
+        <PageBanner title="Bác Sĩ Dương" bnrimage={finalBannerUrl} />
         {/* <section className="content-inner-2" style={{ marginBottom: "70px" }}>
           <div className="container">
             <div className="row g-3 g-lg-4 align-items-center">
@@ -206,19 +226,6 @@ async function BacsiDuong() {
         </section> */}
         {/* <StayInformed posts={[] as unknown as Post[]} /> */}
         <Awards data={awards} />
-        <section
-          className="clearfix p-t50 overlay-secondary-dark bg-primary background-blend-multiply overflow-hidden"
-          style={{
-            backgroundImage: `url(${IMAGES.bg3.src})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "right center",
-            backgroundSize: "cover",
-          }}
-        >
-          <RealPatient data={testimonials} />
-        </section>
-
-        <ConsultationSection data={apiData} />
       </main>
       {/* <Footer />             */}
     </>
