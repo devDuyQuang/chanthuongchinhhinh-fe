@@ -32,13 +32,13 @@ export function normalizeImageUrl(url?: string | null): string | undefined {
     }
 
     // nhóm file uploads/settings/... dùng public trực tiếp
+    // uploads phải đi qua /storage
     if (url.startsWith("/uploads/")) {
-        return `${baseUrl}${url}`;
+        return `${baseUrl}/storage${url}`;
     }
 
     if (url.startsWith("uploads/")) {
-        return `${baseUrl}/${url}`;
+        return `${baseUrl}/storage/${url}`;
     }
-
     return `${baseUrl}/${url}`;
 }
