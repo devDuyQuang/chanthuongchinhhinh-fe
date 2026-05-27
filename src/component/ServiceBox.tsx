@@ -235,7 +235,7 @@ function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
   );
 }
 
-// export default ServiceBox;
+export default ServiceBox;
 
 // "use client";
 
