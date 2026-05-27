@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
+        protocol: "https",
+        hostname: "admin.drduongortho.com",
+        pathname: "/**",
+      },
+      {
         protocol: "http",
         hostname: "api.localhost",
         port: "8000",
