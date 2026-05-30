@@ -29,9 +29,13 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://chanthuongchinhhinh.com'),
   title: "Bác sĩ Dương Chuyên khoa II Chấn thương Chỉnh hình - DrDuongOrtho",
   description:
     "Bác sĩ Dương Chuyên khoa II  Chấn thương Chỉnh hình chuyên khám và điều trị các bệnh lý cơ xương khớp, chấn thương thể thao, đau lưng, thoái hóa khớp và phục hồi vận động với giải pháp an toàn, hiệu quả và tận tâm cho từng bệnh nhân.",
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: "Bác sĩ Dương Chuyên khoa II Chấn thương Chỉnh hình - DrDuongOrtho",
     description: "Bác sĩ Dương Chuyên khoa II  Chấn thương Chỉnh hình chuyên khám và điều trị các bệnh lý cơ xương khớp, chấn thương thể thao, đau lưng, thoái hóa khớp và phục hồi vận động với giải pháp an toàn, hiệu quả và tận tâm cho từng bệnh nhân.",

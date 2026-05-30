@@ -21,11 +21,9 @@ export async function generateMetadata(
     return {
         title,
         description,
-        ...(canonical && {
-            alternates: {
-                canonical,
-            },
-        }),
+        alternates: {
+            canonical: canonical || `/dich-vu/${slug}`,
+        },
         openGraph: {
             title,
             description: description ?? undefined,
