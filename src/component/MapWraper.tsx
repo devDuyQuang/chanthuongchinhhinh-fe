@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import AppointmentButton from "./AppointmentButton";
 
 type ContactData = {
@@ -32,6 +34,29 @@ type MapWraperProps = {
 };
 
 function MapWraper({ data }: MapWraperProps) {
+  const [isIntersecting, setIntersecting] = useState(false);
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIntersecting(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    if (mapRef.current) {
+      observer.observe(mapRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const contactItems = [
     {
       icon: <i className="feather icon-map-pin" />,
@@ -74,8 +99,13 @@ function MapWraper({ data }: MapWraperProps) {
   return (
     <section className="content-wrapper style-4">
       <div className="container">
-        <div className="map-wrapper">
-          {mapIframeHtml ? (
+        <div className="map-wrapper" ref={mapRef}>
+          {!isIntersecting ? (
+             <div style={{ width: "100%", height: "650px", backgroundColor: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                 <span className="spinner-border text-primary" role="status" aria-hidden="true"></span>
+                 <span className="ms-2">Đang tải bản đồ...</span>
+             </div>
+          ) : mapIframeHtml ? (
             <div
               style={{
                 width: "100%",
