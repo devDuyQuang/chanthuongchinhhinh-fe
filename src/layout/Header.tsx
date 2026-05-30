@@ -119,7 +119,7 @@ function Header({ menu, settings }: HeaderProps) {
                         </span>
                       </div>
                       <div className="icon-content">
-                        <h2 className="dz-title text-primary">{data.title}</h2>
+                        <h3 className="dz-title text-primary">{data.title}</h3>
                         <p>{data.subtitle}</p>
                       </div>
                     </div>
