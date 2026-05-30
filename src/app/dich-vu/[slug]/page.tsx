@@ -58,15 +58,40 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
 
     return (
         <>
-            <main className="page-content">
+            <main className="page-content h-entry hentry">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "Article",
+                            headline: name || "Dịch vụ",
+                            image: image ? [image] : undefined,
+                            datePublished: created_at ? new Date(created_at).toISOString() : undefined,
+                            dateModified: (category as any)?.updated_at ? new Date((category as any).updated_at).toISOString() : (created_at ? new Date(created_at).toISOString() : undefined),
+                            description: description || "",
+                            author: {
+                                "@type": "Person",
+                                name: "DrDuongOrtho",
+                            }
+                        })
+                    }}
+                />
+                <span className="vcard author p-author h-card" style={{ display: 'none' }}><span className="fn">DrDuongOrtho</span></span>
                 <div className="dz-bnr-inr dz-banner-dark overlay-secondary-middle dz-bnr-inr-md" style={{ backgroundImage: `url(${image})` }}>
                     <div className="container">
                         <div className="dz-bnr-inr-entry d-table-cell">
-                            <h1 className="wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
+                            <h1 className="wow fadeInUp entry-title p-name" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
                             <div className="dz-meta">
                                 <ul className="justify-content-center" style={{ gap: '15px' }}>
-                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
-                                        <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i> {createdDate}
+                                    <li className="updated published dt-published" style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
+                                        <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i>
+                                        {created_at && (
+                                            <time className="value" dateTime={new Date(created_at).toISOString()} style={{ display: 'none' }}>
+                                                {new Date(created_at).toISOString()}
+                                            </time>
+                                        )}
+                                        {createdDate}
                                     </li>
                                     <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
                                         <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
@@ -107,6 +132,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                 </nav>
                                 {description ? (
                                     <blockquote
+                                        className="entry-summary p-summary"
                                         style={{
                                             position: 'relative',
                                             background: 'transparent',
@@ -216,7 +242,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             </>
                                         )}
                                         <div
-                                            className="content-item wow fadeInUp add-style"
+                                            className="content-item wow fadeInUp add-style entry-content e-content"
                                             data-wow-delay="0.2s"
                                             data-wow-duration="0.7s"
                                             dangerouslySetInnerHTML={{ __html: content }}

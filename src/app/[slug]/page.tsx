@@ -72,7 +72,26 @@ export default async function DirectPostDetailPage({ params }: Props) {
   const breadcrumbs = post?.breadcrumbs;
 
   return (
-    <main className="page-content">
+    <main className="page-content h-entry hentry">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.name || "Chi tiết bài viết",
+            image: imageUrl ? [imageUrl] : undefined,
+            datePublished: post.created_at ? new Date(post.created_at).toISOString() : undefined,
+            dateModified: (post as any).updated_at ? new Date((post as any).updated_at).toISOString() : (post.created_at ? new Date(post.created_at).toISOString() : undefined),
+            description: post.description || "",
+            author: {
+              "@type": "Person",
+              name: "DrDuongOrtho",
+            }
+          })
+        }}
+      />
+      <span className="vcard author p-author h-card" style={{ display: 'none' }}><span className="fn">DrDuongOrtho</span></span>
       <div
         className="dz-bnr-inr dz-banner-dark overlay-secondary-middle dz-bnr-inr-md"
         style={{ backgroundImage: `url(${imageUrl})` }}
@@ -80,7 +99,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
         <div className="container">
           <div className="dz-bnr-inr-entry d-table-cell">
             <h1
-              className="wow fadeInUp"
+              className="wow fadeInUp entry-title p-name"
               data-wow-delay="0.2s"
               data-wow-duration="0.8s"
             >
@@ -89,6 +108,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
             <div className="dz-meta">
               <ul className="justify-content-center" style={{ gap: "15px" }}>
                 <li
+                  className="updated published dt-published"
                   style={{
                     background: "#031b4e",
                     borderRadius: "30px",
@@ -109,6 +129,11 @@ export default async function DirectPostDetailPage({ params }: Props) {
                       marginRight: "8px",
                     }}
                   ></i>{" "}
+                  {post.created_at && (
+                    <time className="value" dateTime={new Date(post.created_at).toISOString()} style={{ display: 'none' }}>
+                      {new Date(post.created_at).toISOString()}
+                    </time>
+                  )}
                   {createdDate}
                 </li>
                 <li
@@ -195,6 +220,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                   <div className="dz-post-text">
                     {post.description ? (
                       <blockquote
+                        className="entry-summary p-summary"
                         style={{
                           position: "relative",
                           background: "transparent",
@@ -316,7 +342,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                           </>
                         )}
                         <div
-                          className="dz-post-content"
+                          className="dz-post-content entry-content e-content"
                           dangerouslySetInnerHTML={{
                             __html: post.content,
                           }}
