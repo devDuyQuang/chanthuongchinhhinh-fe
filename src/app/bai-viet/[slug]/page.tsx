@@ -108,7 +108,6 @@ export default async function BaiVietCategoryPage({
                           <h3>
                             <Link
                               href={`/bai-viet/${item?.slug}`}
-                              scroll={false}
                             >
                               {item?.name}
                             </Link>
@@ -131,7 +130,6 @@ export default async function BaiVietCategoryPage({
 
                           <Link
                             href={`/bai-viet/${item?.slug}`}
-                            scroll={false}
                             className="btn icon-link-hover-end btn-primary radius-sm"
                           >
                             Đọc Thêm <i className="feather icon-arrow-right" />
@@ -198,7 +196,6 @@ export default async function BaiVietCategoryPage({
                           >
                             <Link
                               href={`/bai-viet/${parent.slug}`}
-                              scroll={false}
                               className={isParentActive ? "active" : ""}
                               style={
                                 isParentActive
@@ -229,7 +226,6 @@ export default async function BaiVietCategoryPage({
                                       >
                                         <Link
                                           href={`/bai-viet/${child.slug}`}
-                                          scroll={false}
                                           style={
                                             isChildActive
                                               ? {
@@ -290,7 +286,6 @@ export default async function BaiVietCategoryPage({
                                 <li className="post-date">
                                   <Link
                                     href={`/bai-viet/${item.slug}`}
-                                    scroll={false}
                                   >
                                     {item.created_at
                                       ? new Date(
@@ -309,7 +304,6 @@ export default async function BaiVietCategoryPage({
                             <h6 className="title">
                               <Link
                                 href={`/bai-viet/${item.slug}`}
-                                scroll={false}
                               >
                                 {item.name}
                               </Link>

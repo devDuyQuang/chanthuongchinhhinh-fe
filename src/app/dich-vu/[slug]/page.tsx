@@ -245,7 +245,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                             <li className="post-comments">100 lượt xem</li>
                                                         </ul>
                                                     </div>
-                                                    <h3><Link href={"/" + item?.slug} scroll={false}>{item?.name}</Link></h3>
+                                                    <h3><Link href={"/" + item?.slug}>{item?.name}</Link></h3>
                                                     <p style={{
                                                         display: '-webkit-box',
                                                         WebkitLineClamp: 2,
@@ -254,7 +254,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                         margin: '8px 0 12px',
                                                         fontSize: '16px',
                                                     }}>{item?.description}</p>
-                                                    <Link href={"/" + item?.slug} scroll={false} className="btn icon-link-hover-end btn-primary radius-sm">
+                                                    <Link href={"/" + item?.slug} className="btn icon-link-hover-end btn-primary radius-sm">
                                                         Đọc Thêm <i className="feather icon-arrow-right" />
                                                     </Link>
                                                 </div>
@@ -283,7 +283,6 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                 <li key={i} className={isParentActive || hasActiveChild ? 'active' : ''}>
                                                     <Link
                                                         href={`/dich-vu/${parent.slug}`}
-                                                        scroll={false}
                                                         className={isParentActive ? 'active' : ''}
                                                         style={isParentActive ? {
                                                             backgroundColor: 'var(--bs-primary)',
@@ -301,7 +300,6 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                                     <li key={j} className={isChildActive ? 'active' : ''}>
                                                                         <Link
                                                                             href={`/dich-vu/${child.slug}`}
-                                                                            scroll={false}
                                                                             className={isChildActive ? 'active' : ''}
                                                                             style={isChildActive ? {
                                                                                 color: 'var(--bs-primary)',
@@ -335,7 +333,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                 <Link href="mailto:odrduong@gmail.com">odrduong@gmail.com</Link>
                                             </div>
                                             <div className="link-btn">
-                                                <Link href="/lien-he" scroll={false} className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow">
+                                                <Link href="/lien-he" className="btn btn-lg btn-icon btn-white hover-secondary btn-shadow">
                                                     Liên hệ ngay <span className="right-icon"><i className="feather icon-arrow-right" /></span>
                                                 </Link>
                                             </div>

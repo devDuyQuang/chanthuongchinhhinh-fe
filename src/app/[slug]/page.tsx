@@ -336,7 +336,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                           {post?.categories && post.categories.length > 0 && (
                             <Link
                               href={`/dich-vu/${post.categories[0].slug}`}
-                              scroll={false}
                               className="text-primary"
                               style={{ fontWeight: 600, fontSize: "15px" }}
                             >
@@ -380,7 +379,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                                   </ul>
                                 </div>
                                 <h3>
-                                  <Link href={"/" + item?.slug} scroll={false}>
+                                  <Link href={"/" + item?.slug}>
                                     {item?.name}
                                   </Link>
                                 </h3>
@@ -400,7 +399,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                                 )}
                                 <Link
                                   href={"/" + item?.slug}
-                                  scroll={false}
                                   className="btn icon-link-hover-end btn-primary radius-sm"
                                 >
                                   Đọc Thêm{" "}

@@ -5,6 +5,8 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
+Disallow: /team/
+Disallow: /team-detail/
 
 # Sitemap
 # Sitemap: https://drduongortho.com/sitemap.xml
