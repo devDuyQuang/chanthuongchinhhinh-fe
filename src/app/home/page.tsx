@@ -85,7 +85,26 @@ async function HomePage() {
 
   return (
     <>
-      <main className="page-content">
+      <main className="page-content h-entry hentry e-content">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalOrganization",
+              name: "DrDuongOrtho",
+              url: "https://chanthuongchinhhinh.com",
+              telephone: site?.phone_description || "038 995 1795",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: site?.address_description || ""
+              }
+            })
+          }}
+        />
+        <span className="vcard author p-author h-card" style={{ display: 'none' }}><span className="fn">DrDuongOrtho</span></span>
+        <h1 className="entry-title p-name" style={{ display: 'none' }}>DrDuongOrtho - Chấn thương chỉnh hình</h1>
+        <div className="updated published dt-published" style={{ display: 'none' }}>{new Date().toISOString()}</div>
         <div
           className="hero-banner style-1"
           style={{
