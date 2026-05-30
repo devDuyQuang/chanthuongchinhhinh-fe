@@ -103,7 +103,6 @@ async function HomePage() {
           }}
         />
         <span className="vcard author p-author h-card" style={{ display: 'none' }}><span className="fn">DrDuongOrtho</span></span>
-        <h1 className="entry-title p-name" style={{ display: 'none' }}>DrDuongOrtho - Chấn thương chỉnh hình</h1>
         <div className="updated published dt-published" style={{ display: 'none' }}>{new Date().toISOString()}</div>
         <div
           className="hero-banner style-1"
@@ -122,7 +121,7 @@ async function HomePage() {
                 <div className="col-lg-6 align-self-center">
                   <div className="hero-content">
                     <h1
-                      className="title wow fadeInUp fw-bold"
+                      className="title wow fadeInUp fw-bold entry-title p-name"
                       data-wow-delay="0.2s"
                       data-wow-duration="0.8s"
                     >
