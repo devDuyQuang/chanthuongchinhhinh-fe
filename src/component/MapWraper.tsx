@@ -69,7 +69,8 @@ function MapWraper({ data }: MapWraperProps) {
     ?.replace(
       /style="[^"]*"/i,
       'style="border:0;width:100%;height:650px;display:block;"',
-    );
+    )
+    ?.replace(/<iframe /i, '<iframe title="Google Maps" ');
   return (
     <section className="content-wrapper style-4">
       <div className="container">
@@ -88,6 +89,7 @@ function MapWraper({ data }: MapWraperProps) {
             />
           ) : (
             <iframe
+              title="Google Maps"
               src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d28891.193971348785!2d75.8546432!3d25.1559936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin"
               width="100%"
               height="650"
