@@ -140,6 +140,7 @@ function BlogDetail() {
                             <Link
                               href="https://www.facebook.com/dexignzone"
                               target="_blank"
+                              rel="nofollow"
                             >
                               <i className="fa-brands fa-facebook-f" />
                             </Link>
@@ -148,6 +149,7 @@ function BlogDetail() {
                             <Link
                               href="https://www.instagram.com/dexignzone"
                               target="_blank"
+                              rel="nofollow"
                             >
                               <i className="fa-brands fa-instagram" />
                             </Link>
@@ -156,6 +158,7 @@ function BlogDetail() {
                             <Link
                               href="https://x.com/dexignzone"
                               target="_blank"
+                              rel="nofollow"
                             >
                               <i className="fa-brands fa-x-twitter" />
                             </Link>
@@ -164,6 +167,7 @@ function BlogDetail() {
                             <Link
                               href="https://www.linkedin.com/showcase/dexignzone"
                               target="_blank"
+                              rel="nofollow"
                             >
                               <i className="fa-brands fa-linkedin" />
                             </Link>

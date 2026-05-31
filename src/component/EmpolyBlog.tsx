@@ -146,22 +146,22 @@ function EmpolyBlog({ data }: EmpolyBlogProps) {
 
                         <ul className="dz-social">
                             <li>
-                                <Link href={item.socials.linkedin || "#"} target="_blank">
+                                <Link href={item.socials.linkedin || "#"} target="_blank" rel="nofollow">
                                     <i className="fa-brands fa-linkedin" />
                                 </Link>
                             </li>
                             <li>
-                                <Link href={item.socials.facebook || "#"} target="_blank">
+                                <Link href={item.socials.facebook || "#"} target="_blank" rel="nofollow">
                                     <i className="fa-brands fa-facebook-f" />
                                 </Link>
                             </li>
                             <li>
-                                <Link href={item.socials.twitter || "#"} target="_blank">
+                                <Link href={item.socials.twitter || "#"} target="_blank" rel="nofollow">
                                     <i className="fa-brands fa-x-twitter" />
                                 </Link>
                             </li>
                             <li>
-                                <Link href={item.socials.youtube || "#"} target="_blank">
+                                <Link href={item.socials.youtube || "#"} target="_blank" rel="nofollow">
                                     <i className="fa-brands fa-youtube" />
                                 </Link>
                             </li>

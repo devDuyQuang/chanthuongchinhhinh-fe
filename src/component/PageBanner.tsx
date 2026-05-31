@@ -58,19 +58,19 @@ function PageBanner({ title, bnrimage }: Props) {
         </div>
         {/* <span className="text-vertical">24/7 EMERGENCY SERVICE</span> */}
         {/* <ul className="dz-social">
-                    <li><Link href="https://www.instagram.com/dexignzone" target="_blank">
+                    <li><Link href="https://www.instagram.com/dexignzone" target="_blank" rel="nofollow">
                         <i className="fa-brands fa-instagram" />
                     </Link>
                     </li>
-                    <li><Link href="https://www.facebook.com/dexignzone" target="_blank">
+                    <li><Link href="https://www.facebook.com/dexignzone" target="_blank" rel="nofollow">
                         <i className="fa-brands fa-facebook-f" />
                     </Link>
                     </li>
-                    <li><Link href="https://x.com/dexignzone" target="_blank">
+                    <li><Link href="https://x.com/dexignzone" target="_blank" rel="nofollow">
                         <i className="fa-brands fa-x-twitter" />
                     </Link>
                     </li>
-                    <li><Link href="https://www.youtube.com/@dexignzone" target="_blank">
+                    <li><Link href="https://www.youtube.com/@dexignzone" target="_blank" rel="nofollow">
                         <i className="fa-brands fa-youtube" />
                     </Link>
                     </li>

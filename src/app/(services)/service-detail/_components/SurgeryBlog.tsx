@@ -27,11 +27,11 @@
 //                             </Link>
 //                         </div>
 //                         <ul className="dz-social">
-//                             <li><Link href="https://www.linkedin.com/showcase/dexignzone" target="_blank"> <i className="fa-brands fa-linkedin" /></Link></li>
-//                             <li><Link href="https://www.instagram.com/dexignzone" target="_blank"> <i className="fa-brands fa-instagram" /></Link></li>
-//                             <li><Link href="https://www.facebook.com/dexignzone" target="_blank"> <i className="fa-brands fa-facebook-f" /></Link></li>
-//                             <li><Link href="https://x.com/dexignzone" target="_blank"> <i className="fa-brands fa-x-twitter" /></Link></li>
-//                             <li><Link href="https://www.youtube.com/@dexignzone" target="_blank"> <i className="fa-brands fa-youtube" /></Link></li>
+//                             <li><Link href="https://www.linkedin.com/showcase/dexignzone" target="_blank" rel="nofollow"> <i className="fa-brands fa-linkedin" /></Link></li>
+//                             <li><Link href="https://www.instagram.com/dexignzone" target="_blank" rel="nofollow"> <i className="fa-brands fa-instagram" /></Link></li>
+//                             <li><Link href="https://www.facebook.com/dexignzone" target="_blank" rel="nofollow"> <i className="fa-brands fa-facebook-f" /></Link></li>
+//                             <li><Link href="https://x.com/dexignzone" target="_blank" rel="nofollow"> <i className="fa-brands fa-x-twitter" /></Link></li>
+//                             <li><Link href="https://www.youtube.com/@dexignzone" target="_blank" rel="nofollow"> <i className="fa-brands fa-youtube" /></Link></li>
 //                         </ul>
 //                     </div>
 //                 </div>
@@ -121,28 +121,28 @@ const SurgeryBlog = ({ doctors = [] }: SurgeryBlogProps) => {
                         <ul className="dz-social">
                             {item.socials?.linkedin ? (
                                 <li>
-                                    <Link href={item.socials.linkedin} target="_blank">
+                                    <Link href={item.socials.linkedin} target="_blank" rel="nofollow">
                                         <i className="fa-brands fa-linkedin" />
                                     </Link>
                                 </li>
                             ) : null}
                             {item.socials?.facebook ? (
                                 <li>
-                                    <Link href={item.socials.facebook} target="_blank">
+                                    <Link href={item.socials.facebook} target="_blank" rel="nofollow">
                                         <i className="fa-brands fa-facebook-f" />
                                     </Link>
                                 </li>
                             ) : null}
                             {item.socials?.twitter ? (
                                 <li>
-                                    <Link href={item.socials.twitter} target="_blank">
+                                    <Link href={item.socials.twitter} target="_blank" rel="nofollow">
                                         <i className="fa-brands fa-x-twitter" />
                                     </Link>
                                 </li>
                             ) : null}
                             {item.socials?.youtube ? (
                                 <li>
-                                    <Link href={item.socials.youtube} target="_blank">
+                                    <Link href={item.socials.youtube} target="_blank" rel="nofollow">
                                         <i className="fa-brands fa-youtube" />
                                     </Link>
                                 </li>

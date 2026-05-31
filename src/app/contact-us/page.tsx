@@ -159,6 +159,7 @@ async function Contactus() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                rel="nofollow"
               />
             ) : (
               <iframe
@@ -167,6 +168,7 @@ async function Contactus() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                rel="nofollow"
               />
             )}
 
@@ -187,6 +189,7 @@ async function Contactus() {
                     href={googleMapHref}
                     target="_blank"
                     className="icon-link-hover-end"
+                    rel="nofollow"
                   >
                     Mở Google Map
                     <i className="feather icon-arrow-right" />

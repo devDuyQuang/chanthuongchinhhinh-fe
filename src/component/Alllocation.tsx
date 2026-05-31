@@ -17,7 +17,7 @@
 //                                     <div className="dz-media">                                                                                                                   
 //                                         <iframe 
 //                                         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d28891.193971348785!2d75.8546432!3d25.1559936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1719221707984!5m2!1sen!2sin"                         
-//                                             style={{ border: 0 , height: '100%', width: '100%'}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+//                                             style={{ border: 0 , height: '100%', width: '100%'}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" rel="nofollow"
 //                                         />  
 //                                     </div>
 //                                     <div className="dz-info">
@@ -33,7 +33,7 @@
 //                                             </div>
 //                                         </div>
 //                                         <div className="dz-footer">
-//                                             <Link href="https://www.google.com/maps/" target="_blank" className="icon-link-hover-end">Get Directions <i className="feather icon-arrow-up-right" /></Link>
+//                                             <Link href="https://www.google.com/maps/" target="_blank" className="icon-link-hover-end" rel="nofollow">Get Directions <i className="feather icon-arrow-up-right" /></Link>
 //                                         </div>
 //                                     </div>
 //                                 </div>
@@ -111,6 +111,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                     allowFullScreen
                                                     loading="lazy"
                                                     referrerPolicy="no-referrer-when-downgrade"
+                                                    rel="nofollow"
                                                 />
                                             )}
                                         </div>
@@ -142,6 +143,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                     href={item.map_link || "https://www.google.com/maps/"}
                                                     target="_blank"
                                                     className="icon-link-hover-end"
+                                                    rel="nofollow"
                                                 >
                                                     Get Directions <i className="feather icon-arrow-up-right" />
                                                 </Link>
@@ -165,6 +167,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                 allowFullScreen
                                                 loading="lazy"
                                                 referrerPolicy="no-referrer-when-downgrade"
+                                                rel="nofollow"
                                             />
                                         </div>
                                         <div className="dz-info">
@@ -184,6 +187,7 @@ function Alllocation({ data }: AlllocationProps) {
                                                     href="https://www.google.com/maps/"
                                                     target="_blank"
                                                     className="icon-link-hover-end"
+                                                    rel="nofollow"
                                                 >
                                                     Get Directions <i className="feather icon-arrow-up-right" />
                                                 </Link>

@@ -51,10 +51,10 @@ function UnderConstruction() {
                                 </form>
                                 <div className="dz-social-icon style-4">
                                     <ul>
-                                        <li><Link href="https://www.facebook.com/dexignzone" target="_blank"><i className="fa-brands fa-facebook-f" /></Link></li>
-                                        <li><Link href="https://x.com/dexignzone" target="_blank"><i className="fa-brands fa-twitter" /></Link></li>
-                                        <li><Link href="https://www.linkedin.com/showcase/dexignzone" target="_blank"><i className="fa-brands fa-linkedin" /></Link></li>
-                                        <li><Link href="https://www.instagram.com/dexignzone" target="_blank"><i className="fa-brands fa-instagram" /></Link></li>
+                                        <li><Link href="https://www.facebook.com/dexignzone" target="_blank" rel="nofollow"><i className="fa-brands fa-facebook-f" /></Link></li>
+                                        <li><Link href="https://x.com/dexignzone" target="_blank" rel="nofollow"><i className="fa-brands fa-twitter" /></Link></li>
+                                        <li><Link href="https://www.linkedin.com/showcase/dexignzone" target="_blank" rel="nofollow"><i className="fa-brands fa-linkedin" /></Link></li>
+                                        <li><Link href="https://www.instagram.com/dexignzone" target="_blank" rel="nofollow"><i className="fa-brands fa-instagram" /></Link></li>
                                     </ul>
                                 </div>
                             </div>

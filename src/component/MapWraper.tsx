@@ -133,6 +133,7 @@ function MapWraper({ data }: MapWraperProps) {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              rel="nofollow"
             />
           )}
         </div>

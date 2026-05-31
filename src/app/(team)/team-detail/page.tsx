@@ -31,6 +31,7 @@ function TeamDetail() {
                           <Link
                             href="https://www.linkedin.com/showcase/dexignzone"
                             target="_blank"
+                            rel="nofollow"
                           >
                             <i className="fa-brands fa-linkedin" />
                           </Link>
@@ -39,6 +40,7 @@ function TeamDetail() {
                           <Link
                             href="https://www.instagram.com/dexignzone"
                             target="_blank"
+                            rel="nofollow"
                           >
                             <i className="fa-brands fa-instagram" />
                           </Link>
@@ -47,12 +49,13 @@ function TeamDetail() {
                           <Link
                             href="https://www.facebook.com/dexignzone"
                             target="_blank"
+                            rel="nofollow"
                           >
                             <i className="fa-brands fa-facebook-f" />
                           </Link>
                         </li>
                         <li>
-                          <Link href="https://x.com/dexignzone" target="_blank">
+                          <Link href="https://x.com/dexignzone" target="_blank" rel="nofollow">
                             <i className="fa-brands fa-x-twitter" />
                           </Link>
                         </li>
@@ -60,6 +63,7 @@ function TeamDetail() {
                           <Link
                             href="https://www.youtube.com/@dexignzone"
                             target="_blank"
+                            rel="nofollow"
                           >
                             <i className="fa-brands fa-youtube" />
                           </Link>
