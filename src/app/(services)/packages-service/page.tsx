@@ -186,9 +186,9 @@ async function Services() {
 
   const faq = rawFaq
     ? {
-        ...rawFaq,
-        image: normalizeImageUrl(rawFaq.image),
-      }
+      ...rawFaq,
+      image: normalizeImageUrl(rawFaq.image),
+    }
     : undefined;
   return (
     <>

@@ -195,266 +195,540 @@ function ServicePackage({ data }: ServicePackageProps) {
           >
             <div className="modal-content shadow-lg border-0 bg-transparent">
               <style>{`
-                .treatment-section {
-                    padding: 40px;
-                    background: linear-gradient(135deg, #f4fbff 0%, #ffffff 55%, #e8f9fd 100%);
-                    border-radius: 12px;
-                    overflow: hidden;
-                    text-align: left;
+                .treatment-modal-container {
+                  padding: 35px;
+                  background: #ffffff;
+                  border-radius: 12px;
+                  overflow-y: auto;
+                  max-height: 90vh;
                 }
-                .treatment-section .section-head {
-                    max-width: 800px;
-                    margin: 0 auto 50px auto;
-                    text-align: center;
+                .treatment-table {
+                  border-collapse: collapse;
+                  width: 100%;
+                  min-width: 1000px;
                 }
-                .treatment-section .label {
-                    display: inline-block;
-                    padding: 6px 16px;
-                    border-radius: 20px;
-                    background: rgba(3, 27, 78, 0.05);
-                    color: #031b4e;
-                    font-weight: 700;
-                    font-size: 13px;
-                    letter-spacing: 1.5px;
-                    text-transform: uppercase;
-                    margin-bottom: 16px;
+                .treatment-table th {
+                  padding: 0;
+                  border: none;
+                  border-bottom: 1px solid #dee2e6;
+                  vertical-align: bottom;
+                  height: 1px;
                 }
-                .treatment-section .section-head h1 {
-                    font-size: 36px;
-                    color: #031b4e;
-                    margin: 0 0 20px;
-                    font-weight: 800;
-                    line-height: 1.3;
-                    text-transform: uppercase;
+                .th-inner {
+                  background-color: #031b4e;
+                  color: white;
+                  font-weight: 700;
+                  text-align: center;
+                  padding: 15px 5px;
+                  font-size: 14px;
+                  border-radius: 8px 8px 0 0;
+                  margin: 0 1px;
+                  height: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  line-height: 1.3;
+                  white-space: nowrap;
                 }
-                .treatment-section .section-head p {
-                    font-size: 16px;
-                    line-height: 1.6;
-                    color: #555;
-                    margin: 0;
+                .treatment-table td {
+                  border: 1px solid #dee2e6;
+                  padding: 15px;
+                  vertical-align: top;
                 }
-                .treatment-section .timeline {
-                    position: relative;
-                    display: flex;
-                    flex-wrap: wrap;
+                .phase-cell {
+                  text-align: center;
                 }
-                .treatment-section .step {
-                    width: 33.333%;
-                    position: relative;
-                    text-align: center;
-                    padding: 20px 30px;
-                    cursor: pointer;
+                .phase-number {
+                  font-size: 48px;
+                  font-weight: 800;
+                  color: #031b4e;
+                  line-height: 1;
+                  margin-bottom: 5px;
                 }
-                .treatment-section .step-inner {
-                    background: #fff;
-                    border: 1px solid rgba(0,0,0,0.08);
-                    border-radius: 50%;
-                    padding: 30px;
-                    width: 100%;
-                    max-width: 340px;
-                    aspect-ratio: 1 / 1;
-                    margin: 0 auto;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-                    position: relative;
-                    z-index: 2;
+                .phase-title {
+                  font-size: 14px;
+                  font-weight: 700;
+                  color: #333;
+                  text-transform: uppercase;
                 }
-                .treatment-section .step:hover .step-inner {
-                    transform: scale(1.08);
-                    border-color: currentColor;
-                    box-shadow: 0 15px 45px rgba(0,0,0,0.1);
-                    z-index: 10;
+                .list-unstyled-custom {
+                  padding-left: 0;
+                  margin-bottom: 0;
                 }
-                .treatment-section .step::before {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: 100%;
-                    transform: translate(-50%, -50%);
-                    width: 70px;
-                    height: 30px;
-                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23031b4e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E");
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    z-index: 3;
-                    opacity: 0.4;
+                .list-unstyled-custom li {
+                  position: relative;
+                  padding-left: 15px;
+                  margin-bottom: 8px;
+                  font-size: 14px;
+                  color: #444;
+                  line-height: 1.4;
                 }
-                .treatment-section .step:nth-child(3n)::before {
-                    display: none;
+                .list-unstyled-custom li::before {
+                  content: '•';
+                  position: absolute;
+                  left: 0;
+                  color: #031b4e;
+                  font-weight: bold;
+                  font-size: 16px;
                 }
-                .treatment-section .step-number {
-                    font-size: 40px;
-                    font-weight: 900;
-                    line-height: 1;
-                    margin-bottom: 5px;
-                    opacity: 0.2;
+                .sub-list {
+                  padding-left: 10px;
+                  margin-top: 5px;
+                  list-style-type: none;
                 }
-                .treatment-section .step.active .step-inner {
-                    border-color: currentColor;
-                    background: #fff;
+                .sub-list li {
+                  padding-left: 12px;
                 }
-                .treatment-section .step.active .step-number {
-                    opacity: 0.8;
+                .sub-list li::before {
+                  content: '-';
+                  position: absolute;
+                  left: 0;
+                  color: #444;
+                  font-weight: normal;
+                  font-size: 14px;
                 }
-                .treatment-section .step-content h3 {
-                    margin: 0 0 5px;
-                    color: #031b4e;
-                    font-size: 15px;
-                    font-weight: 800;
-                    line-height: 1.3;
+                .time-cell {
+                  text-align: center;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100%;
+                  min-height: 120px;
                 }
-                .treatment-section .step-content p {
-                    margin: 0;
-                    color: #555;
-                    line-height: 1.3;
-                    font-size: 12.5px;
+                .calendar-icon {
+                  font-size: 32px;
+                  color: #031b4e;
+                  margin-bottom: 12px;
                 }
-
-                @media (max-width: 991px) {
-                    .treatment-section .step {
-                        width: 50%;
-                    }
-                    .treatment-section .step::before {
-                        display: block;
-                    }
-                    .treatment-section .step:nth-child(2n)::before {
-                        display: none;
-                    }
-                    .treatment-section .step:nth-child(3n)::before {
-                        display: block;
-                    }
+                .time-text {
+                  font-weight: 700;
+                  color: #333;
+                  font-size: 14px;
+                  white-space: pre-line;
                 }
-                @media (max-width: 768px) {
-                    .treatment-section {
-                        padding: 20px;
-                    }
-                    .treatment-section .section-head h1 {
-                        font-size: 30px;
-                    }
-
+                .image-placeholder-container {
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 10px;
+                  justify-content: center;
                 }
-                @media (max-width: 575px) {
-                    .treatment-section .step {
-                        width: 100%;
-                    }
-                    .treatment-section .step::before {
-                        display: none;
-                    }
+                .img-placeholder {
+                  background: #f8f9fa;
+                  border: 1px dashed #adb5bd;
+                  border-radius: 6px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 12px;
+                  color: #6c757d;
+                  text-align: center;
+                  padding: 8px;
+                  font-weight: 500;
+                  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                }
+                .note-section {
+                  background-color: #f4f8fc;
+                  border-radius: 10px;
+                  padding: 20px;
+                  display: flex;
+                  align-items: center;
+                  gap: 20px;
+                  margin-top: 25px;
+                  border: 1px solid #e1ebf4;
+                }
+                .note-label {
+                  background-color: #031b4e;
+                  color: white;
+                  padding: 10px 25px;
+                  border-radius: 6px;
+                  font-weight: 700;
+                  font-size: 16px;
+                  letter-spacing: 1px;
+                }
+                .note-list {
+                  flex: 1;
+                  margin-bottom: 0;
+                }
+                .note-list li {
+                  margin-bottom: 8px;
+                  color: #333;
+                  font-size: 14px;
+                  font-weight: 500;
+                  display: flex;
+                  align-items: flex-start;
+                }
+                .note-list li i {
+                  color: #031b4e;
+                  margin-right: 10px;
+                  font-size: 16px;
+                  margin-top: 3px;
+                }
+                .note-list li:last-child {
+                  margin-bottom: 0;
+                }
+                .note-icons {
+                  display: flex;
+                  gap: 20px;
+                  text-align: center;
+                }
+                .note-icon-item {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  width: 80px;
+                }
+                .note-icon-circle {
+                  width: 45px;
+                  height: 45px;
+                  border-radius: 50%;
+                  border: 2px solid #031b4e;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #031b4e;
+                  font-size: 20px;
+                  margin-bottom: 8px;
+                  background: white;
+                }
+                .note-icon-text {
+                  font-size: 12px;
+                  line-height: 1.3;
+                  color: #333;
+                  font-weight: 500;
+                }
+                .phase-icon {
+                  font-size: 28px;
+                  color: #031b4e;
+                  margin-top: 15px;
+                }
+                
+                /* Custom Scrollbar for the modal */
+                .treatment-modal-container::-webkit-scrollbar {
+                  width: 8px;
+                }
+                .treatment-modal-container::-webkit-scrollbar-track {
+                  background: #f1f1f1; 
+                  border-radius: 10px;
+                }
+                .treatment-modal-container::-webkit-scrollbar-thumb {
+                  background: #c1c1c1; 
+                  border-radius: 10px;
+                }
+                .treatment-modal-container::-webkit-scrollbar-thumb:hover {
+                  background: #a8a8a8; 
                 }
               `}</style>
-              <div className="treatment-section position-relative">
+              <div className="treatment-modal-container position-relative">
                 <button
                   onClick={() => setShowModal(false)}
                   className="btn-close position-absolute"
-                  style={{ top: '20px', right: '20px', zIndex: 10 }}
+                  style={{ top: '15px', right: '15px', zIndex: 10 }}
                   aria-label="Close"
                 ></button>
-                <div className="container-fluid px-0">
-                  {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
-                    <>
-                      <div className="row mb-4 align-items-center">
-                        <div className="col-lg-12">
-                          <div className="section-head text-start mb-0">
-                            <span className="label">Liệu trình điều trị</span>
-                            <p className="mb-0">
-                              Quy trình tháo dụng cụ kết hợp xương được thực hiện an toàn, giúp người bệnh giảm đau,
-                              hạn chế biến chứng và phục hồi vận động hiệu quả sau khi xương đã liền vững chắc.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
 
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <div className="timeline">
-                            {selectedPackage.treatment_steps.map((step: any, index: number) => {
-                              const colors = ['#e84c3d', '#e67e22', '#d35400', '#f39c12', '#2ecc71', '#3498db'];
-                              const color = colors[index % colors.length];
-                              return (
-                                <div
-                                  key={index}
-                                  className={`step ${activeStep === index ? 'active' : ''}`}
-                                  onMouseEnter={() => setActiveStep(index)}
-                                  onClick={() => setActiveStep(index)}
-                                >
-                                  <div className="step-inner">
-                                    <div className="step-number" style={{ color: color }}>{Number(step.step_number || step.num || index + 1)}</div>
-                                    <div className="step-content">
-                                      <h3>{step.title?.replace(/&amp;/g, '&')}</h3>
-                                      {(() => {
-                                        const desc = step.description || step.desc || "";
-                                        if (desc.includes('\n')) {
-                                          const items = desc.split('\n').filter((item: string) => item.trim() !== "");
-                                          return (
-                                            <ul style={{ textAlign: "left", listStyle: "none", padding: '0 0 0 10px', margin: 0, color: "#555", fontSize: "12.5px", lineHeight: "1.3" }}>
-                                              {items.map((item: string, i: number) => (
-                                                <li key={i} style={{ marginBottom: "5px", display: "flex", alignItems: "flex-start" }}>
-                                                  <span style={{ color: color, marginRight: "6px", fontSize: "10px", marginTop: "4px" }}>◆</span>
-                                                  <span>{item.replace(/&amp;/g, '&')}</span>
-                                                </li>
-                                              ))}
-                                            </ul>
-                                          );
-                                        }
-                                        return <p>{desc.replace(/&amp;/g, '&')}</p>;
-                                      })()}
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="row">
-                      <div className="col-12">
-                        <div>
-                          <Image
-                            src={selectedPackage?.image || "/assets/images/services/default-plan.jpg"}
-                            alt={selectedPackage?.name || "Dịch vụ"}
-                            width={1200}
-                            height={800}
-                            unoptimized={true}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="d-flex justify-content-center gap-3 mt-4">
-                    <button
-                      className="btn py-2 px-4 rounded-pill fw-bold text-white"
-                      style={{
-                        fontSize: '14px',
-                        textTransform: 'uppercase',
-                        background: '#031b4e',
-                        border: 'none',
-                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.3)'
-                      }}
-                    >
-                      Đăng ký gói khám
-                    </button>
-                    <Link
-                      href="tel:0389951795"
-                      className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
-                      style={{
-                        fontSize: '14px',
-                        textTransform: 'uppercase',
-                        background: '#fff',
-                        color: '#031b4e',
-                        border: '2px solid #031b4e',
-                        boxShadow: '0 8px 15px rgba(3, 27, 78, 0.1)'
-                      }}
-                    >
-                      Liên hệ trực tiếp bác sĩ
-                    </Link>
+                <div className="d-flex justify-content-between align-items-center mb-4 pt-2 px-2">
+                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative' }}>
+                    {/* Gắn link ảnh thực tế vào src bên dưới (VD: src="/assets/images/xuong-chau.png") */}
+                    {/* <Image src="" alt="Khớp háng" fill style={{ objectFit: 'contain' }} /> */}
+                    <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
+                    <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh Khớp Háng<br />(Thay link src)</span>
                   </div>
+
+                  <div className="text-center px-3" style={{ flex: 1 }}>
+                    <h2 className="fw-bold text-uppercase" style={{ color: '#031b4e', fontSize: '30px', letterSpacing: '1px', marginBottom: '8px' }}>LIỆU TRÌNH KẾT HỢP XƯƠNG CHI DƯỚI</h2>
+                    <p className="fst-italic text-muted mb-0" style={{ fontSize: '15px' }}>(Áp dụng cho gãy xương đùi, xương chày - mác, xương cổ chân, xương bánh chè, ...)</p>
+                  </div>
+
+                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative' }}>
+                    {/* Gắn link ảnh thực tế vào src bên dưới (VD: src="/assets/images/xuong-ban-chan.png") */}
+                    {/* <Image src="" alt="Bàn chân" fill style={{ objectFit: 'contain' }} /> */}
+                    <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
+                    <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh Bàn Chân<br />(Thay link src)</span>
+                  </div>
+                </div>
+
+                <div className="table-responsive pb-3">
+                  <table className="treatment-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: '11%' }}><div className="th-inner">GIAI ĐOẠN</div></th>
+                        <th style={{ width: '19%' }}><div className="th-inner">MỤC TIÊU</div></th>
+                        <th style={{ width: '28%' }}><div className="th-inner">CAN THIỆP CHÍNH</div></th>
+                        <th style={{ width: '27%' }}><div className="th-inner">HÌNH ẢNH MINH HỌA</div></th>
+                        <th style={{ width: '15%' }}><div className="th-inner">THỜI GIAN DỰ KIẾN</div></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {/* ROW 1 */}
+                      <tr>
+                        <td className="phase-cell">
+                          <div className="phase-number">1</div>
+                          <div className="phase-title">TRƯỚC MỔ</div>
+                          <div className="phase-icon"><i className="feather icon-clipboard"></i></div>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Đánh giá tổn thương</li>
+                            <li>Lập kế hoạch điều trị</li>
+                            <li>Tối ưu tình trạng người bệnh</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Khám lâm sàng</li>
+                            <li>X-quang, CT (nếu cần)</li>
+                            <li>Xét nghiệm tiền phẫu</li>
+                            <li>Tư vấn và giải thích phương pháp phẫu thuật</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div className="image-placeholder-container">
+                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 1</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 2</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 3</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="time-cell">
+                            <i className="feather icon-calendar calendar-icon"></i>
+                            <div className="time-text">1 - 3 ngày</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* ROW 2 */}
+                      <tr>
+                        <td className="phase-cell">
+                          <div className="phase-number">2</div>
+                          <div className="phase-title">PHẪU THUẬT</div>
+                          <div className="phase-icon"><i className="feather icon-users"></i></div>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Nắn chỉnh xương gãy</li>
+                            <li>Cố định vững chắc</li>
+                            <li>Tạo điều kiện liền xương tốt nhất</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Gây tê/gây mê</li>
+                            <li>Mổ nắn xương</li>
+                            <li>Kết hợp xương bằng:
+                              <ul className="sub-list">
+                                <li>Nẹp vít</li>
+                                <li>Đinh nội tủy (xương đùi, chày)</li>
+                                <li>Vít xốp, nẹp khóa, dây cerclage (tùy vị trí)</li>
+                              </ul>
+                            </li>
+                            <li>Kiểm tra X-quang sau mổ</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div className="image-placeholder-container">
+                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Nẹp vít<br />xương đùi</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Đinh nội tủy<br />xương đùi</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Nẹp khóa<br />xương chày</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Vít xốp<br />xương cổ chân</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="time-cell">
+                            <i className="feather icon-calendar calendar-icon"></i>
+                            <div className="time-text">1 ngày</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* ROW 3 */}
+                      <tr>
+                        <td className="phase-cell">
+                          <div className="phase-number">3</div>
+                          <div className="phase-title">SAU MỔ SỚM<br /><span style={{ fontSize: '12px' }}>(0 - 2 TUẦN)</span></div>
+                          <div className="phase-icon"><i className="feather icon-activity"></i></div>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Giảm đau, chống phù nề</li>
+                            <li>Bảo vệ vết mổ</li>
+                            <li>Duy trì vận động khớp không cố định</li>
+                            <li>Phòng biến chứng</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Giảm đau, kháng sinh dự phòng</li>
+                            <li>Thay băng, chăm sóc vết mổ</li>
+                            <li>Tập vận động nhẹ:
+                              <ul className="sub-list">
+                                <li>Co cơ tĩnh (đùi, cẳng chân)</li>
+                                <li>Cử động khớp không đau</li>
+                              </ul>
+                            </li>
+                            <li>Hướng dẫn mang tất ép, kê cao chi</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div className="image-placeholder-container">
+                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Co cơ tĩnh<br />đùi</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Cử động cổ chân<br />lên xuống</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Cử động gối<br />(0-90° tùy chỉ định)</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="time-cell">
+                            <i className="feather icon-calendar calendar-icon"></i>
+                            <div className="time-text">0 - 2 tuần</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* ROW 4 */}
+                      <tr>
+                        <td className="phase-cell">
+                          <div className="phase-number">4</div>
+                          <div className="phase-title">PHỤC HỒI<br />CHỨC NĂNG<br /><span style={{ fontSize: '12px' }}>(2 - 12 TUẦN)</span></div>
+                          <div className="phase-icon"><i className="feather icon-user-check"></i></div>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Tăng biên độ vận động</li>
+                            <li>Tăng sức mạnh cơ</li>
+                            <li>Tập chịu lực theo hướng dẫn</li>
+                            <li>Phục hồi chức năng chi dưới</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Tập vận động chủ động - thụ động</li>
+                            <li>Tăng sức mạnh cơ:
+                              <ul className="sub-list">
+                                <li>Cơ tứ đầu đùi</li>
+                                <li>Cơ mông, cơ cẳng chân</li>
+                              </ul>
+                            </li>
+                            <li>Tập đi với nạng/khung, tăng dần chịu lực</li>
+                            <li>Tập thăng bằng, proprioception</li>
+                            <li>Đi xe đạp, máy CPM (nếu có)</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div className="image-placeholder-container">
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập gồng cơ đùi</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Nâng chân thẳng</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập gập gối</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập đi với nạng</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Đạp xe</div>
+                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập thăng bằng</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="time-cell">
+                            <i className="feather icon-calendar calendar-icon"></i>
+                            <div className="time-text">2 - 12 tuần</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* ROW 5 */}
+                      <tr>
+                        <td className="phase-cell">
+                          <div className="phase-number">5</div>
+                          <div className="phase-title">THEO DÕI &<br />TÁI KHÁM</div>
+                          <div className="phase-icon"><i className="feather icon-eye"></i></div>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Đánh giá liền xương</li>
+                            <li>Phát hiện và xử trí biến chứng (nếu có)</li>
+                            <li>Đảm bảo phục hồi tối ưu</li>
+                            <li>Trở lại sinh hoạt và hoạt động</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled-custom">
+                            <li>Tái khám định kỳ</li>
+                            <li>X-quang kiểm tra liền xương</li>
+                            <li>Đánh giá chức năng chi dưới</li>
+                            <li>Tư vấn chế độ tập luyện và sinh hoạt lâu dài</li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div className="image-placeholder-container">
+                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />Sau mổ</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />6 tuần</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />3 tháng</div>
+                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />6 tháng</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="time-cell">
+                            <i className="feather icon-calendar calendar-icon"></i>
+                            <div className="time-text">Định kỳ<br />(1 - 3 - 6 - 12 tháng)</div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="note-section d-flex flex-column flex-xl-row">
+                  <div className="note-label align-self-start">LƯU Ý</div>
+                  <ul className="list-unstyled note-list">
+                    <li><i className="feather icon-check-circle"></i>Tuân thủ hướng dẫn của bác sĩ và kỹ thuật viên phục hồi chức năng.</li>
+                    <li><i className="feather icon-check-circle"></i>Không tự ý bỏ nạng hoặc tăng tải trọng khi chưa được cho phép.</li>
+                    <li><i className="feather icon-check-circle"></i>Chế độ dinh dưỡng đầy đủ: giàu đạm, canxi, vitamin D, C.</li>
+                    <li><i className="feather icon-check-circle"></i>Tái khám đúng hẹn để đảm bảo quá trình liền xương và phục hồi tốt nhất.</li>
+                  </ul>
+                  <div className="note-icons ms-xl-auto mt-3 mt-xl-0 justify-content-center">
+                    <div className="note-icon-item">
+                      <div className="note-icon-circle"><i className="feather icon-user"></i></div>
+                      <div className="note-icon-text">Tuân thủ<br />hướng dẫn</div>
+                    </div>
+                    <div className="note-icon-item">
+                      <div className="note-icon-circle"><i className="feather icon-alert-circle"></i></div>
+                      <div className="note-icon-text">Không tự ý<br />bỏ nạng</div>
+                    </div>
+                    <div className="note-icon-item">
+                      <div className="note-icon-circle"><i className="feather icon-heart"></i></div>
+                      <div className="note-icon-text">Dinh dưỡng<br />hợp lý</div>
+                    </div>
+                    <div className="note-icon-item">
+                      <div className="note-icon-circle"><i className="feather icon-calendar"></i></div>
+                      <div className="note-icon-text">Tái khám<br />đúng hẹn</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-center gap-3 mt-4">
+                  <button
+                    className="btn py-2 px-4 rounded-pill fw-bold text-white"
+                    style={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      background: '#031b4e',
+                      border: 'none',
+                      boxShadow: '0 8px 15px rgba(3, 27, 78, 0.3)'
+                    }}
+                  >
+                    Đăng ký gói khám
+                  </button>
+                  <Link
+                    href="tel:0389951795"
+                    className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
+                    style={{
+                      fontSize: '14px',
+                      textTransform: 'uppercase',
+                      background: '#fff',
+                      color: '#031b4e',
+                      border: '2px solid #031b4e',
+                      boxShadow: '0 8px 15px rgba(3, 27, 78, 0.1)'
+                    }}
+                  >
+                    Liên hệ trực tiếp bác sĩ
+                  </Link>
                 </div>
               </div>
             </div>
