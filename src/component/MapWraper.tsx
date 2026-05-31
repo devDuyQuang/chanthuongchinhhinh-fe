@@ -95,7 +95,7 @@ function MapWraper({ data }: MapWraperProps) {
       /style="[^"]*"/i,
       'style="border:0;width:100%;height:650px;display:block;"',
     )
-    ?.replace(/<iframe /i, '<iframe title="Google Maps" ');
+    ?.replace(/<iframe /i, '<iframe rel="nofollow" title="Google Maps" ');
   return (
     <section className="content-wrapper style-4">
       <div className="container">

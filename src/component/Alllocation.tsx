@@ -101,7 +101,7 @@ function Alllocation({ data }: AlllocationProps) {
                                             {item.map_iframe ? (
                                                 <div
                                                     dangerouslySetInnerHTML={{
-                                                        __html: item.map_iframe,
+                                                        __html: item.map_iframe.replace(/<iframe /i, '<iframe rel="nofollow" '),
                                                     }}
                                                 />
                                             ) : (
