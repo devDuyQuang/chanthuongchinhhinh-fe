@@ -18,6 +18,7 @@ import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
 import StayInformed from "@/component/StayInformed";
 import MapWraper from "@/component/MapWraper";
+import SeoArticle from "@/component/SeoArticle";
 
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { getSetting } from "@/services/settingService";
@@ -471,6 +472,7 @@ async function HomePage() {
         <Frequently data={faq} />
         <Awards data={awards} />
         <StayInformed posts={posts} />
+        <SeoArticle />
         <MapWraper data={contact} />
       </main>
       {/* <Footer settings={{ site: setting?.data?.site }} /> */}
