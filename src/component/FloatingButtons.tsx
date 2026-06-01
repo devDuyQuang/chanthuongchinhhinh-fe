@@ -40,6 +40,7 @@ export default function FloatingButtons() {
                 right: '30px',
                 display: 'flex',
                 flexDirection: 'column',
+                alignItems: 'center',
                 gap: '15px',
                 zIndex: 998
             }}>
@@ -65,39 +66,41 @@ export default function FloatingButtons() {
                 <Link href="https://www.facebook.com/profile.php?id=61585978932447" target="_blank" rel="nofollow noopener noreferrer"
                     className="btn shadow d-flex align-items-center justify-content-center"
                     style={{
-                        width: '50px',
-                        height: '50px',
+                        width: '40px',
+                        height: '40px',
                         borderRadius: '50%',
                         padding: 0,
-                        backgroundColor: '#0084FF',
-                        color: '#fff',
-                        border: 'none',
+                        backgroundColor: 'transparent',
+                        color: '#0084FF',
+                        border: '2px solid #0084FF',
+                        opacity: 0.7,
                         transition: 'all 0.3s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.opacity = '1'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.opacity = '0.7'; }}
                 >
-                    <i className="fa-brands fa-facebook-f" style={{ fontSize: '24px' }}></i>
+                    <i className="fa-brands fa-facebook-f" style={{ fontSize: '18px' }}></i>
                 </Link>
 
                 {/* Zalo Button */}
                 <Link href="https://zalo.me/0982891044" target="_blank" rel="nofollow noopener noreferrer"
                     className="btn shadow d-flex align-items-center justify-content-center"
                     style={{
-                        width: '50px',
-                        height: '50px',
+                        width: '40px',
+                        height: '40px',
                         borderRadius: '50%',
                         padding: 0,
-                        backgroundColor: '#0068FF',
-                        color: '#fff',
-                        border: 'none',
+                        backgroundColor: 'transparent',
+                        color: '#0068FF',
+                        border: '2px solid #0068FF',
+                        opacity: 0.7,
                         overflow: 'hidden',
                         transition: 'all 0.3s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.opacity = '1'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.opacity = '0.7'; }}
                 >
-                    <span style={{ fontWeight: '900', fontSize: '18px', fontFamily: 'sans-serif' }}>Zalo</span>
+                    <span style={{ fontWeight: '900', fontSize: '14px', fontFamily: 'sans-serif' }}>Zalo</span>
                 </Link>
             </div>
 

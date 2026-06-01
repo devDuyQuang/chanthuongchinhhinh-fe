@@ -50,14 +50,14 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
             >
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="btn btn-primary shadow d-flex align-items-center justify-content-center"
+                    className="btn shadow d-flex align-items-center justify-content-center"
                     style={{
                         width: "45px",
                         height: "45px",
                         borderRadius: "50%",
                         padding: 0,
                         border: "none",
-                        backgroundColor: "var(--bs-primary)",
+                        backgroundColor: "gray",
                         color: "white",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
                     }}
