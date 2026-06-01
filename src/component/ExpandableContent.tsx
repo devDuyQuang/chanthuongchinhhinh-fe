@@ -86,25 +86,48 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
                 }} />
             )}
 
+            <style>{`
+                @keyframes border-glow {
+                    0% { 
+                        border-color: #031b4e; 
+                        box-shadow: 0 0 5px rgba(3, 27, 78, 0.2); 
+                    }
+                    50% { 
+                        border-color: #03bde0; 
+                        box-shadow: 0 0 20px rgba(3, 189, 224, 0.8); 
+                    }
+                    100% { 
+                        border-color: #031b4e; 
+                        box-shadow: 0 0 5px rgba(3, 27, 78, 0.2); 
+                    }
+                }
+                .btn-readmore {
+                    padding: 10px 35px;
+                    font-weight: 700;
+                    font-size: 15px;
+                    background-color: #031b4e;
+                    color: #ffffff;
+                    border: 2px solid #031b4e;
+                    border-radius: 30px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .btn-readmore:hover {
+                    background-color: #ffffff;
+                    color: #031b4e;
+                    animation: border-glow 1.5s infinite;
+                }
+            `}</style>
+
             {/* Read more / Collapse button */}
             {needsExpansion && (
                 <div className="text-center mt-4 mb-4" style={{ position: 'relative', zIndex: 10 }}>
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="btn shadow-sm"
-                        style={{ 
-                            padding: '10px 35px', 
-                            fontWeight: 700, 
-                            fontSize: '15px', 
-                            backgroundColor: '#031b4e', 
-                            color: '#ffffff', 
-                            border: 'none', 
-                            borderRadius: '30px',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#1a6fc4'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 5px 15px rgba(26, 111, 196, 0.4)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#031b4e'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)'; }}
+                        className="btn-readmore"
                     >
                         {isExpanded ? (
                             <>Thu gọn <i className="feather icon-chevron-up ms-2"></i></>
