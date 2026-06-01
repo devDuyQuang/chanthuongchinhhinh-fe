@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
+import FloatingTOC from "@/component/FloatingTOC";
 
 type Props = {
   params: Promise<{
@@ -290,10 +291,24 @@ export default async function DirectPostDetailPage({ params }: Props) {
                                 text-decoration: none;
                                 transition: all 0.3s ease;
                                 display: block;
+                                font-size: 14px;
                               }
                               .toc-link:hover {
                                 color: var(--bs-primary) !important;
-                                transform: translateX(5px);
+                              }
+                              .custom-scrollbar::-webkit-scrollbar {
+                                width: 6px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-track {
+                                background: #f1f1f1;
+                                border-radius: 4px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-thumb {
+                                background: #c1c1c1;
+                                border-radius: 4px;
+                              }
+                              .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                                background: #a8a8a8;
                               }
                             `}</style>
                             <div
@@ -311,7 +326,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                               >
                                 Nội dung chính
                               </h4>
-                              <ul className="list-unstyled mb-0">
+                              <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
                                 {toc.map((item, index) => (
                                   <li
                                     key={index}
@@ -443,6 +458,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+      <FloatingTOC toc={toc} />
     </main>
   );
 }

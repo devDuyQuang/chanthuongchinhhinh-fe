@@ -9,6 +9,31 @@ export default function FloatingButtons() {
 
     return (
         <>
+            <style>
+                {`
+                @keyframes search-pulse-animation {
+                    0% {
+                        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+                    }
+                    70% {
+                        box-shadow: 0 0 0 15px rgba(0, 123, 255, 0);
+                    }
+                    100% {
+                        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+                    }
+                }
+                .search-btn-animated {
+                    animation: search-pulse-animation 2s infinite;
+                    background-color: #fff !important;
+                    color: var(--bs-primary) !important;
+                }
+                .search-btn-animated:hover {
+                    animation: none;
+                    background-color: var(--bs-primary) !important;
+                    color: #fff !important;
+                }
+                `}
+            </style>
             <div className="floating-buttons-container" style={{
                 position: 'fixed',
                 bottom: '90px',
@@ -21,15 +46,13 @@ export default function FloatingButtons() {
                 {/* Search Button */}
                 <button
                     onClick={() => setIsSearchOpen(true)}
-                    className="btn btn-primary shadow d-flex align-items-center justify-content-center"
+                    className="btn btn-primary shadow d-flex align-items-center justify-content-center search-btn-animated"
                     style={{
                         width: '50px',
                         height: '50px',
                         borderRadius: '50%',
                         padding: 0,
                         border: 'none',
-                        backgroundColor: '#fff',
-                        color: 'var(--bs-primary)',
                         transition: 'all 0.3s ease'
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}

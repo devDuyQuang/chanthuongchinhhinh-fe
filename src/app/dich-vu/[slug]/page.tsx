@@ -6,6 +6,7 @@ import Image from "next/image";
 import { getCategoryBySlug, getCategories } from "@/services/categoryService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
+import FloatingTOC from "@/component/FloatingTOC";
 
 export async function generateMetadata(
     { params }: { params: Promise<{ slug: string }> }
@@ -202,10 +203,24 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                         text-decoration: none;
                                                         transition: all 0.3s ease;
                                                         display: block;
+                                                        font-size: 14px;
                                                     }
                                                     .toc-link:hover {
                                                         color: var(--bs-primary) !important;
-                                                        transform: translateX(5px);
+                                                    }
+                                                    .custom-scrollbar::-webkit-scrollbar {
+                                                        width: 6px;
+                                                    }
+                                                    .custom-scrollbar::-webkit-scrollbar-track {
+                                                        background: #f1f1f1;
+                                                        border-radius: 4px;
+                                                    }
+                                                    .custom-scrollbar::-webkit-scrollbar-thumb {
+                                                        background: #c1c1c1;
+                                                        border-radius: 4px;
+                                                    }
+                                                    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                                                        background: #a8a8a8;
                                                     }
                                                 `}</style>
                                                 <div
@@ -218,7 +233,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                     }}
                                                 >
                                                     <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
-                                                    <ul className="list-unstyled mb-0">
+                                                    <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
                                                         {toc.map((item, index) => (
                                                             <li
                                                                 key={index}
@@ -369,6 +384,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                         </div>
                     </div>
                 </section>
+                <FloatingTOC toc={toc} />
             </main>
             <Footer />
         </>

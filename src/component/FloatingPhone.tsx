@@ -8,16 +8,17 @@ export default function FloatingPhone() {
         <div className="floating-phone" style={{
             position: 'fixed',
             bottom: '30px',
-            left: '30px',
+            left: '10px',
+            width: '120px',
             zIndex: 998,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '10px',
+            gap: '5px',
         }}>
             <Link href="tel:0976158931" className="phone-btn" style={{
-                width: '60px',
-                height: '60px',
+                width: '45px',
+                height: '45px',
                 backgroundColor: '#dc3545',
                 color: 'white',
                 borderRadius: '50%',
@@ -28,15 +29,15 @@ export default function FloatingPhone() {
                 position: 'relative',
                 textDecoration: 'none'
             }}>
-                <i className="fas fa-phone-alt phone-icon" style={{ fontSize: '26px' }}></i>
+                <i className="fas fa-phone-alt phone-icon" style={{ fontSize: '20px' }}></i>
             </Link>
-            <div style={{
+            <div className="phone-label" style={{
                 backgroundColor: '#dc3545',
                 color: 'white',
-                padding: '5px 12px',
+                padding: '3px 10px',
                 borderRadius: '20px',
                 fontWeight: 'bold',
-                fontSize: '15px',
+                fontSize: '13px',
                 boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
                 whiteSpace: 'nowrap'
             }}>
@@ -57,6 +58,13 @@ export default function FloatingPhone() {
                     40% { transform: rotate(-15deg); }
                     50% { transform: rotate(0); }
                     100% { transform: rotate(0); }
+                }
+                .floating-phone {
+                    opacity: 0.5;
+                    transition: opacity 0.3s ease;
+                }
+                .floating-phone:hover {
+                    opacity: 1;
                 }
                 .phone-btn {
                     animation: phonePulse 1.5s infinite;
