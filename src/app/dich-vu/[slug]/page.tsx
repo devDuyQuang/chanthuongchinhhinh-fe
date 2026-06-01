@@ -392,7 +392,6 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                 </section>
                 <FloatingTOC toc={toc} />
             </main>
-            <Footer />
         </>
     );
 }
