@@ -245,12 +245,12 @@ async function HomePage() {
                     >
                       <div className="info-widget style-2 move-2">
                         <DiagnosisReport
-                          percent={Number(hero?.percent || 82)}
+                          percent={100}
                         />
 
                         <div className="widget-content">
                           <h6 className="mb-0">
-                            {hero?.percent_text || "Successfully diagnosis"}
+                            Khách hàng hài lòng
                           </h6>
                           <Link
                             href={hero?.percent_link || "/team-detail"}
