@@ -50,16 +50,16 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
             >
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="btn shadow d-flex align-items-center justify-content-center"
+                    className="btn shadow d-flex align-items-center justify-content-center bg-white toc-btn-hover"
                     style={{
                         width: "45px",
                         height: "45px",
                         borderRadius: "50%",
                         padding: 0,
-                        border: "none",
-                        backgroundColor: "gray",
-                        color: "white",
+                        border: "2px solid #031b4e",
+                        color: "#031b4e",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+                        transition: "all 0.3s ease",
                     }}
                 >
                     <i className="fas fa-list-ul" style={{ fontSize: "20px" }}></i>
@@ -114,6 +114,10 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
                 .custom-scrollbar::-webkit-scrollbar-thumb {
                     background: #c1c1c1;
                     border-radius: 4px;
+                }
+                .toc-btn-hover:hover {
+                    background-color: #031b4e !important;
+                    color: white !important;
                 }
             `}</style>
         </>

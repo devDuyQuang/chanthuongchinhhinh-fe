@@ -22,7 +22,11 @@ function ScrolltoTop() {
     };
 
     return (
-        <button onClick={scrollToTop} className={`scroltop ${isVisible ? 'show' : ''}`}>
+        <button 
+            onClick={scrollToTop} 
+            className={`scroltop ${isVisible ? 'show' : ''}`}
+            style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
             <i className="fas fa-arrow-up" />
         </button>
     );

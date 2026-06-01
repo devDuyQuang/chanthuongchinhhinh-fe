@@ -49,8 +49,8 @@ export default function FloatingButtons() {
                     onClick={() => setIsSearchOpen(true)}
                     className="btn btn-primary shadow d-flex align-items-center justify-content-center search-btn-animated"
                     style={{
-                        width: '50px',
-                        height: '50px',
+                        width: '40px',
+                        height: '40px',
                         borderRadius: '50%',
                         padding: 0,
                         border: 'none',
@@ -59,7 +59,7 @@ export default function FloatingButtons() {
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                    <i className="fas fa-search" style={{ fontSize: '20px' }}></i>
+                    <i className="fas fa-search" style={{ fontSize: '18px' }}></i>
                 </button>
 
                 {/* Messenger Button */}

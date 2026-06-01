@@ -261,54 +261,10 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                             data-wow-duration="0.7s"
                                             dangerouslySetInnerHTML={{ __html: content }}
                                         />
-                                        <ImageLightboxActivator containerSelector=".content-item" />
+                                        <ImageLightboxActivator containerSelector=".entry-content" />
                                     </>
                                 ) : null}
-                                <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
-                                    <h3>Có thể bạn quan tâm?</h3>
-                                    <div className="row loadmore-content">
-                                        {posts && posts.map((item, i) => (
-                                            <div className="dz-card style-2 blog-half m-b35 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s" key={i}>
-                                                <div className="dz-media">
-                                                    <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} />
-                                                </div>
-                                                <div className="dz-info">
-                                                    <div className="dz-meta">
-                                                        <ul className="p-0">
-                                                            <li className="post-date mb-0">
-                                                                {new Date(item?.created_at).toLocaleDateString("en-GB", {
-                                                                    day: "2-digit",
-                                                                    month: "short",
-                                                                    year: "numeric",
-                                                                })}
-                                                            </li>
-                                                            <li className="post-comments">100 lượt xem</li>
-                                                        </ul>
-                                                    </div>
-                                                    <h3><Link href={"/" + item?.slug}>{item?.name}</Link></h3>
-                                                    <p style={{
-                                                        display: '-webkit-box',
-                                                        WebkitLineClamp: 2,
-                                                        WebkitBoxOrient: 'vertical',
-                                                        overflow: 'hidden',
-                                                        margin: '8px 0 12px',
-                                                        fontSize: '16px',
-                                                    }}>{item?.description}</p>
-                                                    <Link href={"/" + item?.slug} className="btn icon-link-hover-end btn-primary radius-sm">
-                                                        Đọc Thêm <i className="feather icon-arrow-right" />
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {/* <div className="text-center m-t30 m-lg-t0 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="0.5s"
-                                            onClick={() => handleMoreItem()}
-                                        >
-                                            <Link href={"#"} scroll={false} className={`btn btn-lg btn-icon btn-primary ${refresh ? "dz-load-more" : ""}`}>
-                                                Load More <span className="right-icon"><i className="feather icon-refresh-ccw" /></span>
-                                            </Link>
-                                        </div> */}
-                                    </div>
-                                </div>
+
                             </div>
                             <div className="col-lg-4 m-b30 d-flex flex-column side-bar left">
                                 <div className="widget service_menu_nav bg-secondary wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s">
@@ -359,7 +315,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                         })}
                                     </ul>
                                 </div>
-                                <div className="sticky-top">
+                                <div>
                                     <div className="widget_contact"
                                         style={{ backgroundImage: `url(${IMAGES.bg3png.src})` }}
                                     >
@@ -380,6 +336,60 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section className="content-inner border-top">
+                    <div className="container">
+                        <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
+                            <h3 className="mb-4">Có thể bạn quan tâm?</h3>
+                            <div className="row loadmore-content">
+                                {posts && posts.map((item, i) => (
+                                    <div className="col-xl-4 col-lg-4 col-md-6 mb-4" key={i}>
+                                        <div className="dz-card shadow-sm border rounded overflow-hidden bg-white h-100 d-flex flex-column wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
+                                            <div className="dz-media" style={{ height: '220px', overflow: 'hidden' }}>
+                                                <Link href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
+                                                    <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                </Link>
+                                            </div>
+                                            <div className="dz-info p-4 d-flex flex-column flex-grow-1">
+                                                <div className="dz-meta mb-2">
+                                                    <ul className="p-0 d-flex align-items-center gap-3 list-unstyled">
+                                                        <li className="post-date mb-0 text-muted" style={{ fontSize: '13px' }}>
+                                                            <i className="fa-regular fa-calendar me-1"></i>
+                                                            {new Date(item?.created_at).toLocaleDateString("en-GB", {
+                                                                day: "2-digit",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                            })}
+                                                        </li>
+                                                        <li className="post-comments text-muted" style={{ fontSize: '13px' }}>
+                                                            <i className="fa-solid fa-eye me-1"></i> 100 lượt xem
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>
+                                                    <Link href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">{item?.name}</Link>
+                                                </h3>
+                                                <p className="text-muted" style={{
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 3,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    overflow: 'hidden',
+                                                    margin: '0 0 15px',
+                                                    fontSize: '15px',
+                                                    lineHeight: 1.6
+                                                }}>{item?.description}</p>
+                                                <div className="mt-auto">
+                                                    <Link href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
+                                                        Đọc Thêm <i className="feather icon-arrow-right" />
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
