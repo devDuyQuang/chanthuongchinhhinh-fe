@@ -9,7 +9,7 @@ type TOCItem = {
     level: number;
 };
 
-export default function FloatingTOC({ toc }: { toc: TOCItem[] }) {
+export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
