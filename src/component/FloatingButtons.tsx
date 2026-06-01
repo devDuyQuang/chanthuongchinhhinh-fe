@@ -54,10 +54,11 @@ export default function FloatingButtons() {
                         borderRadius: '50%',
                         padding: 0,
                         border: 'none',
+                        opacity: 0.7,
                         transition: 'all 0.3s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.1)'; e.currentTarget.style.opacity = '1'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.opacity = '0.7'; }}
                 >
                     <i className="fas fa-search" style={{ fontSize: '18px' }}></i>
                 </button>

@@ -59,8 +59,11 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
                         border: "2px solid #031b4e",
                         color: "#031b4e",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+                        opacity: 0.7,
                         transition: "all 0.3s ease",
                     }}
+                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.7'; }}
                 >
                     <i className="fas fa-list-ul" style={{ fontSize: "20px" }}></i>
                 </button>

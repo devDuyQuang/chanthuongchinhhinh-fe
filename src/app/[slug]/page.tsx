@@ -8,6 +8,7 @@ import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
+import ExpandableContent from "@/component/ExpandableContent";
 
 type Props = {
   params: Promise<{
@@ -354,13 +355,8 @@ export default async function DirectPostDetailPage({ params }: Props) {
                             </div>
                           </>
                         )}
-                        <div
-                          className="dz-post-content entry-content e-content"
-                          dangerouslySetInnerHTML={{
-                            __html: post.content,
-                          }}
-                        />
-                        <ImageLightboxActivator containerSelector=".dz-post-content" />
+                        <ExpandableContent content={post.content} maxHeight={400} />
+                        <ImageLightboxActivator containerSelector=".entry-content" />
                       </>
                     ) : null}
 

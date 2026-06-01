@@ -7,6 +7,7 @@ import { getCategoryBySlug, getCategories } from "@/services/categoryService";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
+import ExpandableContent from "@/component/ExpandableContent";
 
 export async function generateMetadata(
     { params }: { params: Promise<{ slug: string }> }
@@ -255,12 +256,7 @@ async function ServiceDetail({ params }: { params: Promise<{ slug: string }>; })
                                                 </div>
                                             </>
                                         )}
-                                        <div
-                                            className="content-item wow fadeInUp add-style entry-content e-content"
-                                            data-wow-delay="0.2s"
-                                            data-wow-duration="0.7s"
-                                            dangerouslySetInnerHTML={{ __html: content }}
-                                        />
+                                        <ExpandableContent content={content} maxHeight={400} syncHeightWithSelector=".side-bar.left" />
                                         <ImageLightboxActivator containerSelector=".entry-content" />
                                     </>
                                 ) : null}

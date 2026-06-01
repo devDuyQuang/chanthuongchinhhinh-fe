@@ -25,7 +25,17 @@ function ScrolltoTop() {
         <button 
             onClick={scrollToTop} 
             className={`scroltop ${isVisible ? 'show' : ''}`}
-            style={{ width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ 
+                width: '40px', 
+                height: '40px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                opacity: 0.7,
+                transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.7'; }}
         >
             <i className="fas fa-arrow-up" />
         </button>
