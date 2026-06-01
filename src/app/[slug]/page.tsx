@@ -438,7 +438,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                 </div>
               </div>
               {/* Comment */}
-              <CommentSection postId={post.id} />
+              {/* <CommentSection postId={post.id} /> */}
             </div>
           </div>
         </div>

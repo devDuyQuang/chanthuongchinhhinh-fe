@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import CommentForm from "@/app/(blogs)/blog-details/_components/CommentForm";
-import Image from "next/image";
-import { IMAGES } from "@/constant/theme";
-import { color } from "framer-motion";
 
 const apiBaseUrl =
   (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
@@ -35,11 +32,6 @@ const CommentSection = ({ postId }: { postId: any }) => {
   return (
     <div className="clear" id="comment-list">
       <div className="post-comments comments-area style-1 clearfix">
-        <h4 className="comments-title mb-2">Bình luận ({comments.length})</h4>
-        <p className="dz-title-text">
-          Chia sẻ ý kiến hoặc trải nghiệm của bạn.
-        </p>
-
         <div className="default-form comment-respond style-1 mb-5" id="respond">
           <h4 className="comment-reply-title mb-2" id="reply-title">
             Để lại bình luận
@@ -48,6 +40,11 @@ const CommentSection = ({ postId }: { postId: any }) => {
             <CommentForm postId={postId} onCommentSuccess={fetchComments} />
           </div>
         </div>
+
+        <h4 className="comments-title mb-2">Bình luận ({comments.length})</h4>
+        <p className="dz-title-text">
+          Chia sẻ ý kiến hoặc trải nghiệm của bạn.
+        </p>
 
         <div id="comment">
           {loading ? (
