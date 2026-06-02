@@ -13,35 +13,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 1,
         },
         {
-            url: `${baseUrl}/gioi-thieu`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.8,
-        },
-        {
             url: `${baseUrl}/dich-vu`,
             lastModified: new Date(),
             changeFrequency: "weekly",
             priority: 0.9,
-        },
-        {
-            url: `${baseUrl}/lien-he`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.7,
-        },
-        {
-            url: `${baseUrl}/bac-si`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/dat-lich-kham`,
-            lastModified: new Date(),
-            changeFrequency: "daily",
-            priority: 0.9,
-        },
+        }
     ];
 
     try {

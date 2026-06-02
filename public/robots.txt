@@ -7,6 +7,8 @@ Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /team/
 Disallow: /team-detail/
+Disallow: /dat-lich-kham/
+Disallow: /bac-si-duong/
 
 # Sitemap
 # Sitemap: https://drduongortho.com/sitemap.xml

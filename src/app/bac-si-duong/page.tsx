@@ -1,20 +1,11 @@
 export const dynamic = "force-dynamic";
 
 import { IMAGES } from "@/constant/theme";
-import Clientswiper1 from "@/component/Clientswiper1";
 import PageBanner from "@/component/PageBanner";
-import Schedule from "@/component/Schedule";
-import StayInformed from "@/component/StayInformed";
-import { worldclasslistdata } from "@/constant/alldata";
-import Image from "next/image";
-import { Post } from "@/types/post";
 import LightGalleryData from "@/component/LightGalleryData";
 import Inspirational from "@/component/Inspirational";
-import ConsultationSection from "@/component/ConsultationSection";
-import Frequently from "@/component/Frequently";
 import Awards from "@/component/Awards";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
-import RealPatient from "@/component/RealPatient";
 
 const apiBaseUrl =
   (process.env.NEXT_PUBLIC_BASE_URL || "").replace(
@@ -22,7 +13,6 @@ const apiBaseUrl =
     (match) => match + "api.",
   ) || "http://api.localhost:8000";
 
-// Domain gốc dùng để tải ảnh tĩnh từ Laravel
 const storageUrl = apiBaseUrl.replace("api.", "");
 
 async function getSetting() {
