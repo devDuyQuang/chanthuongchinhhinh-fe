@@ -49,9 +49,9 @@ async function HomePage() {
 
   const faq = rawFaq
     ? {
-        ...rawFaq,
-        image: normalizeImageUrl(rawFaq.image),
-      }
+      ...rawFaq,
+      image: normalizeImageUrl(rawFaq.image),
+    }
     : undefined;
   const awards = setting?.data?.awards_home;
   const site = setting?.data?.site;
@@ -389,7 +389,7 @@ async function HomePage() {
                 <Link
                   href={
                     !services?.view_all_link ||
-                    services.view_all_link === "/services"
+                      services.view_all_link === "/services"
                       ? "/dich-vu"
                       : services.view_all_link
                   }

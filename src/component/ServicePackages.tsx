@@ -12,12 +12,15 @@ import { usePathname } from "next/navigation";
 
 interface ServiceItem {
   name?: string;
+  description?: string;
   price?: string;
   period?: string;
   btn_text?: string;
   btn_link?: string;
   features?: string[];
   image_url?: string;
+  left_image_url?: string;
+  right_image_url?: string;
   treatment_steps?: any[];
 }
 
@@ -38,6 +41,7 @@ function ServicePackage({ data }: ServicePackageProps) {
   const [showModal, setShowModal] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any>(null);
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const timelineSteps = [
     { num: "01", title: "Thăm khám & đánh giá ban đầu", desc: "Bác sĩ kiểm tra vị trí dụng cụ, tình trạng liền xương, mức độ đau và khả năng vận động của người bệnh." },
@@ -61,6 +65,31 @@ function ServicePackage({ data }: ServicePackageProps) {
     return `${ADMIN_URL}/${cleanUrl}`;
   };
 
+  const renderListItems = (items: string[]) => {
+    return items.map((text, idx) => {
+      if (text.includes(':')) {
+        const splitIndex = text.indexOf(':');
+        const title = text.substring(0, splitIndex + 1);
+        const remainder = text.substring(splitIndex + 1).trim();
+        
+        if (remainder.length > 0) {
+          const subItems = remainder.split(',').map(s => s.trim()).filter(Boolean);
+          return (
+            <li key={idx}>
+              {title}
+              <ul className="sub-list list-unstyled mt-1 mb-0" style={{ paddingLeft: 0 }}>
+                {subItems.map((subItem, j) => (
+                  <li key={j}>{subItem}</li>
+                ))}
+              </ul>
+            </li>
+          );
+        }
+      }
+      return <li key={idx}>{text}</li>;
+    });
+  };
+
   const rawItems = data?.items || [];
 
   const displayItems = isServicePage
@@ -71,6 +100,9 @@ function ServicePackage({ data }: ServicePackageProps) {
     id: index + 1,
     image: getFullImageUrl(item.image_url),
     name: item.name || "Gói dịch vụ",
+    description: item.description || "",
+    left_image_url: item.left_image_url,
+    right_image_url: item.right_image_url,
     price: item.price || "Liên hệ",
     period: item.period ? `/ ${item.period}` : "",
     buttonText: item.btn_text || "Chọn dịch vụ",
@@ -429,23 +461,37 @@ function ServicePackage({ data }: ServicePackageProps) {
                 ></button>
 
                 <div className="d-flex justify-content-between align-items-center mb-4 pt-2 px-2">
-                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative' }}>
-                    {/* Gắn link ảnh thực tế vào src bên dưới (VD: src="/assets/images/xuong-chau.png") */}
-                    {/* <Image src="" alt="Khớp háng" fill style={{ objectFit: 'contain' }} /> */}
-                    <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
-                    <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh Khớp Háng<br />(Thay link src)</span>
+                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: selectedPackage?.left_image_url ? 'none' : '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative', overflow: 'hidden' }}>
+                    {selectedPackage?.left_image_url ? (
+                      <Image src={getFullImageUrl(selectedPackage.left_image_url)} alt="Left Image" fill style={{ objectFit: 'cover' }} unoptimized={true} />
+                    ) : (
+                      <>
+                        <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
+                        <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh minh họa<br />trái</span>
+                      </>
+                    )}
                   </div>
 
                   <div className="text-center px-3" style={{ flex: 1 }}>
-                    <h2 className="fw-bold text-uppercase" style={{ color: '#031b4e', fontSize: '30px', letterSpacing: '1px', marginBottom: '8px' }}>LIỆU TRÌNH KẾT HỢP XƯƠNG CHI DƯỚI</h2>
-                    <p className="fst-italic text-muted mb-0" style={{ fontSize: '15px' }}>(Áp dụng cho gãy xương đùi, xương chày - mác, xương cổ chân, xương bánh chè, ...)</p>
+                    <h2 className="fw-bold text-uppercase" style={{ color: '#031b4e', fontSize: '30px', letterSpacing: '1px', marginBottom: '8px' }}>
+                      {selectedPackage?.name}
+                    </h2>
+                    {selectedPackage?.description && (
+                      <p className="fst-italic text-muted mb-0" style={{ fontSize: '15px', whiteSpace: 'pre-line' }}>
+                        {selectedPackage.description}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative' }}>
-                    {/* Gắn link ảnh thực tế vào src bên dưới (VD: src="/assets/images/xuong-ban-chan.png") */}
-                    {/* <Image src="" alt="Bàn chân" fill style={{ objectFit: 'contain' }} /> */}
-                    <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
-                    <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh Bàn Chân<br />(Thay link src)</span>
+                  <div className="d-none d-md-flex flex-column align-items-center justify-content-center" style={{ width: '130px', height: '130px', flexShrink: 0, border: selectedPackage?.right_image_url ? 'none' : '1px dashed #ccc', borderRadius: '8px', background: '#f8f9fa', position: 'relative', overflow: 'hidden' }}>
+                    {selectedPackage?.right_image_url ? (
+                      <Image src={getFullImageUrl(selectedPackage.right_image_url)} alt="Right Image" fill style={{ objectFit: 'cover' }} unoptimized={true} />
+                    ) : (
+                      <>
+                        <i className="feather icon-image text-muted mb-2" style={{ fontSize: '24px' }}></i>
+                        <span className="text-muted text-center" style={{ fontSize: '11px', lineHeight: '1.2' }}>Ảnh minh họa<br />phải</span>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -461,215 +507,75 @@ function ServicePackage({ data }: ServicePackageProps) {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* ROW 1 */}
-                      <tr>
-                        <td className="phase-cell">
-                          <div className="phase-number">1</div>
-                          <div className="phase-title">TRƯỚC MỔ</div>
-                          <div className="phase-icon"><i className="feather icon-clipboard"></i></div>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Đánh giá tổn thương</li>
-                            <li>Lập kế hoạch điều trị</li>
-                            <li>Tối ưu tình trạng người bệnh</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Khám lâm sàng</li>
-                            <li>X-quang, CT (nếu cần)</li>
-                            <li>Xét nghiệm tiền phẫu</li>
-                            <li>Tư vấn và giải thích phương pháp phẫu thuật</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <div className="image-placeholder-container">
-                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 1</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 2</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '140px' }}>Hình X-quang<br />trước mổ 3</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="time-cell">
-                            <i className="feather icon-calendar calendar-icon"></i>
-                            <div className="time-text">1 - 3 ngày</div>
-                          </div>
-                        </td>
-                      </tr>
+                      {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
+                        selectedPackage.treatment_steps.map((step: any, index: number) => {
+                          const icons = [
+                            "icon-clipboard", 
+                            "icon-users", 
+                            "icon-activity", 
+                            "icon-user-check", 
+                            "icon-eye"
+                          ];
+                          const iconClass = icons[index % icons.length];
+                          
+                          const goals = step.goal ? step.goal.split(/\r?\n/).filter((g: string) => g.trim() !== '') : [];
+                          const contents = step.content ? step.content.split(/\r?\n/).filter((c: string) => c.trim() !== '') : [];
 
-                      {/* ROW 2 */}
-                      <tr>
-                        <td className="phase-cell">
-                          <div className="phase-number">2</div>
-                          <div className="phase-title">PHẪU THUẬT</div>
-                          <div className="phase-icon"><i className="feather icon-users"></i></div>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Nắn chỉnh xương gãy</li>
-                            <li>Cố định vững chắc</li>
-                            <li>Tạo điều kiện liền xương tốt nhất</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Gây tê/gây mê</li>
-                            <li>Mổ nắn xương</li>
-                            <li>Kết hợp xương bằng:
-                              <ul className="sub-list">
-                                <li>Nẹp vít</li>
-                                <li>Đinh nội tủy (xương đùi, chày)</li>
-                                <li>Vít xốp, nẹp khóa, dây cerclage (tùy vị trí)</li>
-                              </ul>
-                            </li>
-                            <li>Kiểm tra X-quang sau mổ</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <div className="image-placeholder-container">
-                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Nẹp vít<br />xương đùi</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Đinh nội tủy<br />xương đùi</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Nẹp khóa<br />xương chày</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '160px' }}>Vít xốp<br />xương cổ chân</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="time-cell">
-                            <i className="feather icon-calendar calendar-icon"></i>
-                            <div className="time-text">1 ngày</div>
-                          </div>
-                        </td>
-                      </tr>
-
-                      {/* ROW 3 */}
-                      <tr>
-                        <td className="phase-cell">
-                          <div className="phase-number">3</div>
-                          <div className="phase-title">SAU MỔ SỚM<br /><span style={{ fontSize: '12px' }}>(0 - 2 TUẦN)</span></div>
-                          <div className="phase-icon"><i className="feather icon-activity"></i></div>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Giảm đau, chống phù nề</li>
-                            <li>Bảo vệ vết mổ</li>
-                            <li>Duy trì vận động khớp không cố định</li>
-                            <li>Phòng biến chứng</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Giảm đau, kháng sinh dự phòng</li>
-                            <li>Thay băng, chăm sóc vết mổ</li>
-                            <li>Tập vận động nhẹ:
-                              <ul className="sub-list">
-                                <li>Co cơ tĩnh (đùi, cẳng chân)</li>
-                                <li>Cử động khớp không đau</li>
-                              </ul>
-                            </li>
-                            <li>Hướng dẫn mang tất ép, kê cao chi</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <div className="image-placeholder-container">
-                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Co cơ tĩnh<br />đùi</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Cử động cổ chân<br />lên xuống</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '100px' }}>Cử động gối<br />(0-90° tùy chỉ định)</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="time-cell">
-                            <i className="feather icon-calendar calendar-icon"></i>
-                            <div className="time-text">0 - 2 tuần</div>
-                          </div>
-                        </td>
-                      </tr>
-
-                      {/* ROW 4 */}
-                      <tr>
-                        <td className="phase-cell">
-                          <div className="phase-number">4</div>
-                          <div className="phase-title">PHỤC HỒI<br />CHỨC NĂNG<br /><span style={{ fontSize: '12px' }}>(2 - 12 TUẦN)</span></div>
-                          <div className="phase-icon"><i className="feather icon-user-check"></i></div>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Tăng biên độ vận động</li>
-                            <li>Tăng sức mạnh cơ</li>
-                            <li>Tập chịu lực theo hướng dẫn</li>
-                            <li>Phục hồi chức năng chi dưới</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Tập vận động chủ động - thụ động</li>
-                            <li>Tăng sức mạnh cơ:
-                              <ul className="sub-list">
-                                <li>Cơ tứ đầu đùi</li>
-                                <li>Cơ mông, cơ cẳng chân</li>
-                              </ul>
-                            </li>
-                            <li>Tập đi với nạng/khung, tăng dần chịu lực</li>
-                            <li>Tập thăng bằng, proprioception</li>
-                            <li>Đi xe đạp, máy CPM (nếu có)</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <div className="image-placeholder-container">
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập gồng cơ đùi</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Nâng chân thẳng</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập gập gối</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập đi với nạng</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Đạp xe</div>
-                            <div className="img-placeholder" style={{ width: '31%', height: '80px' }}>Tập thăng bằng</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="time-cell">
-                            <i className="feather icon-calendar calendar-icon"></i>
-                            <div className="time-text">2 - 12 tuần</div>
-                          </div>
-                        </td>
-                      </tr>
-
-                      {/* ROW 5 */}
-                      <tr>
-                        <td className="phase-cell">
-                          <div className="phase-number">5</div>
-                          <div className="phase-title">THEO DÕI &<br />TÁI KHÁM</div>
-                          <div className="phase-icon"><i className="feather icon-eye"></i></div>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Đánh giá liền xương</li>
-                            <li>Phát hiện và xử trí biến chứng (nếu có)</li>
-                            <li>Đảm bảo phục hồi tối ưu</li>
-                            <li>Trở lại sinh hoạt và hoạt động</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled-custom">
-                            <li>Tái khám định kỳ</li>
-                            <li>X-quang kiểm tra liền xương</li>
-                            <li>Đánh giá chức năng chi dưới</li>
-                            <li>Tư vấn chế độ tập luyện và sinh hoạt lâu dài</li>
-                          </ul>
-                        </td>
-                        <td>
-                          <div className="image-placeholder-container">
-                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />Sau mổ</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />6 tuần</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />3 tháng</div>
-                            <div className="img-placeholder" style={{ width: '23%', height: '140px' }}>X-quang<br />6 tháng</div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="time-cell">
-                            <i className="feather icon-calendar calendar-icon"></i>
-                            <div className="time-text">Định kỳ<br />(1 - 3 - 6 - 12 tháng)</div>
-                          </div>
-                        </td>
-                      </tr>
+                          return (
+                            <tr key={index}>
+                              <td className="phase-cell">
+                                <div className="phase-number">{step.step_number || index + 1}</div>
+                                <div className="phase-title" style={{ whiteSpace: 'pre-line', fontSize: '12px' }}>{step.stage}</div>
+                                <div className="phase-icon"><i className={`feather ${iconClass}`}></i></div>
+                              </td>
+                              <td>
+                                {goals.length > 0 && (
+                                  <ul className="list-unstyled-custom">
+                                    {renderListItems(goals)}
+                                  </ul>
+                                )}
+                              </td>
+                              <td>
+                                {contents.length > 0 && (
+                                  <ul className="list-unstyled-custom">
+                                    {renderListItems(contents)}
+                                  </ul>
+                                )}
+                              </td>
+                              <td>
+                                {step.image_url ? (
+                                  <div className="text-center" style={{ cursor: 'zoom-in' }} onClick={() => setZoomedImage(getFullImageUrl(step.image_url))}>
+                                    <Image 
+                                      src={getFullImageUrl(step.image_url)} 
+                                      alt={step.stage || "Ảnh minh họa"} 
+                                      width={300} 
+                                      height={200} 
+                                      style={{ width: '100%', height: 'auto', borderRadius: '6px', objectFit: 'contain' }}
+                                      unoptimized={true}
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="image-placeholder-container">
+                                    <div className="img-placeholder" style={{ width: '100%', height: '140px' }}>Chưa có<br />hình ảnh</div>
+                                  </div>
+                                )}
+                              </td>
+                              <td>
+                                <div className="time-cell">
+                                  <i className="feather icon-calendar calendar-icon"></i>
+                                  <div className="time-text" style={{ whiteSpace: 'pre-line' }}>{step.expected_time}</div>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={5} className="text-center py-5 text-muted">
+                            Chưa có dữ liệu liệu trình chi tiết.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -736,6 +642,15 @@ function ServicePackage({ data }: ServicePackageProps) {
         </div>
       )
       }
+
+      {zoomedImage && (
+        <div 
+          style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 99999, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'zoom-out' }}
+          onClick={() => setZoomedImage(null)}
+        >
+          <img src={zoomedImage} alt="Zoomed image" style={{ maxWidth: '90%', maxHeight: '90%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 5px 25px rgba(0,0,0,0.5)' }} />
+        </div>
+      )}
     </>
   );
 }
