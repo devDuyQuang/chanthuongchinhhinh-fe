@@ -64,6 +64,10 @@ const SeoArticle = () => {
                 Nhiều người lầm tưởng rằng bác sĩ chấn thương chỉnh hình chỉ giải quyết các ca "gãy xương". Thực tế, phạm vi của chuyên khoa này rộng hơn rất nhiều. Nó bao trùm từ các dị tật bẩm sinh ở trẻ em, các khối u xương, nhiễm trùng khớp, cho đến các bệnh lý thoái hóa mạn tính ở người cao tuổi như thoái hóa khớp gối, loãng xương, hay thoát vị đĩa đệm cột sống.
               </p>
 
+              <div className="text-center m-b30">
+                <img src="/chan-thuong-chinh-hinh-la-gi.webp" alt="Chấn Thương Chỉnh Hình Là Gì?" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+              </div>
+
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>
                 2. Khi Nào Bạn Cần Đến Gặp Bác Sĩ Chấn Thương Chỉnh Hình?
               </h3>
@@ -106,6 +110,10 @@ const SeoArticle = () => {
                 </li>
               </ul>
 
+              <div className="text-center m-b30">
+                <img src="/cac-benh-ly-chan-thuong-co-xuong-khop-pho-bien-nhat-hien-nay.webp" alt="Các bệnh lý cơ xương khớp" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+              </div>
+
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>
                 4. Các Phương Pháp Chẩn Đoán Chấn Thương Chỉnh Hình Hiện Đại
               </h3>
@@ -127,6 +135,10 @@ const SeoArticle = () => {
 
               <h4 className="m-b10" style={{ fontSize: '1.25rem', color: '#2c4a70' }}>Phẫu Thuật Xâm Lấn Tối Thiểu (Minimally Invasive Surgery - MIS)</h4>
               <p className="m-b30">Khi điều trị bảo tồn thất bại, phẫu thuật nội soi khớp (Arthroscopy) là giải pháp cứu cánh. Thay vì rạch những đường mổ dài, bác sĩ chỉ cần mở 2-3 lỗ nhỏ bằng đầu đũa để đưa camera và dụng cụ vào khớp. Ưu điểm vượt trội là ít tổn thương mô lành, gần như không chảy máu, giảm thiểu nguy cơ nhiễm trùng, bệnh nhân ít đau đớn và phục hồi vận động cực kỳ nhanh chóng.</p>
+
+              <div className="text-center m-b30">
+                <img src="/phau-thuat-xam-lan-toi-thieu-mis.webp" alt="Phẫu Thuật Xâm Lấn Tối Thiểu" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+              </div>
 
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>
                 6. Phục Hồi Chức Năng: "Chìa Khóa Vàng" Trả Lại Vận Động
