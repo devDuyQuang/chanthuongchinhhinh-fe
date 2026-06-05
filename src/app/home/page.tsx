@@ -435,22 +435,6 @@ async function HomePage() {
                   {servicePackagesData?.title || "Gói Liệu Trình"}
                 </h2>
               </div>
-
-              {/* <div
-                                className="col-sm-5 text-sm-end d-sm-block d-none wow fadeInUp"
-                                data-wow-delay="0.4s"
-                                data-wow-duration="0.8s"
-                            >
-                                <Link
-                                    href="/goi-dich-vu-dieu-tri"
-                                    className="btn btn-icon btn-primary btn-shadow"
-                                >
-                                    Xem tất cả
-                                    <span className="right-icon">
-                                        <i className="feather icon-arrow-right" />
-                                    </span>
-                                </Link>
-                            </div> */}
             </div>
             <ServicePackages data={servicePackagesData} />
           </div>
@@ -467,8 +451,8 @@ async function HomePage() {
         >
           <RealPatient data={testimonials} />
         </section>
-        <Howitwork data={howItWork} />
-        <MeetDr data={doctor} />
+        {/* <Howitwork data={howItWork} /> */}
+        {/* <MeetDr data={doctor} /> */}
         <Frequently data={faq} />
         <Awards data={awards} />
         <StayInformed posts={posts} />
