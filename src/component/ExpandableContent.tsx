@@ -28,7 +28,10 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
         const contentEl = contentRef.current;
         let finalMaxHeight = maxHeight;
 
-        if (syncHeightWithSelector) {
+        // On mobile and tablet devices (<=991px), ignore sidebar sync since it drops below content, and fix max height to 500px
+        if (typeof window !== 'undefined' && window.innerWidth <= 991) {
+            finalMaxHeight = 500;
+        } else if (syncHeightWithSelector) {
             const targetEl = document.querySelector(syncHeightWithSelector);
             if (targetEl) {
                 const targetRect = targetEl.getBoundingClientRect();

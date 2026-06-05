@@ -208,7 +208,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
 
                             </div>
                             <div className="col-lg-4 m-b30 d-flex flex-column side-bar left">
-                                <div className="widget service_menu_nav bg-secondary wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s">
+                                <div className="widget service_menu_nav bg-secondary wow fadeInUp d-none d-lg-block" data-wow-delay="0.2s" data-wow-duration="0.7s">
                                     <style>{`
                                         .service_menu_nav ul li a::before,
                                         .service_menu_nav ul li a::after {

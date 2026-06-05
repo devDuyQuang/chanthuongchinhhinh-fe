@@ -68,7 +68,7 @@ export default function FloatingButtons() {
                         border: none;
                         background: transparent;
                         padding: 0;
-                        width: 20%;
+                        width: 25%;
                     }
                     .mobile-bottom-nav .nav-item i {
                         font-size: 22px;
@@ -177,10 +177,6 @@ export default function FloatingButtons() {
                 <button onClick={() => setIsAppointmentOpen(true)} className="nav-item">
                     <i className="feather icon-calendar"></i>
                     <span>Đặt Lịch</span>
-                </button>
-                <button onClick={() => setIsSearchOpen(true)} className="nav-item">
-                    <i className="feather icon-search"></i>
-                    <span>Tìm Kiếm</span>
                 </button>
                 <Link href="https://zalo.me/0982891044" target="_blank" rel="nofollow noopener noreferrer" className="nav-item">
                     <i className="feather icon-message-circle"></i>

@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEmailService } from "@/constant/useEmailService";
 import { mapSiteToSidebarData } from "@/lib/mappers/site";
 import AppointmentModal from "@/component/AppointmentModal";
+import SearchModal from "@/component/SearchModal";
 
 type TopbarInfoItem = {
   title?: string;
@@ -37,6 +38,7 @@ function Header({ menu, settings }: HeaderProps) {
   const [isActive, setIsActive] = useState<number | null>(null);
   const [scroll, setScroll] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const form = useRef<HTMLFormElement | null>(null);
   const { sendEmail } = useEmailService();
@@ -150,6 +152,30 @@ function Header({ menu, settings }: HeaderProps) {
                 <span></span>
                 <span></span>
                 <span></span>
+              </button>
+
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="d-lg-none d-flex align-items-center justify-content-center"
+                style={{
+                  position: 'absolute',
+                  right: '75px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  height: '45px',
+                  width: '45px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  padding: 0,
+                  outline: 'none',
+                  zIndex: 99
+                }}
+                type="button"
+                aria-label="Search"
+              >
+                <i className="feather icon-search" style={{ fontSize: '24px' }}></i>
               </button>
 
               <div
@@ -314,7 +340,7 @@ function Header({ menu, settings }: HeaderProps) {
                 </div>
               </div>
 
-              <div className={`extra-nav ${scroll ? "active" : ""}`}>
+              <div className={`extra-nav ${scroll ? "active" : ""} d-none d-md-flex`}>
                 <div className="extra-cell">
                   <ul className="header-right">
                     <li className="nav-item">
@@ -493,6 +519,7 @@ function Header({ menu, settings }: HeaderProps) {
         </div>
       </header>
       <AppointmentModal show={showAppointmentModal} onClose={() => setShowAppointmentModal(false)} />
+      <SearchModal show={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 }
