@@ -150,30 +150,36 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
                     </div>
                 </>
             )}
-            <div
-                ref={contentRef}
-                className={`content-item wow fadeInUp add-style entry-content e-content custom-content-transition`}
-                data-wow-delay="0.2s"
-                data-wow-duration="0.7s"
-                style={{
-                    maxHeight: `${calculatedMaxHeight}px`,
-                    overflow: 'hidden',
-                }}
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
+            <div style={{ position: 'relative' }}>
+                <div
+                    ref={contentRef}
+                    className={`content-item wow fadeInUp add-style entry-content e-content custom-content-transition`}
+                    data-wow-delay="0.2s"
+                    data-wow-duration="0.7s"
+                    style={{
+                        maxHeight: `${calculatedMaxHeight}px`,
+                        overflow: 'hidden',
+                    }}
+                    dangerouslySetInnerHTML={{ __html: content }}
+                />
 
-            {/* Gradient overlay when collapsed */}
-            {needsExpansion && (
-                <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: '150px',
-                    background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)',
-                    pointerEvents: 'none',
-                }} />
-            )}
+                {/* Gradient overlay when collapsed */}
+                {needsExpansion && (
+                    <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '200px',
+                        background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,1) 100%)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
+                        maskImage: 'linear-gradient(to bottom, transparent 0%, black 100%)',
+                        pointerEvents: 'none',
+                    }} />
+                )}
+            </div>
 
             <style>{`
                 @keyframes border-glow {
@@ -272,10 +278,10 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
 
             {/* Read more button */}
             {needsExpansion && (
-                <div className="text-center mt-4 mb-4" style={{ position: 'relative', zIndex: 10 }}>
+                <div className="text-center pb-4" style={{ position: 'relative', zIndex: 10, marginTop: '-50px' }}>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="btn-readmore"
+                        className="btn-readmore shadow"
                     >
                         Đọc thêm <i className="feather icon-arrow-right ms-2"></i>
                     </button>
