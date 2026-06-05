@@ -26,7 +26,6 @@ import ScrolltoTop from "@/component/ScrolltoTop";
 import HeaderWrapper from "@/component/HeaderWrapper";
 import FooterWrapper from "@/component/FooterWrapper";
 import FloatingButtons from "@/component/FloatingButtons";
-import FloatingPhone from "@/component/FloatingPhone";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { Toaster } from "react-hot-toast";
 
@@ -89,7 +88,6 @@ export default async function RootLayout({
         <FooterWrapper />
         <ScrolltoTop />
         <FloatingButtons />
-        <FloatingPhone />
         <Toaster position="top-right" />
         {GA_ID && (
           <>
