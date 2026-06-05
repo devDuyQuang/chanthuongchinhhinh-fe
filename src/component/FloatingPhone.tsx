@@ -72,6 +72,11 @@ export default function FloatingPhone() {
                 .phone-icon {
                     animation: phoneRing 1.5s infinite;
                 }
+                @media (max-width: 767px) {
+                    .floating-phone {
+                        display: none !important;
+                    }
+                }
             `}</style>
         </div>
     );

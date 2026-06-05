@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import SearchModal from "./SearchModal";
+import AppointmentModal from "@/component/AppointmentModal";
 
 export default function FloatingButtons() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
 
     return (
         <>
@@ -32,9 +34,70 @@ export default function FloatingButtons() {
                     background-color: var(--bs-primary) !important;
                     color: #fff !important;
                 }
+                
+                .mobile-bottom-nav {
+                    display: none;
+                }
+
+                @media (max-width: 767px) {
+                    .floating-buttons-container {
+                        display: none !important;
+                    }
+                    .mobile-bottom-nav {
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background-color: #0d1427; /* Dark theme matching the image */
+                        padding: 10px 0 15px; /* Extra padding bottom for safe area */
+                        z-index: 9999;
+                        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+                        border-top: 1px solid rgba(255,255,255,0.05);
+                    }
+                    .mobile-bottom-nav .nav-item {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        color: #8c92a4; /* Gray color for inactive */
+                        text-decoration: none;
+                        font-size: 11px;
+                        gap: 6px;
+                        border: none;
+                        background: transparent;
+                        padding: 0;
+                        width: 20%;
+                    }
+                    .mobile-bottom-nav .nav-item i {
+                        font-size: 22px;
+                        transition: color 0.3s ease;
+                    }
+                    .mobile-bottom-nav .nav-item.active i,
+                    .mobile-bottom-nav .nav-item.active span {
+                        color: #ff4d4d; /* Red color like the 'Trang chủ' in the image */
+                    }
+                    .mobile-bottom-nav .nav-item:active i,
+                    .mobile-bottom-nav .nav-item:active span {
+                        color: #ff4d4d;
+                    }
+                    
+                    /* Adjust body padding so content isn't hidden behind the nav bar */
+                    body {
+                        padding-bottom: 70px !important;
+                    }
+                    
+                    /* Adjust floating TOC button to be higher on mobile */
+                    .floating-toc-btn {
+                        bottom: 90px !important;
+                    }
+                }
                 `}
             </style>
-            <div className="floating-buttons-container" style={{
+            
+            {/* Desktop Floating Buttons */}
+            <div className="floating-buttons-container d-none d-md-flex" style={{
                 position: 'fixed',
                 bottom: '90px',
                 right: '30px',
@@ -105,7 +168,32 @@ export default function FloatingButtons() {
                 </Link>
             </div>
 
+            {/* Mobile Bottom Navigation Bar */}
+            <div className="mobile-bottom-nav">
+                <Link href="tel:0389951795" className="nav-item active">
+                    <i className="feather icon-phone-call"></i>
+                    <span>Gọi Ngay</span>
+                </Link>
+                <button onClick={() => setIsAppointmentOpen(true)} className="nav-item">
+                    <i className="feather icon-calendar"></i>
+                    <span>Đặt Lịch</span>
+                </button>
+                <button onClick={() => setIsSearchOpen(true)} className="nav-item">
+                    <i className="feather icon-search"></i>
+                    <span>Tìm Kiếm</span>
+                </button>
+                <Link href="https://zalo.me/0982891044" target="_blank" rel="nofollow noopener noreferrer" className="nav-item">
+                    <i className="feather icon-message-circle"></i>
+                    <span>Zalo</span>
+                </Link>
+                <Link href="https://www.facebook.com/profile.php?id=61585978932447" target="_blank" rel="nofollow noopener noreferrer" className="nav-item">
+                    <i className="feather icon-facebook"></i>
+                    <span>Facebook</span>
+                </Link>
+            </div>
+
             <SearchModal show={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+            <AppointmentModal show={isAppointmentOpen} onClose={() => setIsAppointmentOpen(false)} />
         </>
     );
 }

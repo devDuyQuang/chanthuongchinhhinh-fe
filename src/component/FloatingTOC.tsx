@@ -69,20 +69,27 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
             >
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="btn shadow d-flex align-items-center justify-content-center bg-white toc-btn-hover"
+                    className="btn shadow d-flex align-items-center justify-content-center toc-btn-hover"
                     style={{
                         width: "45px",
                         height: "45px",
                         borderRadius: "50%",
                         padding: 0,
-                        border: "2px solid #031b4e",
-                        color: "#031b4e",
+                        border: "none",
+                        backgroundColor: "var(--bs-primary)",
+                        color: "white",
                         boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-                        opacity: 0.7,
+                        opacity: 0.85,
                         transition: "all 0.3s ease",
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.7'; }}
+                    onMouseEnter={(e) => { 
+                        e.currentTarget.style.opacity = '1'; 
+                        e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => { 
+                        e.currentTarget.style.opacity = '0.85'; 
+                        e.currentTarget.style.transform = 'scale(1)';
+                    }}
                 >
                     <i className="fas fa-list-ul" style={{ fontSize: "20px" }}></i>
                 </button>
@@ -105,15 +112,17 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
                             boxShadow: "0 5px 25px rgba(0,0,0,0.15)",
                         }}
                     >
-                        <h6 className="mb-3" style={{ fontWeight: "bold", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>Mục lục</h6>
+                        <h6 className="mb-3" style={{ fontWeight: "bold", borderBottom: "1px solid #eee", paddingBottom: "10px", color: "var(--bs-primary)" }}>Mục lục</h6>
                         <ul className="list-unstyled mb-0 custom-scrollbar">
                             {toc.map((item, index) => (
                                 <li key={index} className="mb-2" style={{ paddingLeft: `${(item.level - 2) * 15}px` }}>
                                     <Link
                                         href={`#${item.id}`}
                                         className="text-body"
-                                        style={{ fontSize: "13px", textDecoration: "none", display: "block" }}
+                                        style={{ fontSize: "13px", textDecoration: "none", display: "block", transition: "color 0.2s" }}
                                         onClick={(e) => handleItemClick(e, item.id)}
+                                        onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--bs-primary)'; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
                                     >
                                         <i className="feather icon-chevron-right me-2" style={{ fontSize: "10px", color: "var(--bs-primary)" }}></i>
                                         {item.text}
@@ -138,8 +147,7 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
                     border-radius: 4px;
                 }
                 .toc-btn-hover:hover {
-                    background-color: #031b4e !important;
-                    color: white !important;
+                    box-shadow: 0 6px 15px rgba(0,0,0,0.4) !important;
                 }
             `}</style>
         </>
