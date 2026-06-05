@@ -8,6 +8,7 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
 import ExpandableContent from "@/component/ExpandableContent";
+import SidebarMenuParent from "./SidebarMenuParent";
 
 export async function generateMetadata(
     { params }: { params: Promise<{ slug: string }> }
@@ -200,66 +201,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                 ) : null}
                                 {content ? (
                                     <>
-                                        {toc && toc.length > 0 && (
-                                            <>
-                                                <style>{`
-                                                    .toc-link {
-                                                        text-decoration: none;
-                                                        transition: all 0.3s ease;
-                                                        display: block;
-                                                        font-size: 14px;
-                                                    }
-                                                    .toc-link:hover {
-                                                        color: var(--bs-primary) !important;
-                                                    }
-                                                    .custom-scrollbar::-webkit-scrollbar {
-                                                        width: 6px;
-                                                    }
-                                                    .custom-scrollbar::-webkit-scrollbar-track {
-                                                        background: #f1f1f1;
-                                                        border-radius: 4px;
-                                                    }
-                                                    .custom-scrollbar::-webkit-scrollbar-thumb {
-                                                        background: #c1c1c1;
-                                                        border-radius: 4px;
-                                                    }
-                                                    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                                                        background: #a8a8a8;
-                                                    }
-                                                `}</style>
-                                                <div
-                                                    className="table-of-contents mb-4 p-4 rounded mx-auto"
-                                                    style={{
-                                                        background: '#f8f9fa',
-                                                        borderLeft: '4px solid var(--bs-primary)',
-                                                        boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                                                        width: '80%'
-                                                    }}
-                                                >
-                                                    <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
-                                                    <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
-                                                        {toc.map((item, index) => (
-                                                            <li
-                                                                key={index}
-                                                                className="mb-2"
-                                                                style={{
-                                                                    paddingLeft: `${(item.level - 2) * 20}px`
-                                                                }}
-                                                            >
-                                                                <Link
-                                                                    href={`#${item.id}`}
-                                                                    className="toc-link text-body"
-                                                                >
-                                                                    <i className="feather icon-chevron-right me-2" style={{ fontSize: '12px', color: 'var(--bs-primary)' }}></i>
-                                                                    {item.text}
-                                                                </Link>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            </>
-                                        )}
-                                        <ExpandableContent content={content} maxHeight={400} syncHeightWithSelector=".side-bar.left" />
+                                        <ExpandableContent content={content} maxHeight={400} syncHeightWithSelector=".side-bar.left" toc={toc} />
                                         <ImageLightboxActivator containerSelector=".entry-content" />
                                     </>
                                 ) : null}
@@ -267,49 +209,32 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                             </div>
                             <div className="col-lg-4 m-b30 d-flex flex-column side-bar left">
                                 <div className="widget service_menu_nav bg-secondary wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="0.7s">
-                                    <div className="widget-title">
-                                        <h4 className="title">Tất cả Dịch vụ</h4>
+                                    <style>{`
+                                        .service_menu_nav ul li a::before,
+                                        .service_menu_nav ul li a::after {
+                                            display: none !important;
+                                            content: none !important;
+                                        }
+                                    `}</style>
+                                    <div className="widget-title position-relative" style={{ paddingBottom: '15px', marginBottom: '25px', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                                        <h4 className="title d-flex align-items-center" style={{ fontSize: '20px', fontWeight: 700, color: '#031b4e', margin: 0 }}>
+                                            <i className="feather icon-list" style={{ color: 'var(--bs-primary)', marginRight: '10px', fontSize: '22px' }}></i>
+                                            Tất cả Dịch vụ
+                                        </h4>
+                                        <span style={{ position: 'absolute', bottom: '-1px', left: 0, width: '40px', height: '3px', backgroundColor: 'var(--bs-primary)', borderRadius: '3px' }}></span>
                                     </div>
                                     <ul>
                                         {(categories as any[]).map((parent, i) => {
                                             const isParentActive = parent.slug === slug;
                                             const hasActiveChild = parent.children?.some((c: { slug: string }) => c.slug === slug);
+                                            const isActive = isParentActive || hasActiveChild;
                                             return (
-                                                <li key={i} className={isParentActive || hasActiveChild ? 'active' : ''}>
-                                                    <Link
-                                                        href={`/dich-vu/${parent.slug}`}
-                                                        className={isParentActive ? 'active' : ''}
-                                                        style={isParentActive ? {
-                                                            backgroundColor: 'var(--bs-primary)',
-                                                            color: '#ffffff',
-                                                            fontWeight: 700,
-                                                        } : {}}
-                                                    >
-                                                        {parent.name}
-                                                    </Link>
-                                                    {parent.children && parent.children.length > 0 && (
-                                                        <ul className="sub-menu">
-                                                            {parent.children.map((child: { name: string; slug: string }, j: number) => {
-                                                                const isChildActive = child.slug === slug;
-                                                                return (
-                                                                    <li key={j} className={isChildActive ? 'active' : ''}>
-                                                                        <Link
-                                                                            href={`/dich-vu/${child.slug}`}
-                                                                            className={isChildActive ? 'active' : ''}
-                                                                            style={isChildActive ? {
-                                                                                color: 'var(--bs-primary)',
-                                                                                fontWeight: 700,
-                                                                                borderLeft: '3px solid var(--bs-primary)',
-                                                                            } : {}}
-                                                                        >
-                                                                            + {child.name}
-                                                                        </Link>
-                                                                    </li>
-                                                                );
-                                                            })}
-                                                        </ul>
-                                                    )}
-                                                </li>
+                                                <SidebarMenuParent 
+                                                    key={i} 
+                                                    parent={parent} 
+                                                    slug={slug} 
+                                                    isActive={isActive} 
+                                                />
                                             );
                                         })}
                                     </ul>
@@ -441,7 +366,6 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                         </div>
                     </section>
                 )}
-                <FloatingTOC toc={toc} />
             </main>
         </>
     );

@@ -9,11 +9,15 @@ type TOCItem = {
     level: number;
 };
 
-export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
-    const [isVisible, setIsVisible] = useState(false);
+export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisible = false }: { toc?: TOCItem[] | null, scrollContainerSelector?: string, alwaysVisible?: boolean }) {
+    const [isVisible, setIsVisible] = useState(alwaysVisible);
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
+        if (alwaysVisible) {
+            setIsVisible(true);
+            return;
+        }
         const handleScroll = () => {
             if (window.scrollY > 600) {
                 setIsVisible(true);
@@ -25,7 +29,22 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [alwaysVisible]);
+
+    const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        if (scrollContainerSelector) {
+            e.preventDefault();
+            const container = document.querySelector(scrollContainerSelector);
+            if (container) {
+                // Find target inside the specified container
+                const target = container.querySelector(`[id="${id}"]`);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+        setIsOpen(false);
+    };
 
     if (!toc || toc.length === 0) return null;
 
@@ -42,7 +61,7 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    zIndex: 998,
+                    zIndex: 999999, // very high to be above modal
                     opacity: isVisible ? 1 : 0,
                     pointerEvents: isVisible ? "auto" : "none",
                     transition: "all 0.3s ease",
@@ -94,7 +113,7 @@ export default function FloatingTOC({ toc }: { toc?: TOCItem[] | null }) {
                                         href={`#${item.id}`}
                                         className="text-body"
                                         style={{ fontSize: "13px", textDecoration: "none", display: "block" }}
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={(e) => handleItemClick(e, item.id)}
                                     >
                                         <i className="feather icon-chevron-right me-2" style={{ fontSize: "10px", color: "var(--bs-primary)" }}></i>
                                         {item.text}
