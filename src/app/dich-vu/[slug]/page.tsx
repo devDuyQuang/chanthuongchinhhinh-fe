@@ -339,106 +339,108 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                         </div>
                     </div>
                 </section>
-                <section className="content-inner border-top">
-                    <div className="container">
-                        <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
-                            <h3 className="mb-4">Có thể bạn quan tâm?</h3>
-                            <div className="row loadmore-content">
-                                {posts && posts.map((item, i) => (
-                                    <div className="col-xl-4 col-lg-4 col-md-6 mb-4" key={i}>
-                                        <div className="dz-card shadow-sm border rounded overflow-hidden bg-white h-100 d-flex flex-column wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
-                                            <div className="dz-media" style={{ height: '220px', overflow: 'hidden' }}>
-                                                <Link href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
-                                                    <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                </Link>
-                                            </div>
-                                            <div className="dz-info p-4 d-flex flex-column flex-grow-1">
-                                                <div className="dz-meta mb-2">
-                                                    <ul className="p-0 d-flex align-items-center gap-3 list-unstyled">
-                                                        <li className="post-date mb-0 text-muted" style={{ fontSize: '13px' }}>
-                                                            <i className="fa-regular fa-calendar me-1"></i>
-                                                            {new Date(item?.created_at).toLocaleDateString("en-GB", {
-                                                                day: "2-digit",
-                                                                month: "short",
-                                                                year: "numeric",
-                                                            })}
-                                                        </li>
-                                                        <li className="post-comments text-muted" style={{ fontSize: '13px' }}>
-                                                            <i className="fa-solid fa-eye me-1"></i> 100 lượt xem
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>
-                                                    <Link href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">{item?.name}</Link>
-                                                </h3>
-                                                <p className="text-muted" style={{
-                                                    display: '-webkit-box',
-                                                    WebkitLineClamp: 3,
-                                                    WebkitBoxOrient: 'vertical',
-                                                    overflow: 'hidden',
-                                                    margin: '0 0 15px',
-                                                    fontSize: '15px',
-                                                    lineHeight: 1.6
-                                                }}>{item?.description}</p>
-                                                <div className="mt-auto">
-                                                    <Link href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
-                                                        Đọc Thêm <i className="feather icon-arrow-right" />
+                {posts && posts.length > 0 && (
+                    <section className="content-inner border-top">
+                        <div className="container">
+                            <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
+                                <h3 className="mb-4">Có thể bạn quan tâm?</h3>
+                                <div className="row loadmore-content">
+                                    {posts.map((item, i) => (
+                                        <div className="col-xl-4 col-lg-4 col-md-6 mb-4" key={i}>
+                                            <div className="dz-card shadow-sm border rounded overflow-hidden bg-white h-100 d-flex flex-column wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
+                                                <div className="dz-media" style={{ height: '220px', overflow: 'hidden' }}>
+                                                    <Link href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
+                                                        <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                     </Link>
+                                                </div>
+                                                <div className="dz-info p-4 d-flex flex-column flex-grow-1">
+                                                    <div className="dz-meta mb-2">
+                                                        <ul className="p-0 d-flex align-items-center gap-3 list-unstyled">
+                                                            <li className="post-date mb-0 text-muted" style={{ fontSize: '13px' }}>
+                                                                <i className="fa-regular fa-calendar me-1"></i>
+                                                                {new Date(item?.created_at).toLocaleDateString("en-GB", {
+                                                                    day: "2-digit",
+                                                                    month: "short",
+                                                                    year: "numeric",
+                                                                })}
+                                                            </li>
+                                                            <li className="post-comments text-muted" style={{ fontSize: '13px' }}>
+                                                                <i className="fa-solid fa-eye me-1"></i> 100 lượt xem
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>
+                                                        <Link href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">{item?.name}</Link>
+                                                    </h3>
+                                                    <p className="text-muted" style={{
+                                                        display: '-webkit-box',
+                                                        WebkitLineClamp: 3,
+                                                        WebkitBoxOrient: 'vertical',
+                                                        overflow: 'hidden',
+                                                        margin: '0 0 15px',
+                                                        fontSize: '15px',
+                                                        lineHeight: 1.6
+                                                    }}>{item?.description}</p>
+                                                    <div className="mt-auto">
+                                                        <Link href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
+                                                            Đọc Thêm <i className="feather icon-arrow-right" />
+                                                        </Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
-                            
-                            {pagination && pagination.last_page > 1 && (
-                                <div className="row mt-4">
-                                    <div className="col-12 text-center">
-                                        <style>{`
-                                            .content-inner ul.pagination-no-bullets,
-                                            .content-inner ul.pagination-no-bullets > li {
-                                                list-style: none !important;
-                                                list-style-type: none !important;
-                                            }
-                                            .content-inner ul.pagination-no-bullets > li::before,
-                                            .content-inner ul.pagination-no-bullets > li::after,
-                                            ul.pagination-no-bullets > li::before,
-                                            ul.pagination-no-bullets > li::after {
-                                                display: none !important;
-                                                content: none !important;
-                                                background: transparent !important;
-                                            }
-                                        `}</style>
-                                        <ul className="pagination text-center pagination-rounded justify-content-center list-unstyled pagination-no-bullets" style={{ margin: 0, padding: 0 }}>
-                                            {pagination.current_page > 1 && (
-                                                <li className="page-item">
-                                                    <Link className="page-link prev" href={`/dich-vu/${slug}?page=${pagination.current_page - 1}`} scroll={false}>
-                                                        <i className="fas fa-chevron-left"></i>
-                                                    </Link>
-                                                </li>
-                                            )}
-                                            {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((p) => (
-                                                <li key={p} className="page-item">
-                                                    <Link className={`page-link ${p === pagination.current_page ? 'active' : ''}`} href={`/dich-vu/${slug}?page=${p}`} scroll={false}>
-                                                        {p}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                            {pagination.current_page < pagination.last_page && (
-                                                <li className="page-item">
-                                                    <Link className="page-link next" href={`/dich-vu/${slug}?page=${pagination.current_page + 1}`} scroll={false}>
-                                                        <i className="fas fa-chevron-right"></i>
-                                                    </Link>
-                                                </li>
-                                            )}
-                                        </ul>
-                                    </div>
+                                    ))}
                                 </div>
-                            )}
-
+                                
+                                {pagination && pagination.last_page > 1 && (
+                                    <div className="row mt-4">
+                                        <div className="col-12 text-center">
+                                            <style>{`
+                                                .content-inner ul.pagination-no-bullets,
+                                                .content-inner ul.pagination-no-bullets > li {
+                                                    list-style: none !important;
+                                                    list-style-type: none !important;
+                                                }
+                                                .content-inner ul.pagination-no-bullets > li::before,
+                                                .content-inner ul.pagination-no-bullets > li::after,
+                                                ul.pagination-no-bullets > li::before,
+                                                ul.pagination-no-bullets > li::after {
+                                                    display: none !important;
+                                                    content: none !important;
+                                                    background: transparent !important;
+                                                }
+                                            `}</style>
+                                            <ul className="pagination text-center pagination-rounded justify-content-center list-unstyled pagination-no-bullets" style={{ margin: 0, padding: 0 }}>
+                                                {pagination.current_page > 1 && (
+                                                    <li className="page-item">
+                                                        <Link className="page-link prev" href={`/dich-vu/${slug}?page=${pagination.current_page - 1}`} scroll={false}>
+                                                            <i className="fas fa-chevron-left"></i>
+                                                        </Link>
+                                                    </li>
+                                                )}
+                                                {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((p) => (
+                                                    <li key={p} className="page-item">
+                                                        <Link className={`page-link ${p === pagination.current_page ? 'active' : ''}`} href={`/dich-vu/${slug}?page=${p}`} scroll={false}>
+                                                            {p}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                                {pagination.current_page < pagination.last_page && (
+                                                    <li className="page-item">
+                                                        <Link className="page-link next" href={`/dich-vu/${slug}?page=${pagination.current_page + 1}`} scroll={false}>
+                                                            <i className="fas fa-chevron-right"></i>
+                                                        </Link>
+                                                    </li>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
+    
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
                 <FloatingTOC toc={toc} />
             </main>
         </>
