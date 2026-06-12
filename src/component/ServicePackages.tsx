@@ -648,7 +648,7 @@ function ServicePackage({ data }: ServicePackageProps) {
           style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 99999, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'zoom-out' }}
           onClick={() => setZoomedImage(null)}
         >
-          <img src={zoomedImage} alt="Zoomed image" style={{ maxWidth: '90%', maxHeight: '90%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 5px 25px rgba(0,0,0,0.5)' }} />
+          <Image src={zoomedImage!} alt="Zoomed image" width={0} height={0} sizes="100vw" unoptimized style={{ width: 'auto', height: 'auto', maxWidth: '90%', maxHeight: '90%', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 5px 25px rgba(0,0,0,0.5)' }} />
         </div>
       )}
     </>

@@ -318,9 +318,13 @@ function Frequently({ data }: FrequentlyProps) {
                 }}
               >
                 {faqImage ? (
-                  <img
+                  <Image
                     src={faqImage}
                     alt={data?.title || "FAQ"}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    unoptimized
                     style={{
                       width: "100%",
                       height: "100%",

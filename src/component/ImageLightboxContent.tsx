@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 
 /**
  * ImageLightboxActivator
@@ -149,14 +150,19 @@ export default function ImageLightboxActivator({
 
             {/* Ảnh phóng to */}
             {lightboxSrc && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                     src={lightboxSrc}
                     alt={lightboxAlt}
                     onClick={(e) => e.stopPropagation()}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    unoptimized
                     style={{
                         maxWidth: '92vw',
                         maxHeight: '88vh',
+                        width: 'auto',
+                        height: 'auto',
                         objectFit: 'contain',
                         borderRadius: '12px',
                         boxShadow: '0 24px 80px rgba(0,0,0,0.55)',

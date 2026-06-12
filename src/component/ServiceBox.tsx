@@ -241,6 +241,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { serviceboxdata } from "../constant/alldata";
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 
@@ -437,9 +438,13 @@ function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
               <div className="icon-bx-head">
                 <div className="icon-bx">
                   {item.iconUrl ? (
-                    <img
+                    <Image
                       src={item.iconUrl}
                       alt={item.title}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      unoptimized
                       className="service-upload-icon"
                     />
                   ) : (
@@ -452,9 +457,13 @@ function ServiceBox({ data, posts, useFallback = true }: ServiceBoxProps) {
 
                 {item.iconUrl ? (
                   <span className="icon-bg">
-                    <img
+                    <Image
                       src={item.iconUrl}
                       alt=""
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      unoptimized
                       aria-hidden="true"
                       className="service-upload-icon-bg"
                     />

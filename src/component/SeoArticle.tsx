@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 const SeoArticle = () => {
   const [showModal, setShowModal] = useState(false);
@@ -65,7 +66,7 @@ const SeoArticle = () => {
               </p>
 
               <div className="text-center m-b30">
-                <img src="/chan-thuong-chinh-hinh-la-gi.webp" alt="Chấn Thương Chỉnh Hình Là Gì?" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+                <Image src="/chan-thuong-chinh-hinh-la-gi.webp" alt="Chấn Thương Chỉnh Hình Là Gì?" width={0} height={0} sizes="100vw" unoptimized className="img-fluid rounded shadow-sm" style={{ width: '90%', height: 'auto', objectFit: 'contain' }} />
               </div>
 
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>
@@ -111,7 +112,7 @@ const SeoArticle = () => {
               </ul>
 
               <div className="text-center m-b30">
-                <img src="/cac-benh-ly-chan-thuong-co-xuong-khop-pho-bien-nhat-hien-nay.webp" alt="Các bệnh lý cơ xương khớp" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+                <Image src="/cac-benh-ly-chan-thuong-co-xuong-khop-pho-bien-nhat-hien-nay.webp" alt="Các bệnh lý cơ xương khớp" width={0} height={0} sizes="100vw" unoptimized className="img-fluid rounded shadow-sm" style={{ width: '90%', height: 'auto', objectFit: 'contain' }} />
               </div>
 
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>
@@ -137,7 +138,7 @@ const SeoArticle = () => {
               <p className="m-b30">Khi điều trị bảo tồn thất bại, phẫu thuật nội soi khớp (Arthroscopy) là giải pháp cứu cánh. Thay vì rạch những đường mổ dài, bác sĩ chỉ cần mở 2-3 lỗ nhỏ bằng đầu đũa để đưa camera và dụng cụ vào khớp. Ưu điểm vượt trội là ít tổn thương mô lành, gần như không chảy máu, giảm thiểu nguy cơ nhiễm trùng, bệnh nhân ít đau đớn và phục hồi vận động cực kỳ nhanh chóng.</p>
 
               <div className="text-center m-b30">
-                <img src="/phau-thuat-xam-lan-toi-thieu-mis.webp" alt="Phẫu Thuật Xâm Lấn Tối Thiểu" className="img-fluid rounded shadow-sm" style={{ width: '90%', objectFit: 'contain' }} />
+                <Image src="/phau-thuat-xam-lan-toi-thieu-mis.webp" alt="Phẫu Thuật Xâm Lấn Tối Thiểu" width={0} height={0} sizes="100vw" unoptimized className="img-fluid rounded shadow-sm" style={{ width: '90%', height: 'auto', objectFit: 'contain' }} />
               </div>
 
               <h3 className="m-b15" style={{ fontSize: '1.5rem', color: '#1e3a5f' }}>

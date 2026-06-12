@@ -1,5 +1,6 @@
 import { IMAGES } from "@/constant/theme";
 import Link from "next/link";
+import Image from "next/image";
 import { getSetting } from "@/services/settingService";
 import { getCategories } from "@/services/categoryService";
 import { serviceboxdata } from "@/constant/alldata";
@@ -106,9 +107,13 @@ async function Services() {
                                                                 }}
                                                             >
                                                                 {image ? (
-                                                                    <img
+                                                                    <Image
                                                                         src={image}
                                                                         alt={child.name}
+                                                                        width={0}
+                                                                        height={0}
+                                                                        sizes="100vw"
+                                                                        unoptimized
                                                                         style={{
                                                                             width: "100%",
                                                                             height: "100%",
@@ -125,9 +130,13 @@ async function Services() {
 
                                                             {image ? (
                                                                 <span className="icon-bg d-flex align-items-center justify-content-center">
-                                                                    <img
+                                                                    <Image
                                                                         src={image}
                                                                         alt={child.name}
+                                                                        width={0}
+                                                                        height={0}
+                                                                        sizes="100vw"
+                                                                        unoptimized
                                                                         style={{
                                                                             width: 140,
                                                                             height: 140,

@@ -113,9 +113,13 @@ export default function BlogSidebar({
                   flexShrink: 0,
                 }}
               >
-                <img
+                <Image
                   src={normalizeImageUrl(item.image) || ""}
                   alt={item.name || "post"}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  unoptimized
                   style={{
                     width: "100%",
                     height: "100%",
