@@ -9,6 +9,7 @@ import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
 import ExpandableContent from "@/component/ExpandableContent";
 import SidebarMenuParent from "./SidebarMenuParent";
+import NavigationLink from "@/component/NavigationLink";
 
 export async function generateMetadata(
     { params }: { params: Promise<{ slug: string }> }
@@ -274,9 +275,9 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                         <div className="col-xl-4 col-lg-4 col-md-6 mb-4" key={i}>
                                             <div className="dz-card shadow-sm border rounded overflow-hidden bg-white h-100 d-flex flex-column wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
                                                 <div className="dz-media" style={{ height: '220px', overflow: 'hidden' }}>
-                                                    <Link href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
+                                                    <NavigationLink href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
                                                         <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name} width={500} height={500} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                    </Link>
+                                                    </NavigationLink>
                                                 </div>
                                                 <div className="dz-info p-4 d-flex flex-column flex-grow-1">
                                                     <div className="dz-meta mb-2">
@@ -295,7 +296,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                                         </ul>
                                                     </div>
                                                     <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>
-                                                        <Link href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">{item?.name}</Link>
+                                                        <NavigationLink href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">{item?.name}</NavigationLink>
                                                     </h3>
                                                     <p className="text-muted" style={{
                                                         display: '-webkit-box',
@@ -307,9 +308,9 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                                         lineHeight: 1.6
                                                     }}>{item?.description}</p>
                                                     <div className="mt-auto">
-                                                        <Link href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
+                                                        <NavigationLink href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
                                                             Đọc Thêm <i className="feather icon-arrow-right" />
-                                                        </Link>
+                                                        </NavigationLink>
                                                     </div>
                                                 </div>
                                             </div>

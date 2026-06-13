@@ -9,6 +9,8 @@ import { useEmailService } from "@/constant/useEmailService";
 import { mapSiteToSidebarData } from "@/lib/mappers/site";
 import AppointmentModal from "@/component/AppointmentModal";
 import SearchModal from "@/component/SearchModal";
+import { usePathname, useSearchParams } from "next/navigation";
+import LoadingModal from "@/component/LoadingModal";
 
 type TopbarInfoItem = {
   title?: string;
@@ -39,6 +41,19 @@ function Header({ menu, settings }: HeaderProps) {
   const [scroll, setScroll] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname, searchParams]);
+
+  const handleNavigation = (targetPath: string) => {
+    if (targetPath && targetPath !== pathname && !targetPath.startsWith('#')) {
+      setIsNavigating(true);
+    }
+  };
 
   const form = useRef<HTMLFormElement | null>(null);
   const { sendEmail } = useEmailService();
@@ -138,7 +153,7 @@ function Header({ menu, settings }: HeaderProps) {
           <div className="main-bar clearfix bg-secondary text-white">
             <div className="container-fluid clearfix inner-bar">
               <div className="logo-header logo-dark">
-                <Link href="/">
+                <Link href="/" onClick={() => handleNavigation("/")}>
                   <Image src={logo} alt="logo" width={200} height={60} priority />
                 </Link>
               </div>
@@ -188,7 +203,7 @@ function Header({ menu, settings }: HeaderProps) {
                 id="W3Menu"
               >
                 <div className="logo-header logo-dark">
-                  <Link href="/">
+                  <Link href="/" onClick={() => handleNavigation("/")}>
                     <Image src={logo} alt="logo" width={200} height={60} />
                   </Link>
                 </div>
@@ -221,7 +236,7 @@ function Header({ menu, settings }: HeaderProps) {
                             <ul className="demo-menu">
                               {data.content?.map((item, index) => (
                                 <li key={index}>
-                                  <Link href={item.to}>
+                                  <Link href={item.to} onClick={() => handleNavigation(item.to)}>
                                     {item.image ? (
                                       <Image
                                         src={item.image}
@@ -275,6 +290,7 @@ function Header({ menu, settings }: HeaderProps) {
                                   onClick={() => {
                                     setShow(null);
                                     setIsActive(null);
+                                    handleNavigation(item.to);
                                   }}
                                 >
                                   {item.title}
@@ -293,6 +309,7 @@ function Header({ menu, settings }: HeaderProps) {
                           onClick={() => {
                             setShow(null);
                             setIsActive(null);
+                            handleNavigation(data.to as string);
                           }}
                         >
                           <span>{data.title}</span>
@@ -387,7 +404,7 @@ function Header({ menu, settings }: HeaderProps) {
           <div className="offcanvas-body">
             <div className="widget">
               <div className="sidebar-header m-b20">
-                <Link href="/">
+                <Link href="/" onClick={() => handleNavigation("/")}>
                   <Image src={logo_black} alt="logo" width={200} height={60} />
                 </Link>
               </div>
@@ -520,6 +537,7 @@ function Header({ menu, settings }: HeaderProps) {
       </header>
       <AppointmentModal show={showAppointmentModal} onClose={() => setShowAppointmentModal(false)} />
       <SearchModal show={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <LoadingModal show={isNavigating} />
     </>
   );
 }

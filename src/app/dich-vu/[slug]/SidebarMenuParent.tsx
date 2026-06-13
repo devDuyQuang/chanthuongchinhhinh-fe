@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import NavigationLink from "@/component/NavigationLink";
 import { useState, useEffect } from "react";
 
 export default function SidebarMenuParent({ parent, slug, isActive }: { parent: any, slug: string, isActive: boolean }) {
@@ -16,7 +16,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
     return (
         <li className={isActive ? 'active' : ''}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                <Link
+                <NavigationLink
                     href={`/dich-vu/${parent.slug}`}
                     className={isActive ? 'active' : ''}
                     style={isActive ? {
@@ -32,7 +32,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                     }}
                 >
                     <span>{parent.name}</span>
-                </Link>
+                </NavigationLink>
                 {parent.children && parent.children.length > 0 ? (
                     <i 
                         className={`feather ${isOpen ? 'icon-chevron-down' : 'icon-chevron-down'}`} 
@@ -58,7 +58,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                         const isChildActive = child.slug === slug;
                         return (
                             <li key={j} className={isChildActive ? 'active' : ''}>
-                                <Link
+                                <NavigationLink
                                     href={`/dich-vu/${child.slug}`}
                                     className={isChildActive ? 'active' : ''}
                                     style={isChildActive ? {
@@ -77,7 +77,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                                 >
                                     <span>+ {child.name}</span>
                                     {isChildActive && <i className="feather icon-arrow-right" style={{ fontSize: '18px', color: 'var(--bs-primary)' }}></i>}
-                                </Link>
+                                </NavigationLink>
                             </li>
                         );
                     })}
