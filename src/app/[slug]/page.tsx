@@ -8,6 +8,7 @@ import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
+import NavigationLink from "@/component/NavigationLink";
 
 type Props = {
   params: Promise<{
@@ -392,36 +393,37 @@ export default async function DirectPostDetailPage({ params }: Props) {
                               key={i}
                             >
                               <div className="dz-media">
-                                <Image
-                                  src={normalizeImageUrl(item?.image) ?? ""}
-                                  alt={item?.name || ""}
-                                  width={500}
-                                  height={500}
-                                />
+                                <NavigationLink href={"/" + item?.slug}>
+                                  <Image
+                                    src={normalizeImageUrl(item?.image) ?? ""}
+                                    alt={item?.name || ""}
+                                    width={500}
+                                    height={500}
+                                  />
+                                </NavigationLink>
                               </div>
+
                               <div className="dz-info">
                                 <div className="dz-meta">
                                   <ul className="p-0">
                                     <li className="post-date mb-0">
                                       {item?.created_at &&
-                                        new Date(
-                                          item.created_at,
-                                        ).toLocaleDateString("en-GB", {
+                                        new Date(item.created_at).toLocaleDateString("en-GB", {
                                           day: "2-digit",
                                           month: "short",
                                           year: "numeric",
                                         })}
                                     </li>
-                                    <li className="post-comments">
-                                      100 lượt xem
-                                    </li>
+                                    <li className="post-comments">100 lượt xem</li>
                                   </ul>
                                 </div>
+
                                 <h3>
-                                  <Link href={"/" + item?.slug}>
+                                  <NavigationLink href={"/" + item?.slug}>
                                     {item?.name}
-                                  </Link>
+                                  </NavigationLink>
                                 </h3>
+
                                 {item?.description && (
                                   <p
                                     style={{
@@ -436,13 +438,13 @@ export default async function DirectPostDetailPage({ params }: Props) {
                                     {item?.description}
                                   </p>
                                 )}
-                                <Link
+
+                                <NavigationLink
                                   href={"/" + item?.slug}
                                   className="btn icon-link-hover-end btn-primary radius-sm"
                                 >
-                                  Đọc Thêm{" "}
-                                  <i className="feather icon-arrow-right" />
-                                </Link>
+                                  Đọc Thêm <i className="feather icon-arrow-right" />
+                                </NavigationLink>
                               </div>
                             </div>
                           ))}

@@ -20,13 +20,14 @@ const LoadingModal = ({ show }: { show: boolean }) => {
     >
       <div
         style={{
-          backgroundColor: '#fff',
-          borderRadius: '16px',
-          padding: '40px 60px',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          borderRadius: '20px',
+          padding: '32px 48px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
         }}
       >
         <div
@@ -46,7 +47,7 @@ const LoadingModal = ({ show }: { show: boolean }) => {
             100% { transform: rotate(360deg); }
           }
         `}</style>
-        <h4 style={{ margin: 0, color: '#333', fontSize: '20px', fontWeight: '500' }}>
+        <h4 style={{ margin: 0, color: '#cfcfcf', fontSize: '20px', fontWeight: '500' }}>
           Đang tải trang...
         </h4>
       </div>
