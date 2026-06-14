@@ -47,7 +47,7 @@ const LoadingModal = ({ show }: { show: boolean }) => {
             100% { transform: rotate(360deg); }
           }
         `}</style>
-        <h4 style={{ margin: 0, color: '#cfcfcf', fontSize: '20px', fontWeight: '500' }}>
+        <h4 style={{ margin: 0, color: '#fff', fontSize: '20px', fontWeight: '500' }}>
           Đang tải trang...
         </h4>
       </div>
