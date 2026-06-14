@@ -20,7 +20,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                     href={`/dich-vu/${parent.slug}`}
                     className={isActive ? 'active' : ''}
                     style={isActive ? {
-                        color: 'var(--bs-primary)',
+                        color: parent.slug === slug ? 'var(--bs-primary)' : '#031b4e',
                         fontWeight: 700,
                         backgroundColor: 'transparent',
                         flexGrow: 1,
@@ -38,7 +38,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                         className={`feather ${isOpen ? 'icon-chevron-down' : 'icon-chevron-down'}`} 
                         style={{ 
                             fontSize: '18px', 
-                            color: isActive ? 'var(--bs-primary)' : 'inherit', 
+                            color: parent.slug === slug ? 'var(--bs-primary)' : (isActive ? '#031b4e' : 'inherit'), 
                             cursor: 'pointer',
                             padding: '5px 0 5px 15px'
                         }}
@@ -49,7 +49,7 @@ export default function SidebarMenuParent({ parent, slug, isActive }: { parent: 
                         }}
                     ></i>
                 ) : isActive && (
-                    <i className="feather icon-arrow-right" style={{ fontSize: '18px', color: 'var(--bs-primary)' }}></i>
+                    <i className="feather icon-arrow-right" style={{ fontSize: '18px', color: parent.slug === slug ? 'var(--bs-primary)' : '#031b4e' }}></i>
                 )}
             </div>
             {parent.children && parent.children.length > 0 && isOpen && (
