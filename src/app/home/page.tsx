@@ -27,10 +27,11 @@ import { getHomePosts } from "@/services/postService";
 import { getCategories } from "@/services/categoryService";
 
 async function HomePage() {
-  const setting = await getSetting();
-  const posts = await getHomePosts();
-
-  const homeCategories = await getCategories("service", true);
+  const [setting, posts, homeCategories] = await Promise.all([
+    getSetting(),
+    getHomePosts(),
+    getCategories("service", true),
+  ]);
 
   const hero = setting?.data?.hero_home_clinic;
   const facility = setting?.data?.utilities_home_clinic;

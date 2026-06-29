@@ -258,10 +258,17 @@ export type SettingResponse = {
             }[];
             utilities?: string[];
         };
+        site_assets_clinic?: {
+            favicon?: string;
+            logo?: string;
+            logo_black?: string;
+        };
     };
 };
 
-export async function getSetting(): Promise<SettingResponse | null> {
+import { cache } from "react";
+
+export const getSetting = cache(async function getSetting(): Promise<SettingResponse | null> {
     try {
         const res = await fetch(`${(process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "api.")}/setting`, {
             cache: "no-store",
@@ -276,4 +283,4 @@ export async function getSetting(): Promise<SettingResponse | null> {
         console.error("Lỗi lấy setting:", error);
         return null;
     }
-}
+});
