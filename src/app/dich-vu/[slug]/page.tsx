@@ -10,6 +10,7 @@ import FloatingTOC from "@/component/FloatingTOC";
 import ExpandableContent from "@/component/ExpandableContent";
 import SidebarMenuParent from "./SidebarMenuParent";
 import NavigationLink from "@/component/NavigationLink";
+import PaginationWithLoading from "@/component/PaginationWithLoading";
 
 export async function generateMetadata(
     { params }: { params: Promise<{ slug: string }> }
@@ -318,44 +319,11 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                 {pagination && pagination.last_page > 1 && (
                                     <div className="row mt-4">
                                         <div className="col-12 text-center">
-                                            <style>{`
-                                                .content-inner ul.pagination-no-bullets,
-                                                .content-inner ul.pagination-no-bullets > li {
-                                                    list-style: none !important;
-                                                    list-style-type: none !important;
-                                                }
-                                                .content-inner ul.pagination-no-bullets > li::before,
-                                                .content-inner ul.pagination-no-bullets > li::after,
-                                                ul.pagination-no-bullets > li::before,
-                                                ul.pagination-no-bullets > li::after {
-                                                    display: none !important;
-                                                    content: none !important;
-                                                    background: transparent !important;
-                                                }
-                                            `}</style>
-                                            <ul className="pagination text-center pagination-rounded justify-content-center list-unstyled pagination-no-bullets" style={{ margin: 0, padding: 0 }}>
-                                                {pagination.current_page > 1 && (
-                                                    <li className="page-item">
-                                                        <Link className="page-link prev" href={`/dich-vu/${slug}?page=${pagination.current_page - 1}`} scroll={false}>
-                                                            <i className="fas fa-chevron-left"></i>
-                                                        </Link>
-                                                    </li>
-                                                )}
-                                                {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((p) => (
-                                                    <li key={p} className="page-item">
-                                                        <Link className={`page-link ${p === pagination.current_page ? 'active' : ''}`} href={`/dich-vu/${slug}?page=${p}`} scroll={false}>
-                                                            {p}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                                {pagination.current_page < pagination.last_page && (
-                                                    <li className="page-item">
-                                                        <Link className="page-link next" href={`/dich-vu/${slug}?page=${pagination.current_page + 1}`} scroll={false}>
-                                                            <i className="fas fa-chevron-right"></i>
-                                                        </Link>
-                                                    </li>
-                                                )}
-                                            </ul>
+                                            <PaginationWithLoading
+                                                currentPage={pagination.current_page}
+                                                lastPage={pagination.last_page}
+                                                basePath={`/dich-vu/${slug}`}
+                                            />
                                         </div>
                                     </div>
                                 )}

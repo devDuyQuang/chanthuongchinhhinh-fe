@@ -14,22 +14,29 @@ type Props = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
   const post = await getPost(slug);
 
   const title = `${post?.title_seo || post?.name || "Bài viết"} - DrDuongOrtho`;
   const description = post?.description_seo || post?.description || "";
-  const canonical = post?.canonical_seo;
+  let canonical = post?.canonical_seo || `/${slug}`;
+
+  if (resolvedSearchParams?.page && resolvedSearchParams.page !== '1') {
+    canonical = `${canonical}?page=${resolvedSearchParams.page}`;
+  }
+
   const image = normalizeImageUrl(post?.image);
 
   return {
     title,
     description,
     alternates: {
-      canonical: canonical || `/${slug}`,
+      canonical: canonical,
     },
     openGraph: {
       title,
