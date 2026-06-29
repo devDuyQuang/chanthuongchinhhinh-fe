@@ -136,7 +136,7 @@ function Header({ menu, settings }: HeaderProps) {
                         </span>
                       </div>
                       <div className="icon-content">
-                        <h3 className="dz-title text-primary">{data.title}</h3>
+                        <p className="dz-title text-primary">{data.title}</p>
                         <p>{data.subtitle}</p>
                       </div>
                     </div>
@@ -415,9 +415,9 @@ function Header({ menu, settings }: HeaderProps) {
 
             <div className="widget">
               <div className="widget-title">
-                <h4 className="title">
+                <p className="title">
                   {sidebarData?.contactTitle || "Liên hệ"}
-                </h4>
+                </p>
               </div>
               <ul className="list-check">
                 <li>{sidebarData?.address || "Địa chỉ chưa cập nhật"}</li>
@@ -444,9 +444,9 @@ function Header({ menu, settings }: HeaderProps) {
 
             <div className="widget">
               <div className="widget-title">
-                <h4 className="title">
+                <p className="title">
                   {sidebarData?.newsletterTitle || "Nhận bản tin"}
-                </h4>
+                </p>
               </div>
               <form
                 className="dzSubscribe style-2"
@@ -482,9 +482,9 @@ function Header({ menu, settings }: HeaderProps) {
 
             <div className="widget">
               <div className="widget-title">
-                <h4 className="title">
+                <p className="title">
                   {sidebarData?.followTitle || "Mạng xã hội"}
-                </h4>
+                </p>
               </div>
               <div className="dz-social-icon style-1">
                 <ul>

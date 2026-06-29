@@ -276,7 +276,7 @@ function Connect({ data }: ConnectProps) {
                 <span className="icon-cell">{item.icon}</span>
               </div>
               <div className="icon-content">
-                <h4 className="dz-title">{item.title}</h4>
+                <p className="dz-title">{item.title}</p>
                 {item.para}
               </div>
             </div>

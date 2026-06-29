@@ -237,7 +237,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                     >
                                         <div className="widget-content">
                                             <Image src={IMAGES.question} width="80" alt="icon help" />
-                                            <h4 className="title">Bạn có cần giúp đỡ gì không?</h4>
+                                            <p className="title">Bạn có cần giúp đỡ gì không?</p>
                                             <div className="phone-number">
                                                 <Link href="tel:0846555367">0846 555 367</Link>
                                             </div>
@@ -260,7 +260,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                     <section className="content-inner border-top">
                         <div className="container">
                             <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
-                                <h3 className="mb-4">Có thể bạn quan tâm?</h3>
+                                <h3 className="mb-4">Kiến thức về {name}</h3>
                                 <div className="row loadmore-content">
                                     {posts.map((item, i) => (
                                         <div className="col-xl-4 col-lg-4 col-md-6 mb-4" key={i}>

@@ -135,9 +135,9 @@ function Footer({ settings }: FooterProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h3 className="title fw-bold">
+                                <p className="title fw-bold">
                                     {footerData?.contactTitle || "Kết nối với chúng tôi"}
-                                </h3>
+                                </p>
                                 <p className="text">
                                     {footerData?.contactDescription ||
                                         "Luôn sẵn sàng tư vấn, hỗ trợ và đồng hành cùng bạn trong quá trình thăm khám và điều trị."}

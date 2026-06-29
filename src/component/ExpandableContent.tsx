@@ -119,7 +119,7 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
                             width: '80%'
                         }}
                     >
-                        <h4 className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</h4>
+                        <p className="mb-3" style={{ fontSize: '1.25rem', fontWeight: 600 }}>Nội dung chính</p>
                         <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
                             {toc.map((item, index) => (
                                 <li
