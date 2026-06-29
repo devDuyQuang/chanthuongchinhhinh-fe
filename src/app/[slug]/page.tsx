@@ -176,7 +176,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
       <section className="content-inner-3">
         <div className="container">
           <div className="row">
-            <div className="col-xl-8 mx-auto m-b30">
+            <div className="col-xl-9 mx-auto m-b30">
               <nav
                 aria-label="breadcrumb"
                 className="breadcrumb-row wow fadeInUp"
@@ -365,92 +365,6 @@ export default async function DirectPostDetailPage({ params }: Props) {
                       </>
                     ) : null}
 
-                    {relatedPosts && relatedPosts.length > 0 && (
-                      <div
-                        className="content-item wow fadeInUp mt-5"
-                        data-wow-delay="0.5s"
-                        data-wow-duration="0.7s"
-                      >
-                        <div className="d-flex justify-content-between align-items-center mb-4">
-                          <h3 className="m-0">Bài viết liên quan</h3>
-                          {post?.categories && post.categories.length > 0 && (
-                            <Link
-                              href={`/dich-vu/${post.categories[0].slug}`}
-                              className="text-primary"
-                              style={{ fontWeight: 600, fontSize: "15px" }}
-                            >
-                              Xem thêm{" "}
-                              <i className="feather icon-arrow-right ms-1" />
-                            </Link>
-                          )}
-                        </div>
-                        <div className="row loadmore-content">
-                          {relatedPosts.map((item, i) => (
-                            <div
-                              className="dz-card style-2 blog-half m-b35 wow fadeInUp"
-                              data-wow-delay="0.1s"
-                              data-wow-duration="0.5s"
-                              key={i}
-                            >
-                              <div className="dz-media">
-                                <NavigationLink href={"/" + item?.slug}>
-                                  <Image
-                                    src={normalizeImageUrl(item?.image) ?? ""}
-                                    alt={item?.name || ""}
-                                    width={500}
-                                    height={500}
-                                  />
-                                </NavigationLink>
-                              </div>
-
-                              <div className="dz-info">
-                                <div className="dz-meta">
-                                  <ul className="p-0">
-                                    <li className="post-date mb-0">
-                                      {item?.created_at &&
-                                        new Date(item.created_at).toLocaleDateString("en-GB", {
-                                          day: "2-digit",
-                                          month: "short",
-                                          year: "numeric",
-                                        })}
-                                    </li>
-                                    <li className="post-comments">100 lượt xem</li>
-                                  </ul>
-                                </div>
-
-                                <h3>
-                                  <NavigationLink href={"/" + item?.slug}>
-                                    {item?.name}
-                                  </NavigationLink>
-                                </h3>
-
-                                {item?.description && (
-                                  <p
-                                    style={{
-                                      display: "-webkit-box",
-                                      WebkitLineClamp: 2,
-                                      WebkitBoxOrient: "vertical",
-                                      overflow: "hidden",
-                                      margin: "8px 0 12px",
-                                      fontSize: "16px",
-                                    }}
-                                  >
-                                    {item?.description}
-                                  </p>
-                                )}
-
-                                <NavigationLink
-                                  href={"/" + item?.slug}
-                                  className="btn icon-link-hover-end btn-primary radius-sm"
-                                >
-                                  Đọc Thêm <i className="feather icon-arrow-right" />
-                                </NavigationLink>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -460,6 +374,77 @@ export default async function DirectPostDetailPage({ params }: Props) {
           </div>
         </div>
       </section>
+      {relatedPosts && relatedPosts.length > 0 && (
+        <section className="content-inner border-top">
+          <div className="container">
+            <div className="content-item wow fadeInUp" data-wow-delay="0.5s" data-wow-duration="0.7s">
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <h3 className="m-0">Bài viết liên quan</h3>
+                {post?.categories && post.categories.length > 0 && (
+                  <Link
+                    href={`/dich-vu/${post.categories[0].slug}`}
+                    className="text-primary"
+                    style={{ fontWeight: 600, fontSize: "15px" }}
+                  >
+                    Xem thêm{" "}
+                    <i className="feather icon-arrow-right ms-1" />
+                  </Link>
+                )}
+              </div>
+              <div className="row loadmore-content">
+                {relatedPosts.slice(0, 6).map((item, i) => (
+                  <div className="col-lg-4 col-md-6 mb-4" key={i}>
+                    <div className="dz-card shadow-sm border rounded overflow-hidden bg-white h-100 d-flex flex-column wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="0.5s">
+                      <div className="dz-media" style={{ height: '220px', overflow: 'hidden' }}>
+                        <NavigationLink href={"/" + item?.slug} style={{ display: 'block', width: '100%', height: '100%' }}>
+                          <Image src={normalizeImageUrl(item?.image) ?? ''} alt={item?.name || ""} width={500} height={500} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </NavigationLink>
+                      </div>
+                      <div className="dz-info p-4 d-flex flex-column flex-grow-1">
+                        <div className="dz-meta mb-2">
+                          <ul className="p-0 d-flex align-items-center gap-3 list-unstyled">
+                            <li className="post-date mb-0 text-muted" style={{ fontSize: '13px' }}>
+                              <i className="fa-regular fa-calendar me-1"></i>
+                              {item?.created_at &&
+                                new Date(item.created_at).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                })}
+                            </li>
+                            <li className="post-comments text-muted" style={{ fontSize: '13px' }}>
+                              <i className="fa-solid fa-eye me-1"></i> 100 lượt xem
+                            </li>
+                          </ul>
+                        </div>
+                        <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>
+                          <NavigationLink href={"/" + item?.slug} className="text-dark text-decoration-none hover-primary">
+                            {item?.name}
+                          </NavigationLink>
+                        </h3>
+                        <p className="text-muted" style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          margin: '0 0 15px',
+                          fontSize: '15px',
+                          lineHeight: 1.6
+                        }}>{item?.description}</p>
+                        <div className="mt-auto">
+                          <NavigationLink href={"/" + item?.slug} className="btn btn-outline-primary btn-sm radius-sm">
+                            Đọc Thêm <i className="feather icon-arrow-right" />
+                          </NavigationLink>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
       <FloatingTOC toc={toc} />
     </main>
   );

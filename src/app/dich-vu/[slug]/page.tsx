@@ -40,13 +40,17 @@ export async function generateMetadata(
 }
 
 async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-    const { slug } = await params;
-    const resolvedSearchParams = await searchParams;
+    // Khởi tạo API không phụ thuộc vào params ngay lập tức để tải ngầm
+    const categoriesPromise = getCategories();
+
+    // Chờ params và searchParams đồng thời
+    const [{ slug }, resolvedSearchParams] = await Promise.all([params, searchParams]);
     const page = Number(resolvedSearchParams?.page) || 1;
 
+    // Chờ API phụ thuộc params và API độc lập cùng hoàn thành
     const [category, categories] = await Promise.all([
         getCategoryBySlug(slug, { limit: 9, page }),
-        getCategories(),
+        categoriesPromise,
     ]);
 
     const name = category?.name;
