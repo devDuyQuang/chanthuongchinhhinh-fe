@@ -41,7 +41,7 @@ async function Services() {
                                 </ul>
                             </nav>
                             <div className="dz-btn">
-                                <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
+                                <Link href="tel:08465553671795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
                                     <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
                                 </Link>
                             </div>

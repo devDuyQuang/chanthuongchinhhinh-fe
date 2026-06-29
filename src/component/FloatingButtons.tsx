@@ -95,7 +95,7 @@ export default function FloatingButtons() {
                 }
                 `}
             </style>
-            
+
             {/* Desktop Floating Buttons */}
             <div className="floating-buttons-container d-none d-md-flex" style={{
                 position: 'fixed',
@@ -170,7 +170,7 @@ export default function FloatingButtons() {
 
             {/* Mobile Bottom Navigation Bar */}
             <div className="mobile-bottom-nav">
-                <Link href="tel:0389951795" className="nav-item active">
+                <Link href="tel:08465553671795" className="nav-item active">
                     <i className="feather icon-phone-call"></i>
                     <span>Gọi Ngay</span>
                 </Link>

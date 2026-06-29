@@ -99,7 +99,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                 </time>
                             )}
                             <div className="dz-btn">
-                                <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
+                                <Link href="tel:08465553671795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
                                     <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
                                 </Link>
                             </div>
@@ -239,7 +239,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                             <Image src={IMAGES.question} width="80" alt="icon help" />
                                             <h4 className="title">Bạn có cần giúp đỡ gì không?</h4>
                                             <div className="phone-number">
-                                                <Link href="tel:0389951795">038 995 1795</Link>
+                                                <Link href="tel:08465553671795">038 995 1795</Link>
                                             </div>
                                             <div className="email">
                                                 <Link href="mailto:odrduong@gmail.com">odrduong@gmail.com</Link>

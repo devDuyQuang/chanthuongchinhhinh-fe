@@ -71,7 +71,7 @@ function ServicePackage({ data }: ServicePackageProps) {
         const splitIndex = text.indexOf(':');
         const title = text.substring(0, splitIndex + 1);
         const remainder = text.substring(splitIndex + 1).trim();
-        
+
         if (remainder.length > 0) {
           const subItems = remainder.split(',').map(s => s.trim()).filter(Boolean);
           return (
@@ -510,14 +510,14 @@ function ServicePackage({ data }: ServicePackageProps) {
                       {selectedPackage?.treatment_steps && selectedPackage.treatment_steps.length > 0 ? (
                         selectedPackage.treatment_steps.map((step: any, index: number) => {
                           const icons = [
-                            "icon-clipboard", 
-                            "icon-users", 
-                            "icon-activity", 
-                            "icon-user-check", 
+                            "icon-clipboard",
+                            "icon-users",
+                            "icon-activity",
+                            "icon-user-check",
                             "icon-eye"
                           ];
                           const iconClass = icons[index % icons.length];
-                          
+
                           const goals = step.goal ? step.goal.split(/\r?\n/).filter((g: string) => g.trim() !== '') : [];
                           const contents = step.content ? step.content.split(/\r?\n/).filter((c: string) => c.trim() !== '') : [];
 
@@ -545,11 +545,11 @@ function ServicePackage({ data }: ServicePackageProps) {
                               <td>
                                 {step.image_url ? (
                                   <div className="text-center" style={{ cursor: 'zoom-in' }} onClick={() => setZoomedImage(getFullImageUrl(step.image_url))}>
-                                    <Image 
-                                      src={getFullImageUrl(step.image_url)} 
-                                      alt={step.stage || "Ảnh minh họa"} 
-                                      width={300} 
-                                      height={200} 
+                                    <Image
+                                      src={getFullImageUrl(step.image_url)}
+                                      alt={step.stage || "Ảnh minh họa"}
+                                      width={300}
+                                      height={200}
                                       style={{ width: '100%', height: 'auto', borderRadius: '6px', objectFit: 'contain' }}
                                       unoptimized={true}
                                     />
@@ -622,7 +622,7 @@ function ServicePackage({ data }: ServicePackageProps) {
                     Đăng ký gói khám
                   </button>
                   <Link
-                    href="tel:0389951795"
+                    href="tel:08465553671795"
                     className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
                     style={{
                       fontSize: '14px',
@@ -644,7 +644,7 @@ function ServicePackage({ data }: ServicePackageProps) {
       }
 
       {zoomedImage && (
-        <div 
+        <div
           style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 99999, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'zoom-out' }}
           onClick={() => setZoomedImage(null)}
         >
