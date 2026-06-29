@@ -558,7 +558,7 @@ html[data-theme-color="skin-8"]
     rgba(255, 255, 255, 0)
   );
   --bs-body-font-family: "Noto Serif", serif;
-  --bs-body-font-size: 18px;
+  --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.6;
   --bs-body-color: #566593;
@@ -14529,13 +14529,11 @@ fieldset:disabled .btn {
 
 html {
   overflow: unset !important;
-  font-size: 18px;
 }
 
 body {
   overflow-x: clip !important;
   overflow-y: scroll !important;
-  font-size: 18px;
 }
 
 body.fixed {
