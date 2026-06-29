@@ -112,7 +112,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
             >
               {post.name || "Chi tiết bài viết"}
             </h1>
-            <div className="dz-meta">
+            {/* <div className="dz-meta">
               <ul className="justify-content-center" style={{ gap: "15px" }}>
                 <li
                   className="updated published dt-published"
@@ -145,7 +145,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                 </li>
 
               </ul>
-            </div>
+            </div> */}
             <div className="dz-btn">
               <Link
                 href="tel:0846555367"
