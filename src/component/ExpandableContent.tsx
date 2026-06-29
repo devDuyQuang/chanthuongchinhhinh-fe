@@ -301,7 +301,7 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
                                 &times;
                             </button>
                         </div>
-                        <div className="custom-modal-body single-inner content-item add-style entry-content e-content pt-0">
+                        <div className="custom-modal-body single-inner content-item add-style entry-content e-content">
                             <div dangerouslySetInnerHTML={{ __html: content }} />
                         </div>
                     </div>

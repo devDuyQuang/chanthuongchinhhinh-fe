@@ -93,20 +93,11 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                     <div className="container">
                         <div className="dz-bnr-inr-entry d-table-cell">
                             <h1 className="wow fadeInUp entry-title p-name" data-wow-delay="0.2s" data-wow-duration="0.8s">{name}</h1>
-                            <div className="dz-meta">
-                                <ul className="justify-content-center" style={{ gap: '15px' }}>
-                                    <li className="updated published dt-published" style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
-                                        <i className="fa-solid fa-circle" style={{ fontSize: '8px', color: 'var(--bs-primary)', marginRight: '8px' }}></i>
-                                        {created_at && (
-                                            <time className="value" dateTime={new Date(created_at).toISOString()} style={{ display: 'none' }}>
-                                                {new Date(created_at).toISOString()}
-                                            </time>
-                                        )}
-                                        {createdDate}
-                                    </li>
-
-                                </ul>
-                            </div>
+                            {created_at && (
+                                <time className="value" dateTime={new Date(created_at).toISOString()} style={{ display: 'none' }}>
+                                    {new Date(created_at).toISOString()}
+                                </time>
+                            )}
                             <div className="dz-btn">
                                 <Link href="tel:0389951795" className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0">
                                     <span className="left-icon"> <i className="feather icon-phone-call" /> </span> 038 995 1795
