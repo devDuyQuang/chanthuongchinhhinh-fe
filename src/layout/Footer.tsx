@@ -156,7 +156,7 @@ function Footer({ settings }: FooterProps) {
                                             <span className="icon-cell">{item.icon}</span>
                                         </div>
                                         <div className="icon-content">
-                                            <h5 className="dz-title fw-bold">{item.title}</h5>
+                                            <span className="dz-title fw-bold">{item.title}</span>
                                             <p>{item.paragraph}</p>
                                         </div>
                                     </div>
@@ -231,7 +231,7 @@ function Footer({ settings }: FooterProps) {
                                         key={i}
                                     >
                                         <div className="widget widget_services">
-                                            <h2 className="footer-title fw-bold">{menu.title}</h2>
+                                            <span className="footer-title fw-bold">{menu.title}</span>
                                             <ul className="list-hover1 ps-2">
                                                 {menu.links.map((link, idx) => (
                                                     <li key={idx}>
@@ -261,9 +261,9 @@ function Footer({ settings }: FooterProps) {
                                 data-wow-delay="0.2s"
                                 data-wow-duration="0.8s"
                             >
-                                <h2 className="title fw-bold">
+                                <span className="title fw-bold">
                                     {footerData?.registerTitle || "Nhận thông tin mới từ chúng tôi"}
-                                </h2>
+                                </span>
                                 <p>
                                     {footerData?.registerDescription ||
                                         "Đăng ký email để nhận các cập nhật mới nhất về lịch khám, dịch vụ và kiến thức sức khỏe hữu ích."}
@@ -357,7 +357,7 @@ function Footer({ settings }: FooterProps) {
                         <Image src={IMAGES.smallavatar6} alt="Hỗ trợ tư vấn" />
                     </div>
                     <div className="widget-content">
-                        <h6 className="title">{footerData?.contactTitle || "Bạn cần hỗ trợ?"}</h6>
+                        <span className="title">{footerData?.contactTitle || "Bạn cần hỗ trợ?"}</span>
                         <Link
                             href={`mailto:${footerData?.email || `info@${process.env.NEXT_PUBLIC_BASE_URL}`}`}
                         >
