@@ -103,10 +103,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                         )}
                                         {createdDate}
                                     </li>
-                                    <li style={{ background: '#031b4e', borderRadius: '30px', padding: '5px 20px', color: '#03bde0', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', margin: 0 }}>
-                                        <i className="fa-solid fa-eye" style={{ color: 'var(--bs-primary)', marginRight: '8px' }} />
-                                        <span>100 Lượt xem</span>
-                                    </li>
+
                                 </ul>
                             </div>
                             <div className="dz-btn">
@@ -292,9 +289,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                                                     year: "numeric",
                                                                 })}
                                                             </li>
-                                                            <li className="post-comments text-muted" style={{ fontSize: '13px' }}>
-                                                                <i className="fa-solid fa-eye me-1"></i> 100 lượt xem
-                                                            </li>
+
                                                         </ul>
                                                     </div>
                                                     <h3 style={{ fontSize: '18px', fontWeight: 600, lineHeight: 1.4, marginBottom: '10px' }}>

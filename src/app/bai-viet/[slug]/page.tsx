@@ -101,7 +101,6 @@ export default async function BaiVietCategoryPage({
                                   )}
                               </li>
 
-                              <li className="post-comments">100 lượt xem</li>
                             </ul>
                           </div>
 
