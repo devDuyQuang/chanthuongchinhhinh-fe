@@ -170,7 +170,7 @@ export default function FloatingButtons() {
 
             {/* Mobile Bottom Navigation Bar */}
             <div className="mobile-bottom-nav">
-                <Link href="tel:08465553671795" className="nav-item active">
+                <Link href="tel:0846555367" className="nav-item active">
                     <i className="feather icon-phone-call"></i>
                     <span>Gọi Ngay</span>
                 </Link>

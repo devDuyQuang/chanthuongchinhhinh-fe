@@ -148,7 +148,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
             </div>
             <div className="dz-btn">
               <Link
-                href="tel:08465553671795"
+                href="tel:0846555367"
                 className="btn btn-lg btn-icon btn-primary radius-xl btn-shadow mb-3 mb-sm-0"
               >
                 <span className="left-icon">

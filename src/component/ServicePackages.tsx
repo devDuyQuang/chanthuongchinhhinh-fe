@@ -622,7 +622,7 @@ function ServicePackage({ data }: ServicePackageProps) {
                     Đăng ký gói khám
                   </button>
                   <Link
-                    href="tel:08465553671795"
+                    href="tel:0846555367"
                     className="btn py-2 px-4 rounded-pill fw-bold d-flex align-items-center justify-content-center"
                     style={{
                       fontSize: '14px',
