@@ -223,10 +223,8 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                     `}</style>
                                     <div className="widget-title position-relative" style={{ paddingBottom: '15px', marginBottom: '25px', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
                                         <h4 className="title d-flex align-items-center" style={{ fontSize: '20px', fontWeight: 700, color: '#031b4e', margin: 0 }}>
-                                            <i className="feather icon-list" style={{ color: 'var(--bs-primary)', marginRight: '10px', fontSize: '22px' }}></i>
                                             Tất cả Dịch vụ
                                         </h4>
-                                        <span style={{ position: 'absolute', bottom: '-1px', left: 0, width: '40px', height: '3px', backgroundColor: 'var(--bs-primary)', borderRadius: '3px' }}></span>
                                     </div>
                                     <ul>
                                         {(categories as any[]).map((parent, i) => {
