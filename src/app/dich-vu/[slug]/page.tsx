@@ -210,10 +210,10 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                             content: none !important;
                                         }
                                     `}</style>
-                                    <div className="widget-title position-relative" style={{ paddingBottom: '15px', marginBottom: '25px', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                                        <h4 className="title d-flex align-items-center" style={{ fontSize: '20px', fontWeight: 700, color: '#031b4e', margin: 0 }}>
+                                    <div className="widget-title position-relative" style={{ marginBottom: '25px' }}>
+                                        <span className="title align-items-center" style={{ fontSize: '20px', fontWeight: 700, color: '#031b4e', margin: 0, border: '2px solid var(--bs-primary)', borderRadius: '8px', padding: '10px 16px', display: 'inline-flex' }}>
                                             Tất cả Dịch vụ
-                                        </h4>
+                                        </span>
                                     </div>
                                     <ul>
                                         {(categories as any[]).map((parent, i) => {
@@ -221,11 +221,11 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                             const hasActiveChild = parent.children?.some((c: { slug: string }) => c.slug === slug);
                                             const isActive = isParentActive || hasActiveChild;
                                             return (
-                                                <SidebarMenuParent 
-                                                    key={i} 
-                                                    parent={parent} 
-                                                    slug={slug} 
-                                                    isActive={isActive} 
+                                                <SidebarMenuParent
+                                                    key={i}
+                                                    parent={parent}
+                                                    slug={slug}
+                                                    isActive={isActive}
                                                 />
                                             );
                                         })}
@@ -306,7 +306,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                         </div>
                                     ))}
                                 </div>
-                                
+
                                 {pagination && pagination.last_page > 1 && (
                                     <div className="row mt-4">
                                         <div className="col-12 text-center">
@@ -318,7 +318,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
                                         </div>
                                     </div>
                                 )}
-    
+
                             </div>
                         </div>
                     </section>
