@@ -258,6 +258,12 @@ export default function ExpandableContent({ content, maxHeight = 400, syncHeight
                     overflow-y: auto;
                     flex-grow: 1;
                 }
+                .custom-modal-body img {
+                    width: 100% !important;
+                    height: auto !important;
+                    max-width: 100% !important;
+                    border-radius: 8px;
+                }
                 .btn-close-modal {
                     background: none;
                     border: none;
