@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/noi-soi-khop-goi",
+        destination: "/dich-vu/noi-soi-khop-goi",
+        permanent: true, // 301
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
