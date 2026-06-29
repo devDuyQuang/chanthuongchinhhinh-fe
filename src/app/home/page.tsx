@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import Image from "next/image";
+import nextDynamic from "next/dynamic";
 import { IMAGES } from "@/constant/theme";
 import DiagnosisReport from "./_components/DiagnosisReport";
 import WorldClass from "@/component/WorldClass";
@@ -10,15 +11,15 @@ import ServiceBox from "@/component/ServiceBox";
 import AppointmentData from "@/component/AppointmentData";
 import AppointmentButton from "@/component/AppointmentButton";
 import WhyChoose from "@/component/WhyChoose";
-import RealPatient from "@/component/RealPatient";
+const RealPatient = nextDynamic(() => import("@/component/RealPatient"));
 import Howitwork from "@/component/Howitwork";
-import ServicePackages from "@/component/ServicePackages";
+const ServicePackages = nextDynamic(() => import("@/component/ServicePackages"));
 import MeetDr from "@/component/MeetDr";
-import Frequently from "@/component/Frequently";
-import Awards from "@/component/Awards";
-import StayInformed from "@/component/StayInformed";
-import MapWraper from "@/component/MapWraper";
-import SeoArticle from "@/component/SeoArticle";
+const Frequently = nextDynamic(() => import("@/component/Frequently"));
+const Awards = nextDynamic(() => import("@/component/Awards"));
+const StayInformed = nextDynamic(() => import("@/component/StayInformed"));
+const MapWraper = nextDynamic(() => import("@/component/MapWraper"));
+const SeoArticle = nextDynamic(() => import("@/component/SeoArticle"));
 
 import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { getSetting } from "@/services/settingService";
@@ -190,6 +191,7 @@ async function HomePage() {
                       alt={hero?.title || "Hero banner"}
                       width={900}
                       height={900}
+                      priority={true}
                     />
 
                     <div className="circle-wrapper">
