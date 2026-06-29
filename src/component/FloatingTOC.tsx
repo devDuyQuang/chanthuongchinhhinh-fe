@@ -12,6 +12,7 @@ type TOCItem = {
 export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisible = false }: { toc?: TOCItem[] | null, scrollContainerSelector?: string, alwaysVisible?: boolean }) {
     const [isVisible, setIsVisible] = useState(alwaysVisible);
     const [isOpen, setIsOpen] = useState(false);
+    const [activeId, setActiveId] = useState<string>("");
 
     useEffect(() => {
         if (alwaysVisible) {
@@ -32,11 +33,11 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
     }, [alwaysVisible]);
 
     const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        setActiveId(id);
         if (scrollContainerSelector) {
             e.preventDefault();
             const container = document.querySelector(scrollContainerSelector);
             if (container) {
-                // Find target inside the specified container
                 const target = container.querySelector(`[id="${id}"]`);
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
@@ -61,7 +62,7 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    zIndex: 999999, // very high to be above modal
+                    zIndex: 999999,
                     opacity: isVisible ? 1 : 0,
                     pointerEvents: isVisible ? "auto" : "none",
                     transition: "all 0.3s ease",
@@ -119,12 +120,23 @@ export default function FloatingTOC({ toc, scrollContainerSelector, alwaysVisibl
                                     <Link
                                         href={`#${item.id}`}
                                         className="text-body"
-                                        style={{ fontSize: "13px", textDecoration: "none", display: "block", transition: "color 0.2s" }}
+                                        style={{ 
+                                            fontSize: "13px", 
+                                            textDecoration: "none", 
+                                            display: "block", 
+                                            transition: "color 0.2s",
+                                            color: activeId === item.id ? "var(--bs-primary)" : "inherit",
+                                            fontWeight: activeId === item.id ? "bold" : "normal"
+                                        }}
                                         onClick={(e) => handleItemClick(e, item.id)}
                                         onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--bs-primary)'; }}
-                                        onMouseLeave={(e) => { e.currentTarget.style.color = ''; }}
+                                        onMouseLeave={(e) => { 
+                                            if (activeId !== item.id) {
+                                                e.currentTarget.style.color = ''; 
+                                            }
+                                        }}
                                     >
-                                        <i className="feather icon-chevron-right me-2" style={{ fontSize: "10px", color: "var(--bs-primary)" }}></i>
+                                        <i className="feather icon-chevron-right me-2" style={{ fontSize: "10px", color: activeId === item.id ? "var(--bs-primary)" : "#666" }}></i>
                                         {item.text}
                                     </Link>
                                 </li>
