@@ -50,7 +50,7 @@ async function ServiceDetail({ params, searchParams }: { params: Promise<{ slug:
 
     // Chờ API phụ thuộc params và API độc lập cùng hoàn thành
     const [category, categories] = await Promise.all([
-        getCategoryBySlug(slug, { limit: 15, page }),
+        getCategoryBySlug(slug, { limit: 12, page }),
         categoriesPromise,
     ]);
 
