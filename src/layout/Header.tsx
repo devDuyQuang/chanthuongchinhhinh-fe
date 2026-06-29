@@ -480,7 +480,7 @@ function Header({ menu, settings }: HeaderProps) {
               </form>
             </div>
 
-            <div className="widget">
+            {/* <div className="widget">
               <div className="widget-title">
                 <p className="title">
                   {sidebarData?.followTitle || "Mạng xã hội"}
@@ -531,7 +531,7 @@ function Header({ menu, settings }: HeaderProps) {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
