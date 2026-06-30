@@ -315,6 +315,13 @@ export default async function DirectPostDetailPage({ params }: Props) {
                               .dz-post-content .sec h2 {
                                 margin-top: 2rem;
                               }
+                              .dz-bnr-inr .dz-btn {
+                                background-color: #f0f4f8 !important;
+                              }
+                              .dz-bnr-inr .dz-btn::before,
+                              .dz-bnr-inr .dz-btn::after {
+                                background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' fill='none'><path fill-rule='evenodd' clip-rule='evenodd' d='M0 0V50H50C22.3858 50 0 27.6142 0 0Z' fill='%23f0f4f8'/></svg>") !important;
+                              }
                             `}</style>
                             <div
                               className="table-of-contents"
