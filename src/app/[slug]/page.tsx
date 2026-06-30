@@ -105,13 +105,80 @@ export default async function DirectPostDetailPage({ params }: Props) {
       >
         <div className="container">
           <div className="dz-bnr-inr-entry d-table-cell">
+            <nav
+              aria-label="breadcrumb"
+              className="breadcrumb-row wow fadeInUp"
+              data-wow-delay="0.2s"
+              data-wow-duration="0.8s"
+            >
+              <ul className="breadcrumb">
+                {(breadcrumbs || []).filter((item) => !item.active).map((item, index) => (
+                  <li
+                    key={index}
+                    className={`breadcrumb-item ${item.active ? "active" : ""}`}
+                  >
+                    {item.active ? (
+                      <>
+                        {index === 0 && (
+                          <i className="fa-solid fa-house me-1" />
+                        )}
+                        {item.name}
+                      </>
+                    ) : (
+                      <Link
+                        href={
+                          item.slug.startsWith("/")
+                            ? item.slug
+                            : `/${item.slug}`
+                        }
+                      >
+                        {index === 0 && (
+                          <i className="fa-solid fa-house me-1" />
+                        )}
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </nav>
             <h1
               className="wow fadeInUp entry-title p-name"
-              data-wow-delay="0.2s"
+              data-wow-delay="0.3s"
               data-wow-duration="0.8s"
             >
               {post.name || "Chi tiết bài viết"}
             </h1>
+            {post.created_at && (
+              <div
+                className="wow fadeInUp"
+                data-wow-delay="0.4s"
+                data-wow-duration="0.8s"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  color: "rgba(255,255,255,0.85)",
+                  fontSize: "14px",
+                  marginTop: "10px",
+                  marginBottom: "4px",
+                }}
+              >
+                <i className="fa-regular fa-calendar" style={{ color: "rgba(255,255,255,0.7)" }} />
+                <time
+                  className="updated published dt-published"
+                  dateTime={new Date(post.created_at).toISOString()}
+                >
+                  {new Date(post.created_at).toLocaleDateString("vi-VN", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                  })}
+                </time>
+              </div>
+            )}
             {/* <div className="dz-meta">
               <ul className="justify-content-center" style={{ gap: "15px" }}>
                 <li
@@ -166,44 +233,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
         <div className="container">
           <div className="row">
             <div className="col-xl-9 mx-auto m-b30">
-              <nav
-                aria-label="breadcrumb"
-                className="breadcrumb-row wow fadeInUp"
-                data-wow-delay="0.4s"
-                data-wow-duration="0.8s"
-              >
-                <ul className="breadcrumb">
-                  {(breadcrumbs || []).map((item, index) => (
-                    <li
-                      key={index}
-                      className={`breadcrumb-item ${item.active ? "active" : ""}`}
-                      style={item.active ? { color: "#000" } : {}}
-                    >
-                      {item.active ? (
-                        <>
-                          {index === 0 && (
-                            <i className="fa-solid fa-house me-1" />
-                          )}
-                          {item.name}
-                        </>
-                      ) : (
-                        <Link
-                          href={
-                            item.slug.startsWith("/")
-                              ? item.slug
-                              : `/${item.slug}`
-                          }
-                        >
-                          {index === 0 && (
-                            <i className="fa-solid fa-house me-1" />
-                          )}
-                          {item.name}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+
               <div className="dz-blog blog-single sidebar style-1">
                 <div className="dz-info">
                   <div className="dz-post-text">
