@@ -6,6 +6,7 @@ import { normalizeImageUrl } from "@/lib/normalizeImageUrl";
 import { notFound } from "next/navigation";
 import CommentSection from "@/component/CommentSection";
 import { getPost, getRelatedPosts } from "@/services/postService";
+import { getSetting } from "@/services/settingService";
 import ImageLightboxActivator from "@/component/ImageLightboxContent";
 import FloatingTOC from "@/component/FloatingTOC";
 import NavigationLink from "@/component/NavigationLink";
@@ -60,9 +61,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 export default async function DirectPostDetailPage({ params }: Props) {
   const { slug } = await params;
 
-  const [post, relatedPosts] = await Promise.all([
+  const [post, relatedPosts, settings] = await Promise.all([
     getPost(slug),
     getRelatedPosts(slug),
+    getSetting(),
   ]);
 
   if (!post) {
@@ -74,6 +76,10 @@ export default async function DirectPostDetailPage({ params }: Props) {
   const createdDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString("vi-VN")
     : "N/A";
+
+  const adminUrl = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/^https?:\/\//, (match) => match + "admin.");
+  const site_assets_clinic = settings?.data?.site_assets_clinic;
+  const logoWhite = site_assets_clinic?.logo ? adminUrl.replace(/\/$/, "") + '/storage/' + site_assets_clinic?.logo : "/assets/images/logo-white.svg";
 
   const toc = post?.toc;
   const breadcrumbs = post?.breadcrumbs;
@@ -381,7 +387,90 @@ export default async function DirectPostDetailPage({ params }: Props) {
               </div>
               {/* Comment */}
               {/* <CommentSection postId={post.id} /> */}
+
+              {/* CTA Liên hệ */}
+              <div
+                style={{
+                  background: "linear-gradient(135deg, #0d2d6b 0%, #1a4fa0 60%, #0d2d6b 100%)",
+                  borderRadius: "16px",
+                  padding: "32px 36px",
+                  marginTop: "16px",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "32px",
+                  alignItems: "center",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {/* Decorative circles */}
+                <div style={{ position: "absolute", right: "-40px", top: "-40px", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", right: "60px", bottom: "-60px", width: "160px", height: "160px", borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
+
+                {/* Cột trái: Logo + Tiêu đề + Mô tả */}
+                <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                  <Image
+                    src={logoWhite}
+                    alt="Dr.DUONG Ortho Logo"
+                    width={90}
+                    height={90}
+                    style={{ flexShrink: 0, objectFit: "contain" }}
+                  />
+                  <div>
+                    <h3 style={{ color: "#fff", fontSize: "1.3rem", fontWeight: 700, margin: "0 0 8px" }}>
+                      Liên hệ với <span style={{ color: "#4dd0e1" }}>chúng tôi</span>
+                    </h3>
+                    <p style={{ color: "rgba(255,255,255,0.75)", margin: 0, fontSize: "14px", lineHeight: 1.6 }}>
+                      Đội ngũ Dr.DUONG Ortho luôn sẵn sàng tư vấn và hỗ trợ bạn!
+                    </p>
+                  </div>
+                </div>
+
+                {/* Cột phải: Địa chỉ + Hotline + Email */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {/* Địa chỉ */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <i className="fa-solid fa-location-dot" style={{ color: "#4dd0e1", fontSize: "16px" }} />
+                    </div>
+                    <div>
+                      <div style={{ color: "#4dd0e1", fontSize: "12px", fontWeight: 600, marginBottom: "2px" }}>Địa chỉ</div>
+                      <div style={{ color: "#fff", fontSize: "13px", lineHeight: 1.5 }}>Bệnh Viện Đa Khoa Quốc Tế Nam Sài Gòn</div>
+                    </div>
+                  </div>
+
+                  {/* Hotline + Email trên 1 hàng */}
+                  <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+                    {/* Hotline */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <i className="fa-solid fa-phone" style={{ color: "#4dd0e1", fontSize: "16px" }} />
+                      </div>
+                      <div>
+                        <div style={{ color: "#4dd0e1", fontSize: "12px", fontWeight: 600, marginBottom: "2px" }}>Hotline</div>
+                        <Link href="tel:0846555367" style={{ color: "#fff", fontSize: "14px", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
+                          0846 555 367
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <i className="fa-solid fa-envelope" style={{ color: "#4dd0e1", fontSize: "16px" }} />
+                      </div>
+                      <div>
+                        <div style={{ color: "#4dd0e1", fontSize: "12px", fontWeight: 600, marginBottom: "2px" }}>Email</div>
+                        <Link href="mailto:odrduong@gmail.com" style={{ color: "#fff", fontSize: "13px", textDecoration: "none", whiteSpace: "nowrap" }}>
+                          odrduong@gmail.com
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
       </section>
