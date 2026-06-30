@@ -110,6 +110,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
               className="breadcrumb-row wow fadeInUp"
               data-wow-delay="0.2s"
               data-wow-duration="0.8s"
+              style={{ marginBottom: "16px" }}
             >
               <ul className="breadcrumb">
                 {(breadcrumbs || []).filter((item) => !item.active).map((item, index) => (
@@ -161,7 +162,7 @@ export default async function DirectPostDetailPage({ params }: Props) {
                   gap: "8px",
                   color: "rgba(255,255,255,0.85)",
                   fontSize: "14px",
-                  marginTop: "10px",
+                  marginTop: "16px",
                   marginBottom: "4px",
                 }}
               >
