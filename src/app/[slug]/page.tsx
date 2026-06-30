@@ -230,75 +230,38 @@ export default async function DirectPostDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="content-inner-3">
+      <section className="content-inner-3" style={{ background: "#f0f4f8" }}>
         <div className="container">
           <div className="row">
-            <div className="col-xl-9 mx-auto m-b30">
+            <div className="col-xl-9 mx-auto">
 
-              <div className="dz-blog blog-single sidebar style-1">
+              <div
+                className="dz-blog blog-single sidebar style-1"
+              >
                 <div className="dz-info">
                   <div className="dz-post-text">
                     {post.description ? (
                       <blockquote
                         className="entry-summary p-summary"
                         style={{
-                          position: "relative",
-                          background: "transparent",
-                          borderTop: "2px solid rgba(0,0,0,0.05)",
-                          borderBottom: "2px solid rgba(0,0,0,0.05)",
-                          padding: "30px 10px",
-                          marginBottom: "40px",
+                          background: "rgba(26, 111, 196, 0.07)",
+                          borderLeft: "4px solid var(--bs-primary, #1a6fc4)",
+                          borderRadius: "10px",
+                          padding: "18px 20px",
+                          marginBottom: "16px",
                           marginTop: "0",
-                          fontFamily: "inherit",
-                          fontSize: "inherit",
-                          fontWeight: "inherit",
-                          color: "inherit",
                         }}
                       >
-                        <span
-                          aria-hidden="true"
-                          style={{
-                            position: "absolute",
-                            top: "0",
-                            left: "0",
-                            fontSize: "60px",
-                            lineHeight: 1,
-                            color: "rgba(0,0,0,0.05)",
-                            fontFamily: "Georgia, serif",
-                            fontWeight: 700,
-                            userSelect: "none",
-                          }}
-                        >
-                          &ldquo;
-                        </span>
                         <p
                           style={{
-                            fontSize: "1.08rem",
-                            lineHeight: "1.85",
-                            fontStyle: "italic",
+                            fontSize: "1.05rem",
+                            lineHeight: "1.8",
                             color: "#1e3a5f",
                             margin: 0,
-                            fontWeight: 500,
-                            letterSpacing: "0.01em",
+                            fontWeight: 600,
                           }}
                         >
-                          <span
-                            style={{
-                              float: "left",
-                              fontSize: "3.6rem",
-                              lineHeight: "0.8",
-                              fontWeight: 700,
-                              fontStyle: "normal",
-                              color: "var(--bs-primary, #1a6fc4)",
-                              marginRight: "6px",
-                              marginTop: "6px",
-                              fontFamily: "Georgia, serif",
-                              letterSpacing: "-1px",
-                            }}
-                          >
-                            {post.description.charAt(0)}
-                          </span>
-                          {post.description.slice(1)}
+                          {post.description}
                         </p>
                       </blockquote>
                     ) : null}
@@ -332,46 +295,71 @@ export default async function DirectPostDetailPage({ params }: Props) {
                                 background: #a8a8a8;
                               }
                             `}</style>
+                            <style>{`
+                              .dz-post-content .sec {
+                                background: #fff;
+                                border-radius: 10px;
+                                box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+                                padding: 28px 32px;
+                                margin-bottom: 16px;
+                              }
+                              .dz-post-content .sec:last-child {
+                                margin-bottom: 0;
+                              }
+                            `}</style>
                             <div
-                              className="table-of-contents mb-4 p-4 rounded mx-auto"
+                              className="table-of-contents"
                               style={{
-                                background: "#f8f9fa",
-                                borderLeft: "4px solid var(--bs-primary)",
-                                boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-                                width: "80%",
+                                background: "#fff",
+                                border: "1px solid #e2e8f0",
+                                borderRadius: "10px",
+                                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+                                width: "100%",
+                                marginBottom: "16px",
+                                overflow: "hidden",
                               }}
                             >
-                              <h4
-                                className="mb-3"
-                                style={{ fontSize: "1.25rem", fontWeight: 600 }}
-                              >
-                                Nội dung chính
-                              </h4>
-                              <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
-                                {toc.map((item, index) => (
-                                  <li
-                                    key={index}
-                                    className="mb-2"
-                                    style={{
-                                      paddingLeft: `${(item.level - 2) * 20}px`,
-                                    }}
-                                  >
-                                    <Link
-                                      href={`#${item.id}`}
-                                      className="toc-link text-body"
+                              <div style={{
+                                background: "var(--bs-primary, #1a6fc4)",
+                                padding: "12px 20px",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                              }}>
+                                <i className="feather icon-list" style={{ color: "#fff", fontSize: "16px" }} />
+                                <h4
+                                  style={{ fontSize: "1rem", fontWeight: 600, color: "#fff", margin: 0 }}
+                                >
+                                  Nội dung chính
+                                </h4>
+                              </div>
+                              <div style={{ padding: "16px 20px", background: "rgba(26, 111, 196, 0.04)" }}>
+                                <ul className="list-unstyled mb-0 custom-scrollbar" style={{ maxHeight: '300px', overflowY: 'auto', paddingRight: '10px' }}>
+                                  {toc.map((item, index) => (
+                                    <li
+                                      key={index}
+                                      className="mb-2"
+                                      style={{
+                                        paddingLeft: `${(item.level - 2) * 20}px`,
+                                      }}
                                     >
-                                      <i
-                                        className="feather icon-chevron-right me-2"
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "var(--bs-primary)",
-                                        }}
-                                      ></i>
-                                      {item.text}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
+                                      <Link
+                                        href={`#${item.id}`}
+                                        className="toc-link text-body"
+                                      >
+                                        <i
+                                          className="feather icon-chevron-right me-2"
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "var(--bs-primary)",
+                                          }}
+                                        ></i>
+                                        {item.text}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
                           </>
                         )}
