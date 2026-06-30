@@ -306,6 +306,9 @@ export default async function DirectPostDetailPage({ params }: Props) {
                               .dz-post-content .sec:last-child {
                                 margin-bottom: 0;
                               }
+                              .dz-post-content .sec h2 {
+                                margin-top: 2rem;
+                              }
                             `}</style>
                             <div
                               className="table-of-contents"
